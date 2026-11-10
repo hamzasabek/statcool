@@ -494,6 +494,106 @@ a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3
   50% { box-shadow: 0 0 0 9px color-mix(in srgb, var(--cta) 0%, transparent); }
 }
 
+/* Game card on the examples picker (above the example grid) */
+.nd-picker { margin: auto 0; display: flex; flex-direction: column; gap: 18px; }
+.nd-picker .nd-examples { margin: 0; }
+.nd-card.nd-game {
+  flex-direction: row;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 22px;
+  background: color-mix(in srgb, var(--sun) 16%, var(--surface));
+}
+.nd-game-text { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.nd-clock { flex: none; }
+.nd-clock circle,
+.nd-clock path { fill: none; stroke: var(--brand); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.nd-game-play {
+  flex: none;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: var(--cta);
+  color: var(--on-cta);
+  font-weight: 650;
+  font-size: 0.88rem;
+}
+
+/* ---------- Game: your inner clock ---------- */
+.ck-main { flex: 1; min-height: 0; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 20px; }
+.ck-main .chart-fill { min-height: 0; }
+.ck-pad { display: flex; align-items: center; justify-content: center; }
+.ck-button {
+  position: relative;
+  width: 172px;
+  height: 172px;
+  border: 0;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 18px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow), inset 0 0 0 3px var(--cta);
+  font: inherit;
+  font-size: 1.08rem;
+  font-weight: 650;
+  line-height: 1.2;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.12s, color 0.12s, box-shadow 0.12s, transform 0.08s;
+}
+.ck-button:active:not(:disabled) { transform: scale(0.97); }
+.ck-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.ck-button small { font-size: 0.74rem; font-weight: 500; color: var(--muted); }
+.ck-button.is-running {
+  background: var(--cta);
+  color: var(--on-cta);
+  box-shadow: 0 10px 34px color-mix(in srgb, var(--cta) 55%, transparent);
+}
+.ck-button.is-running small { color: inherit; opacity: 0.7; }
+.ck-button:disabled { cursor: default; }
+.ck-button:disabled:not(.is-demo) { opacity: 0.5; }
+.ck-ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); pointer-events: none; }
+.ck-ring circle {
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: ck-fill linear forwards; /* duration = the target, set inline */
+}
+@keyframes ck-fill { to { stroke-dashoffset: 0; } }
+.ck-flash { margin: 0; flex: 1 1 260px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ck-flash.is-warn { color: var(--miss); }
+.ck-stats { font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
+.ck-choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.ck-view { flex: none; }
+
+.ck-lane-label { fill: var(--text); font-size: 13px; font-weight: 650; }
+.ck-lane.is-idle .ck-lane-label { fill: var(--muted); }
+.ck-empty { fill: var(--muted); font-size: 12px; }
+.ck-target { stroke: var(--axis); stroke-dasharray: 3 4; }
+.ck-target-label { fill: var(--muted); font-size: 11px; }
+.ck-dot { fill: var(--added); stroke: var(--dot-stroke); stroke-width: 1.2; }
+.ck-dot.is-last { stroke: var(--brand); stroke-width: 2.5; }
+.ck-fit-area { fill: var(--brand); fill-opacity: 0.08; }
+.ck-fit-line { fill: none; stroke: var(--brand); stroke-width: 2.5; stroke-linejoin: round; }
+.ck-sd line { stroke: var(--brand); stroke-width: 1.5; }
+.ck-sd text { fill: var(--accent); font-size: 11px; font-weight: 600; }
+
+@media (max-width: 700px) {
+  .ck-main { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; gap: 8px; }
+  .ck-pad { order: 2; }
+  .ck-button { width: 112px; height: 112px; font-size: 0.95rem; padding: 0 12px; }
+}
+
 /* ---------- Topic: shapes of distributions ---------- */
 .dd-kinds {
   list-style: none;
@@ -691,6 +791,9 @@ a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3
   .nd-card-what { font-size: 0.8rem; }
   .nd-card-stat { margin-top: 6px; font-size: 0.74rem; }
   .dd-kind-teaser { display: none; }
+  .nd-picker { margin: 4px 0 auto; gap: 10px; }
+  .nd-card.nd-game { padding: 12px 14px; gap: 12px; }
+  .nd-game .nd-card-what { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

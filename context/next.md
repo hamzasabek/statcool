@@ -28,6 +28,9 @@
   comes back.
 
 ## Possible improvements
+- Inner-clock game: let the student pick 10 s instead of 5 s for the second target; pool results
+  of a whole class (needs a backend); a "reaction time" game for "Shapes of distributions"
+  (right-skewed, links back to this topic); remember results in localStorage.
 - Clean up leftovers from the removed topic: `src/components/Tex.jsx` and the `katex`
   dependency are unused. CSS still has `.marker.*`, `.legend-item.mean`, `.formula .katex*`
   and the `--bar`, `--bar-mode`, `--mean` tokens.

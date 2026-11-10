@@ -202,3 +202,25 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - `project.md` and `next.md` updated to match the code (no more mean/median/mode, no more
   coming-soon stubs, both deploy targets).
 
+## 2026-11-10 — Step 18: Game "Your inner clock" in topic 01
+- Owner's idea: make the first exercise a game that draws the distribution while you play.
+  Reaction time was not used here because it is right-skewed (better for "Shapes of
+  distributions" later).
+- New game card at the top of the topic 01 picker. Steps: **2 seconds → 5 seconds → Compare**.
+  - Press (tap the big round button or Space) to start a hidden clock, press again when you
+    think the target time has passed. Each press drops a yellow dot into that experiment's row.
+    20 presses per target (can move on after 10). Presses under 0.3 s are ignored (double tap).
+    Timing uses the event `timeStamp`.
+  - "Feel 2 s" shows a ring that fills in exactly the target time. Undo removes the last press.
+  - Live: mean, SD, a normal curve with the student's mean and SD, and a ±1 SD bracket.
+  - Between the two targets: predict whether the 5 s presses will have less, the same or more
+    spread.
+  - Compare: both rows on one axis (the 5 s bell is wider) + a "÷ target" view where the two
+    bells line up. Text gives the SD ratio, the relative spread (SD ÷ mean) for both targets
+    (Weber's law for time), and whether the prediction was right.
+- Files: `ClockGame.jsx`, `ClockChart.jsx`, `clock.js` in `src/topics/normal-distribution/`.
+- Tested in headless Chrome with real waits between presses (Space and mouse), 1366×657 light
+  and 390×750 dark. Measured means matched the simulated presses within 0.02 s. Too-fast press,
+  undo, predict, compare and ÷ target all work. Every screen fits with no scroll, and there
+  were no console errors.
+

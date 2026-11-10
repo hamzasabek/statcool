@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useState } from 'react'
 import DrawChart from '../../components/distribution/DrawChart.jsx'
 import { Stage } from '../../components/Stage.jsx'
+import ClockGame from './ClockGame.jsx'
 import { EXAMPLES, exampleById, fmtValue } from './examples.js'
 import { MIN_DOTS, normalFeedback } from './feedback.js'
 
@@ -48,6 +49,15 @@ function Bell({ width = 72, height = 30 }) {
   )
 }
 
+function Clock({ size = 30 }) {
+  return (
+    <svg className="nd-clock" width={size} height={size} viewBox="0 0 30 30" aria-hidden="true">
+      <circle cx="15" cy="16" r="11.5" />
+      <path d="M15 9.5V16l4 2.5M12 2.5h6" />
+    </svg>
+  )
+}
+
 const STEPS = ['Examples', 'Draw', 'Compare']
 const CHECK_LABELS = ['One peak', 'Symmetric', 'Centered', 'Spread', 'Bell shape']
 
@@ -56,6 +66,8 @@ export default function NormalDistribution() {
   const [{ dots, history }, dispatch] = useReducer(reducer, INITIAL)
   const [revealed, setRevealed] = useState(false)
   const [done, setDone] = useState({}) // exId → true when drawn well
+  const [game, setGame] = useState(false) // the "inner clock" game is open
+  const [gameDone, setGameDone] = useState(false)
 
   const ex = exampleById(exId)
   const fb = ex ? normalFeedback(dots, ex) : null
@@ -82,31 +94,48 @@ export default function NormalDistribution() {
 
   const checks = fb?.checks ?? CHECK_LABELS.map((label) => ({ label }))
 
+  if (game) return <ClockGame onExit={() => setGame(false)} onComplete={() => setGameDone(true)} />
+
   if (!ex) {
     return (
       <Stage
         title="The normal distribution"
         steps={STEPS}
         current={0}
-        say={<p>Most people near the middle, fewer towards the extremes. Pick an example to draw.</p>}
+        say={<p>Most people near the middle, fewer towards the extremes. Play the game, or pick an example to draw.</p>}
       >
-        <ul className="nd-examples">
-          {EXAMPLES.map((e) => (
-            <li key={e.id}>
-              <button type="button" className="nd-card" onClick={() => pick(e.id)}>
-                <Bell />
-                <span className="nd-card-title">
-                  {e.title}
-                  {done[e.id] && <span className="nd-done" aria-label="drawn"> ✓</span>}
-                </span>
-                <span className="nd-card-what">{e.what}</span>
-                <span className="nd-card-stat">
-                  mean {fmtValue(e, e.mu)} · SD {fmtValue(e, e.sigma)}
-                </span>
-              </button>
-            </li>
-          ))}
-        </ul>
+        <div className="nd-picker">
+          <button type="button" className="nd-card nd-game" onClick={() => setGame(true)}>
+            <Clock />
+            <span className="nd-game-text">
+              <span className="nd-card-title">
+                Game: your inner clock
+                {gameDone && <span className="nd-done" aria-label="played"> ✓</span>}
+              </span>
+              <span className="nd-card-what">
+                Stop a hidden clock at 2 s, then at 5 s. Every press drops a dot: watch your own bell grow.
+              </span>
+            </span>
+            <span className="nd-game-play">Play ▶</span>
+          </button>
+          <ul className="nd-examples">
+            {EXAMPLES.map((e) => (
+              <li key={e.id}>
+                <button type="button" className="nd-card" onClick={() => pick(e.id)}>
+                  <Bell />
+                  <span className="nd-card-title">
+                    {e.title}
+                    {done[e.id] && <span className="nd-done" aria-label="drawn"> ✓</span>}
+                  </span>
+                  <span className="nd-card-what">{e.what}</span>
+                  <span className="nd-card-stat">
+                    mean {fmtValue(e, e.mu)} · SD {fmtValue(e, e.sigma)}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </Stage>
     )
   }

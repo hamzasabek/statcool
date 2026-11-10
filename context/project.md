@@ -42,8 +42,13 @@ src/
     Home.jsx  Topics.jsx  About.jsx  NotFound.jsx
   topics/
     topics.js              list of topics shown on /topics (only distribution topics)
-    normal-distribution/   topic 01 (minimalist): examples → draw a bell → compare
-      NormalDistribution.jsx page, dots reducer with undo
+    normal-distribution/   topic 01 (minimalist): examples → draw a bell → compare, + clock game
+      NormalDistribution.jsx page, dots reducer with undo; opens ClockGame from the picker
+      ClockGame.jsx          game "Your inner clock": stop a hidden clock at 2 s, then 5 s;
+                             every press is a dot (play → predict → play → compare)
+      ClockChart.jsx         two lanes of stacked dots on one time axis, fitted normal curve,
+                             ±1 SD bracket; "÷ target" view lines the two bells up
+      clock.js               targets, trial counts, mean/SD, normal pdf
       examples.js            4 normal measures from psychology (mu, sigma, axis)
       feedback.js            5 checks + one hint at a time
     data-distributions/    topic 02 "Shapes of distributions": six shapes, reshape mode
@@ -57,7 +62,7 @@ context/                   this folder — project memory, updated every step
 
 - `/` Home
 - `/topics` list of topics
-- `/topics/normal-distribution` topic 01: draw a normal distribution with live feedback
+- `/topics/normal-distribution` topic 01: the inner-clock game + draw a normal distribution with live feedback
 - `/topics/data-distributions` topic 02 "Shapes of distributions"
 - `/about` About
 
