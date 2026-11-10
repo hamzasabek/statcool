@@ -279,3 +279,6 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   here): the repo is private and https://hamzasabek.github.io/statcool/ returns 404, so make
   the repo public (or use GitHub Pro), set Settings → Pages → Source = "GitHub Actions", re-run
   the workflow, and delete the site in the Netlify dashboard.
+- Follow-up: owner made the repo public, set Pages source to "GitHub Actions" and deleted the
+  Netlify site. The manual workflow run (2026-11-10 17:31 UTC) succeeded; the site and its
+  assets return 200 at https://hamzasabek.github.io/statcool/ (an early 404 was Pages delay).
