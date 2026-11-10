@@ -162,3 +162,9 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Created `.github/workflows/deploy.yml` with GitHub Actions workflow to build and deploy to GitHub Pages automatically on every push to `main`.
 - Live site URL: https://hamzasabek.github.io/statcool/ (after setting Pages source to "GitHub Actions" in GitHub repository settings).
 
+## 2026-11-10 — Step 13: Hardened .gitignore and portable relative base
+- Expanded `.gitignore` to comprehensively ignore environment variables/secrets (`.env*`), IDE settings (`.vscode`, `.idea`), OS artifacts (`Thumbs.db`, `.DS_Store`), test coverage, logs, and scratch files.
+- Verified no sensitive files, secrets, or keys were committed or tracked.
+- Set `base: './'` in `vite.config.js` to make the build completely host-agnostic (works on GitHub Pages, Vercel, Netlify, or local static servers).
+
+
