@@ -390,3 +390,9 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   right version shows, 66×44 px, no halo, no horizontal scroll, toggle switches it live.
 - Note: `npm run build` failed locally because Windows had `dist/assets` locked (probably open in
   Explorer); the test build went to another folder. GitHub Actions builds the live site.
+
+## 2026-11-10 — Step 30: Bigger logo
+- Owner: make the logo bigger. Logo 44 → 62 px high (phones ≤ 700 px: 50 px); the header grew
+  with it (`--header-h` 56 → 76 px, phones 64 px), and the game pages subtract it as before.
+- Tested in headless Chrome: logo 93×62 (desktop) / 75×50 (360 px phone), light and dark;
+  the mean/median and reaction-time games still fit one 1366×657 screen; no errors.
