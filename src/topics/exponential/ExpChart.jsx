@@ -9,6 +9,7 @@ import { EXP } from './text.js'
 //   fit     : expFit(values) or null
 //   markers : any of 'mode' (always 0), 'median', 'mean'; labels on their own rows
 //   halving : dashed lines at 1, 2, 3 × the median, labelled ½ ¼ ⅛ (the share of waits still going)
+// Dots: yellow = the student caught the spike that ended this wait; hollow = missed (or not yet).
 
 const M = { top: 10, right: 18, left: 18 }
 const BIN_CHOICES = [40, 32, 24, 20, 16]
@@ -133,7 +134,7 @@ export default function ExpChart({ points, fit, markers = [], halving = false, h
           {placed.map((p) => (
             <motion.circle
               key={p.id}
-              className={`ck-dot is-a${p.id === lastId ? ' is-last' : ''}`}
+              className={`ck-dot ${p.caught ? 'is-a' : 'exp-missed'}${p.id === lastId ? ' is-last' : ''}`}
               initial={{ cx: plotL + (p.col + 0.5) * colPx, cy: M.top, r, opacity: 0 }}
               animate={{ cx: plotL + (p.col + 0.5) * colPx, cy: base - (p.level + 0.5) * size, r, opacity: 1 }}
               transition={DROP}

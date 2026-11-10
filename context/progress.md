@@ -450,3 +450,14 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   false alarm, one pause/resume): 1366×657 EN light and 390×750 FR dark. Generator checked
   (100 000 draws match the exponential bin by bin). Slider at 0.5 / 1.5 / 2.5 s: 39 % each
   time. No errors, no horizontal scroll (phone steps scroll a little: allowed).
+
+## 2026-11-10 — Step 35: Neuron — caught spikes in yellow, missed ones hollow
+- Owner: let the participant see which dots they captured, in a different colour.
+- Each wait (dot) belongs to the spike that ends it. The dot appears hollow and fills yellow
+  the moment the student catches that spike (tap within 0.7 s); missed ones stay hollow
+  (`.ck-dot.exp-missed`). Kept on "The curve" step too. Legend: "28 caught · 12 missed"; the
+  instruction line explains the colours (EN + FR).
+- The first spike of a run (after start or resume) ends no wait, so the spike score ("caught
+  30 of 42 spikes") can be higher than the yellow dots.
+- Tested in headless Chrome (1366×657): skipping every 4th spike on purpose gave 28 yellow +
+  12 hollow dots = 40, matching the legend; no errors.

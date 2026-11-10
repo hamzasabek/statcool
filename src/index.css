@@ -710,6 +710,10 @@ a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3
 @keyframes nr-run { from { transform: translateX(0); opacity: 1; } to { transform: translateX(64px); opacity: 0; } }
 @keyframes nr-ring { from { opacity: 1; } to { opacity: 0; } }
 .nr-score { font-size: 0.82rem; font-weight: 600; color: var(--accent); }
+/* Dots: caught = yellow (.ck-dot.is-a), missed = hollow ring */
+.ck-dot.exp-missed { fill: var(--bg); stroke: var(--muted); stroke-width: 1.6; }
+.legend-item.exp-key-caught::before { width: 9px; height: 9px; border-radius: 50%; background: var(--sun); box-shadow: inset 0 0 0 1px var(--dot-stroke); }
+.legend-item.exp-key-missed::before { width: 9px; height: 9px; border-radius: 50%; background: transparent; box-shadow: inset 0 0 0 1.5px var(--muted); }
 .exp-half-line { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 2 4; }
 .exp-half-label { fill: var(--muted); font-size: 14px; font-weight: 700; paint-order: stroke; stroke: var(--bg); stroke-width: 4px; }
 .legend-item.exp-key::before { background: repeating-linear-gradient(90deg, var(--muted) 0 2px, transparent 2px 5px); }

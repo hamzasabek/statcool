@@ -55,7 +55,7 @@ export default function Neuron() {
   const tx = useText(EXP)
   const tc = useText(COMMON)
   const [step, setStep] = useState(0)
-  const [gaps, setGaps] = useState([]) // { id, v }: wait in seconds
+  const [gaps, setGaps] = useState([]) // { id, v, caught }: wait in seconds; caught = the spike that ended it was caught
   const [phase, setPhase] = useState('ready') // ready | run | paused | done
   const [spike, setSpike] = useState(0) // spike counter (also the key of the flash)
   const [caught, setCaught] = useState(0)
@@ -118,13 +118,15 @@ export default function Neuron() {
   }
 
   function fire() {
-    spikes.current.push({ t: performance.now(), caught: false })
+    // The wait that this spike ends (none for the first spike of a run). Its dot starts hollow and
+    // turns yellow if the student catches this spike.
+    const gapId = hadSpike.current ? count.current++ : null
+    spikes.current.push({ t: performance.now(), caught: false, gapId })
     setSpike((s) => s + 1)
     click()
-    if (hadSpike.current) {
+    if (gapId !== null) {
       const v = pending.current
-      const id = count.current++
-      setGaps((gs) => [...gs, { id, v }])
+      setGaps((gs) => [...gs, { id: gapId, v, caught: false }])
       if (count.current >= GAPS) {
         doneAt.current = performance.now()
         setPhase('done')
@@ -163,6 +165,7 @@ export default function Neuron() {
     if (hit) {
       hit.caught = true
       setCaught((c) => c + 1)
+      if (hit.gapId !== null) setGaps((gs) => gs.map((g) => (g.id === hit.gapId ? { ...g, caught: true } : g)))
     } else if (phase !== 'done') setFalseAlarms((f) => f + 1)
   }
 
@@ -224,6 +227,13 @@ export default function Neuron() {
     </Link>
   )
   const curveKey = <span className="legend-item ck-line is-a">{tx.curve}</span>
+  const nCaught = gaps.filter((g) => g.caught).length
+  const caughtKeys = (
+    <>
+      <span className="legend-item exp-key-caught">{tx.caughtKey(nCaught)}</span>
+      <span className="legend-item exp-key-missed">{tx.missedKey(gaps.length - nCaught)}</span>
+    </>
+  )
 
   // ---------- 1. Tap the spikes ----------
   if (step === 0) {
@@ -251,6 +261,7 @@ export default function Neuron() {
           <>
             <div className="legend">
               <span className="legend-item added">{tx.count(n, GAPS)}</span>
+              {n > 0 && caughtKeys}
               {fit && curveKey}
               {spike > 0 && <span className="nr-score">{tx.score(caught, spike)}</span>}
               {falseAlarms > 0 && <span className="rt-removed">{tx.falseAlarms(falseAlarms)}</span>}
@@ -341,6 +352,7 @@ export default function Neuron() {
         }
         bar={
           <div className="legend">
+            {caughtKeys}
             {curveKey}
             <span className="legend-item rt-key is-mode">{tx.keyMode}</span>
             <span className="legend-item median">{tx.keyMedian}</span>

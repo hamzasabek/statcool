@@ -8,7 +8,7 @@ export const EXP = {
     steps: ['Tap the spikes', 'The curve', 'Is it due?'],
     // 1. Tap the spikes
     sayStrong: 'Tap every time the neuron fires.',
-    say: 'Each wait between two spikes becomes a dot.',
+    say: 'Each wait between two spikes becomes a dot: yellow if you caught the spike, hollow if you missed it.',
     pad: {
       ready: ['Tap to start listening', 'then tap on every flash'],
       run: ['', 'tap on every flash'],
@@ -25,6 +25,8 @@ export const EXP = {
     count: (n, total) => `${n} / ${total} waits`,
     score: (c, s) => `caught ${c} of ${s} spikes`,
     falseAlarms: (k) => `${k} false alarm${k === 1 ? '' : 's'}`,
+    caughtKey: (k) => `${k} caught`,
+    missedKey: (k) => `${k} missed`,
     curve: 'Curve',
     pause: 'Pause',
     soundOn: 'Sound on',
@@ -69,7 +71,7 @@ export const EXP = {
     title: 'Écoutez un neurone',
     steps: ['Touchez les décharges', 'La courbe', 'Est-ce son tour ?'],
     sayStrong: 'Touchez à chaque fois que le neurone décharge.',
-    say: 'Chaque attente entre deux décharges devient un point.',
+    say: 'Chaque attente entre deux décharges devient un point : jaune si vous avez attrapé la décharge, vide si vous l’avez manquée.',
     pad: {
       ready: ['Touchez pour écouter', 'puis touchez à chaque éclair'],
       run: ['', 'touchez à chaque éclair'],
@@ -86,6 +88,8 @@ export const EXP = {
     count: (n, total) => `${n} / ${total} attentes`,
     score: (c, s) => `${c} décharges attrapées sur ${s}`,
     falseAlarms: (k) => `${k} fausse${k > 1 ? 's' : ''} alerte${k > 1 ? 's' : ''}`,
+    caughtKey: (k) => `${k} attrapée${k > 1 ? 's' : ''}`,
+    missedKey: (k) => `${k} manquée${k > 1 ? 's' : ''}`,
     curve: 'Courbe',
     pause: 'Pause',
     soundOn: 'Son activé',
