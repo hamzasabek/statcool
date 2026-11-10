@@ -353,10 +353,6 @@ export default function DrawChart({
               <stop offset="0%" style={{ stopColor: 'var(--brand)', stopOpacity: 0.32 }} />
               <stop offset="100%" style={{ stopColor: 'var(--brand)', stopOpacity: 0.02 }} />
             </linearGradient>
-            <radialGradient id={`dot-${uid}`} cx="35%" cy="30%" r="75%">
-              <stop offset="0%" style={{ stopColor: 'var(--dot-hi)' }} />
-              <stop offset="100%" style={{ stopColor: 'var(--added)' }} />
-            </radialGradient>
           </defs>
 
           {/* Column under the pointer + a ghost dot where the next dot would land */}
@@ -402,7 +398,6 @@ export default function DrawChart({
                 <motion.circle
                   key={d.id}
                   className={`dd-dot${dragged ? ' is-dragged' : ''}${dragged && inTrash ? ' is-trash' : ''}`}
-                  fill={`url(#dot-${uid})`}
                   initial={{ cx, cy: M.top - 16, r, opacity: 0 }}
                   animate={{ cx, cy, r: dragged ? r * 1.45 : r, opacity: 1 }}
                   exit={{ r: 0, opacity: 0, transition: { duration: 0.2 } }}

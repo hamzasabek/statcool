@@ -122,3 +122,11 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   and axes pass 3:1. New tokens: `--on-accent`, `--brand`, `--cta`, `--on-cta`, `--cta-border`,
   `--dot-stroke`, `--median-line`.
 - Logo bars now use sky / yellow / blue on navy.
+
+## 2026-11-10 — Step 10: Neutral backgrounds + plain yellow dots
+- Owner's tweaks to the palette: backgrounds are now neutral, white-like in light mode
+  (`#fafafa` / `#ffffff`) and black-like in dark mode (`#0b0b0d` / `#151518`), with neutral
+  grey borders, text and axes. The four palette colours stay as accents.
+- Student dots are the plain palette yellow `#FFDE42`, flat (no gradient), with a thin
+  gold outline in light mode so they show on white. Radial gradient removed from `DrawChart`.
+- Contrast re-checked: all text pairs pass WCAG AA; lines and axes pass 3:1.

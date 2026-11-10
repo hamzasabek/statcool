@@ -5,14 +5,14 @@
   --sky: #53cbf3;
   --sun: #ffde42;
 
-  --bg: #f4f7ff;
+  --bg: #fafafa;                  /* white-like */
   --surface: #ffffff;
-  --text: #0d1547;
-  --muted: #4f5a8a;
-  --border: #dce3f7;
-  --hover: #edf1ff;
+  --text: #14161f;
+  --muted: #5a5e6e;
+  --border: #e4e5eb;
+  --hover: #f1f2f6;
   --accent: var(--navy);          /* links, active states, small accent text */
-  --accent-soft: #e4eaff;
+  --accent-soft: #e8edff;
   --on-accent: #ffffff;
   --brand: var(--blue);           /* curves, bell icons, chart highlights */
   --cta: var(--sun);              /* main buttons */
@@ -20,15 +20,14 @@
   --cta-border: #e8c416;
   --bar: #bccbff;
   --bar-mode: var(--blue);
-  --grid: #e8edf9;
-  --axis: #7c87b8;
+  --grid: #eceef3;
+  --axis: #8a8d9c;
   --mean: var(--navy);
   --median: #086d96;              /* sky, darkened for text on white */
   --median-line: #1597cc;         /* brighter sky for the chart line */
   --mode: #8a6a00;                /* sun, darkened for text on white */
-  --added: #ffd21f;               /* the student's dots */
-  --dot-hi: #fff3a8;
-  --dot-stroke: #b58f00;
+  --added: var(--sun);            /* the student's dots: plain palette yellow */
+  --dot-stroke: #c9a400;          /* thin outline so yellow shows on white */
   --danger: #e03131;
   --real: #086d96;
   --real-soft: #e2f6fd;
@@ -42,35 +41,34 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #060a29;
-    --surface: #0d1340;
-    --text: #eef1ff;
-    --muted: #a0aad8;
-    --border: #232c6b;
-    --hover: #161e57;
+    --bg: #0b0b0d;                /* black-like */
+    --surface: #151518;
+    --text: #f1f1f4;
+    --muted: #a4a6b3;
+    --border: #2b2c33;
+    --hover: #1f2026;
     --accent: #8ea4ff;
-    --accent-soft: #1b2568;
-    --on-accent: #060a29;
+    --accent-soft: #1b2142;
+    --on-accent: #0b0b0d;
     --brand: var(--blue);
     --cta: var(--sun);
     --on-cta: var(--navy);
     --cta-border: var(--sun);
     --bar: #2b3c9a;
     --bar-mode: var(--blue);
-    --grid: #182061;
-    --axis: #6470b8;
+    --grid: #222329;
+    --axis: #666a7a;
     --mean: #8ea4ff;
     --median: var(--sky);
     --median-line: var(--sky);
     --mode: var(--sun);
     --added: var(--sun);
-    --dot-hi: #fff8cf;
-    --dot-stroke: #0d1340;
+    --dot-stroke: #151518;
     --danger: #ff6b6b;
     --real: var(--sky);
-    --real-soft: #0b2c48;
+    --real-soft: #0e2733;
     --miss: var(--sun);
-    --miss-soft: #2c2913;
+    --miss-soft: #29250f;
     --handle: #a9baff;
     color-scheme: dark;
   }
@@ -446,7 +444,7 @@ a.topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 .dd-hint { fill: var(--muted); font-size: 12px; }
 .dd-axis-title { fill: var(--muted); font-size: 13px; }
 
-.dd-dot { stroke: var(--dot-stroke); stroke-width: 1.2; }
+.dd-dot { fill: var(--added); stroke: var(--dot-stroke); stroke-width: 1.2; }
 .dd-chart.is-draw .dd-dot { cursor: grab; }
 .dd-chart.is-draw .dd-dot:hover { stroke: var(--brand); stroke-width: 2; }
 .dd-dot.is-dragged {
