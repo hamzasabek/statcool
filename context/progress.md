@@ -65,3 +65,28 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   arrows) added dots, Undo removed one, picker badges and "Shapes found 1 of 6" updated.
   Phone width (390 px) + dark mode: bimodal drawing matched, no horizontal scroll.
   No console errors. Screenshots checked by eye.
+
+## 2026-11-10 — Step 7: Stylish draw / drag / reshape with Motion
+- Compared 8 options with the owner (Motion, GSAP, react-spring, PixiJS, Konva, Mafs,
+  Svelte, p5.js). Owner chose **React + D3 + Motion** (`motion` 14.7.1, pinned exactly),
+  **shape handles** for reshaping, and a **live KDE** curve.
+- Draw & drag mode (`DrawChart.jsx`):
+  - Click drops a dot that falls in with a spring bounce; a ghost dot previews where it lands.
+  - Hold and drag paints: every new column gets a dot, and moving up fills a column to the pointer.
+  - Grab a dot: it lifts (bigger, shadow), trails the pointer, and the stack below closes up.
+    Drop it in another column, or below the axis ("Drop here to remove") to delete it.
+  - The live curve is a kernel density estimate with reflection at the domain edges
+    (`density.js`), redrawn on every change, including while a dot is in the air.
+- Reshape curve mode (from 5 dots): the curve becomes a model (`model.js`) of one or two
+  split-normal hills (peak + separate left/right widths). Handles: ◆ peak (sideways = move,
+  up/down = taller/flatter), ● left/right side (stretch = tail). "+ Add a second hill" and a
+  share slider. The dots keep their rank and spring to the matching quantile of the new curve.
+  Handles also work with the keyboard (arrow keys).
+- Undo: one step per gesture (stroke, dot drag, handle drag, slider drag). Reducer in
+  `DataDistributions.jsx`.
+- After the reveal the student can keep reshaping; the verdict and the "found" badge update live.
+- Chart height now scales with screen width (less empty space on phones).
+- Fixed: going back to the data list after a reveal crashed the page.
+- Tested in headless Chrome (desktop + 390 px dark mode): brush, move, remove, reshape,
+  second hill (classified bimodal), undo, keyboard handle, reveal. No errors.
+- Bundle grew from ~603 kB to ~757 kB (Motion).

@@ -12,7 +12,8 @@ live graphs. Inspiration and reference: https://rpsychologist.com/correlation
 | Routing | React Router 8 (`react-router` package) | `BrowserRouter`, `Routes`, `NavLink` |
 | Graphs | D3 v7 | D3 is used for **math only** (scales, interpolation, timers). React renders the SVG. Same approach as rpsychologist (which uses Svelte + D3). |
 | Math formulas | KaTeX | via `src/components/Tex.jsx` |
-| Animation | `useTweened` hook (d3 `interpolate` + `timer`) | respects `prefers-reduced-motion` |
+| Animation | `useTweened` hook (d3 `interpolate` + `timer`) | numbers/arrays (bars, curves); respects `prefers-reduced-motion` |
+| Physics animation | Motion 14.7.1 (`motion/react`, pinned exactly) | springy dots, enter/exit (`AnimatePresence`); wrapped in `<MotionConfig reducedMotion="user">` |
 | Interaction | Native pointer events + `setPointerCapture` | no d3-drag; dragging/clicking handled in React |
 
 Node.js 26 LTS is installed at `C:\Program Files\nodejs` (installed with winget).
@@ -35,7 +36,10 @@ src/
     topics.js              list of topics shown on /topics (available: true/false)
     data-distributions/
       DataDistributions.jsx  topic page: choose data → draw → compare (+ shape icons, gallery)
-      DrawChart.jsx          click-to-stack dot chart, revealed curve of the real distribution
+      DrawChart.jsx          dot chart: click/brush/drag/remove dots, live KDE curve, reshape handles,
+                             real curve after reveal (Motion springs)
+      density.js             KDE (with edge reflection), bandwidth, peak finding
+      model.js               reshapeable curve: 1–2 split-normal hills, fit, quantile remap of dots
       kinds.js               the six data kinds (domain, columns, pdf, texts) and the six SHAPES
       classify.js            guesses the shape of a drawing (skewness, kurtosis, KDE peaks)
     mean-median-mode/
@@ -64,5 +68,7 @@ context/                   this folder — project memory, updated every step
 
 - Plain JavaScript (`.jsx` / `.js`), function components and hooks.
 - Charts: compute with D3, render SVG in JSX. No `d3.select` DOM manipulation.
+- Pointer gestures: capture the pointer on the `<svg>` and route moves by gesture type (see
+  `DrawChart.jsx`); one undo step per gesture.
 - Colors only through CSS variables in `index.css` (dark mode supported).
 - Every step: update `context/progress.md` (and `next.md` if plans change), then commit and push to `main`.

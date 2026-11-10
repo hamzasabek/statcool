@@ -1,6 +1,8 @@
 // Guesses which distribution shape a drawing looks like.
 // A drawing is a list of column indices (one entry per dot) on an axis with `cols` columns.
 
+import { findPeaks } from './density.js'
+
 export const MIN_DOTS = 10
 
 const fmt2 = (v) => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(1)
@@ -15,34 +17,6 @@ function kde(u, h, steps = 100) {
     dens.push(s)
   }
   return dens
-}
-
-// Peaks of the density that are tall enough and separated by a real valley.
-function countPeaks(dens) {
-  const max = Math.max(...dens)
-  let peaks = []
-  for (let i = 0; i < dens.length; i++) {
-    const left = i === 0 ? -Infinity : dens[i - 1]
-    const right = i === dens.length - 1 ? -Infinity : dens[i + 1]
-    if (dens[i] > left && dens[i] >= right && dens[i] >= 0.25 * max) peaks.push(i)
-  }
-  // Merge neighbouring peaks whose valley is shallow (less than 20% below the smaller peak).
-  let merged = true
-  while (merged && peaks.length > 1) {
-    merged = false
-    for (let k = 0; k < peaks.length - 1; k++) {
-      const a = peaks[k]
-      const b = peaks[k + 1]
-      let valley = Infinity
-      for (let i = a; i <= b; i++) valley = Math.min(valley, dens[i])
-      if (valley > 0.8 * Math.min(dens[a], dens[b])) {
-        peaks = peaks.filter((p) => p !== (dens[a] < dens[b] ? a : b))
-        merged = true
-        break
-      }
-    }
-  }
-  return peaks.length
 }
 
 /**
@@ -90,7 +64,7 @@ export function classify(dots, cols) {
   const iqr = sorted[Math.floor(0.75 * (n - 1))] - sorted[Math.floor(0.25 * (n - 1))]
   const spread = iqr > 0 ? Math.min(sd, iqr / 1.34) : sd
   const h = Math.max(1 / cols, 0.9 * spread * n ** -0.2)
-  const peaks = countPeaks(kde(u, h))
+  const peaks = findPeaks(kde(u, h)).length
   const skewText = `skewness ${fmt2(skew)}`
 
   if (peaks >= 2) {

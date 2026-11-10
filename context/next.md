@@ -13,6 +13,7 @@
 
 ## Possible improvements
 - Data distributions: save solved kinds in localStorage; more kinds (e.g. depression scores, spike
-  counts / Poisson, Likert answers); let the student remove a single dot by clicking it.
-- Code-split KaTeX / D3 so the production bundle drops below Vite's 500 kB warning.
+  counts / Poisson, Likert answers); a "flatness" handle so the model can make uniform shapes;
+  maybe a pinch gesture on touch screens to widen a hill.
+- Code-split per topic (lazy routes) so KaTeX / Motion only load where used; bundle is ~757 kB.
 - Keyboard support for moving and deleting added students.
