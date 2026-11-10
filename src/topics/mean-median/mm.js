@@ -2,6 +2,8 @@
 // looks as long as a line with outward fins (>—<). Each try is one dot: how much too long (in %)
 // the plain line was made. The fins make most people overshoot, so the bell sits right of 0.
 
+import { num, pct } from '../../i18n.jsx'
+
 export const TRIALS = 15 // tries in the game
 export const MIN_TRIALS = 10 // the student may go on after this many
 export const PLAY_DOMAIN = [-40, 60] // % too long
@@ -27,6 +29,5 @@ export function sd(values) {
 
 export const normalPdf = (x, m, s) => Math.exp(-0.5 * ((x - m) / s) ** 2) / (s * Math.sqrt(2 * Math.PI))
 
-// "+12.3%" / "−4.0%"
-export const fmtPct = (v, digits = 1) => `${v < 0 ? '−' : '+'}${Math.abs(v).toFixed(digits)}%`
-export const fmtPts = (v) => `${Math.abs(v).toFixed(1)} point${Math.abs(v).toFixed(1) === '1.0' ? '' : 's'}`
+// "+12.3%" / "−4.0%" (French: "+12,3 %")
+export const fmtPct = (v, digits = 1) => `${v < 0 ? '−' : '+'}${pct(num(Math.abs(v), digits))}`

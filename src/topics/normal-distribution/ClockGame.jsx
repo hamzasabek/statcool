@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
+import { num, useText } from '../../i18n.jsx'
+import { COMMON } from '../../text.js'
 import { Stage } from '../../components/Stage.jsx'
 import ClockChart from './ClockChart.jsx'
 import { MIN_TRIALS, TARGETS, TOO_FAST, TRIALS, fmtPct, fmtS, stats } from './clock.js'
+import { CLOCK } from './text.js'
 
 // Game: "Your inner clock". Stop a hidden clock at 2 s, then at 5 s. Every press drops a
 // dot, so the student draws their own normal distribution while playing.
 
-const STEPS = [...TARGETS.map((t) => `${t} seconds`), 'Compare']
 const COOLDOWN = 450 // ms after a stop before the next start counts (no double taps)
 
 const emptyResults = () => TARGETS.map(() => [])
@@ -15,6 +17,9 @@ const KEYS = ['a', 'b'] // colour of each target's dots and curve (see .ck-dot.i
 const COMPARE_DOMAIN = [0, 2 * Math.max(...TARGETS)]
 
 export default function ClockGame() {
+  const tx = useText(CLOCK)
+  const tc = useText(COMMON)
+  const STEPS = tx.steps(TARGETS)
   const [results, setResults] = useState(emptyResults)
   const [exp, setExp] = useState(0)
   const [phase, setPhase] = useState('play') // 'play' | 'compare'
@@ -53,12 +58,12 @@ export default function ClockGame() {
     stopClock()
     coolRef.current = t + COOLDOWN
     if (v < TOO_FAST) {
-      setFlash({ text: 'Too fast, not counted. Start again.', warn: true })
+      setFlash({ text: tx.tooFast, warn: true })
       return
     }
     setResults((rs) => rs.map((r, i) => (i === exp ? [...r, v] : r)))
     const diff = v - target
-    const off = Math.abs(diff) < 0.005 ? 'spot on!' : `${fmtS(Math.abs(diff))} ${diff < 0 ? 'early' : 'late'}`
+    const off = Math.abs(diff) < 0.005 ? tx.spotOn : tx.off(fmtS(Math.abs(diff)), diff < 0)
     setFlash({ text: `${fmtS(v)} · ${off}`, warn: false })
   }
 
@@ -129,30 +134,29 @@ export default function ClockGame() {
     const wider = ratio >= 1.15
     return (
       <Stage
-        title="Your inner clock"
-      className="ck-stage"
+        title={tx.title}
+        className="ck-stage"
         steps={STEPS}
         current={current}
         say={
           <p>
-            <strong>Two bells: {wider ? 'the 5-second one is wider.' : 'here they are about as wide.'}</strong>{' '}
-            Both games in one graph. Switch to “÷ target” to put them on the same scale.
+            <strong>{tx.compareSay(wider)}</strong> {tx.compareSay2}
           </p>
         }
         bar={
           <>
-            <div className="segmented ck-view" role="group" aria-label="Axis">
+            <div className="segmented ck-view" role="group" aria-label={tx.axisGroup}>
               <button type="button" className={relative ? '' : 'is-active'} aria-pressed={!relative} onClick={() => setRelative(false)}>
-                Seconds
+                {tx.seconds}
               </button>
               <button type="button" className={relative ? 'is-active' : ''} aria-pressed={relative} onClick={() => setRelative(true)}>
-                ÷ target
+                {tx.perTarget}
               </button>
             </div>
             <div className="legend">
               {series.map((s) => (
                 <span key={s.key} className={`legend-item ck-key is-${s.key}`}>
-                  {s.label} presses + bell
+                  {tx.seriesKey(s.label)}
                 </span>
               ))}
             </div>
@@ -162,22 +166,24 @@ export default function ClockGame() {
           <>
             <div className="nd-feedback is-good" aria-live="polite">
               <p className="nd-hint">
-                {wider
-                  ? `The 5 s spread is ${ratio.toFixed(1)}× wider, but the shape is still a bell.`
-                  : `This time your 5 s spread was only ${ratio.toFixed(1)}× the 2 s spread.`}
+                {wider ? tx.wider(num(ratio, 1)) : tx.notWider(num(ratio, 1))}
               </p>
               <p className="nd-fact">
-                2 s: mean {fmtS(a.mean)}, SD {fmtS(a.sd)} · 5 s: mean {fmtS(b.mean)}, SD {fmtS(b.sd)}. Relative to the
-                time, the spread is {fmtPct(cvA)} vs {fmtPct(cvB)}
-                {cvClose ? ': about the same. Timing errors grow in proportion to the time (Weber’s law).' : '.'}
+                {tx.fact(
+                  { mean: fmtS(a.mean), sd: fmtS(a.sd) },
+                  { mean: fmtS(b.mean), sd: fmtS(b.sd) },
+                  fmtPct(cvA),
+                  fmtPct(cvB),
+                  cvClose,
+                )}
               </p>
             </div>
             <div className="actions">
               <Link to="/" className="btn btn-ghost">
-                All topics
+                {tc.allTopics}
               </Link>
               <button type="button" className="btn btn-primary" onClick={playAgain}>
-                Play again
+                {tc.playAgain}
               </button>
             </div>
           </>
@@ -190,52 +196,49 @@ export default function ClockGame() {
 
   // ---------- Play ----------
   const st = stats(values)
-  const nextLabel = isLast ? 'Compare →' : `Next: ${TARGETS[exp + 1]} seconds →`
+  const nextLabel = tx.nextLabel(isLast, TARGETS[exp + 1])
   const locked = n < MIN_TRIALS
   // When the game is full, the big button itself leads to the next step.
-  let padLabel = n ? 'Next press' : 'Start'
-  if (running) padLabel = `Stop at ${target} s`
-  if (demo) padLabel = `This is ${target} s`
-  if (full) padLabel = isLast ? 'Compare →' : `Go to ${TARGETS[exp + 1]} s →`
-  let hint = 'Tap the button or press Space.'
-  if (running) hint = 'Press when you feel it.'
-  else if (full) hint = `All ${TRIALS} presses done!`
-  else if (n) hint = `${TRIALS - n} presses left${locked ? ` (${MIN_TRIALS - n} more to unlock the next step)` : ''}.`
-  if (flash) hint = `${flash.text}${full ? ` All ${TRIALS} presses done!` : ''}`
+  let padLabel = n ? tx.padNext : tx.padStart
+  if (running) padLabel = tx.padStop(target)
+  if (demo) padLabel = tx.padDemo(target)
+  if (full) padLabel = tx.padGo(isLast, TARGETS[exp + 1])
+  let hint = tx.hintIdle
+  if (running) hint = tx.hintRunning
+  else if (full) hint = tx.hintFull(TRIALS)
+  else if (n) hint = tx.hintLeft(TRIALS - n, MIN_TRIALS - n)
+  if (flash) hint = `${flash.text}${full ? ` ${tx.hintFull(TRIALS)}` : ''}`
 
   return (
     <Stage
-      title="Your inner clock"
+      title={tx.title}
       className="ck-stage"
       steps={STEPS}
       current={current}
       say={
         <p>
-          <strong>
-            Press to start, then press again when you think {target} seconds have passed.
-          </strong>{' '}
-          {exp === 0 ? 'Don’t count, just feel it.' : 'A new game, with its own chart.'}
+          <strong>{tx.say(target)}</strong> {exp === 0 ? tx.sayFirst : tx.sayNext}
         </p>
       }
       bar={
         <>
           <div className="legend">
             <span className={`legend-item ck-key is-${KEYS[exp]}`}>
-              {n} / {TRIALS} presses
+              {tx.count(n, TRIALS)}
             </span>
-            {n >= 3 && <span className={`legend-item ck-line is-${KEYS[exp]}`}>Bell with your mean and SD</span>}
+            {n >= 3 && <span className={`legend-item ck-line is-${KEYS[exp]}`}>{tx.bellKey}</span>}
             {n >= 2 && (
               <span className="ck-stats">
-                mean {fmtS(st.mean)} · SD {fmtS(st.sd)}
+                {tx.stats(fmtS(st.mean), fmtS(st.sd))}
               </span>
             )}
           </div>
           <div className="tools">
             <button type="button" className="btn btn-ghost btn-sm" disabled={demo || running} onClick={feel}>
-              Feel {target} s
+              {tx.feel(target)}
             </button>
             <button type="button" className="btn btn-ghost btn-sm" disabled={!n} onClick={undo}>
-              Undo
+              {tc.undo}
             </button>
           </div>
         </>
@@ -247,16 +250,16 @@ export default function ClockGame() {
           </p>
           <div className="actions">
             <Link to="/" className="btn btn-ghost">
-              All topics
+              {tc.allTopics}
             </Link>
             <button
               type="button"
               className={`btn btn-primary ck-next${full ? ' nd-glow' : ''}`}
               disabled={locked}
-              title={locked ? `Unlocks after ${MIN_TRIALS} presses` : undefined}
+              title={locked ? tx.unlocks(MIN_TRIALS) : undefined}
               onClick={next}
             >
-              {locked ? `${nextLabel.replace(' →', '')} · ${MIN_TRIALS - n} more` : nextLabel}
+              {locked ? tx.locked(nextLabel.replace(' →', ''), MIN_TRIALS - n) : nextLabel}
             </button>
           </div>
         </>
@@ -281,7 +284,7 @@ export default function ClockGame() {
               e.preventDefault()
               press(e.timeStamp)
             }}
-            aria-label={full ? padLabel : `${padLabel}. Space also works.`}
+            aria-label={full ? padLabel : `${padLabel}. ${tx.spaceToo}`}
           >
             {demo && (
               <>
@@ -292,7 +295,7 @@ export default function ClockGame() {
               </>
             )}
             <span className="ck-button-label">{padLabel}</span>
-            {!full && !demo && <small>tap or Space</small>}
+            {!full && !demo && <small>{tx.tapOrSpace}</small>}
           </button>
         </div>
         <ClockChart key={exp} series={[series[exp]]} domain={ownDomain(exp)} highlightLast />

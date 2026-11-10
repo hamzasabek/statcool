@@ -1,4 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react'
+import { useText } from '../../i18n.jsx'
+import { MM } from './text.js'
 
 // The Müller-Lyer figure. Top: a line with outward fins (>—<), always the same length.
 // Bottom: a plain line; the student drags anywhere to stretch it until both look equal.
@@ -24,6 +26,7 @@ export function newTrial() {
 const clampRatio = (r) => Math.min(MAX_RATIO, Math.max(MIN_RATIO, r))
 
 export default function Illusion({ trial, ratio, onRatio, disabled = false, showHint = false }) {
+  const tx = useText(MM)
   const wrapRef = useRef(null)
   const drag = useRef(null)
   const [{ width, height }, setSize] = useState({ width: 720, height: 150 })
@@ -93,7 +96,7 @@ export default function Illusion({ trial, ratio, onRatio, disabled = false, show
         )}
         {showHint && !disabled && (
           <text className="mm-stim-hint" x={W / 2} y={height - 6} textAnchor="middle">
-            Drag left or right, anywhere here
+            {tx.dragHint}
           </text>
         )}
       </svg>
@@ -106,8 +109,8 @@ export default function Illusion({ trial, ratio, onRatio, disabled = false, show
         step={0.5}
         value={ratio * 100}
         disabled={disabled}
-        aria-label="Length of the plain line"
-        aria-valuetext={`${Math.round(ratio * L)} pixels`}
+        aria-label={tx.rangeLabel}
+        aria-valuetext={tx.px(Math.round(ratio * L))}
         onKeyDown={onKeyDown}
         onChange={(e) => onRatio(clampRatio(Number(e.target.value) / 100))}
       />

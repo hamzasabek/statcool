@@ -1,7 +1,9 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import * as d3 from 'd3'
 import { MotionConfig, motion } from 'motion/react'
+import { useText } from '../../i18n.jsx'
 import { fmtPct, mean, median, normalPdf } from './mm.js'
+import { MM } from './text.js'
 
 // Stacked dot plot of the tries (% too long), with the real length at 0, the mean (a line plus a
 // ▲ balance point under the axis) and the median (dashed line).
@@ -19,6 +21,7 @@ const INSTANT = { duration: 0 }
 const CURVE_STEPS = 200
 
 export default function MMChart({ points, domain, ranks = false, draggable = false, onDrag, ghost, bell, highlightLast = false }) {
+  const tx = useText(MM)
   const wrapRef = useRef(null)
   const svgRef = useRef(null)
   const [{ width, height }, setSize] = useState({ width: 720, height: 300 })
@@ -43,7 +46,9 @@ export default function MMChart({ points, domain, ranks = false, draggable = fal
   const H = Math.max(150, Math.round(height))
   const compact = H < 210
   const base = H - (compact ? 34 : 52)
-  const markTop = M.top + 34 // the marker lines start under their labels
+  const ROW = 15 // mean and median labels sit on two rows (left marker first), under "real length"
+  const rowY = (i) => M.top + 26 + i * ROW
+  const markTop = rowY(1) + 5 // the plot starts under the labels
   const plotH = base - markTop
 
   // Stack by value so the numbers go up left to right and bottom to top.
@@ -78,8 +83,8 @@ export default function MMChart({ points, domain, ranks = false, draggable = fal
   const markers =
     n >= 2
       ? [
-          { key: 'mean', v: m, text: `mean ${fmtPct(m)}` },
-          { key: 'median', v: md, text: `median ${fmtPct(md)}` },
+          { key: 'mean', v: m, text: tx.markMean(fmtPct(m)) },
+          { key: 'median', v: md, text: tx.markMedian(fmtPct(md)) },
         ].sort((a, b) => a.v - b.v)
       : []
 
@@ -127,9 +132,7 @@ export default function MMChart({ points, domain, ranks = false, draggable = fal
 
   const ticks = x.ticks(Math.max(2, Math.min(10, Math.floor(plotW / 64))))
   const last = highlightLast ? points.at(-1)?.id : undefined
-  const label = n
-    ? `${n} tries. Mean ${fmtPct(m)}, median ${fmtPct(md)} too long.`
-    : 'No tries yet.'
+  const label = n ? tx.aria(n, fmtPct(m), fmtPct(md)) : tx.ariaNone
 
   return (
     <div ref={wrapRef} className="chart-fill">
@@ -150,13 +153,13 @@ export default function MMChart({ points, domain, ranks = false, draggable = fal
           <g pointerEvents="none">
             <line className="mm-real" x1={x(0)} x2={x(0)} y1={M.top + 2} y2={base} />
             <text className="mm-real-label" x={x(0) - 5} y={M.top + 10} textAnchor="end">
-              real length
+              {tx.realLength}
             </text>
           </g>
 
           {!n && (
             <text className="ck-empty" x={(plotL + plotR) / 2} y={base - plotH / 2} textAnchor="middle">
-              Each try lands here: right of “real” = too long
+              {tx.empty}
             </text>
           )}
 
@@ -177,13 +180,13 @@ export default function MMChart({ points, domain, ranks = false, draggable = fal
           )}
 
           {/* Mean and median: lines behind the dots, labels on top */}
-          {markers.map((mk) => (
+          {markers.map((mk, i) => (
             <line
               key={mk.key}
               className={`mm-mark-line is-${mk.key}`}
               x1={clampX(mk.v)}
               x2={clampX(mk.v)}
-              y1={markTop}
+              y1={rowY(i) + 5}
               y2={base}
               pointerEvents="none"
             />
@@ -203,9 +206,9 @@ export default function MMChart({ points, domain, ranks = false, draggable = fal
                 transition={dragged ? INSTANT : DROP}
                 tabIndex={draggable ? 0 : undefined}
                 role={draggable ? 'slider' : undefined}
-                aria-label={draggable ? `Try ${p.id + 1}` : undefined}
+                aria-label={draggable ? tx.dotLabel(p.id + 1) : undefined}
                 aria-valuenow={draggable ? Math.round(p.v) : undefined}
-                aria-valuetext={draggable ? `${fmtPct(p.v, 0)} too long` : undefined}
+                aria-valuetext={draggable ? tx.dotValue(fmtPct(p.v, 0)) : undefined}
                 onKeyDown={draggable ? (e) => onDotKey(e, p) : undefined}
               >
                 <circle r={r} />
@@ -219,13 +222,18 @@ export default function MMChart({ points, domain, ranks = false, draggable = fal
           })}
 
           {markers.map((mk, i) => {
+            // Left marker: label ends at its line; right marker: label starts at its line.
+            // Each stays inside the chart (width estimated from the text length).
             const left = i === 0
+            const w = mk.text.length * 7.2
+            const mx = clampX(mk.v)
+            const lx = left ? Math.max(mx - 4, plotL + w) : Math.min(mx + 4, plotR - w)
             return (
               <text
                 key={mk.key}
                 className={`mm-mark-label is-${mk.key}`}
-                x={Math.min(plotR, Math.max(plotL, clampX(mk.v) + (left ? -4 : 4)))}
-                y={M.top + 28}
+                x={lx}
+                y={rowY(i)}
                 textAnchor={left ? 'end' : 'start'}
                 pointerEvents="none"
               >
@@ -252,7 +260,7 @@ export default function MMChart({ points, domain, ranks = false, draggable = fal
           ))}
           {!compact && (
             <text className="dd-axis-title" x={(plotL + plotR) / 2} y={base + 45} textAnchor="middle">
-              How much too long you made the plain line
+              {tx.axis}
             </text>
           )}
         </svg>

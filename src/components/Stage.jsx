@@ -1,4 +1,6 @@
 import { Link } from 'react-router'
+import { useText } from '../i18n.jsx'
+import { COMMON } from '../text.js'
 
 // Full-viewport layout for a learning page: everything fits on one screen, no scrolling.
 //   head  : back link, title, optional steps
@@ -7,12 +9,13 @@ import { Link } from 'react-router'
 //   main  : grows to fill the remaining height (charts measure it)
 //   foot  : feedback and actions
 export function Stage({ title, steps, current, say, bar, foot, children, flowOnNarrow = false, className = '' }) {
+  const tx = useText(COMMON)
   return (
     <article className={`stage${flowOnNarrow ? ' is-flow-narrow' : ''}${className ? ` ${className}` : ''}`}>
       <header className="stage-head">
         <div className="stage-title">
           <Link to="/" className="back-link">
-            ← Topics
+            {tx.back}
           </Link>
           <h1>{title}</h1>
         </div>
@@ -27,8 +30,9 @@ export function Stage({ title, steps, current, say, bar, foot, children, flowOnN
 }
 
 export function Steps({ steps, current }) {
+  const tx = useText(COMMON)
   return (
-    <ol className="steps" aria-label="Progress">
+    <ol className="steps" aria-label={tx.progress}>
       {steps.map((s, i) => (
         <li
           key={s}

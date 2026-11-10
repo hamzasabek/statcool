@@ -22,11 +22,15 @@ Node.js 26 LTS is installed at `C:\Program Files\nodejs` (installed with winget)
 
 ```
 src/
-  main.jsx                 entry: HashRouter + App
+  main.jsx                 entry: LangProvider + HashRouter + App
+  i18n.jsx                 language (en / fr): LangProvider, useLang, useText(dict), num() and pct()
+                           number formatting (French: 16,9 %), frenchTypo() for no-break spaces
+  theme.js                 useTheme(): light / dark on <html data-theme>, saved in localStorage
+  text.js                  COMMON texts (header, home page, Stage, All topics / Play again / Undo)
   App.jsx                  header + routes (the topic list is the home page)
   index.css                all styles; color tokens on :root (light + dark mode)
   components/
-    Header.jsx             logo only (links to the topic list); no nav menu
+    Header.jsx             logo (links to the topic list) + EN | FR switch + light/dark button
     Stage.jsx              full-viewport learning layout (head, say, bar, main, foot) + Steps;
                            optional `className` (e.g. `ck-stage` lets the game grow on phones)
   hooks/
@@ -42,6 +46,7 @@ src/
       ClockChart.jsx         stacked dots + fitted normal curve + ±1 SD per series
                              (2 s yellow, 5 s sky); "÷ target" view lines the bells up
       clock.js               targets, trial counts, mean/SD, normal pdf
+      text.js                CLOCK texts (en + fr)
     mean-median/           topic 02 "Mean and median": the Müller-Lyer illusion game
       MeanMedian.jsx         3 steps: Match the lines (15 tries) → Mean & median (numbered
                              dots, middle one ringed, ▲ balance point) → Pull a dot (drag one
@@ -52,6 +57,7 @@ src/
                              dashed median line, fitted normal curve (`bell`, same style as
                              topic 01), optional rank numbers / draggable dots / ghosts
       mm.js                  trial counts, domains, mean, median, SD, formatting
+      text.js                MM texts (en + fr)
     right-skewed/          topic 03 "Right-skewed distributions": reaction-time game
       ReactionTime.jsx       3 steps: Tap (25 reactions; circle turns yellow after 1–3.5 s;
                              early taps, < 100 ms guesses and > 3 s are not counted) → The tail
@@ -60,6 +66,7 @@ src/
       RTChart.jsx            stacked dots + log-normal curve (normal on the log scale), marker
                              lines with labels on separate rows, floor band, half brackets
       rt.js                  constants, mean, median, log-normal fit (mode = e^(mu − s²)), skewness
+      text.js                RT texts (en + fr)
 archive/                   code removed from the site in Step 24 (Home, About, draw-a-bell
                            lesson, "Shapes of distributions", DrawChart, Tex, their CSS).
                            Not built. See archive/README.md to restore a part.
@@ -78,6 +85,22 @@ context/                   this folder — project memory, updated every step
 1. Add an entry in `src/topics/topics.js` with `available: true`.
 2. Create `src/topics/<slug>/` with the page component.
 3. Add a `<Route path="/topics/<slug>" …>` in `src/App.jsx`.
+
+## Language and theme
+
+- **Every visible text lives in a dictionary**, never in JSX: `{ en: {...}, fr: frenchTypo({...}) }`
+  in the topic's `text.js` (or `src/text.js` for shared texts). Components call `useText(DICT)`.
+  Texts with numbers are functions; pass numbers already formatted (`fmtS`, `fmtPct`, `fmtMs`,
+  `num`, `pct`) so French gets decimal commas. Store keys / raw values in state (not finished
+  sentences) so a language switch mid-game updates the text.
+- French: "vous", typographic apostrophe ’, guillemets « », `frenchTypo` adds the no-break
+  spaces before : ; ! ? ». Terms: loi normale, moyenne, médiane, écart-type, mode (sommet),
+  asymétrique à droite, traîne, échelle log.
+- Language: saved in localStorage `statcool-lang`; first visit = browser language (fr* → fr).
+- Theme: dark tokens are on `:root[data-theme='dark']` in `index.css`. An inline script in
+  `index.html` sets `data-theme` and `lang` before the first paint (saved `statcool-theme`, else
+  the system setting). Until the student picks a theme, the site follows the system setting.
+- Phones (≤ 700 px): the foot hides its "All topics" button (the "← Topics" link does that job).
 
 ## Conventions
 

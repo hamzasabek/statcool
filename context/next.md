@@ -9,6 +9,7 @@
   to `main`; Netlify removed in Step 22).
 
 ## Known issues
+- French texts were written by Claude: have a French speaker read them once (tone: "vous").
 - Mean & median: on very small phones (360×640) the page scrolls ~60 px. That is allowed for
   phones, but the illusion figure could shrink further.
 - The Step 15–16 issues of the dot-drawing chart (tall stacks overflow, click above a stack,

@@ -1,11 +1,14 @@
 import { Link } from 'react-router'
+import { useText } from '../i18n.jsx'
+import { COMMON } from '../text.js'
 
 export default function NotFound() {
+  const tx = useText(COMMON)
   return (
     <section>
-      <h1>Page not found</h1>
+      <h1>{tx.notFoundTitle}</h1>
       <p className="lead">
-        That page doesn&apos;t exist. <Link to="/">Go to the topics</Link>.
+        {tx.notFoundText} <Link to="/">{tx.notFoundLink}</Link>.
       </p>
     </section>
   )

@@ -9,6 +9,8 @@ export const TOO_FAST = 0.3 // seconds; a quicker second press is a slip, not a 
 export const SECONDS_DOMAIN = [0, 8]
 export const RELATIVE_DOMAIN = [0, 2] // time ÷ target
 
+import { num, pct } from '../../i18n.jsx'
+
 // Mean and sample SD (n − 1).
 export function stats(values) {
   const n = values.length
@@ -21,5 +23,5 @@ export function stats(values) {
 
 export const normalPdf = (x, m, s) => Math.exp(-0.5 * ((x - m) / s) ** 2) / (s * Math.sqrt(2 * Math.PI))
 
-export const fmtS = (v) => `${v.toFixed(2)} s`
-export const fmtPct = (v) => `${Math.round(v * 100)}%`
+export const fmtS = (v) => `${num(v, 2)} s`
+export const fmtPct = (v) => pct(Math.round(v * 100))

@@ -1,32 +1,40 @@
 import { Link } from 'react-router'
+import { useLang, useText } from '../i18n.jsx'
+import { COMMON } from '../text.js'
 import { topics } from '../topics/topics.js'
 
 export default function Topics() {
+  const { lang } = useLang()
+  const tx = useText(COMMON)
   return (
     <section>
-      <h1>Learn statistics by playing</h1>
-      <p className="lead">Each topic is a short game. You make the data, the graph grows as you play.</p>
+      <h1>{tx.homeTitle}</h1>
+      <p className="lead">{tx.homeLead}</p>
 
       <ul className="topic-grid">
-        {topics.map((t, i) => (
-          <li key={t.slug}>
-            {t.available ? (
-              <Link to={`/topics/${t.slug}`} className="topic-card">
-                <span className="topic-num">{String(i + 1).padStart(2, '0')}</span>
-                <h2>{t.title}</h2>
-                <p>{t.summary}</p>
-                <span className="topic-cta">Play →</span>
-              </Link>
-            ) : (
-              <div className="topic-card is-disabled" aria-disabled="true">
-                <span className="topic-num">{String(i + 1).padStart(2, '0')}</span>
-                <h2>{t.title}</h2>
-                <p>{t.summary}</p>
-                <span className="topic-cta">Coming soon</span>
-              </div>
-            )}
-          </li>
-        ))}
+        {topics.map((t, i) => {
+          const { title, summary } = t.text[lang]
+          const num = <span className="topic-num">{String(i + 1).padStart(2, '0')}</span>
+          return (
+            <li key={t.slug}>
+              {t.available ? (
+                <Link to={`/topics/${t.slug}`} className="topic-card">
+                  {num}
+                  <h2>{title}</h2>
+                  <p>{summary}</p>
+                  <span className="topic-cta">{tx.play}</span>
+                </Link>
+              ) : (
+                <div className="topic-card is-disabled" aria-disabled="true">
+                  {num}
+                  <h2>{title}</h2>
+                  <p>{summary}</p>
+                  <span className="topic-cta">{tx.comingSoon}</span>
+                </div>
+              )}
+            </li>
+          )
+        })}
       </ul>
     </section>
   )

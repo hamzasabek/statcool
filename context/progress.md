@@ -354,3 +354,24 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   of about 215 ms + 20 ms noise + an exponential 90 ms tail, by click and Space): 1366×657
   light and 390×750 dark. Early tap caught, all taps counted, the big button moves on,
   peak 267 → median 277 → mean 293 ms; one screen, no horizontal scroll, no errors.
+
+## 2026-11-10 — Step 28: Language (English / French) and light / dark switch
+- Owner: two options on the site: the language (French or English) and the mode (dark or light).
+- **Header**: an EN | FR pill switch and a sun / moon button, on every page.
+- **Language**: `src/i18n.jsx` (LangProvider, `useText(dict)`, `num`/`pct` number formatting,
+  `frenchTypo`). Every text moved into dictionaries: `src/text.js` (shared), and `text.js` in
+  each topic folder; `topics.js` has a title and summary per language. French numbers use a
+  decimal comma and "16,9 %". Saved in localStorage; the first visit follows the browser
+  language. Switching mid-game keeps the data and changes the texts.
+- **Theme**: `src/theme.js`; dark tokens moved from `@media (prefers-color-scheme: dark)` to
+  `:root[data-theme='dark']`. An inline script in `index.html` sets the theme and the page
+  language before the first paint (no flash). Follows the system setting until the student
+  picks one; the choice is saved.
+- Phones: the foot no longer shows "All topics" (the "← Topics" link at the top remains), so
+  long French button labels fit. Mean/median chart: the two labels now sit on two rows and
+  stay inside the chart (a left label was cut off near the edge).
+- Fixed during testing: the theme icon was 0 px wide (`.btn` padding overrode the toggle's).
+- Tested in headless Chrome: fresh visit, switch to FR + dark, reload (both kept), a few
+  moves in each topic in French (texts, decimal commas, no English left), switch back to EN
+  mid-game; 1366×657 and 375×667. English playthroughs of topics 02 and 03 re-run: unchanged.
+  No console errors, no horizontal scroll.

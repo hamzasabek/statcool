@@ -1,7 +1,9 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import * as d3 from 'd3'
 import { MotionConfig, motion } from 'motion/react'
-import { normalPdf, stats } from './clock.js'
+import { useText } from '../../i18n.jsx'
+import { fmtS, normalPdf, stats } from './clock.js'
+import { CLOCK } from './text.js'
 
 // Stacked dot plot of one or more series of presses, each with its own fitted normal curve
 // and ±1 SD bracket. During a game it shows one series on its own axis (0 to 2 × target);
@@ -15,6 +17,7 @@ const CURVE_STEPS = 160
 const DROP = { type: 'spring', stiffness: 420, damping: 24, mass: 0.9 }
 
 export default function ClockChart({ series, domain, relative = false, highlightLast = false, axisTitle }) {
+  const tx = useText(CLOCK)
   const wrapRef = useRef(null)
   const [{ width, height }, setSize] = useState({ width: 720, height: 360 })
 
@@ -85,7 +88,7 @@ export default function ClockChart({ series, domain, relative = false, highlight
 
   const label = data
     .map(({ s, st }) =>
-      st.n ? `${s.label}: ${st.n} presses, mean ${st.mean.toFixed(2)}${st.n > 1 ? `, SD ${st.sd.toFixed(2)}` : ''}` : `${s.label}: no presses yet`,
+      st.n ? tx.aria(s.label, st.n, fmtS(st.mean), st.n > 1 ? fmtS(st.sd) : null) : tx.ariaNone(s.label),
     )
     .join('. ')
 
@@ -97,14 +100,15 @@ export default function ClockChart({ series, domain, relative = false, highlight
             <g key={t} pointerEvents="none">
               <line className="ck-target" x1={x(t)} x2={x(t)} y1={M.top + 4} y2={base} />
               <text className="ck-target-label" x={x(t) + 5} y={M.top + 12}>
-                target{!relative && many ? ` ${t} s` : ''}
+                {tx.target}
+                {!relative && many ? ` ${t} s` : ''}
               </text>
             </g>
           ))}
 
           {!total && (
             <text className="ck-empty" x={(plotL + plotR) / 2} y={base - plotH / 2} textAnchor="middle">
-              Your presses will land here
+              {tx.empty}
             </text>
           )}
 
@@ -174,7 +178,7 @@ export default function ClockChart({ series, domain, relative = false, highlight
                 <line x1={l} x2={l} y1={by - 4} y2={by + 4} />
                 <line x1={rr} x2={rr} y1={by - 4} y2={by + 4} />
                 <text x={rr + 6} y={by} dy="0.35em">
-                  ±1 SD
+                  {tx.sd1}
                 </text>
               </g>
             )
@@ -182,7 +186,7 @@ export default function ClockChart({ series, domain, relative = false, highlight
 
           {!compact && (
             <text className="dd-axis-title" x={(plotL + plotR) / 2} y={base + bracketsH + 42} textAnchor="middle">
-              {axisTitle ?? (relative ? 'Your time ÷ the target (1× = spot on)' : 'Your time (seconds)')}
+              {axisTitle ?? (relative ? tx.axisRel : tx.axisAbs)}
             </text>
           )}
         </svg>

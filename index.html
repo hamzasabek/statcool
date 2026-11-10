@@ -4,6 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>StatCool</title>
+    <script>
+      // Theme and language before the first paint (no flash): saved choice, else the system /
+      // browser setting. Kept in sync by src/theme.js and src/i18n.jsx.
+      (function () {
+        var t = null, l = null
+        try { t = localStorage.getItem('statcool-theme'); l = localStorage.getItem('statcool-lang') } catch (e) {}
+        if (t !== 'light' && t !== 'dark') t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        if (l !== 'en' && l !== 'fr') l = (navigator.language || '').toLowerCase().indexOf('fr') === 0 ? 'fr' : 'en'
+        document.documentElement.dataset.theme = t
+        document.documentElement.lang = l
+      })()
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- Loaded without blocking the first paint; text shows in system fonts until these arrive. -->

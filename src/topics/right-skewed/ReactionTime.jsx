@@ -2,22 +2,26 @@ import { useEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { Link } from 'react-router'
 import { Stage } from '../../components/Stage.jsx'
+import { useText } from '../../i18n.jsx'
+import { COMMON } from '../../text.js'
 import RTChart from './RTChart.jsx'
 import { CEIL, FLOOR, MIN_TRIALS, TRIALS, fmtMs, logFit, mean, median, randomWait, skewness } from './rt.js'
+import { RT } from './text.js'
 
 // Topic 03 "Right-skewed distributions", played as a reaction-time game.
 //   1. Tap: 25 reactions, each one a dot; a log-normal curve grows with them
 //   2. The tail: peak (mode) < median < mean, the floor at 100 ms, the two halves of the data
 //   3. Log view: on a log scale the tail folds in and the taps make a bell again
 
-const STEPS = ['Tap', 'The tail', 'Log view']
 const NEXT_DELAY = 600 // ms after the last tap before the big button can move on (no double taps)
 
 export default function ReactionTime() {
+  const tx = useText(RT)
+  const tc = useText(COMMON)
   const [step, setStep] = useState(0)
   const [taps, setTaps] = useState([]) // { id, v }: reaction time in ms
   const [phase, setPhase] = useState('ready') // ready | wait | go | result | early | bad
-  const [msg, setMsg] = useState(null)
+  const [msg, setMsg] = useState(null) // { k: 'tooSoon' | 'guess' | 'away', ms } (text built at render)
   const [log, setLog] = useState(false)
   const goAt = useRef(0)
   const lastTap = useRef(0)
@@ -47,7 +51,7 @@ export default function ReactionTime() {
     if (phase === 'wait') {
       clearTimeout(timer.current)
       setPhase('early')
-      setMsg('Too soon! Wait until the circle turns yellow.')
+      setMsg({ k: 'tooSoon' })
       return
     }
     if (phase === 'go') {
@@ -55,10 +59,10 @@ export default function ReactionTime() {
       lastTap.current = ts
       if (rt < FLOOR) {
         setPhase('bad')
-        setMsg(`${fmtMs(rt)}: faster than any human. That was a guess, not counted.`)
+        setMsg({ k: 'guess', ms: rt })
       } else if (rt > CEIL) {
         setPhase('bad')
-        setMsg('Over 3 seconds: were you away? Not counted.')
+        setMsg({ k: 'away' })
       } else {
         setTaps((ts0) => [...ts0, { id: nextId.current++, v: rt }])
         setPhase('result')
@@ -108,51 +112,46 @@ export default function ReactionTime() {
 
   const allTopics = (
     <Link to="/" className="btn btn-ghost">
-      All topics
+      {tc.allTopics}
     </Link>
   )
-  const curveKey = <span className="legend-item ck-line is-a">Curve</span>
+  const curveKey = <span className="legend-item ck-line is-a">{tx.curve}</span>
+  const msgText = msg ? (msg.k === 'guess' ? tx.guess(fmtMs(msg.ms)) : tx[msg.k]) : null
 
   // ---------- 1. Tap ----------
   if (step === 0) {
     const locked = n < MIN_TRIALS
     const last = taps.at(-1)
-    let big = 'Tap to start'
-    let small = 'then wait for yellow'
-    if (phase === 'wait') [big, small] = ['Wait…', 'tap when it turns yellow']
-    if (phase === 'go') [big, small] = ['TAP!', '']
-    if (phase === 'result' && last) [big, small] = [fmtMs(last.v), 'tap for the next one']
-    if (phase === 'early') [big, small] = ['Too soon!', 'tap to try again']
-    if (phase === 'bad') [big, small] = ['Not counted', 'tap to try again']
-    if (full) [big, small] = ['The tail →', `all ${TRIALS} taps done`]
+    let [big, small] = tx.pad.ready
+    if (phase === 'result' && last) [big, small] = [fmtMs(last.v), tx.pad.result]
+    else if (phase !== 'ready' && phase !== 'result') [big, small] = tx.pad[phase]
+    if (full) [big, small] = [tx.padNext, tx.padDone(TRIALS)]
 
-    let hint = 'Tap the circle (or press Space), then tap again the moment it turns yellow.'
-    if (msg) hint = msg
-    else if (full) hint = `All ${TRIALS} taps done! Look at the shape: where is the long side?`
-    else if (n) hint = `${TRIALS - n} taps left${locked ? ` (${MIN_TRIALS - n} more to unlock the next step)` : ''}.`
+    let hint = tx.hintStart
+    if (msgText) hint = msgText
+    else if (full) hint = tx.hintFull(TRIALS)
+    else if (n) hint = tx.hintLeft(TRIALS - n, MIN_TRIALS - n)
 
     return (
       <Stage
-        title="Reaction time"
+        title={tx.title}
         className="rt-stage"
-        steps={STEPS}
+        steps={tx.steps}
         current={0}
         say={
           <p>
-            <strong>Tap the moment the circle turns yellow.</strong> As fast as you can, 25 times.
+            <strong>{tx.sayStrong}</strong> {tx.say(TRIALS)}
           </p>
         }
         bar={
           <>
             <div className="legend">
-              <span className="legend-item added">
-                {n} / {TRIALS} taps
-              </span>
+              <span className="legend-item added">{tx.count(n, TRIALS)}</span>
               {fit && curveKey}
             </div>
             <div className="tools">
               <button type="button" className="btn btn-ghost btn-sm" disabled={!n || phase === 'wait' || phase === 'go'} onClick={undo}>
-                Undo
+                {tc.undo}
               </button>
             </div>
           </>
@@ -168,13 +167,13 @@ export default function ReactionTime() {
                 type="button"
                 className={`btn btn-primary ck-next${full ? ' nd-glow' : ''}`}
                 disabled={locked}
-                title={locked ? `Unlocks after ${MIN_TRIALS} taps` : undefined}
+                title={locked ? tx.unlocks(MIN_TRIALS) : undefined}
                 onClick={() => {
                   clearTimeout(timer.current)
                   setStep(1)
                 }}
               >
-                {locked ? `Next: the tail · ${MIN_TRIALS - n} more` : 'Next: the tail →'}
+                {locked ? tx.lockedTail(MIN_TRIALS - n) : tx.nextTail}
               </button>
             </div>
           </>
@@ -197,7 +196,7 @@ export default function ReactionTime() {
                   tap(e.timeStamp)
                 }
               }}
-              aria-label={`${big}. ${small}. Space also works.`}
+              aria-label={`${big}. ${small ? `${small}. ` : ''}${tx.spaceToo}`}
             >
               <span className="rt-pad-big">{big}</span>
               {small && <small>{small}</small>}
@@ -220,46 +219,35 @@ export default function ReactionTime() {
     const maxV = Math.max(...vals)
     return (
       <Stage
-        title="Reaction time"
+        title={tx.title}
         className="rt-stage"
-        steps={STEPS}
+        steps={tx.steps}
         current={1}
         say={
           <p>
-            <strong>
-              {skewed
-                ? 'Your taps pile up on the fast side and trail off to the right.'
-                : 'Your taps are almost a bell this time: very few slow ones.'}
-            </strong>{' '}
-            {skewed ? 'That is a right-skewed distribution.' : 'Most people get a longer tail to the right.'}
+            <strong>{skewed ? tx.skewedStrong : tx.notSkewedStrong}</strong> {skewed ? tx.skewed : tx.notSkewed}
           </p>
         }
         bar={
           <div className="legend">
             {curveKey}
-            <span className="legend-item rt-key is-mode">Peak (mode)</span>
-            <span className="legend-item median">Median</span>
-            <span className="legend-item mean">Mean ▲</span>
+            <span className="legend-item rt-key is-mode">{tx.keyMode}</span>
+            <span className="legend-item median">{tx.keyMedian}</span>
+            <span className="legend-item mean">{tx.keyMean}</span>
           </div>
         }
         foot={
           <>
             <div className="nd-feedback" aria-live="polite">
               <p className="nd-hint">
-                {ordered
-                  ? `Peak ${fmtMs(fit.mode)} → median ${fmtMs(md)} → mean ${fmtMs(mn)}: the long tail pulls the mean to the right.`
-                  : `Median ${fmtMs(md)}, mean ${fmtMs(mn)}. In a right-skewed distribution the order is peak → median → mean.`}
+                {ordered ? tx.ordered(fmtMs(fit.mode), fmtMs(md), fmtMs(mn)) : tx.unordered(fmtMs(md), fmtMs(mn))}
               </p>
-              <p className="nd-fact">
-                Why? There is a floor: nobody reacts faster than about 0.1 s. But you can always be slower: a blink, a
-                wandering thought. Half your taps fit in {fmtMs(md - minV)} left of the median; the other half stretch
-                over {fmtMs(maxV - md)} to the right.
-              </p>
+              <p className="nd-fact">{tx.why(fmtMs(md - minV), fmtMs(maxV - md))}</p>
             </div>
             <div className="actions">
               {allTopics}
               <button type="button" className="btn btn-primary" onClick={() => setStep(2)}>
-                Next: log view →
+                {tx.nextLog}
               </button>
             </div>
           </>
@@ -275,31 +263,29 @@ export default function ReactionTime() {
   // ---------- 3. Log view ----------
   return (
     <Stage
-      title="Reaction time"
+      title={tx.title}
       className="rt-stage"
-      steps={STEPS}
+      steps={tx.steps}
       current={2}
       say={
         <p>
-          <strong>
-            {log ? 'On a log scale the tail folds in: your taps make a bell again.' : 'Switch to “Log scale” and watch the tail fold in.'}
-          </strong>
+          <strong>{log ? tx.logStrong : tx.msStrong}</strong>
         </p>
       }
       bar={
         <>
-          <div className="segmented rt-view" role="group" aria-label="Axis">
+          <div className="segmented rt-view" role="group" aria-label={tx.axisGroup}>
             <button type="button" className={log ? '' : 'is-active'} aria-pressed={!log} onClick={() => setLog(false)}>
-              Milliseconds
+              {tx.ms}
             </button>
             <button type="button" className={log ? 'is-active' : ''} aria-pressed={log} onClick={() => setLog(true)}>
-              Log scale
+              {tx.logScale}
             </button>
           </div>
           <div className="legend">
             {curveKey}
-            <span className="legend-item median">Median</span>
-            {!log && <span className="legend-item mean">Mean</span>}
+            <span className="legend-item median">{tx.keyMedian}</span>
+            {!log && <span className="legend-item mean">{tx.mean}</span>}
           </div>
         </>
       }
@@ -307,20 +293,14 @@ export default function ReactionTime() {
         <>
           <div className={`nd-feedback${log ? ' is-good' : ''}`} aria-live="polite">
             <p className="nd-hint">
-              {log
-                ? `Every doubling gets the same space: 200 → 400 ms is as wide as 400 → 800 ms. The top of the bell is close to your median, ${fmtMs(md)}.`
-                : 'In milliseconds: a peak on the fast side and a long tail to the right.'}
+              {log ? tx.logHint(fmtMs(md)) : tx.msHint}
             </p>
-            <p className="nd-fact">
-              {log
-                ? 'Many right-skewed measures (reaction times, incomes, city sizes) are a bell on a log scale. That is why researchers often take the log of reaction times before they analyse them.'
-                : 'On the log scale each step doubles the time. Try it.'}
-            </p>
+            <p className="nd-fact">{log ? tx.logFact : tx.msFact}</p>
           </div>
           <div className="actions">
             {allTopics}
             <button type="button" className="btn btn-primary" onClick={playAgain}>
-              Play again
+              {tc.playAgain}
             </button>
           </div>
         </>

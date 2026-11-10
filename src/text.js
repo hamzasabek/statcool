@@ -1,0 +1,40 @@
+import { frenchTypo } from './i18n.jsx'
+
+// Texts shared by the whole site (header, home page, Stage, buttons used everywhere).
+
+export const COMMON = {
+  en: {
+    back: '← Topics',
+    progress: 'Progress',
+    allTopics: 'All topics',
+    playAgain: 'Play again',
+    undo: 'Undo',
+    homeTitle: 'Learn statistics by playing',
+    homeLead: 'Each topic is a short game. You make the data, the graph grows as you play.',
+    play: 'Play →',
+    comingSoon: 'Coming soon',
+    notFoundTitle: 'Page not found',
+    notFoundText: 'That page doesn’t exist.',
+    notFoundLink: 'Go to the topics',
+    language: 'Language',
+    toDark: 'Switch to dark mode',
+    toLight: 'Switch to light mode',
+  },
+  fr: frenchTypo({
+    back: '← Thèmes',
+    progress: 'Progression',
+    allTopics: 'Tous les thèmes',
+    playAgain: 'Rejouer',
+    undo: 'Annuler',
+    homeTitle: 'Apprendre les statistiques en jouant',
+    homeLead: 'Chaque thème est un petit jeu. Vous créez les données, et le graphique grandit pendant que vous jouez.',
+    play: 'Jouer →',
+    comingSoon: 'Bientôt',
+    notFoundTitle: 'Page introuvable',
+    notFoundText: 'Cette page n’existe pas.',
+    notFoundLink: 'Voir les thèmes',
+    language: 'Langue',
+    toDark: 'Passer en mode sombre',
+    toLight: 'Passer en mode clair',
+  }),
+}

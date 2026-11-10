@@ -1,7 +1,9 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import * as d3 from 'd3'
 import { MotionConfig, motion } from 'motion/react'
+import { useText } from '../../i18n.jsx'
 import { CEIL, FLOOR, fmtMs, logNormalPdf, mean, median, normalPdf } from './rt.js'
+import { RT } from './text.js'
 
 // Stacked dot plot of reaction times with a fitted log-normal curve (a bell on the log scale).
 //   scale   : 'linear' (milliseconds) or 'log' (every doubling gets the same width)
@@ -17,9 +19,9 @@ const CURVE_STEPS = 200
 const DROP = { type: 'spring', stiffness: 380, damping: 26, mass: 0.9 }
 const ROW = 15
 const LOG_TICKS = [100, 200, 400, 800, 1600, 3200]
-const LABELS = { mode: 'peak (mode)', median: 'median', mean: 'mean' }
 
 export default function RTChart({ points, scale = 'linear', fit, markers = [], floor = false, halves = false, highlightLast = false }) {
+  const tx = useText(RT)
   const wrapRef = useRef(null)
   const [{ width, height }, setSize] = useState({ width: 720, height: 320 })
 
@@ -96,7 +98,7 @@ export default function RTChart({ points, scale = 'linear', fit, markers = [], f
 
   const minV = n ? Math.min(...vals) : 0
   const lastId = highlightLast ? points.at(-1)?.id : undefined
-  const label = n ? `${n} reaction times from ${fmtMs(minV)} to ${fmtMs(maxV)}, median ${fmtMs(md)}.` : 'No taps yet.'
+  const label = n ? tx.aria(n, fmtMs(minV), fmtMs(maxV), fmtMs(md)) : tx.ariaNone
 
   return (
     <div ref={wrapRef} className="chart-fill">
@@ -110,14 +112,14 @@ export default function RTChart({ points, scale = 'linear', fit, markers = [], f
                 textAnchor="middle"
                 dy="0.35em"
               >
-                nobody is this fast
+                {tx.floor}
               </text>
             </g>
           )}
 
           {!n && (
             <text className="ck-empty" x={(plotL + plotR) / 2} y={base - plotH / 2} textAnchor="middle">
-              Each tap lands here: left = fast, right = slow
+              {tx.empty}
             </text>
           )}
 
@@ -162,7 +164,7 @@ export default function RTChart({ points, scale = 'linear', fit, markers = [], f
                 textAnchor={right ? 'end' : 'start'}
                 pointerEvents="none"
               >
-                {LABELS[k]} {fmtMs(v)}
+                {tx.marks[k]} {fmtMs(v)}
               </text>
             )
           })}
@@ -187,7 +189,7 @@ export default function RTChart({ points, scale = 'linear', fit, markers = [], f
                     <line x1={x1} x2={x1} y1={by - 4} y2={by + 4} />
                     <line x1={x2} x2={x2} y1={by - 4} y2={by + 4} />
                     <text x={(x1 + x2) / 2} y={by + 13} textAnchor="middle">
-                      half: {fmtMs(b - a)}
+                      {tx.half(fmtMs(b - a))}
                     </text>
                   </g>
                 )
@@ -205,7 +207,7 @@ export default function RTChart({ points, scale = 'linear', fit, markers = [], f
           ))}
           {!compact && (
             <text className="dd-axis-title" x={(plotL + plotR) / 2} y={base + tickGap + 18} textAnchor="middle">
-              {log ? 'Reaction time (ms), log scale: each step doubles' : 'Reaction time (ms)'}
+              {log ? tx.axisLog : tx.axisMs}
             </text>
           )}
         </svg>

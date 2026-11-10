@@ -1,24 +1,28 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { Stage } from '../../components/Stage.jsx'
+import { num, pct, useText } from '../../i18n.jsx'
+import { COMMON } from '../../text.js'
 import Illusion, { newTrial } from './Illusion.jsx'
 import MMChart from './MMChart.jsx'
-import { MIN_TRIALS, PLAY_DOMAIN, PULL_DOMAIN, TRIALS, fmtPct, fmtPts, mean, median, sd } from './mm.js'
+import { MIN_TRIALS, PLAY_DOMAIN, PULL_DOMAIN, TRIALS, fmtPct, mean, median, sd } from './mm.js'
+import { MM } from './text.js'
 
 // Topic 02 "Mean and median", played with the Müller-Lyer illusion.
 //   1. Match the lines: 15 tries, each one a dot (% too long)
 //   2. Mean & median: what each one is (balance point ▲ / middle dot), and why they agree here
 //   3. Pull a dot: drag one try far out; the mean follows, the median hardly moves
 
-const STEPS = ['Match the lines', 'Mean & median', 'Pull a dot']
 const MOVED = 15 // % points a dot must be dragged before step 3 explains what happened
 
 export default function MeanMedian() {
+  const tx = useText(MM)
+  const tc = useText(COMMON)
   const [step, setStep] = useState(0)
   const [tries, setTries] = useState([]) // { id, v }: v = % too long
   const [pulled, setPulled] = useState([])
   const [stim, setStim] = useState(newTrial) // { u0, u1, ratio }
-  const [flash, setFlash] = useState(null)
+  const [flash, setFlash] = useState(null) // { k, v }: the last try (text built at render, so it follows the language)
 
   const n = tries.length
   const full = n >= TRIALS
@@ -28,14 +32,12 @@ export default function MeanMedian() {
   const spread = sd(vals)
   // The normal curve with your mean and SD (like topic 01). Step 3 keeps this one, from before the pull.
   const bell = n >= 3 && spread > 0 ? { mean: m, sd: spread, n } : null
-  const BELL_TOP = 'In a normal distribution, the mean and the median are always at the same point: the top of the bell.'
 
   function submit() {
     if (step !== 0 || full) return
     const v = (stim.ratio - 1) * 100
     setTries((ts) => [...ts, { id: ts.length, v }])
-    const off = Math.abs(v) < 1 ? 'spot on!' : `${Math.abs(v).toFixed(0)}% too ${v > 0 ? 'long' : 'short'}`
-    setFlash(`Try ${n + 1}: ${off}`)
+    setFlash({ k: n + 1, v })
     setStim(newTrial())
   }
 
@@ -73,45 +75,45 @@ export default function MeanMedian() {
 
   const allTopics = (
     <Link to="/" className="btn btn-ghost">
-      All topics
+      {tc.allTopics}
     </Link>
   )
 
   // ---------- 1. Match the lines ----------
   if (step === 0) {
     const locked = n < MIN_TRIALS
-    let hint = 'Make the plain line look as long as the one with fins.'
-    if (full) hint = `All ${TRIALS} tries done!`
-    else if (flash) hint = `${flash} · ${TRIALS - n} left`
+    let hint = tx.hintStart
+    if (full) hint = tx.hintFull(TRIALS)
+    else if (flash) {
+      const off = Math.abs(flash.v) < 1 ? tx.spotOn : tx.off(pct(num(Math.abs(flash.v))), flash.v > 0)
+      hint = tx.hintFlash(tx.tryN(flash.k, off), TRIALS - n)
+    }
     return (
       <Stage
-        title="The Müller-Lyer illusion"
+        title={tx.title}
         className="mm-stage"
-        steps={STEPS}
+        steps={tx.steps}
         current={0}
         say={
           <p>
-            <strong>Stretch the plain line until it looks as long as the one with fins.</strong> Trust your eyes,
-            don’t measure.
+            <strong>{tx.say1Strong}</strong> {tx.say1}
           </p>
         }
         bar={
           <>
             <div className="legend">
-              <span className="legend-item added">
-                {n} / {TRIALS} tries
-              </span>
+              <span className="legend-item added">{tx.count(n, TRIALS)}</span>
               {n >= 2 && (
                 <>
-                  <span className="legend-item mean">Mean</span>
-                  <span className="legend-item median">Median</span>
+                  <span className="legend-item mean">{tx.mean}</span>
+                  <span className="legend-item median">{tx.median}</span>
                 </>
               )}
-              {bell && <span className="legend-item ck-line is-a">Bell</span>}
+              {bell && <span className="legend-item ck-line is-a">{tx.bell}</span>}
             </div>
             <div className="tools">
               <button type="button" className="btn btn-ghost btn-sm" disabled={!n} onClick={undo}>
-                Undo
+                {tc.undo}
               </button>
             </div>
           </>
@@ -125,7 +127,7 @@ export default function MeanMedian() {
               {allTopics}
               {full ? (
                 <button type="button" className="btn btn-primary nd-glow" onClick={() => setStep(1)}>
-                  Next: mean & median →
+                  {tx.nextMM}
                 </button>
               ) : (
                 <>
@@ -133,13 +135,13 @@ export default function MeanMedian() {
                     type="button"
                     className="btn ck-next"
                     disabled={locked}
-                    title={locked ? `Unlocks after ${MIN_TRIALS} tries` : undefined}
+                    title={locked ? tx.unlocks(MIN_TRIALS) : undefined}
                     onClick={() => setStep(1)}
                   >
-                    {locked ? `Next · ${MIN_TRIALS - n} more` : 'Next →'}
+                    {locked ? tx.lockedNext(MIN_TRIALS - n) : tx.next}
                   </button>
                   <button type="button" className="btn btn-primary" onClick={submit}>
-                    Looks equal ✓
+                    {tx.looksEqual}
                   </button>
                 </>
               )}
@@ -165,47 +167,43 @@ export default function MeanMedian() {
   if (step === 1) {
     const close = Math.abs(m - md) <= Math.max(2, 0.3 * (spread || 0))
     const k = (n + 1) / 2
-    const middle = n % 2 ? `number ${k}` : `halfway between ${k - 0.5} and ${k + 0.5}`
-    let headline = `On average your plain line was ${Math.abs(m).toFixed(1)}% too long: the fins fooled you.`
-    if (m < -3) headline = `On average your plain line was ${Math.abs(m).toFixed(1)}% too short.`
-    else if (m <= 3) headline = 'On average you were almost spot on: you beat the illusion!'
+    const middle = n % 2 ? tx.middleOdd(k) : tx.middleEven(k - 0.5, k + 0.5)
+    const abs = pct(num(Math.abs(m), 1))
+    let headline = tx.headlineLong(abs)
+    if (m < -3) headline = tx.headlineShort(abs)
+    else if (m <= 3) headline = tx.headlineSpot
     return (
       <Stage
-        title="The Müller-Lyer illusion"
+        title={tx.title}
         className="mm-stage"
-        steps={STEPS}
+        steps={tx.steps}
         current={1}
         say={
           <p>
-            <strong>{headline}</strong> Two ways to find the centre of your dots.
+            <strong>{headline}</strong> {tx.say2}
           </p>
         }
         bar={
           <div className="legend">
-            <span className="legend-item added">{n} tries, numbered in order</span>
-            <span className="legend-item mean">Mean = balance point ▲</span>
-            <span className="legend-item median">Median = middle dot</span>
-            <span className="legend-item ck-line is-a">Bell (normal curve)</span>
+            <span className="legend-item added">{tx.key2Tries(n)}</span>
+            <span className="legend-item mean">{tx.key2Mean}</span>
+            <span className="legend-item median">{tx.key2Median}</span>
+            <span className="legend-item ck-line is-a">{tx.key2Bell}</span>
           </div>
         }
         foot={
           <>
             <div className="nd-feedback" aria-live="polite">
               <p className="nd-hint">
-                {BELL_TOP}{' '}
-                {close
-                  ? `Yours almost agree: mean ${fmtPct(m)}, median ${fmtPct(md)}.`
-                  : `Yours are ${fmtPts(m - md)} apart (mean ${fmtPct(m)}, median ${fmtPct(md)}): a few tries pull your dots to one side.`}
+                {tx.bellTop}{' '}
+                {close ? tx.agree(fmtPct(m), fmtPct(md)) : tx.apart(tx.points(Math.abs(m - md)), fmtPct(m), fmtPct(md))}
               </p>
-              <p className="nd-fact">
-                Mean: add up all {n} tries and divide by {n}; the dots balance there. Median: line the tries up in
-                order and take the middle one ({middle}).
-              </p>
+              <p className="nd-fact">{tx.fact2(n, middle)}</p>
             </div>
             <div className="actions">
               {allTopics}
               <button type="button" className="btn btn-primary" onClick={goPull}>
-                Next: pull a dot →
+                {tx.nextPull}
               </button>
             </div>
           </>
@@ -224,24 +222,25 @@ export default function MeanMedian() {
   const md1 = median(pv)
   const maxMove = Math.max(0, ...pulled.map((p, i) => Math.abs(p.v - tries[i].v)))
   const moved = maxMove >= MOVED
+  const mdShift = Math.abs(md1 - md)
   return (
     <Stage
-      title="The Müller-Lyer illusion"
+      title={tx.title}
       className="mm-stage"
-      steps={STEPS}
+      steps={tx.steps}
       current={2}
       say={
         <p>
-          <strong>Drag one dot far to the right, as if one try went really wrong.</strong> Which line follows it?
+          <strong>{tx.say3Strong}</strong> {tx.say3}
         </p>
       }
       bar={
         <>
           <div className="legend">
-            <span className="legend-item mean">Mean</span>
-            <span className="legend-item median">Median</span>
-            <span className="legend-item ck-line is-a">Your bell</span>
-            <span className="legend-item mm-ghost-key">Before</span>
+            <span className="legend-item mean">{tx.mean}</span>
+            <span className="legend-item median">{tx.median}</span>
+            <span className="legend-item ck-line is-a">{tx.yourBell}</span>
+            <span className="legend-item mm-ghost-key">{tx.before}</span>
           </div>
           <div className="tools">
             <button
@@ -250,7 +249,7 @@ export default function MeanMedian() {
               disabled={!maxMove}
               onClick={() => setPulled(tries.map((t) => ({ ...t })))}
             >
-              Reset dots
+              {tx.resetDots}
             </button>
           </div>
         </>
@@ -259,20 +258,14 @@ export default function MeanMedian() {
         <>
           <div className={`nd-feedback${moved ? ' is-good' : ''}`} aria-live="polite">
             <p className="nd-hint">
-              {moved
-                ? `The mean moved ${fmtPts(m1 - m)}, ${Math.abs(md1 - md) < 0.05 ? 'the median did not move at all' : `the median only ${fmtPts(md1 - md)}`}.`
-                : 'Grab any dot and pull it right (or focus it and use the arrow keys).'}
+              {moved ? tx.moved(tx.points(Math.abs(m1 - m)), mdShift < 0.05 ? null : tx.points(mdShift)) : tx.grab}
             </p>
-            <p className="nd-fact">
-              {moved
-                ? 'The median is less sensitive to outliers. One wild try drags the mean away from the top of your bell; the median only cares which dot is in the middle, so it stays there. That’s why researchers often report the median when a few trials go wrong.'
-                : `Your bell stays where it was, with the mean and the median both at its top (mean ${fmtPct(m1)}, median ${fmtPct(md1)}).`}
-            </p>
+            <p className="nd-fact">{moved ? tx.robust : tx.stays(fmtPct(m1), fmtPct(md1))}</p>
           </div>
           <div className="actions">
             {allTopics}
             <button type="button" className="btn btn-primary" onClick={playAgain}>
-              Play again
+              {tc.playAgain}
             </button>
           </div>
         </>
