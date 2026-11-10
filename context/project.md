@@ -15,7 +15,7 @@ live graphs. Inspiration and reference: https://rpsychologist.com/correlation
 | Animation | `useTweened` hook (d3 `interpolate` + `timer`) | numbers/arrays (bars, curves); respects `prefers-reduced-motion` |
 | Physics animation | Motion 14.7.1 (`motion/react`, pinned exactly) | springy dots, enter/exit (`AnimatePresence`); wrapped in `<MotionConfig reducedMotion="user">` |
 | Interaction | Native pointer events + `setPointerCapture` | no d3-drag; dragging/clicking handled in React |
-| Deployment | Netlify + GitHub Pages | `netlify.toml`; `.github/workflows/deploy.yml` (Pages, on every push); `base: './'` in `vite.config.js` works on any host |
+| Deployment | GitHub Pages only (Netlify removed in Step 22) | `.github/workflows/deploy.yml` builds and deploys on every push to `main`; `base: './'` in `vite.config.js` |
 
 Node.js 26 LTS is installed at `C:\Program Files\nodejs` (installed with winget).
 

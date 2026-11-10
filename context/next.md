@@ -1,12 +1,12 @@
 # Next steps and ideas
 
 ## Open items
-- Test on a real phone (GitHub Pages https://hamzasabek.github.io/statcool/, Netlify, or
-  locally with `npm run dev -- --host`). Touch changes from Steps 15–16 were not browser-tested.
+- Test on a real phone (GitHub Pages https://hamzasabek.github.io/statcool/, or locally with
+  `npm run dev -- --host`). Touch changes from Steps 15–16 were not browser-tested.
 - Replace lorem ipsum on Home, Topics intro and About with real text.
-- Deployment: both a GitHub Pages workflow (`.github/workflows/deploy.yml`, runs on every push)
-  and Netlify (`netlify.toml`) are set up. If the repo is private, GitHub Pages needs a paid
-  plan and that workflow will fail on each push — keep one host and remove the other.
+- GitHub Pages is the only host now (Step 22). Owner still has to: make the repo public (Pages
+  on a private repo needs GitHub Pro), set Settings → Pages → Source = "GitHub Actions", and
+  delete the old site in the Netlify dashboard. Until then the Pages site returns 404.
 
 ## Known issues (from the Step 15–16 big-dot changes)
 - **Tall stacks overflow the chart.** The dot radius now has a minimum (7 px desktop, 9.5 px

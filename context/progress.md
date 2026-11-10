@@ -268,3 +268,14 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Tested in headless Chrome (1366×657): after 20 presses the big button opens the 5 s game
   (step 2, empty chart, 0 / 20 presses), and "Compare →" works after 10 presses. No errors.
 
+
+## 2026-11-10 — Step 22: GitHub Pages only, Netlify removed
+- Owner: deploy on GitHub, remove Netlify.
+- Deleted `netlify.toml`; removed the Netlify mention in `vite.config.js`.
+- `.github/workflows/deploy.yml` (deploys `dist/` to GitHub Pages on every push to `main`) now
+  uses Node 22 (Node 20 is end-of-life).
+- `npm run build` passes locally.
+- Steps left for the owner (they need a GitHub/Netlify login, there is no `gh` or Netlify CLI
+  here): the repo is private and https://hamzasabek.github.io/statcool/ returns 404, so make
+  the repo public (or use GitHub Pro), set Settings → Pages → Source = "GitHub Actions", re-run
+  the workflow, and delete the site in the Netlify dashboard.
