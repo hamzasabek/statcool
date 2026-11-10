@@ -52,6 +52,14 @@ src/
                              dashed median line, fitted normal curve (`bell`, same style as
                              topic 01), optional rank numbers / draggable dots / ghosts
       mm.js                  trial counts, domains, mean, median, SD, formatting
+    right-skewed/          topic 03 "Right-skewed distributions": reaction-time game
+      ReactionTime.jsx       3 steps: Tap (25 reactions; circle turns yellow after 1–3.5 s;
+                             early taps, < 100 ms guesses and > 3 s are not counted) → The tail
+                             (peak/mode < median < mean, 0–100 ms floor, the two halves of the
+                             data) → Log view (Milliseconds | Log scale: the tail folds into a bell)
+      RTChart.jsx            stacked dots + log-normal curve (normal on the log scale), marker
+                             lines with labels on separate rows, floor band, half brackets
+      rt.js                  constants, mean, median, log-normal fit (mode = e^(mu − s²)), skewness
 archive/                   code removed from the site in Step 24 (Home, About, draw-a-bell
                            lesson, "Shapes of distributions", DrawChart, Tex, their CSS).
                            Not built. See archive/README.md to restore a part.
@@ -63,6 +71,7 @@ context/                   this folder — project memory, updated every step
 - `/` topic list (home page); `/topics` redirects here
 - `/topics/normal-distribution` topic 01: "Your inner clock"
 - `/topics/mean-median` topic 02: "Mean and median" (Müller-Lyer illusion)
+- `/topics/right-skewed` topic 03: "Right-skewed distributions" (reaction time)
 
 ## How to add a new topic
 

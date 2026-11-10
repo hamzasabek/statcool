@@ -330,3 +330,27 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   median is less sensitive to outliers…" after a dot is pulled.
 - Tested in headless Chrome (1366×657 light, 390×750 dark): full playthrough, no errors, no
   horizontal scroll, one screen.
+
+## 2026-11-10 — Step 26: Game ideas for right-skewed distributions
+- Suggested: reaction time, anagram race, Stroop, "don't press on 3" (SART), how many dots, and
+  a log-scale view. Owner picked the suggested lesson: reaction time with a log view.
+
+## 2026-11-10 — Step 27: Topic 03 "Right-skewed distributions" (reaction time)
+- New route `/topics/right-skewed`, card 03 on the home page, `src/topics/right-skewed/`.
+- **Tap**: big circle (a full-width pill on phones). Tap or Space starts a random 1–3.5 s wait,
+  then the circle turns yellow ("TAP!"); the time to the next tap is one dot. Too-early taps,
+  taps under 100 ms (guesses) and over 3 s (away) are not counted. 25 taps, next step unlocks
+  at 15; when full the big button says "The tail →". The yellow is set with `flushSync` and
+  timed from `performance.now()`; taps use the event timestamp. No colour transition on the pad.
+- A log-normal curve (same dark-yellow style as topics 01–02) grows with the dots.
+- **The tail**: peak (mode, from the log-normal fit) → median → mean, each labelled on its
+  own row; a grey band at 0–100 ms ("nobody is this fast"); brackets under the axis show how
+  wide each half of the data is (e.g. 81 ms left of the median vs 291 ms right). Text explains
+  the floor and the tail. If the data is not skewed (skewness < 0.3) the text says so.
+- **Log view**: Milliseconds | Log scale (ticks 100, 200, 400, 800…). On the log scale the
+  curve is a normal curve and the dots make a bell; text explains doubling and why researchers
+  log-transform reaction times.
+- Tested in headless Chrome with a scripted game (an early tap, then 25 ex-Gaussian reactions
+  of about 215 ms + 20 ms noise + an exponential 90 ms tail, by click and Space): 1366×657
+  light and 390×750 dark. Early tap caught, all taps counted, the big button moves on,
+  peak 267 → median 277 → mean 293 ms; one screen, no horizontal scroll, no errors.

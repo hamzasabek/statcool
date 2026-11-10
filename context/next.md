@@ -2,8 +2,9 @@
 
 ## Open items
 - Test on a real phone (GitHub Pages https://hamzasabek.github.io/statcool/, or locally with
-  `npm run dev -- --host`). The Müller-Lyer drag and the dot dragging were only tested with an
-  emulated mouse in headless Chrome.
+  `npm run dev -- --host`). The Müller-Lyer drag, the dot dragging and the reaction-time taps
+  were only tested with an emulated mouse in headless Chrome. Check that the yellow appears
+  without delay and tap times feel right on a phone (touch adds latency).
 - Live site: https://hamzasabek.github.io/statcool/ (GitHub Pages only, deployed on every push
   to `main`; Netlify removed in Step 22).
 
@@ -14,6 +15,9 @@
   thresholds tuned for old column counts) now only concern archived code (`archive/`).
 
 ## Topic ideas
+- More right-skew games suggested in Step 26 (owner picked reaction time first): anagram race
+  (very long tail), Stroop (two skewed humps, conflict adds slow trials), "don't press on 3"
+  (SART: the tail grows as attention drifts), how many dots (a crowd's guesses are skewed).
 - More mean/median games suggested in Step 23 (owner picked Müller-Lyer first): Stroop reaction
   times (skewed: mean > median), inner clock with distractions (outliers), Galton's crowd /
   "how many dots?" (the median beats the mean), memory span (the mean can be an impossible

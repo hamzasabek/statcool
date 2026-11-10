@@ -12,4 +12,10 @@ export const topics = [
     summary: 'The Müller-Lyer illusion: match two lines, see where your mean and median land, then pull one dot.',
     available: true,
   },
+  {
+    slug: 'right-skewed',
+    title: 'Right-skewed distributions',
+    summary: 'Reaction time: tap the moment the circle turns yellow. Your taps grow a long tail to the right.',
+    available: true,
+  },
 ]
