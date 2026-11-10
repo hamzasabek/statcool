@@ -7,13 +7,14 @@ import { BIN } from './text.js'
 
 // Dot plot of scores 0…n (one column per score). Dots: 'you' (yellow, ringed) at the bottom of
 // each column, 'class' (sky) above. Wide columns hold several dots per row so dots stay big.
-//   curve : { p, size } → expected count per score (size × binomial chance), as a line with points
-//   from  : highlight the columns from this score up (the "psychic?" tail)
+//   curve    : { p, size } → expected count per score (size × binomial chance), a line with points
+//   refCurve : { p, size } → a second expected line, dashed (e.g. pure chance, p = ½)
+//   tail     : { from, to } → shade the columns from…to (scores at least as extreme as yours)
 
 const M = { top: 14, right: 18, left: 18 }
 const DROP = { type: 'spring', stiffness: 380, damping: 26, mass: 0.9 }
 
-export default function BinomChart({ n, points, curve, from = null }) {
+export default function BinomChart({ n, points, curve, refCurve = null, tail = null }) {
   const tx = useText(BIN)
   const wrapRef = useRef(null)
   const [{ width, height }, setSize] = useState({ width: 720, height: 300 })
@@ -40,8 +41,15 @@ export default function BinomChart({ n, points, curve, from = null }) {
   const cols = Array.from({ length: n + 1 }, () => [])
   const ordered = [...points].sort((a, b) => (a.kind === b.kind ? a.id - b.id : a.kind === 'you' ? -1 : 1))
   for (const p of ordered) if (p.k >= 0 && p.k <= n) cols[p.k].push(p)
-  const expected = curve ? d3.range(n + 1).map((k) => curve.size * binomPmf(k, n, curve.p)) : null
-  const tallest = Math.max(4, d3.max(cols, (c) => c.length) ?? 0, expected ? d3.max(expected) * 1.05 : 0)
+  const expectedOf = (c) => (c ? d3.range(n + 1).map((k) => c.size * binomPmf(k, n, c.p)) : null)
+  const expected = expectedOf(curve)
+  const refExpected = expectedOf(refCurve)
+  const tallest = Math.max(
+    4,
+    d3.max(cols, (c) => c.length) ?? 0,
+    expected ? d3.max(expected) * 1.05 : 0,
+    refExpected ? d3.max(refExpected) * 1.05 : 0,
+  )
 
   // Biggest dot size d such that the tallest column (several dots per row) fits the height.
   let d = 3
@@ -68,12 +76,12 @@ export default function BinomChart({ n, points, curve, from = null }) {
     <div ref={wrapRef} className="chart-fill">
       <MotionConfig reducedMotion="user">
         <svg className="chart bn-chart" width={width} height={H} role="img" aria-label={tx.aria(n, points.length)}>
-          {from !== null && (
+          {tail && (
             <rect
               className="bn-tail"
-              x={plotL + from * colPx}
+              x={plotL + tail.from * colPx}
               y={M.top}
-              width={(n + 1 - from) * colPx}
+              width={(tail.to - tail.from + 1) * colPx}
               height={base - M.top}
               rx="10"
             />
@@ -100,6 +108,14 @@ export default function BinomChart({ n, points, curve, from = null }) {
             }),
           )}
 
+          {refExpected && (
+            <path
+              className="bn-curve-ref"
+              d={d3.line()(refExpected.map((e, k) => [cx0(k), yCount(e)]))}
+              pointerEvents="none"
+            />
+          )}
+
           {expected && (
             <g className="bn-curve" pointerEvents="none">
               <path d={d3.line()(expected.map((e, k) => [cx0(k), yCount(e)]))} />
@@ -113,14 +129,14 @@ export default function BinomChart({ n, points, curve, from = null }) {
           {ticks.map((k) => (
             <g key={k} pointerEvents="none">
               <line className="axis-line" x1={cx0(k)} x2={cx0(k)} y1={base} y2={base + 4} />
-              <text className={`tick-label${from !== null && k >= from ? ' bn-tick-hot' : ''}`} x={cx0(k)} y={base + 20} textAnchor="middle">
+              <text className={`tick-label${tail && k >= tail.from && k <= tail.to ? ' bn-tick-hot' : ''}`} x={cx0(k)} y={base + 20} textAnchor="middle">
                 {k}
               </text>
             </g>
           ))}
           {!compact && (
             <text className="dd-axis-title" x={(plotL + plotR) / 2} y={base + 40} textAnchor="middle">
-              {tx.axis(n)}
+              {plotW < 600 ? tx.axisShort(n) : tx.axis(n)}
             </text>
           )}
         </svg>

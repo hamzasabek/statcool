@@ -68,12 +68,12 @@ export const topics = [
     text: {
       en: {
         title: 'The binomial distribution',
-        summary: 'Are you psychic? Guess which card hides the star, 10 times. Then see how often pure luck scores that well.',
+        summary: 'The Ebbinghaus illusion: 20 times, pick the bigger circle. Count how often you were fooled, then ask: luck or illusion?',
       },
       fr: frenchTypo({
         title: 'La loi binomiale',
         summary:
-          'Êtes-vous médium ? Devinez quelle carte cache l’étoile, 10 fois. Puis voyez à quelle fréquence le hasard fait aussi bien.',
+          'L’illusion d’Ebbinghaus : 20 fois, choisissez le cercle le plus grand. Comptez combien de fois l’illusion a marché sur vous, puis demandez-vous : hasard ou illusion ?',
       }),
     },
   },

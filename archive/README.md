@@ -12,6 +12,7 @@ The folders mirror `src/`, so a file goes back to the same path without `archive
 | Topic "Shapes of distributions" (six data kinds, reshape mode) | `src/topics/data-distributions/` |
 | Dot-drawing chart used by both lessons above (KDE, reshape handles) | `src/components/distribution/` |
 | KaTeX formula component | `src/components/Tex.jsx` (needs `npm install katex`) |
+| Topic 05 "Are you psychic?" card game (Step 36, replaced in Step 37 by the Ebbinghaus game) | `src/topics/binomial/` (Psychic.jsx with its own copies of binom.js, BinomChart.jsx, text.js) |
 | Their CSS | `src/archived.css` (copy the rules back into `src/index.css`) |
 
 ## Restoring a part

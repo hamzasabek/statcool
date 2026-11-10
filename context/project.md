@@ -85,19 +85,25 @@ src/
       exp.js                 rate, counts, exponential draws, fit (rate = 1/mean), simulation,
                              chanceWithin(gaps, quiet, window)
       text.js                EXP texts (en + fr)
-    binomial/              topic 05 "The binomial distribution": are you psychic?
-      Psychic.jsx            3 steps: Guess the card (2 face-down cards, one hides a star; ←/→ or
-                             tap; 10 guesses per round, the score is a dot; up to 5 rounds) → The
-                             class (100 simulated classmates guessing by chance drop in; expected
-                             counts as a line; switches n = 10/20/50 and p = ½ ¼ ⅕) → Psychic?
-                             (pick 6–10 out of 10: the tail is shaded; exact chance of that score or
-                             more = a first p-value; Rhine's ESP tests)
+    binomial/              topic 05 "The binomial distribution": the Ebbinghaus illusion
+      Ebbinghaus.jsx         3 steps: Which is bigger? (20 forced choices between two figures;
+                             the middle circles are ALWAYS the same size, one ringed by small
+                             circles, one by big ones; tap or ←/→; no feedback, then the reveal)
+                             → Luck or illusion? (your count of "small neighbours" picks vs 100
+                             coin-flippers = Binomial(20, ½); the tail as extreme as you is
+                             shaded; its exact chance = a binomial test / p-value) → How strong?
+                             (slider p 0.05–0.95, starts at your k/20; 100 people with that p,
+                             expected line, chance line dashed; 95 % range; shape notes;
+                             children and the Himba are less fooled)
       BinomChart.jsx         one column per score 0…n; several dots per row in wide columns;
-                             yours (yellow, ringed) at the bottom, class (sky) above; expected line
-      binom.js               n, p, class size, choose, binomial chance, P(≥ k), simulation
+                             yours (yellow, ringed) at the bottom, others (sky) above; expected
+                             line, optional dashed reference line, optional shaded tail
+      binom.js               N = 20, choose, binomial chance, P(≥ k), P(≤ k), 95 % range,
+                             simulation, trial geometry
       text.js                BIN texts (en + fr)
 archive/                   code removed from the site in Step 24 (Home, About, draw-a-bell
-                           lesson, "Shapes of distributions", DrawChart, Tex, their CSS).
+                           lesson, "Shapes of distributions", DrawChart, Tex, their CSS) and
+                           Step 37 (the "Are you psychic?" card game of topic 05).
                            Not built. See archive/README.md to restore a part.
 design/logo/               the owner's original logos (1280×720, white / black background).
                            The web versions were made from them: background made transparent
@@ -112,7 +118,7 @@ context/                   this folder — project memory, updated every step
 - `/topics/mean-median` topic 02: "Mean and median" (Müller-Lyer illusion)
 - `/topics/right-skewed` topic 03: "Right-skewed distributions" (reaction time)
 - `/topics/exponential` topic 04: "The exponential distribution" (listen to a neuron)
-- `/topics/binomial` topic 05: "The binomial distribution" (are you psychic?)
+- `/topics/binomial` topic 05: "The binomial distribution" (Ebbinghaus illusion)
 
 ## How to add a new topic
 

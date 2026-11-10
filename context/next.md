@@ -18,6 +18,9 @@
   thresholds tuned for old column counts) now only concern archived code (`archive/`).
 
 ## Topic ideas
+- More binomial games suggested in Step 37: can you be random? (switches in 20 "random" H/T
+  vs Binomial(19, ½); people switch too often), Asch conformity (conforming answers out of 12,
+  Asch's 37 %), Monty Hall (wins out of 10 staying vs switching), change blindness.
 - More exponential games suggested in Step 33: roll until six (gambler's fallacy, geometric),
   regular or random? (clock vs neuron, "tap randomly yourself"), the Necker cube (time between
   perceptual flips).

@@ -481,3 +481,29 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Tested in headless Chrome (two rounds by clicks and arrow keys, every switch, every
   threshold): 1366×657 EN light (one screen) and 390×750 FR dark (scrolls: allowed on phones).
   Round scores match the marks; no errors, no horizontal scroll.
+
+## 2026-11-10 — Step 37: Topic 05 is now the Ebbinghaus illusion (cards game archived)
+- Owner did not like the card example; asked for binomial games based on psychology studies,
+  illusions or effects. Suggested: Ebbinghaus illusion, can you be random?, Asch conformity,
+  Monty Hall, change blindness. Owner picked Ebbinghaus.
+- The "Are you psychic?" card game moved to `archive/src/topics/binomial/` (with its own
+  copies of binom.js, BinomChart.jsx, text.js) and its CSS to `archive/src/archived.css`.
+- New `Ebbinghaus.jsx` (same route `/topics/binomial`, card 05 text updated):
+  1. **Which is bigger?** 20 forced choices between two Ebbinghaus figures (yellow middle
+     circle; 8 small or 6 big grey neighbours). The middle circles are always the same size (their
+     size, rotation and height vary per trial; side random). Tap or ←/→, 0.25 s blank between
+     trials, no feedback. Then the reveal: neighbours fade, the middles get a dashed outline,
+     "they were always exactly the same size!", and the count of "small neighbours" picks.
+  2. **Luck or illusion?** Your count vs 100 coin-flippers (Binomial(20, ½)), expected line;
+     the tail as extreme as you is shaded; exact chance (16+: 0.59 %, 1 in 169; 8 or fewer:
+     25 %) → "rare: the illusion really fooled you" / "happens easily by luck" / "you resisted".
+     Text: the binomial in words, n × p, the binomial test and the p-value.
+  3. **How strong?** Slider p (0.05–0.95, starts at your k/20): 100 people with that p, its
+     expected line, the chance line (p = ½) dashed; "average n × p; 95 % between a and b";
+     shape notes (symmetric, slides, squeezed against 0 or 20 with a tail). Fact: young children
+     (Doherty et al., 2010) and the Himba (de Fockert et al., 2007) are much less fooled.
+- `BinomChart`: `tail {from, to}` (either side) replaces `from`; new dashed `refCurve`;
+  short axis title on narrow charts.
+- Tested in headless Chrome: 1366×657 EN light (16/20 fooled; one screen) and 390×750 FR dark
+  (8/20 and 15/20; phone scrolls: allowed). Middle circles equal in all 20 trials; numbers
+  checked by hand; no errors, no horizontal scroll.
