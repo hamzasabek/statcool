@@ -167,4 +167,9 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Verified no sensitive files, secrets, or keys were committed or tracked.
 - Set `base: './'` in `vite.config.js` to make the build completely host-agnostic (works on GitHub Pages, Vercel, Netlify, or local static servers).
 
+## 2026-11-10 — Step 14: Netlify deployment setup
+- Added `netlify.toml` configuring build command (`npm run build`), publish directory (`dist`), Node 20 environment, and SPA redirect rule (`/* -> /index.html 200`).
+- Ready for continuous deployment from the private GitHub repository to Netlify with zero-config setup on the Netlify dashboard.
+
+
 
