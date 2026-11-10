@@ -1,6 +1,7 @@
 # Next steps and ideas
 
 ## Open items
+- Test on phone (either via GitHub Pages at https://hamzasabek.github.io/statcool/ or locally with `npm run dev -- --host`).
 - Try the data-distributions page on a real touch device (tested only in headless Chrome).
 - Test the mean/median/mode page by hand in a browser (drag, delete mode, animation, mobile layout).
 - Replace lorem ipsum on Home, Topics intro and About with real text.

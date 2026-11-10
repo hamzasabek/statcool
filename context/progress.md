@@ -155,3 +155,10 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   scroll on purpose (too much content for 390 px).
 - Interaction tests (draw, paint, drag, drop-to-remove, reshape, second hill, undo, keyboard,
   reveal, feedback hints) re-run: all pass, no errors.
+
+## 2026-11-10 — Step 12: GitHub Pages deployment for mobile and web testing
+- Configured Vite with `base: '/statcool/'` in `vite.config.js` to match GitHub Pages repository subpath.
+- Switched from `BrowserRouter` to `HashRouter` in `src/main.jsx` so client-side navigation (`#/topics`, etc.) works seamlessly on GitHub Pages without 404 errors on page refresh or direct URLs.
+- Created `.github/workflows/deploy.yml` with GitHub Actions workflow to build and deploy to GitHub Pages automatically on every push to `main`.
+- Live site URL: https://hamzasabek.github.io/statcool/ (after setting Pages source to "GitHub Actions" in GitHub repository settings).
+

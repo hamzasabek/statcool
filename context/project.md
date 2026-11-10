@@ -9,12 +9,13 @@ live graphs. Inspiration and reference: https://rpsychologist.com/correlation
 |---|---|---|
 | UI framework | React 19 (JavaScript, no TypeScript) | |
 | Build / dev server | Vite 7 | `npm run dev` → http://localhost:5173 |
-| Routing | React Router 8 (`react-router` package) | `BrowserRouter`, `Routes`, `NavLink` |
+| Routing | React Router 8 (`react-router` package) | `HashRouter`, `Routes`, `NavLink` (HashRouter for GitHub Pages static compatibility) |
 | Graphs | D3 v7 | D3 is used for **math only** (scales, interpolation, timers). React renders the SVG. Same approach as rpsychologist (which uses Svelte + D3). |
 | Math formulas | KaTeX | via `src/components/Tex.jsx` |
 | Animation | `useTweened` hook (d3 `interpolate` + `timer`) | numbers/arrays (bars, curves); respects `prefers-reduced-motion` |
 | Physics animation | Motion 14.7.1 (`motion/react`, pinned exactly) | springy dots, enter/exit (`AnimatePresence`); wrapped in `<MotionConfig reducedMotion="user">` |
 | Interaction | Native pointer events + `setPointerCapture` | no d3-drag; dragging/clicking handled in React |
+| Deployment | GitHub Pages via GitHub Actions | `.github/workflows/deploy.yml`, `base: '/statcool/'` in `vite.config.js` |
 
 Node.js 26 LTS is installed at `C:\Program Files\nodejs` (installed with winget).
 
@@ -22,7 +23,7 @@ Node.js 26 LTS is installed at `C:\Program Files\nodejs` (installed with winget)
 
 ```
 src/
-  main.jsx                 entry: BrowserRouter + App
+  main.jsx                 entry: HashRouter + App
   App.jsx                  header + routes
   index.css                all styles; color tokens on :root (light + dark mode)
   components/
