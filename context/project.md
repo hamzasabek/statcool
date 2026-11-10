@@ -73,6 +73,18 @@ src/
                              lines with labels on separate rows, floor band, half brackets
       rt.js                  constants, mean, median, log-normal fit (mode = e^(mu − s²)), skewness
       text.js                RT texts (en + fr)
+    exponential/           topic 04 "The exponential distribution": listen to a neuron
+      Neuron.jsx             3 steps: Tap the spikes (one tap starts; the neuron fires at random,
+                             rate 1/s, flash + click sound (Web Audio, can be muted); tap on each
+                             flash = catch; each wait between two spikes is a dot; 40 waits, next
+                             unlocks at 25; Pause, pauses on a hidden tab) → The curve
+                             (exponential fit, peak at 0 → median → mean, halving lines ½ ¼ ⅛)
+                             → Is it due? (bet after 1.5 s of silence; bars + slider from 100 000
+                             simulated waits: the chance never changes = memoryless)
+      ExpChart.jsx           stacked dots + exponential curve, marker rows, halving lines
+      exp.js                 rate, counts, exponential draws, fit (rate = 1/mean), simulation,
+                             chanceWithin(gaps, quiet, window)
+      text.js                EXP texts (en + fr)
 archive/                   code removed from the site in Step 24 (Home, About, draw-a-bell
                            lesson, "Shapes of distributions", DrawChart, Tex, their CSS).
                            Not built. See archive/README.md to restore a part.
@@ -88,6 +100,7 @@ context/                   this folder — project memory, updated every step
 - `/topics/normal-distribution` topic 01: "Your inner clock"
 - `/topics/mean-median` topic 02: "Mean and median" (Müller-Lyer illusion)
 - `/topics/right-skewed` topic 03: "Right-skewed distributions" (reaction time)
+- `/topics/exponential` topic 04: "The exponential distribution" (listen to a neuron)
 
 ## How to add a new topic
 

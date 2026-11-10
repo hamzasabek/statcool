@@ -23,5 +23,5 @@ export function stats(values) {
 
 export const normalPdf = (x, m, s) => Math.exp(-0.5 * ((x - m) / s) ** 2) / (s * Math.sqrt(2 * Math.PI))
 
-export const fmtS = (v) => `${num(v, 2)} s`
+export const fmtS = (v) => `${num(v, 2)}\u00a0s`
 export const fmtPct = (v) => pct(Math.round(v * 100))

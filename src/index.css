@@ -684,6 +684,62 @@ a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3
   .rt-pad { width: 130px; height: 130px; border-radius: 50%; flex-direction: column; }
 }
 
+/* ---------- Topic: the exponential distribution (listen to a neuron) ---------- */
+.nr-pad { position: relative; gap: 2px; }
+.rt-pad.is-run { background: var(--surface); box-shadow: var(--shadow), inset 0 0 0 3px var(--border); }
+.nr-pad-text { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.nr-art { width: 150px; height: auto; flex: none; overflow: visible; }
+.nr-dendrites path,
+.nr-axon { fill: none; stroke: var(--muted); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.nr-soma { fill: var(--surface); stroke: var(--brand); stroke-width: 3; }
+.nr-fire .nr-soma { animation: nr-flash 0.35s ease-out; }
+.nr-pulse { fill: var(--sun); animation: nr-run 0.35s linear forwards; }
+/* The whole button glows on each spike, so it is easy to see from the corner of the eye */
+.nr-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 4px var(--sun), 0 0 26px color-mix(in srgb, var(--sun) 70%, transparent);
+  animation: nr-ring 0.35s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes nr-flash {
+  0% { fill: var(--sun); stroke: var(--sun); }
+  100% { fill: var(--surface); stroke: var(--brand); }
+}
+@keyframes nr-run { from { transform: translateX(0); opacity: 1; } to { transform: translateX(64px); opacity: 0; } }
+@keyframes nr-ring { from { opacity: 1; } to { opacity: 0; } }
+.nr-score { font-size: 0.82rem; font-weight: 600; color: var(--accent); }
+.exp-half-line { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 2 4; }
+.exp-half-label { fill: var(--muted); font-size: 14px; font-weight: 700; paint-order: stroke; stroke: var(--bg); stroke-width: 4px; }
+.legend-item.exp-key::before { background: repeating-linear-gradient(90deg, var(--muted) 0 2px, transparent 2px 5px); }
+
+/* "Is it due?" */
+.nr-bet { flex: 1; width: 100%; max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; justify-content: center; gap: 28px; }
+.nr-choices { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.btn.nr-choice { height: 46px; padding: 0 22px; font-size: 1rem; background: var(--surface); box-shadow: var(--shadow); }
+.btn.nr-choice.is-picked { box-shadow: var(--shadow), inset 0 0 0 2px var(--accent); }
+.btn.nr-choice.is-right { background: var(--real-soft); color: var(--real); }
+.nr-answer { display: flex; flex-direction: column; gap: 14px; }
+.nr-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(120px, 1.1fr) 4.5ch; align-items: center; gap: 12px; font-size: 0.92rem; }
+.nr-bar { height: 14px; border-radius: 999px; background: var(--hover); overflow: hidden; }
+.nr-bar-fill { display: block; height: 100%; border-radius: inherit; background: var(--sky); transition: width 0.25s; }
+.nr-row.is-quiet .nr-bar-fill { background: var(--sun); }
+.nr-row-value { font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+.nr-slider { display: flex; flex-direction: column; gap: 6px; font-size: 0.9rem; }
+.nr-slider output { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+@media (max-width: 700px) {
+  .nr-pad { flex-direction: row; gap: 8px; }
+  .nr-art { width: 96px; }
+  .nr-stage .rt-main .chart-fill { min-height: 240px; }
+  .nr-ring { box-shadow: inset 0 0 0 4px var(--sun), 0 0 12px color-mix(in srgb, var(--sun) 60%, transparent); }
+  .nr-row { grid-template-columns: minmax(0, 1fr) 4.5ch; gap: 4px 10px; }
+  .nr-row-label { grid-column: 1 / -1; }
+  .nr-bet { gap: 20px; justify-content: flex-start; padding-top: 8px; }
+  .btn.nr-choice { width: 100%; }
+}
+
 /* Phones: the "← Topics" link at the top already leads back, so the foot keeps only the
    step buttons (long French labels need the room). */
 @media (max-width: 700px) {

@@ -18,6 +18,9 @@
   thresholds tuned for old column counts) now only concern archived code (`archive/`).
 
 ## Topic ideas
+- More exponential games suggested in Step 33: roll until six (gambler's fallacy, geometric),
+  regular or random? (clock vs neuron, "tap randomly yourself"), the Necker cube (time between
+  perceptual flips).
 - More right-skew games suggested in Step 26 (owner picked reaction time first): anagram race
   (very long tail), Stroop (two skewed humps, conflict adds slow trials), "don't press on 3"
   (SART: the tail grows as attention drifts), how many dots (a crowd's guesses are skewed).

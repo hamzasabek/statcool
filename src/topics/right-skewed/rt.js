@@ -48,4 +48,4 @@ export function skewness(vs) {
   return m2 > 0 ? m3 / m2 ** 1.5 : 0
 }
 
-export const fmtMs = (v) => `${Math.round(v)} ms`
+export const fmtMs = (v) => `${Math.round(v)}\u00a0ms`

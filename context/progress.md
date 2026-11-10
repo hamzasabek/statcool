@@ -421,3 +421,32 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   1 start tap + 1 tap per reaction; an early tap, a guess, a miss, 3 misses in a row
   (auto-pause), the Pause button, and resuming all work; no errors, no horizontal scroll
   (on the phone the tail step scrolls a little: allowed on phones).
+
+## 2026-11-10 — Step 33: Game ideas for the exponential distribution
+- Suggested: listen to a neuron (spikes + "is it due?"), roll until six, regular or random?,
+  the Necker cube. Owner picked "listen to a neuron".
+
+## 2026-11-10 — Step 34: Topic 04 "The exponential distribution" (listen to a neuron)
+- New route `/topics/exponential`, card 04, `src/topics/exponential/`.
+- **Tap the spikes**: one tap starts listening. A drawn neuron fires at random (Poisson, rate
+  1 per second): the cell body flashes yellow, a pulse runs down the axon, the button glows, and
+  a click sounds (Web Audio noise burst; "Sound on/off" button). The student taps on each flash:
+  a tap within 0.7 s catches the spike ("caught 36 of 41 spikes"); other taps are false alarms.
+  The dots are the generated waits between spikes (not the taps). 40 waits; next step at 25.
+  Pause button; pauses itself when the tab is hidden; a resume starts a new run (the time across
+  a pause is not a wait).
+- **The curve**: exponential fit (rate = 1 / mean); peak (mode) at 0 → median → mean; dashed
+  lines at 1, 2, 3 × the median labelled ½ ¼ ⅛ (each median of waiting halves what is left);
+  text compares with topic 03 (no floor).
+- **Is it due?**: "Quiet for 1.5 s: more likely to fire within 0.5 s?" (more / same / less).
+  Then bars: right after a spike vs after X s of quiet, both ≈ 39 %, from 100 000 simulated
+  waits of the same neuron, and a slider for X (0–2.5 s). Text: gambler's fallacy, memoryless
+  property.
+- Bug found while testing and fixed: the tap on the last spike (as instructed) jumped straight
+  to "The curve". Now a tap within the catch window still catches it; only a later tap moves on.
+- No-break space between number and unit in `fmtS` (topics 01, 04) and `fmtMs` (topic 03), so
+  "0,5 s" never breaks across lines.
+- Tested in headless Chrome with a scripted game (tapping 0.2–0.35 s after each spike, one
+  false alarm, one pause/resume): 1366×657 EN light and 390×750 FR dark. Generator checked
+  (100 000 draws match the exponential bin by bin). Slider at 0.5 / 1.5 / 2.5 s: 39 % each
+  time. No errors, no horizontal scroll (phone steps scroll a little: allowed).

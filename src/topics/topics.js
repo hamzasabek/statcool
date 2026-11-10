@@ -47,4 +47,19 @@ export const topics = [
       }),
     },
   },
+  {
+    slug: 'exponential',
+    available: true,
+    text: {
+      en: {
+        title: 'The exponential distribution',
+        summary: 'Listen to a neuron: tap each time it fires. The waits pile up at zero. Is the next spike ever “due”?',
+      },
+      fr: frenchTypo({
+        title: 'La loi exponentielle',
+        summary:
+          'Écoutez un neurone : touchez à chaque décharge. Les attentes s’entassent près de zéro. La prochaine est-elle un jour « due » ?',
+      }),
+    },
+  },
 ]
