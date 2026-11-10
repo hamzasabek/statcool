@@ -507,3 +507,16 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Tested in headless Chrome: 1366×657 EN light (16/20 fooled; one screen) and 390×750 FR dark
   (8/20 and 15/20; phone scrolls: allowed). Middle circles equal in all 20 trials; numbers
   checked by hand; no errors, no horizontal scroll.
+
+## 2026-11-10 — Step 38: The topics page as a timeline
+- Owner: a more stylish but simple and elegant organisation of the topics, like a timeline.
+- `Topics.jsx`: a vertical timeline (max 860 px wide). Each topic: a numbered node (01–05) on a
+  thin line, a small uppercase label with the game's name, the title (Fraunces), one sentence,
+  "Play →", and on the right a small drawing of its distribution (bell; bell with mean and
+  median lines; right-skewed curve; exponential decay; binomial bars). No boxes: on hover the
+  row gets a soft background, the node turns yellow and the arrow moves. Items fade in one after
+  another (off with reduced motion). Phones: smaller nodes, no drawings.
+- `topics.js`: new `shape` and `game` fields; summaries no longer repeat the game's name.
+  The old card-grid CSS (`.topic-card`, `.topic-grid`) was replaced by `.timeline` / `.tl-*`.
+- Tested in headless Chrome: 1366 px EN light and dark (with a hovered row) and 390 px FR;
+  5 items, links work, no horizontal scroll, no errors.

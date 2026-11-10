@@ -40,10 +40,13 @@ src/
   hooks/
     useTweened.js          smooth animation of numbers / number arrays
   pages/
-    Topics.jsx             home page: title, one sentence, topic cards
+    Topics.jsx             home page: title, one sentence, the topics as a vertical timeline
+                           (numbered nodes on a line; game name, title, one sentence, Play →;
+                           a small drawing of each distribution, hidden on phones)
     NotFound.jsx
   topics/
-    topics.js              list of topics shown on the home page
+    topics.js              list of topics: slug, shape (for the drawing), and per language the
+                           game name, title and one sentence
     normal-distribution/   topic 01: the game "Your inner clock" (opens directly)
       ClockGame.jsx          stop a hidden clock at 2 s, then 5 s; every press is a dot
                              (2 s game → 5 s game → compare)
@@ -122,7 +125,8 @@ context/                   this folder — project memory, updated every step
 
 ## How to add a new topic
 
-1. Add an entry in `src/topics/topics.js` with `available: true`.
+1. Add an entry in `src/topics/topics.js` with `available: true` (game, title, summary in en and fr,
+   and a `shape` for the timeline drawing: add a new one in `TopicGlyph` in `Topics.jsx` if needed).
 2. Create `src/topics/<slug>/` with the page component.
 3. Add a `<Route path="/topics/<slug>" …>` in `src/App.jsx`.
 
