@@ -461,3 +461,23 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   30 of 42 spikes") can be higher than the yellow dots.
 - Tested in headless Chrome (1366×657): skipping every 4th spike on purpose gave 28 yellow +
   12 hollow dots = 40, matching the legend; no errors.
+
+## 2026-11-10 — Step 36: Topic 05 "The binomial distribution" (are you psychic?)
+- Owner: a binomial topic. Built directly (no menu of options this time), in the style of the
+  other topics, with a psychology theme: ESP card guessing (J. B. Rhine, 1930s).
+- New route `/topics/binomial`, card 05, `src/topics/binomial/`.
+- **Guess the card**: two face-down cards (navy pattern), one hides a star (random, 50 %). Tap
+  or ←/→; both cards turn over for 0.65 s (star pops in, your pick outlined); "Right!" /
+  "Wrong."; 10 progress marks. A round = 10 guesses; the score is a yellow dot. Up to 5 rounds.
+- **The class**: 100 simulated classmates (pure guessing) drop in; blue line + points = expected
+  count (100 × binomial chance). Switches: guesses n = 10 / 20 / 50 and chance p = ½ (2 cards),
+  ¼ (4), ⅕ (5, Zener). Text: average = n × p; the formula in words; shape note (symmetric at
+  ½; right-skewed for small p, like topic 03; a bell for n = 50, like topic 01). Your dots are
+  shown when n = 10 and p = ½ (the game you played).
+- **Psychic?**: "A friend gets 8 out of 10. Psychic, or just lucky?" Pick 6–10/10: that tail is
+  shaded; exact chance by pure guessing (8+: 5.5 %, about 1 in 18; 10/10: 0.1 %), the count in
+  the simulated class, and your best round's chance. Text: the p-value, "significant" under 5 %.
+- Checked: P(≥ 8 | 10, ½) = 56/1024 = 5.47 %; the pmf sums to 1 for n = 50, p = ⅕.
+- Tested in headless Chrome (two rounds by clicks and arrow keys, every switch, every
+  threshold): 1366×657 EN light (one screen) and 390×750 FR dark (scrolls: allowed on phones).
+  Round scores match the marks; no errors, no horizontal scroll.

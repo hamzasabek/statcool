@@ -62,4 +62,19 @@ export const topics = [
       }),
     },
   },
+  {
+    slug: 'binomial',
+    available: true,
+    text: {
+      en: {
+        title: 'The binomial distribution',
+        summary: 'Are you psychic? Guess which card hides the star, 10 times. Then see how often pure luck scores that well.',
+      },
+      fr: frenchTypo({
+        title: 'La loi binomiale',
+        summary:
+          'Êtes-vous médium ? Devinez quelle carte cache l’étoile, 10 fois. Puis voyez à quelle fréquence le hasard fait aussi bien.',
+      }),
+    },
+  },
 ]

@@ -85,6 +85,17 @@ src/
       exp.js                 rate, counts, exponential draws, fit (rate = 1/mean), simulation,
                              chanceWithin(gaps, quiet, window)
       text.js                EXP texts (en + fr)
+    binomial/              topic 05 "The binomial distribution": are you psychic?
+      Psychic.jsx            3 steps: Guess the card (2 face-down cards, one hides a star; ←/→ or
+                             tap; 10 guesses per round, the score is a dot; up to 5 rounds) → The
+                             class (100 simulated classmates guessing by chance drop in; expected
+                             counts as a line; switches n = 10/20/50 and p = ½ ¼ ⅕) → Psychic?
+                             (pick 6–10 out of 10: the tail is shaded; exact chance of that score or
+                             more = a first p-value; Rhine's ESP tests)
+      BinomChart.jsx         one column per score 0…n; several dots per row in wide columns;
+                             yours (yellow, ringed) at the bottom, class (sky) above; expected line
+      binom.js               n, p, class size, choose, binomial chance, P(≥ k), simulation
+      text.js                BIN texts (en + fr)
 archive/                   code removed from the site in Step 24 (Home, About, draw-a-bell
                            lesson, "Shapes of distributions", DrawChart, Tex, their CSS).
                            Not built. See archive/README.md to restore a part.
@@ -101,6 +112,7 @@ context/                   this folder — project memory, updated every step
 - `/topics/mean-median` topic 02: "Mean and median" (Müller-Lyer illusion)
 - `/topics/right-skewed` topic 03: "Right-skewed distributions" (reaction time)
 - `/topics/exponential` topic 04: "The exponential distribution" (listen to a neuron)
+- `/topics/binomial` topic 05: "The binomial distribution" (are you psychic?)
 
 ## How to add a new topic
 
