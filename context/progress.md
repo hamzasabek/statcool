@@ -282,3 +282,8 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Follow-up: owner made the repo public, set Pages source to "GitHub Actions" and deleted the
   Netlify site. The manual workflow run (2026-11-10 17:31 UTC) succeeded; the site and its
   assets return 200 at https://hamzasabek.github.io/statcool/ (an early 404 was Pages delay).
+
+## 2026-11-10 — Step 23: MIT license
+- Added `LICENSE` (MIT, © 2026 Hamza Sabek) and `"license": "MIT"` in `package.json`.
+- `README.md` was only a UTF-16 "# statcool" line. Rewrote it in UTF-8: a short description,
+  the live-site link, how to run locally, and the license.
