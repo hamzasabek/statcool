@@ -11,11 +11,11 @@ live graphs. Inspiration and reference: https://rpsychologist.com/correlation
 | Build / dev server | Vite 7 | `npm run dev` → http://localhost:5173 |
 | Routing | React Router 8 (`react-router` package) | `HashRouter`, `Routes`, `NavLink` (HashRouter for GitHub Pages static compatibility) |
 | Graphs | D3 v7 | D3 is used for **math only** (scales, interpolation, timers). React renders the SVG. Same approach as rpsychologist (which uses Svelte + D3). |
-| Math formulas | KaTeX | via `src/components/Tex.jsx` |
+| Math formulas | KaTeX | via `src/components/Tex.jsx` (currently unused since mean/median/mode was removed) |
 | Animation | `useTweened` hook (d3 `interpolate` + `timer`) | numbers/arrays (bars, curves); respects `prefers-reduced-motion` |
 | Physics animation | Motion 14.7.1 (`motion/react`, pinned exactly) | springy dots, enter/exit (`AnimatePresence`); wrapped in `<MotionConfig reducedMotion="user">` |
 | Interaction | Native pointer events + `setPointerCapture` | no d3-drag; dragging/clicking handled in React |
-| Deployment | Netlify (or GitHub Pages / Vercel) | `netlify.toml`, `base: './'` in `vite.config.js` |
+| Deployment | Netlify + GitHub Pages | `netlify.toml`; `.github/workflows/deploy.yml` (Pages, on every push); `base: './'` in `vite.config.js` works on any host |
 
 Node.js 26 LTS is installed at `C:\Program Files\nodejs` (installed with winget).
 
@@ -28,11 +28,12 @@ src/
   index.css                all styles; color tokens on :root (light + dark mode)
   components/
     Header.jsx             logo + nav (Home, Topics, About)
-    Tex.jsx                KaTeX formula component
+    Tex.jsx                KaTeX formula component (unused for now)
     Stage.jsx              full-viewport learning layout (head, say, bar, main, foot) + Steps
     distribution/          shared dot-drawing chart (used by two topics)
       DrawChart.jsx        click/brush/drag/remove dots, live KDE curve, reshape handles,
-                           real curve after reveal (Motion springs)
+                           real curve after reveal (Motion springs); big touch-friendly dots
+                           (min radius 7 px, 9.5 px under 560 px width) with 26 px hit areas
       density.js           KDE (with edge reflection), bandwidth, peak finding
       model.js             reshapeable curve: 1–2 split-normal hills, fit, quantile remap
   hooks/
@@ -75,6 +76,7 @@ context/                   this folder — project memory, updated every step
 - Visual style (owner's wish): elegant, no boxed/rectangle panels. Use soft lifted cards,
   pill buttons, segmented pills, whitespace. Fonts: Fraunces (headings), Inter (UI).
 
+- Every drawable kind / example uses 16 columns (`cols: 16`) so dots stay large on phones.
 - Plain JavaScript (`.jsx` / `.js`), function components and hooks.
 - Charts: compute with D3, render SVG in JSX. No `d3.select` DOM manipulation.
 - Pointer gestures: capture the pointer on the `<svg>` and route moves by gesture type (see

@@ -188,7 +188,17 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Preserved only the two core distribution modules: **The normal distribution** (topic 01) and **Shapes of distributions** (topic 02).
 - Bundle size shrank from ~763 kB to ~482 kB JS (and CSS from 51 kB to 19 kB) with KaTeX unused fonts removed.
 
-
-
-
+## 2026-11-10 — Step 17: Review of Steps 12–16 (made with Gemini)
+- Steps 12–16 were made in another tool (Gemini). Reviewed their diffs and kept everything:
+  HashRouter, `base: './'`, GitHub Pages workflow, `netlify.toml`, the larger `.gitignore`,
+  `touch-action: none` on the chart, big dots with 26 px hit areas, tap-near-a-dot grabs it,
+  16 columns everywhere, and only the two distribution topics left.
+- Correction to Step 16: KaTeX was not trimmed. `Tex.jsx` is just no longer imported, so it
+  is left out of the bundle. The `katex` dependency and some CSS are left over (see `next.md`).
+- Build passes (JS 483 kB, CSS 19 kB).
+- Found two regressions from the big-dot change, listed in `next.md` under "Known issues":
+  tall stacks overflow the chart, and clicking just above a stack grabs the top dot instead of
+  adding one. Not fixed yet.
+- `project.md` and `next.md` updated to match the code (no more mean/median/mode, no more
+  coming-soon stubs, both deploy targets).
 
