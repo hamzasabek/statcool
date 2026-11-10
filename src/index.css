@@ -644,8 +644,10 @@ a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3
 .rt-pad.is-wait { background: var(--hover-strong); color: var(--muted); box-shadow: inset 0 0 0 3px var(--border); }
 .rt-pad.is-go { background: var(--sun); color: var(--navy); box-shadow: 0 10px 34px color-mix(in srgb, var(--sun) 60%, transparent); }
 .rt-pad.is-go .rt-pad-big { font-size: 2.1rem; letter-spacing: 0.02em; }
-.rt-pad.is-early,
-.rt-pad.is-bad { box-shadow: var(--shadow), inset 0 0 0 3px var(--danger); }
+/* The last trial was removed (too soon / guess / missed): red ring while the next wait runs */
+.rt-pad.is-wait.is-error { box-shadow: inset 0 0 0 3px var(--danger); }
+.rt-pad.is-wait.is-error .rt-pad-big { color: var(--danger); }
+.rt-removed { font-size: 0.82rem; font-weight: 600; color: var(--danger); }
 .rt-pad.is-next { background: var(--cta); color: var(--on-cta); animation: nd-pulse 1.6s ease-in-out infinite; }
 .rt-pad.is-next small { color: inherit; opacity: 0.75; }
 .rt-view { flex: none; }

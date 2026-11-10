@@ -5,26 +5,32 @@ import { Stage } from '../../components/Stage.jsx'
 import { useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
 import RTChart from './RTChart.jsx'
-import { CEIL, FLOOR, MIN_TRIALS, TRIALS, fmtMs, logFit, mean, median, randomWait, skewness } from './rt.js'
+import { CEIL, FLOOR, MAX_MISSES, MIN_TRIALS, TRIALS, fmtMs, logFit, mean, median, randomWait, skewness } from './rt.js'
 import { RT } from './text.js'
 
 // Topic 03 "Right-skewed distributions", played as a reaction-time game.
-//   1. Tap: 25 reactions, each one a dot; a log-normal curve grows with them
+//   1. Tap: one tap starts a run of trials (wait → yellow → tap → next wait…); 25 good reactions,
+//      each one a dot; errors are removed automatically; a log-normal curve grows with the dots
 //   2. The tail: peak (mode) < median < mean, the floor at 100 ms, the two halves of the data
 //   3. Log view: on a log scale the tail folds in and the taps make a bell again
 
 const NEXT_DELAY = 600 // ms after the last tap before the big button can move on (no double taps)
+const LATE_GRACE = 400 // ms after a miss: a tap now is a late reaction, not a "too soon"
+const NO_ERRORS = { tooSoon: 0, guess: 0, missed: 0 }
 
 export default function ReactionTime() {
   const tx = useText(RT)
   const tc = useText(COMMON)
   const [step, setStep] = useState(0)
   const [taps, setTaps] = useState([]) // { id, v }: reaction time in ms
-  const [phase, setPhase] = useState('ready') // ready | wait | go | result | early | bad
-  const [msg, setMsg] = useState(null) // { k: 'tooSoon' | 'guess' | 'away', ms } (text built at render)
+  const [phase, setPhase] = useState('ready') // ready | wait | go | paused | done
+  const [msg, setMsg] = useState(null) // { k: 'tooSoon' | 'guess' | 'missed' | 'autoPaused', ms } (text built at render)
+  const [errors, setErrors] = useState(NO_ERRORS) // removed trials, by kind
   const [log, setLog] = useState(false)
   const goAt = useRef(0)
   const lastTap = useRef(0)
+  const missedAt = useRef(-1e9)
+  const missStreak = useRef(0)
   const timer = useRef(null)
   const padRef = useRef(null)
   const nextId = useRef(0)
@@ -36,46 +42,96 @@ export default function ReactionTime() {
 
   useEffect(() => () => clearTimeout(timer.current), [])
 
+  const countError = (k) => setErrors((e) => ({ ...e, [k]: e[k] + 1 }))
+
+  // A new trial: random wait, then yellow. Runs by itself until the game is done or paused.
+  function nextTrial() {
+    clearTimeout(timer.current)
+    setPhase('wait')
+    timer.current = setTimeout(turnYellow, randomWait())
+  }
+
   function turnYellow() {
     flushSync(() => setPhase('go'))
     goAt.current = performance.now() // the yellow circle is on screen from (about) now
+    timer.current = setTimeout(miss, CEIL)
+  }
+
+  function miss() {
+    missedAt.current = performance.now()
+    countError('missed')
+    missStreak.current += 1
+    if (missStreak.current >= MAX_MISSES) {
+      // Nobody is tapping: stop instead of running on.
+      missStreak.current = 0
+      setPhase('paused')
+      setMsg({ k: 'autoPaused' })
+      return
+    }
+    setMsg({ k: 'missed' })
+    nextTrial()
+  }
+
+  function pause() {
+    clearTimeout(timer.current)
+    missStreak.current = 0
+    setPhase('paused')
+    setMsg(null)
   }
 
   // `ts` = event timestamp (same clock as performance.now()).
   function tap(ts) {
     if (step !== 0) return
-    if (full) {
+    if (phase === 'done') {
       if (ts - lastTap.current > NEXT_DELAY) setStep(1)
       return
     }
+    if (phase === 'ready' || phase === 'paused') {
+      setMsg(null) // the one tap that starts (or resumes) the run
+      nextTrial()
+      return
+    }
     if (phase === 'wait') {
-      clearTimeout(timer.current)
-      setPhase('early')
+      if (ts - missedAt.current < LATE_GRACE) return // a late reaction to the trial that just timed out
+      countError('tooSoon')
       setMsg({ k: 'tooSoon' })
+      nextTrial() // the wait starts again
       return
     }
     if (phase === 'go') {
+      clearTimeout(timer.current)
       const rt = ts - goAt.current
       lastTap.current = ts
+      missStreak.current = 0
       if (rt < FLOOR) {
-        setPhase('bad')
+        countError('guess')
         setMsg({ k: 'guess', ms: rt })
-      } else if (rt > CEIL) {
-        setPhase('bad')
-        setMsg({ k: 'away' })
-      } else {
-        setTaps((ts0) => [...ts0, { id: nextId.current++, v: rt }])
-        setPhase('result')
-        setMsg(null)
+        nextTrial()
+        return
       }
-      return
+      setTaps((ts0) => [...ts0, { id: nextId.current++, v: rt }])
+      setMsg(null)
+      if (n + 1 >= TRIALS) {
+        setPhase('done')
+        return
+      }
+      nextTrial()
     }
-    // ready / result / early / bad → start the next wait
-    setPhase('wait')
-    setMsg(null)
-    clearTimeout(timer.current)
-    timer.current = setTimeout(turnYellow, randomWait())
   }
+
+  // Leaving the tab pauses the run (timers would keep going while nobody is looking).
+  const phaseRef = useRef(phase)
+  phaseRef.current = phase
+  useEffect(() => {
+    function onVisibility() {
+      if (document.hidden && (phaseRef.current === 'wait' || phaseRef.current === 'go')) {
+        clearTimeout(timer.current)
+        setPhase('paused')
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => document.removeEventListener('visibilitychange', onVisibility)
+  }, [])
 
   // Space works anywhere on the page.
   const tapRef = useRef(tap)
@@ -94,16 +150,16 @@ export default function ReactionTime() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
-  function undo() {
-    clearTimeout(timer.current)
-    setTaps((ts) => ts.slice(0, -1))
-    setPhase('ready')
-    setMsg(null)
+  function goTail() {
+    if (phase !== 'done') pause()
+    setStep(1)
   }
 
   function playAgain() {
     clearTimeout(timer.current)
     setTaps([])
+    setErrors(NO_ERRORS)
+    missStreak.current = 0
     setPhase('ready')
     setMsg(null)
     setLog(false)
@@ -117,20 +173,29 @@ export default function ReactionTime() {
   )
   const curveKey = <span className="legend-item ck-line is-a">{tx.curve}</span>
   const msgText = msg ? (msg.k === 'guess' ? tx.guess(fmtMs(msg.ms)) : tx[msg.k]) : null
+  const removed = errors.tooSoon + errors.guess + errors.missed
 
   // ---------- 1. Tap ----------
   if (step === 0) {
     const locked = n < MIN_TRIALS
     const last = taps.at(-1)
+    const error = phase === 'wait' && msg && msg.k !== 'autoPaused' // the last trial was removed
     let [big, small] = tx.pad.ready
-    if (phase === 'result' && last) [big, small] = [fmtMs(last.v), tx.pad.result]
-    else if (phase !== 'ready' && phase !== 'result') [big, small] = tx.pad[phase]
-    if (full) [big, small] = [tx.padNext, tx.padDone(TRIALS)]
+    if (phase === 'wait') {
+      // While waiting: the last result (or what went wrong), and a reminder to wait.
+      big = error ? tx.errBig[msg.k] : last ? fmtMs(last.v) : tx.pad.wait[0]
+      small = tx.pad.wait[1]
+    }
+    if (phase === 'go') [big, small] = tx.pad.go
+    if (phase === 'paused') [big, small] = tx.pad.paused
+    if (phase === 'done') [big, small] = [tx.padNext, tx.padDone(TRIALS)]
 
     let hint = tx.hintStart
     if (msgText) hint = msgText
-    else if (full) hint = tx.hintFull(TRIALS)
+    else if (phase === 'done') hint = tx.hintFull(TRIALS)
+    else if (phase === 'paused') hint = tx.hintPaused
     else if (n) hint = tx.hintLeft(TRIALS - n, MIN_TRIALS - n)
+    const padClass = phase === 'done' ? 'next' : error ? 'wait is-error' : phase
 
     return (
       <Stage
@@ -148,17 +213,23 @@ export default function ReactionTime() {
             <div className="legend">
               <span className="legend-item added">{tx.count(n, TRIALS)}</span>
               {fit && curveKey}
+              {removed > 0 && <span className="rt-removed">{tx.removed(removed)}</span>}
             </div>
             <div className="tools">
-              <button type="button" className="btn btn-ghost btn-sm" disabled={!n || phase === 'wait' || phase === 'go'} onClick={undo}>
-                {tc.undo}
+              <button
+                type="button"
+                className="btn btn-ghost btn-sm"
+                disabled={phase !== 'wait' && phase !== 'go'}
+                onClick={pause}
+              >
+                {tx.pause}
               </button>
             </div>
           </>
         }
         foot={
           <>
-            <p className={`ck-flash${phase === 'early' || phase === 'bad' ? ' is-warn' : ''}`} aria-live="polite">
+            <p className={`ck-flash${msg ? ' is-warn' : ''}`} aria-live="polite">
               {hint}
             </p>
             <div className="actions">
@@ -168,10 +239,7 @@ export default function ReactionTime() {
                 className={`btn btn-primary ck-next${full ? ' nd-glow' : ''}`}
                 disabled={locked}
                 title={locked ? tx.unlocks(MIN_TRIALS) : undefined}
-                onClick={() => {
-                  clearTimeout(timer.current)
-                  setStep(1)
-                }}
+                onClick={goTail}
               >
                 {locked ? tx.lockedTail(MIN_TRIALS - n) : tx.nextTail}
               </button>
@@ -184,7 +252,7 @@ export default function ReactionTime() {
             <button
               ref={padRef}
               type="button"
-              className={`rt-pad is-${full ? 'next' : phase}`}
+              className={`rt-pad is-${padClass}`}
               onPointerDown={(e) => {
                 if (e.button !== 0) return
                 e.preventDefault()
@@ -242,7 +310,10 @@ export default function ReactionTime() {
               <p className="nd-hint">
                 {ordered ? tx.ordered(fmtMs(fit.mode), fmtMs(md), fmtMs(mn)) : tx.unordered(fmtMs(md), fmtMs(mn))}
               </p>
-              <p className="nd-fact">{tx.why(fmtMs(md - minV), fmtMs(maxV - md))}</p>
+              <p className="nd-fact">
+                {tx.why(fmtMs(md - minV), fmtMs(maxV - md))}{' '}
+                {removed > 0 && tx.removedFact(errors.tooSoon, errors.guess, errors.missed)}
+              </p>
             </div>
             <div className="actions">
               {allTopics}

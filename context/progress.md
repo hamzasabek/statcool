@@ -403,3 +403,21 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   `src/assets/logo-light.png` / `logo-dark.png`, 313×176 (wider than before: ratio 1.78).
 - Same display height as Step 30: 62 px (110 px wide), phones 50 px (89 px wide).
 - Tested in headless Chrome: light and dark, 1366 px and 360 px wide; no overflow, no errors.
+
+## 2026-11-10 — Step 32: Reaction time — one tap to start, then a continuous run
+- Owner: the student taps once when ready, then only when the colour shows (faster game);
+  errors and very slow reaction times are removed.
+- New flow: the first tap starts the run. Each trial = random wait (0.8–2 s, was 1–3.5 s and
+  needed a tap to start) → yellow → tap → the next wait starts by itself. 25 good reactions.
+- Removed automatically (not dots), counted in red in the legend ("3 removed"): a tap during
+  the wait (too soon; the wait restarts), a reaction under 100 ms (a guess), no tap within
+  1.5 s (a miss; was "over 3 s"). The pad shows the last reaction time, or what went wrong
+  with a red ring, while the next wait runs. A tap up to 0.4 s after a miss is ignored (a late
+  reaction, not "too soon").
+- Pause button (replaces Undo); the run also pauses itself after 3 misses in a row or when the
+  tab is hidden. Tap the circle to continue.
+- "The tail" step lists what was removed before the analysis (data cleaning).
+- Texts in English and French. Tested in headless Chrome (1366×657 EN, 390×750 FR): exactly
+  1 start tap + 1 tap per reaction; an early tap, a guess, a miss, 3 misses in a row
+  (auto-pause), the Pause button, and resuming all work; no errors, no horizontal scroll
+  (on the phone the tail step scrolls a little: allowed on phones).

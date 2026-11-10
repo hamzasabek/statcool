@@ -63,8 +63,10 @@ src/
       mm.js                  trial counts, domains, mean, median, SD, formatting
       text.js                MM texts (en + fr)
     right-skewed/          topic 03 "Right-skewed distributions": reaction-time game
-      ReactionTime.jsx       3 steps: Tap (25 reactions; circle turns yellow after 1–3.5 s;
-                             early taps, < 100 ms guesses and > 3 s are not counted) → The tail
+      ReactionTime.jsx       3 steps: Tap (one tap starts a continuous run: wait 0.8–2 s →
+                             yellow → tap → next wait…, 25 good reactions; removed automatically:
+                             taps before yellow, < 100 ms guesses, no tap within 1.5 s; Pause
+                             button; pauses itself after 3 misses in a row or a hidden tab) → The tail
                              (peak/mode < median < mean, 0–100 ms floor, the two halves of the
                              data) → Log view (Milliseconds | Log scale: the tail folds into a bell)
       RTChart.jsx            stacked dots + log-normal curve (normal on the log scale), marker

@@ -1,14 +1,16 @@
-// "Right-skewed distributions" with a reaction-time game. The circle turns yellow after a random
-// wait; the student taps as fast as possible. Reaction times have a floor (nobody is faster than
+// "Right-skewed distributions" with a reaction-time game. The student taps once to start; then the
+// circle turns yellow again and again after a random wait, and the student taps only on yellow.
+// Errors are dropped automatically: taps before yellow, guesses under 100 ms, misses over 1.5 s. Reaction times have a floor (nobody is faster than
 // ~0.1 s) but no ceiling (a blink or a wandering thought makes a tap slow), so they pile up on the
 // fast side and trail off to the right. On a log scale they make a bell again (log-normal).
 
 export const TRIALS = 25 // taps in the game
 export const MIN_TRIALS = 15 // the student may go on after this many
-export const WAIT_MIN = 1000 // ms: random wait before the circle turns yellow
-export const WAIT_MAX = 3500
-export const FLOOR = 100 // ms: faster than this is a guess, not a reaction (not counted)
-export const CEIL = 3000 // ms: slower than this, the student was away (not counted)
+export const WAIT_MIN = 800 // ms: random wait before the circle turns yellow (after each tap)
+export const WAIT_MAX = 2000
+export const FLOOR = 100 // ms: faster than this is a guess, not a reaction (removed)
+export const CEIL = 1500 // ms: no tap by then = a miss (removed); the next wait starts by itself
+export const MAX_MISSES = 3 // misses in a row before the game pauses itself
 
 export const randomWait = () => WAIT_MIN + Math.random() * (WAIT_MAX - WAIT_MIN)
 
