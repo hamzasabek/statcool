@@ -40,31 +40,25 @@ src/
   pages/
     Home.jsx  Topics.jsx  About.jsx  NotFound.jsx
   topics/
-    topics.js              list of topics shown on /topics (available: true/false)
+    topics.js              list of topics shown on /topics (only distribution topics)
     normal-distribution/   topic 01 (minimalist): examples → draw a bell → compare
       NormalDistribution.jsx page, dots reducer with undo
       examples.js            4 normal measures from psychology (mu, sigma, axis)
       feedback.js            5 checks + one hint at a time
-    data-distributions/    topic 03 "Shapes of distributions": six shapes, reshape mode
+    data-distributions/    topic 02 "Shapes of distributions": six shapes, reshape mode
       DataDistributions.jsx  topic page: choose data → draw → compare (+ shape icons, gallery)
       kinds.js               the six data kinds (domain, columns, pdf, texts) and the six SHAPES
       classify.js            guesses the shape of a drawing (skewness, kurtosis, KDE peaks)
-    mean-median-mode/
-      MeanMedianMode.jsx   topic page: controls, stat cards, insight text, undo history
-      Histogram.jsx        interactive D3/SVG histogram
-      data.js              seeded random dataset generator (exam scores 0–100)
-      stats.js             mean / median / mode / sd
 context/                   this folder — project memory, updated every step
 ```
 
 ## Routes
 
-- `/` Home (placeholder lorem ipsum)
+- `/` Home
 - `/topics` list of topics
 - `/topics/normal-distribution` topic 01: draw a normal distribution with live feedback
-- `/topics/mean-median-mode` topic 02
-- `/topics/data-distributions` topic 03 "Shapes of distributions"
-- `/about` About (placeholder lorem ipsum)
+- `/topics/data-distributions` topic 02 "Shapes of distributions"
+- `/about` About
 
 ## How to add a new topic
 

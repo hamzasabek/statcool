@@ -62,18 +62,21 @@ export default function DrawChart({
   const [lo, hi] = kind.domain
   const { cols } = kind
   const cw = colWidthOf(kind)
-  const plotRight = Math.max(M.left + cols, width - M.right)
+  const isMobile = width < 560
+  const marginH = isMobile ? 12 : 18
+  const plotLeft = marginH
+  const plotRight = Math.max(plotLeft + cols, width - marginH)
   const HEIGHT = Math.max(MIN_HEIGHT, Math.round(height))
   const plotHeight = HEIGHT - M.top - M.bottom
   const plotBottom = M.top + plotHeight
-  const colPx = (plotRight - M.left) / cols
+  const colPx = (plotRight - plotLeft) / cols
 
-  const x = useMemo(() => d3.scaleLinear().domain(kind.domain).range([M.left, plotRight]), [kind, plotRight])
+  const x = useMemo(() => d3.scaleLinear().domain(kind.domain).range([plotLeft, plotRight]), [kind, plotLeft, plotRight])
   const xs = useMemo(() => grid(kind.domain, CURVE_STEPS), [kind])
   const real = useMemo(() => realDensity(kind, xs), [kind, xs])
 
-  const colAtPx = (px) => Math.min(cols - 1, Math.max(0, Math.floor((px - M.left) / colPx)))
-  const inPlotX = (px) => px >= M.left && px <= plotRight
+  const colAtPx = (px) => Math.min(cols - 1, Math.max(0, Math.floor((px - plotLeft) / colPx)))
+  const inPlotX = (px) => px >= plotLeft && px <= plotRight
   const local = (e) => {
     const b = svgRef.current.getBoundingClientRect()
     return { px: e.clientX - b.left, py: e.clientY - b.top }
@@ -108,8 +111,8 @@ export default function DrawChart({
   const fit = useTweened(fitTarget, { immediate: active !== null, duration: 260 })
   const realCounts = revealed ? real.map((f) => dots.length * f * cw) : null
 
-  // Dots shrink when a stack or a curve would not fit; the size is frozen during a gesture.
-  const isMobile = width < 560
+  // Large, easy-to-see and tactile dots on all devices:
+  // On mobile: radius 9.5px (diameter 19px!) so dots are bold and finger-friendly.
   const capacity = Math.max(
     MIN_CAPACITY,
     d3.max(counts) ?? 0,
@@ -118,10 +121,10 @@ export default function DrawChart({
   )
   const tweenedSize = useTweened(Math.min(colPx, plotHeight / capacity))
   const size = frozenSize ?? tweenedSize
-  // Generous dot radius so dots are prominent, tactile and easy to see on phones
-  const r = Math.max(isMobile ? 6 : 4.5, Math.min(13, size / 2))
-  const yCount = (c) => plotBottom - c * size
-  const dotX = (col) => M.left + (col + 0.5) * colPx
+  const r = Math.max(isMobile ? 9.5 : 7, Math.min(14, colPx * 0.44))
+  const yStep = Math.max(r * 2 + 1, size)
+  const yCount = (c) => plotBottom - c * yStep
+  const dotX = (col) => plotLeft + (col + 0.5) * colPx
   const dotY = (lvl) => yCount(lvl + 0.5)
 
   const area = d3
@@ -277,7 +280,7 @@ export default function DrawChart({
     if (g.type === 'brush') brushAt(px, py)
     else if (g.type === 'dot') {
       if (Math.hypot(px - g.startPx, py - g.startPy) > 3) g.moved = true
-      g.px = Math.min(plotRight, Math.max(M.left, px))
+      g.px = Math.min(plotRight, Math.max(plotLeft, px))
       g.py = Math.min(HEIGHT - 8, Math.max(M.top - 20, py))
       setDrag({ id: g.id, px: g.px, py: g.py })
     } else if (g.type === 'handle') moveHandle(px, py)
@@ -357,7 +360,7 @@ export default function DrawChart({
   if (active === 'dot') hint = inTrash ? 'release to remove this dot' : `drop at ${colRange(dropCol)}`
   else if (active === 'brush') hint = 'keep holding and move to paint stacks'
   else if (hoverCol !== null) hint = `click or drag to draw · ${colRange(hoverCol)}`
-  const hintX = ghostCol !== null ? dotX(ghostCol) : (M.left + plotRight) / 2
+  const hintX = ghostCol !== null ? dotX(ghostCol) : (plotLeft + plotRight) / 2
 
   const classes = ['chart', 'dd-chart', `is-${mode}`]
   if (active) classes.push(`is-${active}`)
@@ -391,7 +394,7 @@ export default function DrawChart({
           {/* Column under the pointer + a ghost dot where the next dot would land */}
           {ghostCol !== null && (
             <g pointerEvents="none">
-              <rect className="dd-col-hover" x={M.left + ghostCol * colPx} width={colPx} y={M.top} height={plotHeight} rx={4} />
+              <rect className="dd-col-hover" x={plotLeft + ghostCol * colPx} width={colPx} y={M.top} height={plotHeight} rx={4} />
               <circle className="dd-ghost" cx={dotX(ghostCol)} cy={dotY(counts[ghostCol])} r={r} />
             </g>
           )}
@@ -427,7 +430,7 @@ export default function DrawChart({
               const dragged = drag?.id === d.id
               const cx = dragged ? drag.px : dotX(d.col)
               const cy = dragged ? drag.py : dotY(level.get(d.id))
-              const hitR = Math.max(24, r + 14)
+              const hitR = Math.max(26, r + 16)
               return (
                 <g
                   key={d.id}
@@ -438,7 +441,7 @@ export default function DrawChart({
                   <motion.circle
                     className={`dd-dot${dragged ? ' is-dragged' : ''}${dragged && inTrash ? ' is-trash' : ''}`}
                     initial={{ cx, cy: M.top - 16, r, opacity: 0 }}
-                    animate={{ cx, cy, r: dragged ? Math.max(14, r * 1.6) : r, opacity: 1 }}
+                    animate={{ cx, cy, r: dragged ? Math.max(16, r * 1.6) : r, opacity: 1 }}
                     exit={{ r: 0, opacity: 0, transition: { duration: 0.2 } }}
                     transition={dragged ? FOLLOW : SETTLE}
                     pointerEvents="none"
@@ -489,7 +492,7 @@ export default function DrawChart({
           ))}
 
           {/* x axis */}
-          <line className="axis-line" x1={M.left} x2={plotRight} y1={plotBottom} y2={plotBottom} />
+          <line className="axis-line" x1={plotLeft} x2={plotRight} y1={plotBottom} y2={plotBottom} />
           {x.ticks(Math.max(2, Math.min(10, Math.floor(width / 70)))).map((t) => (
             <g key={t} pointerEvents="none">
               <line className="axis-line" x1={x(t)} x2={x(t)} y1={plotBottom} y2={plotBottom + 5} />
@@ -498,7 +501,7 @@ export default function DrawChart({
               </text>
             </g>
           ))}
-          <text className="dd-axis-title" x={(M.left + plotRight) / 2} y={plotBottom + 40} textAnchor="middle">
+          <text className="dd-axis-title" x={(plotLeft + plotRight) / 2} y={plotBottom + 40} textAnchor="middle">
             {kind.axisLabel}
             {unit ? ` (${kind.unit})` : ''}
           </text>
@@ -514,8 +517,8 @@ export default function DrawChart({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
               >
-                <rect x={M.left} width={plotRight - M.left} y={plotBottom + TRASH_GAP} height={HEIGHT - plotBottom - TRASH_GAP - 4} rx={10} />
-                <text x={(M.left + plotRight) / 2} y={(plotBottom + TRASH_GAP + HEIGHT - 4) / 2} dy="0.35em" textAnchor="middle">
+                <rect x={plotLeft} width={plotRight - plotLeft} y={plotBottom + TRASH_GAP} height={HEIGHT - plotBottom - TRASH_GAP - 4} rx={10} />
+                <text x={(plotLeft + plotRight) / 2} y={(plotBottom + TRASH_GAP + HEIGHT - 4) / 2} dy="0.35em" textAnchor="middle">
                   {inTrash ? 'Release to remove' : 'Drop here to remove'}
                 </text>
               </motion.g>
@@ -525,7 +528,7 @@ export default function DrawChart({
           {hint && (
             <text
               className="dd-hint"
-              x={Math.min(Math.max(hintX, M.left + 110), plotRight - 110)}
+              x={Math.min(Math.max(hintX, plotLeft + 110), plotRight - 110)}
               y={M.top - 22}
               textAnchor="middle"
               pointerEvents="none"

@@ -20,7 +20,7 @@ export const EXAMPLES = [
     mu: 100,
     sigma: 15,
     domain: [40, 160],
-    cols: 30,
+    cols: 16,
     decimals: 0,
   }),
   example({
@@ -35,7 +35,7 @@ export const EXAMPLES = [
     mu: 3.2,
     sigma: 0.7,
     domain: [1, 5.4],
-    cols: 22,
+    cols: 16,
     decimals: 1,
   }),
   example({
@@ -50,7 +50,7 @@ export const EXAMPLES = [
     mu: 10,
     sigma: 1.5,
     domain: [4, 16],
-    cols: 24,
+    cols: 16,
     decimals: 1,
   }),
   example({
@@ -65,7 +65,7 @@ export const EXAMPLES = [
     mu: 7,
     sigma: 1,
     domain: [3, 11],
-    cols: 32,
+    cols: 16,
     decimals: 2,
   }),
 ]
