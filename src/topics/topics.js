@@ -1,6 +1,13 @@
 // The list shown on the Topics page. Set `available: true` once a topic has a page.
 export const topics = [
   {
+    slug: 'data-distributions',
+    title: 'Data distributions',
+    summary:
+      'Draw what reaction times, IQ scores or neuron spikes look like, dot by dot, and find out which distribution shape you drew.',
+    available: true,
+  },
+  {
     slug: 'mean-median-mode',
     title: 'Mean, median & mode',
     summary:

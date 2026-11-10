@@ -37,3 +37,24 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 ## 2026-11-08 — Step 4: Project memory
 - Added this `context/` folder and `CLAUDE.md`, which points to it.
 - Rule from now on: every step updates `context/` and is committed and pushed to `main`.
+
+## 2026-11-10 — Step 5: "Data distributions" topic (now topic 01)
+- New first topic at `/topics/data-distributions`, listed first in `src/topics/topics.js`.
+- Three steps: **choose the data → draw it → compare**.
+  - Six kinds of data from psychology / neuroscience, one per shape:
+    IQ scores (normal), reaction times (right-skewed), easy-test accuracy (left-skewed, ceiling
+    effect), inter-spike intervals (exponential), membrane potential in slow-wave sleep (bimodal,
+    up/down states), p-values without a real effect (uniform).
+  - The student clicks the chart to drop dots one by one; dots stack in columns (dot plot) with a
+    small drop animation. Undo / Clear. Keyboard: arrows pick a column, Enter adds a dot.
+  - A live line under the chart says what the drawing looks like so far (from 10 dots on).
+  - "I'm done" reveals the real distribution as a green curve that draws itself, scaled to the
+    student's number of dots, plus: detected shape + reason, real shape, match/miss verdict,
+    "why does this data look like this" text, and a gallery of all six shapes (you / real tags).
+  - Cards on the picker show which kinds were already solved (per visit, not saved).
+- Shape detection (`classify.js`): skewness, excess kurtosis, and the number of peaks of a
+  kernel density estimate (Silverman bandwidth). Order: bimodal → exponential (skewed and tallest
+  stack at the left end) → right / left skew (|skew| > 0.5) → uniform (kurtosis < −0.9) → normal.
+  Checked on hand-made test drawings for every shape.
+- Build passes; all six charts server-render without errors. Interaction not yet tried by hand
+  in a browser.

@@ -16,6 +16,10 @@
   --mode: #7048e8;
   --added: #d6336c;
   --danger: #e03131;
+  --real: #2b8a3e;
+  --real-soft: #e6f4ea;
+  --miss: #c2410c;
+  --miss-soft: #fff1e6;
   color-scheme: light;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.55;
@@ -40,6 +44,10 @@
     --mode: #b197fc;
     --added: #f06595;
     --danger: #ff6b6b;
+    --real: #51cf66;
+    --real-soft: #1d3324;
+    --miss: #ffa94d;
+    --miss-soft: #3a2a1a;
     color-scheme: dark;
   }
 }
@@ -321,3 +329,166 @@ a.topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 .segmented button:last-child { border-right: 0; }
 .segmented button:hover { background: var(--hover); }
 .segmented button.is-active { background: var(--accent); color: #fff; }
+
+/* ---------- Topic: data distributions ---------- */
+.dd-steps {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.dd-steps li { display: inline-flex; align-items: center; gap: 8px; }
+.dd-step-num {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+.dd-steps li.is-current { color: var(--text); font-weight: 600; }
+.dd-steps li.is-current .dd-step-num { background: var(--accent); border-color: var(--accent); color: #fff; }
+.dd-steps li.is-done .dd-step-num { background: var(--accent-soft); color: var(--accent); border-color: var(--accent-soft); }
+
+.dd-progress { color: var(--muted); margin: 0 0 12px; }
+
+.dd-kinds {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 14px;
+}
+.dd-kind {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.dd-kind:hover { border-color: var(--accent); transform: translateY(-2px); }
+.dd-kind:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dd-field {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+.dd-kind-title { font-size: 1.08rem; font-weight: 700; }
+.dd-kind-teaser { color: var(--muted); font-size: 0.92rem; flex: 1; }
+.dd-badge { margin-top: 8px; font-size: 0.8rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+.dd-badge.is-match { background: var(--real-soft); color: var(--real); }
+.dd-badge.is-miss { background: var(--miss-soft); color: var(--miss); }
+
+.dd-task-head h2 { margin: 4px 0 6px; font-size: 1.4rem; }
+.dd-task-head p { margin: 0 0 6px; max-width: 75ch; }
+.dd-task-how { color: var(--muted); font-size: 0.92rem; }
+.dd-task .chart-panel { margin-top: 12px; }
+.dd-live { margin: 0; font-size: 0.92rem; color: var(--muted); }
+.dd-live strong { color: var(--text); }
+.dd-tools { display: flex; gap: 8px; }
+.dd-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 14px; }
+.dd-actions .btn-primary { margin-top: 0; }
+.dd-legend { justify-content: center; padding: 2px 0 6px; }
+.legend-item.real::before { background: var(--real); }
+
+.dd-chart:focus { outline: none; }
+.dd-chart:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+.dd-chart.is-revealed { cursor: default; }
+.dd-col-hover { fill: var(--hover); }
+.dd-hint { fill: var(--muted); font-size: 12px; }
+.dd-axis-title { fill: var(--muted); font-size: 13px; }
+.dd-dot {
+  fill: var(--added);
+  fill-opacity: 0.85;
+  stroke: var(--surface);
+  stroke-width: 1;
+  animation: dd-drop 0.35s cubic-bezier(0.3, 0.7, 0.4, 1.15);
+}
+@keyframes dd-drop {
+  from { transform: translateY(var(--drop)); opacity: 0.2; }
+}
+.dd-curve-area { fill: var(--real); fill-opacity: 0.1; animation: dd-fade 0.9s ease-out both; }
+.dd-curve-line {
+  fill: none;
+  stroke: var(--real);
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  animation: dd-draw 1.2s ease-in-out both;
+}
+@keyframes dd-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes dd-fade { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .dd-dot, .dd-curve-area, .dd-curve-line { animation: none; }
+}
+
+.dd-shape-icon { flex: none; }
+.dd-shape-icon path { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+.dd-shape-icon line { stroke: var(--axis); }
+
+.dd-result { margin-top: 16px; }
+.dd-result h3 { font-size: 1rem; margin: 20px 0 6px; }
+.dd-result p { max-width: 75ch; }
+.dd-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) {
+  .dd-compare { grid-template-columns: 1fr; }
+}
+.dd-compare-col {
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--added);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.dd-compare-col.is-real { border-left-color: var(--real); }
+.dd-compare-head { margin: 0; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.dd-compare-shape { display: flex; align-items: center; gap: 10px; margin: 6px 0; font-size: 1.15rem; font-weight: 700; }
+.dd-compare-text { margin: 0; font-size: 0.92rem; color: var(--muted); }
+.dd-verdict { margin: 14px 0 0; padding: 10px 14px; border-radius: 10px; font-weight: 600; }
+.dd-verdict.is-match { background: var(--real-soft); color: var(--real); }
+.dd-verdict.is-miss { background: var(--miss-soft); color: var(--miss); }
+
+.dd-gallery {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+.dd-gallery li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 6px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 0.82rem;
+  text-align: center;
+}
+.dd-gallery li.is-real { border-color: var(--real); }
+.dd-gallery li.is-guess:not(.is-real) { border-color: var(--added); }
+.dd-gallery-tags { display: flex; gap: 4px; }
+.dd-tag { font-size: 0.72rem; font-weight: 700; padding: 1px 7px; border-radius: 999px; color: var(--surface); }
+.dd-tag.is-guess { background: var(--added); }
+.dd-tag.is-real { background: var(--real); }

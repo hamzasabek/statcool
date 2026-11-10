@@ -33,6 +33,11 @@ src/
     Home.jsx  Topics.jsx  About.jsx  NotFound.jsx
   topics/
     topics.js              list of topics shown on /topics (available: true/false)
+    data-distributions/
+      DataDistributions.jsx  topic page: choose data → draw → compare (+ shape icons, gallery)
+      DrawChart.jsx          click-to-stack dot chart, revealed curve of the real distribution
+      kinds.js               the six data kinds (domain, columns, pdf, texts) and the six SHAPES
+      classify.js            guesses the shape of a drawing (skewness, kurtosis, KDE peaks)
     mean-median-mode/
       MeanMedianMode.jsx   topic page: controls, stat cards, insight text, undo history
       Histogram.jsx        interactive D3/SVG histogram
@@ -45,7 +50,8 @@ context/                   this folder — project memory, updated every step
 
 - `/` Home (placeholder lorem ipsum)
 - `/topics` list of topics
-- `/topics/mean-median-mode` first interactive topic
+- `/topics/data-distributions` topic 01: draw a distribution, compare with the real shape
+- `/topics/mean-median-mode` topic 02
 - `/about` About (placeholder lorem ipsum)
 
 ## How to add a new topic

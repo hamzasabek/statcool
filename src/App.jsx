@@ -4,6 +4,7 @@ import Home from './pages/Home.jsx'
 import Topics from './pages/Topics.jsx'
 import About from './pages/About.jsx'
 import NotFound from './pages/NotFound.jsx'
+import DataDistributions from './topics/data-distributions/DataDistributions.jsx'
 import MeanMedianMode from './topics/mean-median-mode/MeanMedianMode.jsx'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/topics" element={<Topics />} />
+          <Route path="/topics/data-distributions" element={<DataDistributions />} />
           <Route path="/topics/mean-median-mode" element={<MeanMedianMode />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
