@@ -7,11 +7,12 @@
 
 ## Topic ideas (already listed as "Coming soon" in `src/topics/topics.js`)
 - Variance & standard deviation
-- The normal distribution
 - Sampling & the central limit theorem
 - Correlation (like rpsychologist.com/correlation: draggable scatter points, slider for r)
 
 ## Possible improvements
+- Normal lesson: show the ±1 SD band (68%) on the Compare step; more examples (e.g. reading
+  speed, line-length estimates); remember solved examples in localStorage.
 - Data distributions: save solved kinds in localStorage; more kinds (e.g. depression scores, spike
   counts / Poisson, Likert answers); a "flatness" handle so the model can make uniform shapes;
   maybe a pinch gesture on touch screens to widen a hill.

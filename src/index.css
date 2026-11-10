@@ -568,3 +568,73 @@ a.topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 .dd-tag { font-size: 0.72rem; font-weight: 700; padding: 1px 7px; border-radius: 999px; color: var(--surface); }
 .dd-tag.is-guess { background: var(--added); }
 .dd-tag.is-real { background: var(--real); }
+
+/* ---------- Topic: the normal distribution ---------- */
+.nd-say { margin: 4px 0 14px; font-size: 1.05rem; }
+.nd-examples {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 12px;
+}
+.nd-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.nd-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.nd-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.nd-bell { margin-bottom: 6px; }
+.nd-bell polyline { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+.nd-bell line { stroke: var(--axis); }
+.nd-card-title { font-weight: 700; font-size: 1.05rem; }
+.nd-card-what { color: var(--muted); font-size: 0.9rem; flex: 1; }
+.nd-card-stat { margin-top: 6px; font-size: 0.82rem; font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
+.nd-done { color: var(--real); }
+
+.nd-feedback {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: border-color 0.2s, background 0.2s;
+}
+.nd-feedback.is-good { border-color: var(--real); background: var(--real-soft); }
+.nd-checks { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.nd-checks li {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.nd-checks li.is-ok { background: var(--real-soft); border-color: var(--real); color: var(--real); }
+.nd-checks li.is-off { border-color: var(--miss); color: var(--miss); }
+.nd-hint { margin: 10px 0 0; font-weight: 600; }
+.nd-feedback.is-good .nd-hint { color: var(--real); }
+.nd-fact { margin: 12px 0 0; padding-left: 12px; border-left: 3px solid var(--real); max-width: 75ch; }
+.nd-glow { animation: nd-pulse 1.6s ease-in-out infinite; }
+@keyframes nd-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent); }
+  50% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--accent) 0%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nd-glow { animation: none; }
+}

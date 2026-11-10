@@ -28,18 +28,23 @@ src/
   components/
     Header.jsx             logo + nav (Home, Topics, About)
     Tex.jsx                KaTeX formula component
+    distribution/          shared dot-drawing chart (used by two topics)
+      DrawChart.jsx        click/brush/drag/remove dots, live KDE curve, reshape handles,
+                           real curve after reveal (Motion springs)
+      density.js           KDE (with edge reflection), bandwidth, peak finding
+      model.js             reshapeable curve: 1–2 split-normal hills, fit, quantile remap
   hooks/
     useTweened.js          smooth animation of numbers / number arrays
   pages/
     Home.jsx  Topics.jsx  About.jsx  NotFound.jsx
   topics/
     topics.js              list of topics shown on /topics (available: true/false)
-    data-distributions/
+    normal-distribution/   topic 01 (minimalist): examples → draw a bell → compare
+      NormalDistribution.jsx page, dots reducer with undo
+      examples.js            4 normal measures from psychology (mu, sigma, axis)
+      feedback.js            5 checks + one hint at a time
+    data-distributions/    topic 03 "Shapes of distributions": six shapes, reshape mode
       DataDistributions.jsx  topic page: choose data → draw → compare (+ shape icons, gallery)
-      DrawChart.jsx          dot chart: click/brush/drag/remove dots, live KDE curve, reshape handles,
-                             real curve after reveal (Motion springs)
-      density.js             KDE (with edge reflection), bandwidth, peak finding
-      model.js               reshapeable curve: 1–2 split-normal hills, fit, quantile remap of dots
       kinds.js               the six data kinds (domain, columns, pdf, texts) and the six SHAPES
       classify.js            guesses the shape of a drawing (skewness, kurtosis, KDE peaks)
     mean-median-mode/
@@ -54,8 +59,9 @@ context/                   this folder — project memory, updated every step
 
 - `/` Home (placeholder lorem ipsum)
 - `/topics` list of topics
-- `/topics/data-distributions` topic 01: draw a distribution, compare with the real shape
+- `/topics/normal-distribution` topic 01: draw a normal distribution with live feedback
 - `/topics/mean-median-mode` topic 02
+- `/topics/data-distributions` topic 03 "Shapes of distributions"
 - `/about` About (placeholder lorem ipsum)
 
 ## How to add a new topic
@@ -65,6 +71,8 @@ context/                   this folder — project memory, updated every step
 3. Add a `<Route path="/topics/<slug>" …>` in `src/App.jsx`.
 
 ## Conventions
+
+- Content style (owner's wish): minimalist, one short sentence per learning step.
 
 - Plain JavaScript (`.jsx` / `.js`), function components and hooks.
 - Charts: compute with D3, render SVG in JSX. No `d3.select` DOM manipulation.

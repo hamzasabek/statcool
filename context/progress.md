@@ -90,3 +90,21 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Tested in headless Chrome (desktop + 390 px dark mode): brush, move, remove, reshape,
   second hill (classified bimodal), undo, keyboard handle, reveal. No errors.
 - Bundle grew from ~603 kB to ~757 kB (Motion).
+
+## 2026-11-10 — Step 8: Topic 01 is now a minimalist normal-distribution lesson
+- New topic 01 `/topics/normal-distribution` (`src/topics/normal-distribution/`), one short line
+  per step:
+  1. **Examples**: four normally distributed measures from psychology (IQ, extraversion,
+     guessing 10 seconds, sleep duration), each with mean and SD.
+  2. **Draw**: same dot chart (click / paint / drag / drop-to-remove) with the live curve.
+     Feedback = 5 checklist pills (One peak, Symmetric, Centered, Spread, Bell shape) + one hint
+     for the first failing check, e.g. "Too narrow. About 2 in 3 adults are between 85 and 115."
+     The Compare button glows when all checks pass.
+  3. **Compare**: real curve + one fact line (mean, SD, the ±1 SD range).
+- `feedback.js`: peaks (KDE), skewness (|g1| ≤ 0.4), mean within 0.35 SD, SD within 0.7–1.4×,
+  excess kurtosis −0.8…1.2. Tested on generated drawings (good / narrow / wide / off-center /
+  skewed / flat / bimodal) for every example.
+- The six-shape activity is kept as a later topic, renamed **Shapes of distributions**
+  (topic 03, after mean/median/mode). The "normal distribution" coming-soon entry was replaced.
+- Shared chart code moved to `src/components/distribution/` (DrawChart, density, model).
+- Tested in headless Chrome (desktop + phone dark mode). No errors.

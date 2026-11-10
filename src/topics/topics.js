@@ -1,10 +1,9 @@
 // The list shown on the Topics page. Set `available: true` once a topic has a page.
 export const topics = [
   {
-    slug: 'data-distributions',
-    title: 'Data distributions',
-    summary:
-      'Draw what reaction times, IQ scores or neuron spikes look like, dot by dot, and find out which distribution shape you drew.',
+    slug: 'normal-distribution',
+    title: 'The normal distribution',
+    summary: 'IQ, personality, sleep: draw a bell curve and get live feedback until it looks right.',
     available: true,
   },
   {
@@ -15,15 +14,16 @@ export const topics = [
     available: true,
   },
   {
+    slug: 'data-distributions',
+    title: 'Shapes of distributions',
+    summary:
+      'Not everything is a bell. Draw reaction times, neuron spikes or p-values, reshape the curve, and compare.',
+    available: true,
+  },
+  {
     slug: 'variance-standard-deviation',
     title: 'Variance & standard deviation',
     summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
-    available: false,
-  },
-  {
-    slug: 'normal-distribution',
-    title: 'The normal distribution',
-    summary: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.',
     available: false,
   },
   {

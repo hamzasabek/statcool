@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import * as d3 from 'd3'
-import DrawChart from './DrawChart.jsx'
+import DrawChart from '../../components/distribution/DrawChart.jsx'
 import { KINDS, SHAPES, SHAPE_ORDER, kindById } from './kinds.js'
 import { MIN_DOTS, classify } from './classify.js'
 import {
@@ -13,7 +13,7 @@ import {
   remap,
   removeHill,
   setShare,
-} from './model.js'
+} from '../../components/distribution/model.js'
 
 // ---------- Drawing state: dots, the reshapeable model, and undo history ----------
 // One undo step per gesture (a brush stroke, a dot drag, a handle drag, a slider drag).
@@ -292,7 +292,7 @@ export default function DataDistributions() {
       <Link to="/topics" className="back-link">
         ← All topics
       </Link>
-      <h1>Data distributions</h1>
+      <h1>Shapes of distributions</h1>
       <p className="lead">
         A distribution shows which values a measurement takes and how often. Different kinds of data
         have different shapes. Pick a kind of data from psychology or neuroscience, draw what you

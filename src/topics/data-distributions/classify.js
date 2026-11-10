@@ -1,7 +1,7 @@
 // Guesses which distribution shape a drawing looks like.
 // A drawing is a list of column indices (one entry per dot) on an axis with `cols` columns.
 
-import { findPeaks } from './density.js'
+import { findPeaks } from '../../components/distribution/density.js'
 
 export const MIN_DOTS = 10
 
