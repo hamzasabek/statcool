@@ -431,6 +431,7 @@ a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3
 
 /* ---------- Charts (shared) ---------- */
 .chart { display: block; touch-action: manipulation; user-select: none; }
+.chart.is-draw, .chart.is-dragging, .dd-chart { touch-action: none; }
 .chart text { font-family: inherit; }
 .axis-line { stroke: var(--axis); }
 .tick-label { fill: var(--muted); font-size: 12px; }
@@ -573,11 +574,14 @@ a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3
 .dd-ghost { fill: var(--added); fill-opacity: 0.3; stroke: var(--dot-stroke); stroke-opacity: 0.7; stroke-dasharray: 3 2; }
 .dd-hint { fill: var(--muted); font-size: 12px; }
 .dd-axis-title { fill: var(--muted); font-size: 13px; }
-.dd-dot { fill: var(--added); stroke: var(--dot-stroke); stroke-width: 1.2; }
+.dd-dot-wrap { cursor: grab; touch-action: none; }
+.dd-dot-wrap.is-dragged { cursor: grabbing; }
+.dd-dot-hit { fill: transparent; stroke: transparent; cursor: grab; touch-action: none; }
+.dd-dot { fill: var(--added); stroke: var(--dot-stroke); stroke-width: 1.4; }
 .dd-chart.is-draw .dd-dot { cursor: grab; }
-.dd-chart.is-draw .dd-dot:hover { stroke: var(--brand); stroke-width: 2; }
-.dd-dot.is-dragged { stroke-width: 2; filter: drop-shadow(0 6px 8px rgb(230 180 0 / 0.5)); }
-.dd-dot.is-trash { fill: var(--danger); fill-opacity: 0.6; }
+.dd-chart.is-draw .dd-dot:hover { stroke: var(--brand); stroke-width: 2.2; }
+.dd-dot.is-dragged { stroke-width: 2.5; filter: drop-shadow(0 6px 12px rgb(230 180 0 / 0.65)); }
+.dd-dot.is-trash { fill: var(--danger); fill-opacity: 0.7; }
 .dd-fit-line { fill: none; stroke: var(--brand); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
 .dd-fit.is-model .dd-fit-line { stroke-width: 3.5; }
 .dd-arm { stroke: var(--handle); stroke-width: 1.2; stroke-dasharray: 3 4; opacity: 0.7; pointer-events: none; }
@@ -630,10 +634,10 @@ a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3
 .bar.is-mode { fill: var(--bar-mode); }
 .bar.is-target { fill: var(--danger); fill-opacity: 0.7; }
 .added-point { cursor: grab; touch-action: none; }
-.added-point .hit { fill: transparent; }
-.added-point .dot { fill: var(--added); stroke: var(--dot-stroke); stroke-width: 1.2; transition: r 0.12s; }
+.added-point .hit { fill: transparent; stroke: transparent; }
+.added-point .dot { fill: var(--added); stroke: var(--dot-stroke); stroke-width: 1.5; transition: r 0.12s; }
 .added-point:hover .dot,
-.added-point.is-active .dot { r: 8px; }
+.added-point.is-active .dot { r: 12px; stroke-width: 2; filter: drop-shadow(0 4px 10px rgb(230 180 0 / 0.6)); }
 .chart.is-dragging,
 .chart.is-dragging .added-point { cursor: grabbing; }
 .chart.is-deleting .added-point:hover .dot { fill: var(--danger); }

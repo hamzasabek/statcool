@@ -109,6 +109,7 @@ export default function DrawChart({
   const realCounts = revealed ? real.map((f) => dots.length * f * cw) : null
 
   // Dots shrink when a stack or a curve would not fit; the size is frozen during a gesture.
+  const isMobile = width < 560
   const capacity = Math.max(
     MIN_CAPACITY,
     d3.max(counts) ?? 0,
@@ -117,7 +118,8 @@ export default function DrawChart({
   )
   const tweenedSize = useTweened(Math.min(colPx, plotHeight / capacity))
   const size = frozenSize ?? tweenedSize
-  const r = Math.max(2, size / 2 - 1)
+  // Generous dot radius so dots are prominent, tactile and easy to see on phones
+  const r = Math.max(isMobile ? 6 : 4.5, Math.min(13, size / 2))
   const yCount = (c) => plotBottom - c * size
   const dotX = (col) => M.left + (col + 0.5) * colPx
   const dotY = (lvl) => yCount(lvl + 0.5)
@@ -215,11 +217,39 @@ export default function DrawChart({
     onModel(setHill(model, g.k, patch, kind))
   }
 
+  // Look for an existing dot within touch hit distance of (px, py)
+  function findDotNear(px, py) {
+    if (dots.length === 0) return null
+    const threshold = isMobile ? 26 : 18
+    let bestDot = null
+    let bestDist = Infinity
+    for (const d of dots) {
+      const lvl = level.get(d.id) ?? 0
+      const dx = dotX(d.col) - px
+      const dy = dotY(lvl) - py
+      const dist = Math.hypot(dx, dy)
+      if (dist < threshold && dist < bestDist) {
+        bestDist = dist
+        bestDot = d
+      }
+    }
+    return bestDot
+  }
+
   function onPointerDown(e) {
     if (e.button !== 0 || gesture.current || mode !== 'draw') return
     const { px, py } = local(e)
     if (!inPlotX(px) || py > plotBottom + 4) return
     e.preventDefault()
+
+    // If touching near an existing dot, grab it to drag instead of adding a new one
+    const nearDot = findDotNear(px, py)
+    if (nearDot) {
+      startGesture(e, { type: 'dot', id: nearDot.id, startPx: px, startPy: py, moved: false })
+      setDrag({ id: nearDot.id, px: dotX(nearDot.col), py: dotY(level.get(nearDot.id)) })
+      return
+    }
+
     startGesture(e, {
       type: 'brush',
       visited: new Set(),
@@ -397,16 +427,23 @@ export default function DrawChart({
               const dragged = drag?.id === d.id
               const cx = dragged ? drag.px : dotX(d.col)
               const cy = dragged ? drag.py : dotY(level.get(d.id))
+              const hitR = Math.max(24, r + 14)
               return (
-                <motion.circle
+                <g
                   key={d.id}
-                  className={`dd-dot${dragged ? ' is-dragged' : ''}${dragged && inTrash ? ' is-trash' : ''}`}
-                  initial={{ cx, cy: M.top - 16, r, opacity: 0 }}
-                  animate={{ cx, cy, r: dragged ? r * 1.45 : r, opacity: 1 }}
-                  exit={{ r: 0, opacity: 0, transition: { duration: 0.2 } }}
-                  transition={dragged ? FOLLOW : SETTLE}
+                  className={`dd-dot-wrap${dragged ? ' is-dragged' : ''}`}
                   onPointerDown={(e) => onDotDown(e, d)}
-                />
+                >
+                  <circle className="dd-dot-hit" cx={cx} cy={cy} r={hitR} />
+                  <motion.circle
+                    className={`dd-dot${dragged ? ' is-dragged' : ''}${dragged && inTrash ? ' is-trash' : ''}`}
+                    initial={{ cx, cy: M.top - 16, r, opacity: 0 }}
+                    animate={{ cx, cy, r: dragged ? Math.max(14, r * 1.6) : r, opacity: 1 }}
+                    exit={{ r: 0, opacity: 0, transition: { duration: 0.2 } }}
+                    transition={dragged ? FOLLOW : SETTLE}
+                    pointerEvents="none"
+                  />
+                </g>
               )
             })}
           </AnimatePresence>
@@ -430,7 +467,7 @@ export default function DrawChart({
                   onKeyDown={(e) => onHandleKey(e, hd, part)}
                 >
                   <title>Drag sideways to stretch the {part} side</title>
-                  <circle className="hit" r={16} />
+                  <circle className="hit" r={24} />
                   <circle className="knob" r={7} />
                 </g>
               ))}
@@ -445,7 +482,7 @@ export default function DrawChart({
                 onKeyDown={(e) => onHandleKey(e, hd, 'peak')}
               >
                 <title>Drag sideways to move the peak, up or down to make the hill taller or flatter</title>
-                <circle className="hit" r={18} />
+                <circle className="hit" r={24} />
                 <rect className="knob" x={-7} y={-7} width={14} height={14} rx={2.5} transform="rotate(45)" />
               </g>
             </g>

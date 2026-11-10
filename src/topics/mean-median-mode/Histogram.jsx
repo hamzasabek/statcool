@@ -265,8 +265,8 @@ export default function Histogram({
             onPointerCancel={endDrag}
           >
             <title>{deleteMode ? `Remove this student (${v})` : `Your student: ${v}. Drag to move.`}</title>
-            <circle className="hit" r={12} />
-            <circle className="dot" r={6} />
+            <circle className="hit" r={24} />
+            <circle className="dot" r={8} />
           </g>
         ))}
       </svg>
