@@ -31,6 +31,9 @@ src/
   index.css                all styles; color tokens on :root (light + dark mode)
   components/
     Header.jsx             logo (links to the topic list) + EN | FR switch + light/dark button
+  assets/
+    logo-light.png, logo-dark.png  the StatsCool logo, transparent, 265×176 (shown 44 px high);
+                           CSS shows the one for the current theme
     Stage.jsx              full-viewport learning layout (head, say, bar, main, foot) + Steps;
                            optional `className` (e.g. `ck-stage` lets the game grow on phones)
   hooks/
@@ -70,6 +73,9 @@ src/
 archive/                   code removed from the site in Step 24 (Home, About, draw-a-bell
                            lesson, "Shapes of distributions", DrawChart, Tex, their CSS).
                            Not built. See archive/README.md to restore a part.
+design/logo/               the owner's original logos (1280×720, white / black background).
+                           The web versions were made from them: background made transparent
+                           (edges un-mixed from white / black so no halo), cropped, resized.
 context/                   this folder — project memory, updated every step
 ```
 

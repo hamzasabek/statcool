@@ -148,6 +148,13 @@ code {
   color: var(--text);
   text-decoration: none;
 }
+/* Logo: the version for the current theme */
+.brand-logo { display: block; height: 44px; width: auto; }
+.brand-logo.is-dark,
+:root[data-theme='dark'] .brand-logo.is-light { display: none; }
+:root[data-theme='dark'] .brand-logo.is-dark { display: block; }
+.brand:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 8px; }
+
 /* Header switches: language (EN | FR) and light / dark */
 .header-tools { display: flex; align-items: center; gap: 6px; }
 .lang-switch { flex: none; }

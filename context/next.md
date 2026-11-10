@@ -9,6 +9,8 @@
   to `main`; Netlify removed in Step 22).
 
 ## Known issues
+- Name: the logo says "StatsCool", the page title and README say "StatCool". Pick one.
+- The browser-tab icon (favicon) is missing (index.html has none): could use the "cool" tiles of the logo.
 - French texts were written by Claude: have a French speaker read them once (tone: "vous").
 - Mean & median: on very small phones (360×640) the page scrolls ~60 px. That is allowed for
   phones, but the illusion figure could shrink further.

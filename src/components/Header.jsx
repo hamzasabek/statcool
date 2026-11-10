@@ -1,16 +1,18 @@
 import { Link } from 'react-router'
+import logoDark from '../assets/logo-dark.png'
+import logoLight from '../assets/logo-light.png'
 import { LANGS, useLang, useText } from '../i18n.jsx'
 import { COMMON } from '../text.js'
 import { useTheme } from '../theme.js'
 
+// The StatsCool logo, one version per theme (transparent PNGs made from design/logo/; CSS shows
+// the one that matches <html data-theme>).
 function Logo() {
   return (
-    <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
-      <rect width="28" height="28" rx="7" fill="var(--navy)" />
-      <rect x="6" y="14" width="4" height="8" rx="1" fill="var(--sky)" />
-      <rect x="12" y="7" width="4" height="15" rx="1" fill="var(--sun)" />
-      <rect x="18" y="11" width="4" height="11" rx="1" fill="var(--blue)" />
-    </svg>
+    <>
+      <img className="brand-logo is-light" src={logoLight} alt="StatsCool" width="66" height="44" />
+      <img className="brand-logo is-dark" src={logoDark} alt="StatsCool" width="66" height="44" />
+    </>
   )
 }
 
@@ -37,7 +39,6 @@ export default function Header() {
       <div className="header-inner">
         <Link to="/" className="brand">
           <Logo />
-          StatCool
         </Link>
         <div className="header-tools">
           <div className="segmented lang-switch" role="group" aria-label={tx.language}>

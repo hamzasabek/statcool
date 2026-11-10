@@ -375,3 +375,18 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   moves in each topic in French (texts, decimal commas, no English left), switch back to EN
   mid-game; 1366×657 and 375×667. English playthroughs of topics 02 and 03 re-run: unchanged.
   No console errors, no horizontal scroll.
+
+## 2026-11-10 — Step 29: The StatsCool logo in the header
+- Owner put two logos (light and dark mode) in `dist/assets/` and asked to fit them to the site
+  backgrounds and use them. `dist/` is wiped by every build, so the originals now live in
+  `design/logo/`.
+- Made web versions (`src/assets/logo-light.png`, `logo-dark.png`): the white / black
+  background is now transparent, so the site's own background (#fafafa / #0b0b0d) shows
+  through; the anti-aliased edges were un-mixed from the old background (no halo); empty
+  margins cropped; resized to 265×176 (4× the 44 px display height). About 26 kB each.
+- Header: the logo replaces the old bar-chart icon and the "StatCool" text. CSS shows the
+  light or dark version from `<html data-theme>`, so it switches with the theme button.
+- Tested in headless Chrome (1366×657 and 360×640, light and dark, at 2× pixel density): the
+  right version shows, 66×44 px, no halo, no horizontal scroll, toggle switches it live.
+- Note: `npm run build` failed locally because Windows had `dist/assets` locked (probably open in
+  Explorer); the test build went to another folder. GitHub Actions builds the live site.
