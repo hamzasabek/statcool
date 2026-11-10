@@ -46,8 +46,9 @@ src/
       NormalDistribution.jsx page, dots reducer with undo; opens ClockGame from the picker
       ClockGame.jsx          game "Your inner clock": stop a hidden clock at 2 s, then 5 s;
                              every press is a dot (play → predict → play → compare)
-      ClockChart.jsx         two lanes of stacked dots on one time axis, fitted normal curve,
-                             ±1 SD bracket; "÷ target" view lines the two bells up
+      ClockChart.jsx         stacked dots + fitted normal curve + ±1 SD per series; one series
+                             per game (axis 0–2×target), both in one graph on Compare
+                             (2 s yellow, 5 s sky); "÷ target" view lines the bells up
       clock.js               targets, trial counts, mean/SD, normal pdf
       examples.js            4 normal measures from psychology (mu, sigma, axis)
       feedback.js            5 checks + one hint at a time

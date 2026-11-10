@@ -15,6 +15,8 @@ const CHOICES = [
 ]
 
 const emptyResults = () => TARGETS.map(() => [])
+const KEYS = ['a', 'b'] // colour of each target's dots and curve (see .ck-dot.is-a / is-b)
+const COMPARE_DOMAIN = [0, 2 * Math.max(...TARGETS)]
 
 export default function ClockGame({ onExit, onComplete }) {
   const [results, setResults] = useState(emptyResults)
@@ -67,11 +69,15 @@ export default function ClockGame({ onExit, onComplete }) {
   // Space works anywhere on the page (except on other buttons, which keep their own Space).
   const pressRef = useRef(press)
   pressRef.current = press
+  const phaseRef = useRef(phase)
+  phaseRef.current = phase
   useEffect(() => {
     function onKey(e) {
-      if (e.code !== 'Space' || e.repeat) return
+      if (e.code !== 'Space' || e.repeat || phaseRef.current !== 'play') return
+      // A clicked button (Feel, Undo, …) keeps the focus; Space would click it again on key-up.
+      // Take the focus away so Space always times the clock.
       const el = e.target
-      if (el instanceof HTMLElement && el !== padRef.current && el.closest('button, input, select, textarea, a')) return
+      if (el instanceof HTMLElement && el !== padRef.current && el.closest('button, a')) el.blur()
       e.preventDefault()
       pressRef.current(e.timeStamp)
     }
@@ -121,12 +127,8 @@ export default function ClockGame({ onExit, onComplete }) {
     setFlash(null)
   }
 
-  const lanes = TARGETS.map((t, i) => ({
-    label: `${t} seconds`,
-    target: t,
-    values: results[i],
-    active: phase === 'play' && i === exp,
-  }))
+  const series = TARGETS.map((t, i) => ({ key: KEYS[i], label: `${t} s`, target: t, values: results[i] }))
+  const ownDomain = (i) => [0, 2 * TARGETS[i]] // a game shows only its own presses
   const current = phase === 'compare' ? TARGETS.length : exp + (phase === 'predict' ? 1 : 0)
 
   // ---------- Compare ----------
@@ -149,7 +151,7 @@ export default function ClockGame({ onExit, onComplete }) {
         say={
           <p>
             <strong>Two bells: {wider ? 'the 5-second one is wider.' : 'here they are about as wide.'}</strong>{' '}
-            Switch to “÷ target” to put them on the same scale.
+            Both games in one graph. Switch to “÷ target” to put them on the same scale.
           </p>
         }
         bar={
@@ -163,8 +165,11 @@ export default function ClockGame({ onExit, onComplete }) {
               </button>
             </div>
             <div className="legend">
-              <span className="legend-item added">Your presses</span>
-              <span className="legend-item fit">Bell with your mean and SD</span>
+              {series.map((s) => (
+                <span key={s.key} className={`legend-item ck-key is-${s.key}`}>
+                  {s.label} presses + bell
+                </span>
+              ))}
             </div>
           </>
         }
@@ -194,7 +199,7 @@ export default function ClockGame({ onExit, onComplete }) {
           </>
         }
       >
-        <ClockChart lanes={lanes} relative={relative} />
+        <ClockChart series={series} domain={relative ? [0, 2] : COMPARE_DOMAIN} relative={relative} />
       </Stage>
     )
   }
@@ -229,7 +234,7 @@ export default function ClockGame({ onExit, onComplete }) {
           </>
         }
       >
-        <ClockChart lanes={lanes} />
+        <ClockChart series={[series[exp]]} domain={ownDomain(exp)} />
       </Stage>
     )
   }
@@ -252,16 +257,16 @@ export default function ClockGame({ onExit, onComplete }) {
           <strong>
             Press to start, then press again when you think {target} seconds have passed.
           </strong>{' '}
-          {exp === 0 ? 'Don’t count, just feel it.' : 'Your presses go in the lower row.'}
+          {exp === 0 ? 'Don’t count, just feel it.' : 'A new game, with its own chart.'}
         </p>
       }
       bar={
         <>
           <div className="legend">
-            <span className="legend-item added">
+            <span className={`legend-item ck-key is-${KEYS[exp]}`}>
               {n} / {TRIALS} presses
             </span>
-            {n >= 3 && <span className="legend-item fit">Bell with your mean and SD</span>}
+            {n >= 3 && <span className={`legend-item ck-line is-${KEYS[exp]}`}>Bell with your mean and SD</span>}
             {n >= 2 && (
               <span className="ck-stats">
                 mean {fmtS(st.mean)} · SD {fmtS(st.sd)}
@@ -322,7 +327,7 @@ export default function ClockGame({ onExit, onComplete }) {
             {!full && !demo && <small>tap or Space</small>}
           </button>
         </div>
-        <ClockChart lanes={lanes} />
+        <ClockChart key={exp} series={[series[exp]]} domain={ownDomain(exp)} highlightLast />
       </div>
     </Stage>
   )

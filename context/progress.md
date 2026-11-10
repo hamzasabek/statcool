@@ -224,3 +224,19 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   undo, predict, compare and ÷ target all work. Every screen fits with no scroll, and there
   were no console errors.
 
+## 2026-11-10 — Step 19: Inner clock — separate 5 s game, combined compare graph
+- Owner: the 5 s game "didn't work". Two likely causes, both fixed:
+  - On the shared 0–8 s lanes the 5 s dots spread over narrow columns and looked like a flat
+    line, not a bell.
+  - After clicking "Feel 5 s" or "Undo", that button kept the focus and Space went to it
+    (re-running the demo) instead of the clock. Now Space always times the clock while playing
+    (the focused button is blurred). Tested: after a mouse click on "Feel 5 s", 20 Space
+    presses all counted.
+- Each game now has its own chart with only its own presses, on an axis from 0 to 2× the
+  target (2 s: 0–4 s, 5 s: 0–10 s), so both build a clear bell.
+- Compare: one graph with both sets of points, each with its own curve, ±1 SD bracket and
+  label (2 s = yellow dots / dark-yellow curve, 5 s = sky dots / sky curve; new tokens
+  `--ck-a-*`, `--ck-b-*`, AA-checked). In "÷ target" the dots share columns and the curves
+  are drawn on top.
+- Re-tested in headless Chrome (1366×657 light, 390×750 dark): fits on one screen, no errors.
+

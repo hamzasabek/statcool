@@ -35,6 +35,11 @@
   --miss: #8a6a00;
   --miss-soft: #fff6cc;
   --handle: var(--navy);
+  --ck-a-line: #a88600;           /* 2 s game curve: dark yellow, 3:1 on white */
+  --ck-a-text: #8a6a00;
+  --ck-b-line: #1597cc;           /* 5 s game curve: sky, 3:1 on white */
+  --ck-b-text: #086d96;
+  --ck-b-stroke: #1597cc;
 
   --shadow: 0 1px 2px rgb(20 22 31 / 0.04), 0 8px 28px rgb(17 31 162 / 0.07);
   --shadow-hover: 0 2px 4px rgb(20 22 31 / 0.05), 0 16px 40px rgb(17 31 162 / 0.13);
@@ -81,6 +86,11 @@
     --miss: var(--sun);
     --miss-soft: #29250f;
     --handle: #a9baff;
+    --ck-a-line: var(--sun);
+    --ck-a-text: var(--sun);
+    --ck-b-line: var(--sky);
+    --ck-b-text: var(--sky);
+    --ck-b-stroke: #0b0b0d;
     --shadow: 0 0 0 1px rgb(255 255 255 / 0.05);
     --shadow-hover: 0 0 0 1px rgb(255 255 255 / 0.1), 0 16px 40px rgb(0 0 0 / 0.55);
     color-scheme: dark;
@@ -576,17 +586,34 @@ a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3
 .ck-choices { display: flex; flex-wrap: wrap; gap: 8px; }
 .ck-view { flex: none; }
 
-.ck-lane-label { fill: var(--text); font-size: 13px; font-weight: 650; }
-.ck-lane.is-idle .ck-lane-label { fill: var(--muted); }
-.ck-empty { fill: var(--muted); font-size: 12px; }
+.ck-empty { fill: var(--muted); font-size: 13px; }
 .ck-target { stroke: var(--axis); stroke-dasharray: 3 4; }
 .ck-target-label { fill: var(--muted); font-size: 11px; }
-.ck-dot { fill: var(--added); stroke: var(--dot-stroke); stroke-width: 1.2; }
-.ck-dot.is-last { stroke: var(--brand); stroke-width: 2.5; }
-.ck-fit-area { fill: var(--brand); fill-opacity: 0.08; }
-.ck-fit-line { fill: none; stroke: var(--brand); stroke-width: 2.5; stroke-linejoin: round; }
-.ck-sd line { stroke: var(--brand); stroke-width: 1.5; }
-.ck-sd text { fill: var(--accent); font-size: 11px; font-weight: 600; }
+/* Series colours: a = the 2 s game (yellow), b = the 5 s game (sky) */
+.ck-dot { stroke-width: 1.2; }
+.ck-dot.is-a { fill: var(--added); stroke: var(--dot-stroke); }
+.ck-dot.is-b { fill: var(--sky); stroke: var(--ck-b-stroke); }
+.ck-dot.is-last { stroke: var(--text); stroke-width: 2.2; }
+.ck-fit-area { fill-opacity: 0.1; }
+.ck-fit-line { fill: none; stroke-width: 2.5; stroke-linejoin: round; }
+.ck-fit.is-a .ck-fit-area { fill: var(--sun); }
+.ck-fit.is-a .ck-fit-line,
+.ck-sd.is-a line { stroke: var(--ck-a-line); }
+.ck-fit.is-b .ck-fit-area { fill: var(--sky); }
+.ck-fit.is-b .ck-fit-line,
+.ck-sd.is-b line { stroke: var(--ck-b-line); }
+.ck-sd line { stroke-width: 1.5; }
+.ck-sd text { font-size: 11px; font-weight: 600; }
+.ck-sd.is-a text,
+.ck-curve-label.is-a { fill: var(--ck-a-text); }
+.ck-sd.is-b text,
+.ck-curve-label.is-b { fill: var(--ck-b-text); }
+.ck-curve-label { font-size: 13px; font-weight: 700; }
+.legend-item.ck-key::before { width: 9px; height: 9px; border-radius: 50%; }
+.legend-item.ck-key.is-a::before { background: var(--sun); box-shadow: inset 0 0 0 1px var(--dot-stroke); }
+.legend-item.ck-key.is-b::before { background: var(--sky); box-shadow: inset 0 0 0 1px var(--ck-b-stroke); }
+.legend-item.ck-line.is-a::before { background: var(--ck-a-line); }
+.legend-item.ck-line.is-b::before { background: var(--ck-b-line); }
 
 @media (max-width: 700px) {
   .ck-main { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; gap: 8px; }
