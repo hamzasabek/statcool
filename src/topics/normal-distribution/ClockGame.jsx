@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router'
 import { Stage } from '../../components/Stage.jsx'
 import ClockChart from './ClockChart.jsx'
 import { MIN_TRIALS, TARGETS, TOO_FAST, TRIALS, fmtPct, fmtS, stats } from './clock.js'
@@ -13,7 +14,7 @@ const emptyResults = () => TARGETS.map(() => [])
 const KEYS = ['a', 'b'] // colour of each target's dots and curve (see .ck-dot.is-a / is-b)
 const COMPARE_DOMAIN = [0, 2 * Math.max(...TARGETS)]
 
-export default function ClockGame({ onExit, onComplete }) {
+export default function ClockGame() {
   const [results, setResults] = useState(emptyResults)
   const [exp, setExp] = useState(0)
   const [phase, setPhase] = useState('play') // 'play' | 'compare'
@@ -102,7 +103,6 @@ export default function ClockGame({ onExit, onComplete }) {
     setFlash(null)
     if (isLast) {
       setPhase('compare')
-      onComplete?.()
     } else setExp(exp + 1) // straight on to the next game
   }
 
@@ -130,7 +130,7 @@ export default function ClockGame({ onExit, onComplete }) {
     return (
       <Stage
         title="Your inner clock"
-        className="ck-stage"
+      className="ck-stage"
         steps={STEPS}
         current={current}
         say={
@@ -173,9 +173,9 @@ export default function ClockGame({ onExit, onComplete }) {
               </p>
             </div>
             <div className="actions">
-              <button type="button" className="btn btn-ghost" onClick={onExit}>
-                All examples
-              </button>
+              <Link to="/" className="btn btn-ghost">
+                All topics
+              </Link>
               <button type="button" className="btn btn-primary" onClick={playAgain}>
                 Play again
               </button>
@@ -206,7 +206,7 @@ export default function ClockGame({ onExit, onComplete }) {
   return (
     <Stage
       title="Your inner clock"
-        className="ck-stage"
+      className="ck-stage"
       steps={STEPS}
       current={current}
       say={
@@ -246,9 +246,9 @@ export default function ClockGame({ onExit, onComplete }) {
             {hint}
           </p>
           <div className="actions">
-            <button type="button" className="btn btn-ghost" onClick={onExit}>
-              All examples
-            </button>
+            <Link to="/" className="btn btn-ghost">
+              All topics
+            </Link>
             <button
               type="button"
               className={`btn btn-primary ck-next${full ? ' nd-glow' : ''}`}

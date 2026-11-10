@@ -11,7 +11,6 @@ live graphs. Inspiration and reference: https://rpsychologist.com/correlation
 | Build / dev server | Vite 7 | `npm run dev` → http://localhost:5173 |
 | Routing | React Router 8 (`react-router` package) | `HashRouter`, `Routes`, `NavLink` (HashRouter for GitHub Pages static compatibility) |
 | Graphs | D3 v7 | D3 is used for **math only** (scales, interpolation, timers). React renders the SVG. Same approach as rpsychologist (which uses Svelte + D3). |
-| Math formulas | KaTeX | via `src/components/Tex.jsx` (currently unused since mean/median/mode was removed) |
 | Animation | `useTweened` hook (d3 `interpolate` + `timer`) | numbers/arrays (bars, curves); respects `prefers-reduced-motion` |
 | Physics animation | Motion 14.7.1 (`motion/react`, pinned exactly) | springy dots, enter/exit (`AnimatePresence`); wrapped in `<MotionConfig reducedMotion="user">` |
 | Interaction | Native pointer events + `setPointerCapture` | no d3-drag; dragging/clicking handled in React |
@@ -24,49 +23,45 @@ Node.js 26 LTS is installed at `C:\Program Files\nodejs` (installed with winget)
 ```
 src/
   main.jsx                 entry: HashRouter + App
-  App.jsx                  header + routes
+  App.jsx                  header + routes (the topic list is the home page)
   index.css                all styles; color tokens on :root (light + dark mode)
   components/
-    Header.jsx             logo + nav (Home, Topics, About)
-    Tex.jsx                KaTeX formula component (unused for now)
+    Header.jsx             logo only (links to the topic list); no nav menu
     Stage.jsx              full-viewport learning layout (head, say, bar, main, foot) + Steps;
                            optional `className` (e.g. `ck-stage` lets the game grow on phones)
-    distribution/          shared dot-drawing chart (used by two topics)
-      DrawChart.jsx        click/brush/drag/remove dots, live KDE curve, reshape handles,
-                           real curve after reveal (Motion springs); big touch-friendly dots
-                           (min radius 7 px, 9.5 px under 560 px width) with 26 px hit areas
-      density.js           KDE (with edge reflection), bandwidth, peak finding
-      model.js             reshapeable curve: 1–2 split-normal hills, fit, quantile remap
   hooks/
     useTweened.js          smooth animation of numbers / number arrays
   pages/
-    Home.jsx  Topics.jsx  About.jsx  NotFound.jsx
+    Topics.jsx             home page: title, one sentence, topic cards
+    NotFound.jsx
   topics/
-    topics.js              list of topics shown on /topics (only distribution topics)
-    normal-distribution/   topic 01 (minimalist): examples → draw a bell → compare, + clock game
-      NormalDistribution.jsx page, dots reducer with undo; opens ClockGame from the picker
-      ClockGame.jsx          game "Your inner clock": stop a hidden clock at 2 s, then 5 s;
-                             every press is a dot (2 s game → 5 s game → compare)
-      ClockChart.jsx         stacked dots + fitted normal curve + ±1 SD per series; one series
-                             per game (axis 0–2×target), both in one graph on Compare
+    topics.js              list of topics shown on the home page
+    normal-distribution/   topic 01: the game "Your inner clock" (opens directly)
+      ClockGame.jsx          stop a hidden clock at 2 s, then 5 s; every press is a dot
+                             (2 s game → 5 s game → compare)
+      ClockChart.jsx         stacked dots + fitted normal curve + ±1 SD per series
                              (2 s yellow, 5 s sky); "÷ target" view lines the bells up
       clock.js               targets, trial counts, mean/SD, normal pdf
-      examples.js            4 normal measures from psychology (mu, sigma, axis)
-      feedback.js            5 checks + one hint at a time
-    data-distributions/    topic 02 "Shapes of distributions": six shapes, reshape mode
-      DataDistributions.jsx  topic page: choose data → draw → compare (+ shape icons, gallery)
-      kinds.js               the six data kinds (domain, columns, pdf, texts) and the six SHAPES
-      classify.js            guesses the shape of a drawing (skewness, kurtosis, KDE peaks)
+    mean-median/           topic 02 "Mean and median": the Müller-Lyer illusion game
+      MeanMedian.jsx         3 steps: Match the lines (15 tries) → Mean & median (numbered
+                             dots, middle one ringed, ▲ balance point) → Pull a dot (drag one
+                             try far out: the mean follows, the median does not)
+      Illusion.jsx           the figure: fins-out line (>—<) on top, plain line below; drag
+                             anywhere (or arrow keys on a hidden range input) to stretch it
+      MMChart.jsx            stacked dots in % too long, real length at 0, mean line + ▲,
+                             dashed median line, optional rank numbers / draggable dots / ghosts
+      mm.js                  trial counts, domains, mean, median, SD, formatting
+archive/                   code removed from the site in Step 24 (Home, About, draw-a-bell
+                           lesson, "Shapes of distributions", DrawChart, Tex, their CSS).
+                           Not built. See archive/README.md to restore a part.
 context/                   this folder — project memory, updated every step
 ```
 
 ## Routes
 
-- `/` Home
-- `/topics` list of topics
-- `/topics/normal-distribution` topic 01: the inner-clock game + draw a normal distribution with live feedback
-- `/topics/data-distributions` topic 02 "Shapes of distributions"
-- `/about` About
+- `/` topic list (home page); `/topics` redirects here
+- `/topics/normal-distribution` topic 01: "Your inner clock"
+- `/topics/mean-median` topic 02: "Mean and median" (Müller-Lyer illusion)
 
 ## How to add a new topic
 
@@ -83,7 +78,7 @@ context/                   this folder — project memory, updated every step
 - Visual style (owner's wish): elegant, no boxed/rectangle panels. Use soft lifted cards,
   pill buttons, segmented pills, whitespace. Fonts: Fraunces (headings), Inter (UI).
 
-- Every drawable kind / example uses 16 columns (`cols: 16`) so dots stay large on phones.
+- Topics are games: the student makes the data, each action is a dot. Psychology themes.
 - Plain JavaScript (`.jsx` / `.js`), function components and hooks.
 - Charts: compute with D3, render SVG in JSX. No `d3.select` DOM manipulation.
 - Pointer gestures: capture the pointer on the `<svg>` and route moves by gesture type (see

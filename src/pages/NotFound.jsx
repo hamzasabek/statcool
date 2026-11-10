@@ -5,7 +5,7 @@ export default function NotFound() {
     <section>
       <h1>Page not found</h1>
       <p className="lead">
-        That page doesn&apos;t exist. <Link to="/topics">Go to the topics</Link>.
+        That page doesn&apos;t exist. <Link to="/">Go to the topics</Link>.
       </p>
     </section>
   )

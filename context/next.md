@@ -2,45 +2,37 @@
 
 ## Open items
 - Test on a real phone (GitHub Pages https://hamzasabek.github.io/statcool/, or locally with
-  `npm run dev -- --host`). Touch changes from Steps 15–16 were not browser-tested.
-- Replace lorem ipsum on Home, Topics intro and About with real text.
+  `npm run dev -- --host`). The Müller-Lyer drag and the dot dragging were only tested with an
+  emulated mouse in headless Chrome.
 - Live site: https://hamzasabek.github.io/statcool/ (GitHub Pages only, deployed on every push
   to `main`; Netlify removed in Step 22).
 
-## Known issues (from the Step 15–16 big-dot changes)
-- **Tall stacks overflow the chart.** The dot radius now has a minimum (7 px desktop, 9.5 px
-  phone), and `yStep = max(2r + 1, size)` no longer shrinks. Past ~15–20 dots in one column,
-  dots (and the live / real curves, which use the same scale) go above the plot. Painting
-  (`brushAt`) still counts with `size`, not `yStep`, so a stroke adds more dots than it shows.
-- **Clicking just above a stack does not add a dot.** Each dot has a 26 px hit circle, bigger
-  than one stack step, so a click on the ghost dot grabs the top dot instead (a grab with no
-  movement does nothing). Idea: treat a tap on a dot (no movement) as "add a dot to that
-  column", or keep the hit area out of the empty space above the top dot.
-- 16 columns are now used everywhere (was 20–32). Feedback / shape-detection thresholds were
-  tuned with the old column counts. Re-check them.
+## Known issues
+- Mean & median: on very small phones (360×640) the page scrolls ~60 px. That is allowed for
+  phones, but the illusion figure could shrink further.
+- The Step 15–16 issues of the dot-drawing chart (tall stacks overflow, click above a stack,
+  thresholds tuned for old column counts) now only concern archived code (`archive/`).
 
-## Topic ideas (the "coming soon" stubs were removed from `topics.js` in Step 16)
+## Topic ideas
+- More mean/median games suggested in Step 23 (owner picked Müller-Lyer first): Stroop reaction
+  times (skewed: mean > median), inner clock with distractions (outliers), Galton's crowd /
+  "how many dots?" (the median beats the mean), memory span (the mean can be an impossible
+  score), rate the face 1–7 (median for ratings), and seesaw / fair share / find-the-middle
+  warm-ups.
 - Variance & standard deviation
 - Sampling & the central limit theorem
 - Correlation (like rpsychologist.com/correlation: draggable scatter points, slider for r)
-- Mean, median & mode was removed in Step 16. Its code is in git history (commit 76f99e8) if it
-  comes back.
+- Archived, can come back (see `archive/README.md`): the draw-a-bell lesson, "Shapes of
+  distributions", the Home and About pages.
 
 ## Possible improvements
 - Inner-clock game: a prediction question (less / same / more spread?) was removed in Step 21
   because it sat between the games; it could come back inside the 5 s page, before the first
-  press. Let the student pick 10 s instead of 5 s for the second target; pool results
-  of a whole class (needs a backend); a "reaction time" game for "Shapes of distributions"
-  (right-skewed, links back to this topic); remember results in localStorage.
-- Clean up leftovers from the removed topic: `src/components/Tex.jsx` and the `katex`
-  dependency are unused. CSS still has `.marker.*`, `.legend-item.mean`, `.formula .katex*`
-  and the `--bar`, `--bar-mode`, `--mean` tokens.
-- Phones: the compare step of "Shapes of distributions" still scrolls. Could use a bottom sheet
-  or tabs for the result.
+  press. Let the student pick 10 s instead of 5 s for the second target; pool results of a
+  whole class (needs a backend); remember results in localStorage.
+- Mean & median: a fins-in round (<—>, looks shorter) to compare two bells on opposite sides
+  of the real length; remember results in localStorage.
+- Unused CSS tokens left from archived parts: `--bar`, `--bar-mode`, `--mode`, `--real-soft`,
+  `--miss-soft`, `.legend-item.fit/.real`.
 - Self-host the two fonts (e.g. @fontsource) instead of Google Fonts.
-- Normal lesson: show the ±1 SD band (68%) on the Compare step; more examples (e.g. reading
-  speed, line-length estimates); remember solved examples in localStorage.
-- Data distributions: save solved kinds in localStorage; more kinds (e.g. depression scores,
-  spike counts / Poisson, Likert answers); a "flatness" handle so the model can make uniform
-  shapes; maybe a pinch gesture on touch screens to widen a hill.
-- Code-split per topic (lazy routes); bundle is ~483 kB.
+- Code-split per topic (lazy routes); bundle is ~460 kB.

@@ -11,7 +11,7 @@ export function Stage({ title, steps, current, say, bar, foot, children, flowOnN
     <article className={`stage${flowOnNarrow ? ' is-flow-narrow' : ''}${className ? ` ${className}` : ''}`}>
       <header className="stage-head">
         <div className="stage-title">
-          <Link to="/topics" className="back-link">
+          <Link to="/" className="back-link">
             ← Topics
           </Link>
           <h1>{title}</h1>

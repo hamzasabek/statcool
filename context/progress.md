@@ -287,3 +287,33 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Added `LICENSE` (MIT, © 2026 Hamza Sabek) and `"license": "MIT"` in `package.json`.
 - `README.md` was only a UTF-16 "# statcool" line. Rewrote it in UTF-8: a short description,
   the live-site link, how to run locally, and the license.
+
+## 2026-11-10 — Step 23: Game ideas for "Mean and median"
+- Suggested 12 games (seesaw, fair share, find the middle, reaction time, billionaire, hit the
+  target; then psychology-themed: inner clock with distractions, Müller-Lyer, Stroop, Galton's
+  crowd, memory span, rate the face). Owner picked **Müller-Lyer**. The rest is in `next.md`.
+
+## 2026-11-10 — Step 24: Only the games on the site; topic 02 "Mean and median"
+- Owner: remove everything except the game, keep the removed code in an archive, make the game
+  topic 01 and add a mean/median topic with the Müller-Lyer illusion.
+- **Archived** (moved with `git mv` to `archive/`, same paths as in `src/`, not built): Home,
+  About, the draw-a-bell lesson (`NormalDistribution.jsx`, `examples.js`, `feedback.js`),
+  "Shapes of distributions", `components/distribution/`, `Tex.jsx`. Their CSS moved from
+  `index.css` to `archive/src/archived.css`. `archive/README.md` explains how to restore.
+  Removed the unused `katex` package.
+- **Site**: the topic list is now the home page (`/`; `/topics` redirects). Header = logo only.
+  Real intro text instead of lorem ipsum. Back links and "All topics" go to `/`.
+- **Topic 01** (`/topics/normal-distribution`) opens the inner-clock game directly.
+- **Topic 02** "Mean and median" (`/topics/mean-median`, `src/topics/mean-median/`):
+  1. *Match the lines*: a line with outward fins (>—<) on top, a plain line below at random
+     positions and a random start length. Drag anywhere (or arrow keys) to stretch it, then
+     "Looks equal ✓" (or Enter). 15 tries (next step unlocks at 10). Each try is a dot: % too
+     long. Live mean (solid line + ▲ balance point) and median (dashed).
+  2. *Mean & median*: dots numbered 1–15 in order, the middle one ringed. Text explains both
+     and says whether they agree (they do for a bell).
+  3. *Pull a dot*: wider axis; drag any dot (or arrow keys). Faint lines show where mean and
+     median were. "The mean moved X points, the median did not move at all."
+- Tested in headless Chrome with a scripted playthrough (15 drags + Enter/click, then steps 2
+  and 3, drag the right-most dot to +160%): 1366×657 light, 390×750 dark, 360×640 light. No
+  console errors, no horizontal scroll; desktop and 390×750 fit one screen (360×640 scrolls
+  ~60 px). Simulated tries of +15% ± 7% gave mean +16.9%, median +15.7%.

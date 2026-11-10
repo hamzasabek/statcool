@@ -1,23 +1,21 @@
-import { Route, Routes } from 'react-router'
+import { Navigate, Route, Routes } from 'react-router'
 import Header from './components/Header.jsx'
-import Home from './pages/Home.jsx'
 import Topics from './pages/Topics.jsx'
-import About from './pages/About.jsx'
 import NotFound from './pages/NotFound.jsx'
-import DataDistributions from './topics/data-distributions/DataDistributions.jsx'
-import NormalDistribution from './topics/normal-distribution/NormalDistribution.jsx'
+import ClockGame from './topics/normal-distribution/ClockGame.jsx'
+import MeanMedian from './topics/mean-median/MeanMedian.jsx'
 
+// The site opens on the topic list. Archived pages (Home, About, other topics) are in archive/.
 function App() {
   return (
     <>
       <Header />
       <main className="page">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/topics" element={<Topics />} />
-          <Route path="/topics/normal-distribution" element={<NormalDistribution />} />
-          <Route path="/topics/data-distributions" element={<DataDistributions />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/" element={<Topics />} />
+          <Route path="/topics" element={<Navigate to="/" replace />} />
+          <Route path="/topics/normal-distribution" element={<ClockGame />} />
+          <Route path="/topics/mean-median" element={<MeanMedian />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

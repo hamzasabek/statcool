@@ -1,10 +1,4 @@
-import { Link, NavLink } from 'react-router'
-
-const links = [
-  { to: '/', label: 'Home', end: true },
-  { to: '/topics', label: 'Topics' },
-  { to: '/about', label: 'About' },
-]
+import { Link } from 'react-router'
 
 function Logo() {
   return (
@@ -25,13 +19,6 @@ export default function Header() {
           <Logo />
           StatCool
         </Link>
-        <nav className="nav" aria-label="Main">
-          {links.map((l) => (
-            <NavLink key={l.to} to={l.to} end={l.end}>
-              {l.label}
-            </NavLink>
-          ))}
-        </nav>
       </div>
     </header>
   )

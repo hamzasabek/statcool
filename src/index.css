@@ -149,31 +149,6 @@ code {
   color: var(--text);
   text-decoration: none;
 }
-.nav { display: flex; gap: 2px; }
-.nav a {
-  position: relative;
-  padding: 6px 12px;
-  border-radius: 999px;
-  color: var(--muted);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.92rem;
-  transition: color 0.15s, background 0.15s;
-}
-.nav a:hover { color: var(--text); background: var(--hover); }
-.nav a.active { color: var(--text); font-weight: 600; }
-.nav a.active::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: -2px;
-  width: 5px;
-  height: 5px;
-  margin-left: -2.5px;
-  border-radius: 50%;
-  background: var(--sun);
-}
-
 /* ---------- Pages ---------- */
 .page {
   max-width: 1240px;
@@ -190,17 +165,6 @@ code {
 }
 .lead { font-size: 1.08rem; color: var(--muted); max-width: 62ch; }
 .prose p { max-width: 68ch; }
-.eyebrow {
-  margin: 0 0 10px;
-  font-weight: 600;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.78rem;
-}
-.hero { padding: 48px 0; }
-.hero h1 { font-size: clamp(2.2rem, 1.6rem + 2.6vw, 3.4rem); max-width: 16ch; }
-.hero .btn-primary { margin-top: 12px; }
 
 /* ---------- Learning stage: one screen, no scrolling ---------- */
 .stage {
@@ -388,9 +352,7 @@ code {
 input[type='range'] { width: 100%; accent-color: var(--accent); }
 
 /* ---------- Soft cards (no boxes, just lifted surfaces) ---------- */
-.topic-card,
-.nd-card,
-.dd-kind {
+.topic-card {
   background: var(--surface);
   border: 0;
   border-radius: 20px;
@@ -398,11 +360,7 @@ input[type='range'] { width: 100%; accent-color: var(--accent); }
   color: var(--text);
   transition: transform 0.2s, box-shadow 0.2s;
 }
-a.topic-card:hover,
-.nd-card:hover,
-.dd-kind:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
-.nd-card:focus-visible,
-.dd-kind:focus-visible,
+a.topic-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
 a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 /* ---------- Topics list ---------- */
@@ -434,67 +392,19 @@ a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3
 .legend-item::before { content: ''; width: 14px; height: 3px; border-radius: 2px; background: currentColor; }
 .legend-item.mean::before { background: var(--mean); }
 .legend-item.median::before { background: var(--median-line); }
-.legend-item.mode::before { background: repeating-linear-gradient(90deg, var(--mode) 0 4px, transparent 4px 7px); }
 .legend-item.added::before { width: 9px; height: 9px; border-radius: 50%; background: var(--added); box-shadow: inset 0 0 0 1px var(--dot-stroke); }
 .legend-item.fit::before { background: var(--brand); }
 .legend-item.real::before { background: var(--real); }
 
 /* ---------- Charts (shared) ---------- */
 .chart { display: block; touch-action: manipulation; user-select: none; }
-.chart.is-draw, .chart.is-dragging, .dd-chart { touch-action: none; }
+.chart.is-dragging { touch-action: none; }
 .chart text { font-family: inherit; }
 .axis-line { stroke: var(--axis); }
 .tick-label { fill: var(--muted); font-size: 12px; }
 .grid-line { stroke: var(--grid); }
 
-/* ---------- Topic: the normal distribution ---------- */
-.nd-examples {
-  list-style: none;
-  padding: 0;
-  margin: auto 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 18px;
-}
-.nd-card {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  width: 100%;
-  height: 100%;
-  padding: 22px;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-.nd-bell { margin-bottom: 10px; }
-.nd-bell polyline { fill: none; stroke: var(--brand); stroke-width: 2; stroke-linejoin: round; }
-.nd-bell line { stroke: var(--axis); }
-.nd-card-title { font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; }
-.nd-card-what { color: var(--muted); font-size: 0.9rem; flex: 1; }
-.nd-card-stat { margin-top: 10px; font-size: 0.8rem; font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
-.nd-done { color: var(--real); }
-
 .nd-feedback { display: flex; flex-direction: column; gap: 6px; flex: 1 1 420px; min-width: 0; }
-.nd-checks { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
-.nd-checks li {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 3px 11px 3px 9px;
-  border-radius: 999px;
-  background: var(--hover);
-  color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 600;
-  transition: background 0.25s, color 0.25s;
-}
-.nd-checks li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.45; }
-.nd-checks li.is-ok { background: var(--real-soft); color: var(--real); }
-.nd-checks li.is-ok::before { content: '✓'; width: auto; height: auto; background: none; opacity: 1; font-size: 0.8rem; }
-.nd-checks li.is-off { background: var(--miss-soft); color: var(--miss); }
-.nd-checks li.is-off::before { opacity: 1; }
 .nd-hint { margin: 0; font-weight: 600; }
 .nd-feedback.is-good .nd-hint { color: var(--real); }
 .nd-fact { margin: 0; font-size: 0.9rem; color: var(--muted); }
@@ -502,30 +412,6 @@ a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3
 @keyframes nd-pulse {
   0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--cta) 70%, transparent); }
   50% { box-shadow: 0 0 0 9px color-mix(in srgb, var(--cta) 0%, transparent); }
-}
-
-/* Game card on the examples picker (above the example grid) */
-.nd-picker { margin: auto 0; display: flex; flex-direction: column; gap: 18px; }
-.nd-picker .nd-examples { margin: 0; }
-.nd-card.nd-game {
-  flex-direction: row;
-  align-items: center;
-  gap: 18px;
-  padding: 16px 22px;
-  background: color-mix(in srgb, var(--sun) 16%, var(--surface));
-}
-.nd-game-text { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
-.nd-clock { flex: none; }
-.nd-clock circle,
-.nd-clock path { fill: none; stroke: var(--brand); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-.nd-game-play {
-  flex: none;
-  padding: 7px 16px;
-  border-radius: 999px;
-  background: var(--cta);
-  color: var(--on-cta);
-  font-weight: 650;
-  font-size: 0.88rem;
 }
 
 /* ---------- Game: your inner clock ---------- */
@@ -660,209 +546,54 @@ a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3
   .ck-pad { order: 0; }
 }
 
-/* ---------- Topic: shapes of distributions ---------- */
-.dd-kinds {
-  list-style: none;
-  padding: 0;
-  margin: auto 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 16px;
-}
-.dd-kind {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 3px;
-  width: 100%;
-  height: 100%;
-  padding: 18px 20px;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-.dd-field { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); }
-.dd-kind-title { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; }
-.dd-kind-teaser { color: var(--muted); font-size: 0.88rem; flex: 1; }
-.dd-badge { margin-top: 8px; font-size: 0.75rem; font-weight: 600; padding: 2px 9px; border-radius: 999px; }
-.dd-badge.is-match { background: var(--real-soft); color: var(--real); }
-.dd-badge.is-miss { background: var(--miss-soft); color: var(--miss); }
-
-.dd-mode { width: auto; }
-.dd-shape-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
-.dd-share { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; white-space: nowrap; }
-.dd-share input { width: 120px; }
-.dd-share output { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; min-width: 3ch; }
-.dd-status { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; }
-.dd-live { margin: 0; font-size: 0.92rem; color: var(--muted); }
-.dd-live strong { color: var(--text); }
-
-.dd-split { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; }
-.dd-split-chart { display: flex; flex-direction: column; min-height: 0; }
-.dd-result {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  min-height: 0;
-  overflow-y: auto;
-  padding: 4px 0 4px 22px;
-  border-left: 1px solid var(--border);
-}
-.dd-verdict { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; line-height: 1.2; }
-.dd-verdict.is-match { color: var(--real); }
-.dd-verdict.is-miss { color: var(--miss); }
-.dd-compare { display: flex; flex-direction: column; gap: 10px; }
-.dd-compare-row { display: flex; flex-direction: column; gap: 2px; }
-.dd-compare-head { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
-.dd-compare-shape { display: flex; align-items: center; gap: 8px; font-weight: 600; }
-.dd-compare-row.is-real .dd-shape-icon path { stroke: var(--real); fill: var(--real-soft); }
-.dd-compare-text { margin: 0; font-size: 0.86rem; color: var(--muted); }
-.dd-why h3 { margin: 0 0 4px; font-size: 0.9rem; }
-.dd-why p { margin: 0; font-size: 0.9rem; line-height: 1.5; }
-.dd-pager { display: flex; align-items: center; gap: 4px; margin-top: 6px; font-size: 0.8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
-.dd-shape-icon { flex: none; }
-.dd-shape-icon path { fill: var(--accent-soft); stroke: var(--brand); stroke-width: 1.5; }
-.dd-shape-icon line { stroke: var(--axis); }
-@media (max-width: 900px) {
-  .dd-split { grid-template-columns: 1fr; }
-  .dd-result { border-left: 0; padding-left: 0; overflow: visible; }
-}
-
-/* Dot chart (shared by both distribution topics) */
-.dd-chart:focus { outline: none; }
-.dd-chart:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 12px; }
-.dd-chart.is-draw { cursor: crosshair; }
-.dd-chart.is-shape { cursor: default; }
-.dd-chart.is-brush { cursor: cell; }
-.dd-chart.is-dot,
-.dd-chart.is-dot .dd-dot { cursor: grabbing; }
-.dd-col-hover { fill: var(--hover); }
-.dd-ghost { fill: var(--added); fill-opacity: 0.3; stroke: var(--dot-stroke); stroke-opacity: 0.7; stroke-dasharray: 3 2; }
-.dd-hint { fill: var(--muted); font-size: 12px; }
 .dd-axis-title { fill: var(--muted); font-size: 13px; }
-.dd-dot-wrap { cursor: grab; touch-action: none; }
-.dd-dot-wrap.is-dragged { cursor: grabbing; }
-.dd-dot-hit { fill: transparent; stroke: transparent; cursor: grab; touch-action: none; }
-.dd-dot { fill: var(--added); stroke: var(--dot-stroke); stroke-width: 1.5; filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.15)); }
-.dd-chart.is-draw .dd-dot { cursor: grab; }
-.dd-chart.is-draw .dd-dot:hover { stroke: var(--brand); stroke-width: 2.2; }
-.dd-dot.is-dragged { stroke-width: 2.5; filter: drop-shadow(0 6px 14px rgb(230 180 0 / 0.7)); }
-.dd-dot.is-trash { fill: var(--danger); fill-opacity: 0.7; }
-.dd-fit-line { fill: none; stroke: var(--brand); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
-.dd-fit.is-model .dd-fit-line { stroke-width: 3.5; }
-.dd-arm { stroke: var(--handle); stroke-width: 1.2; stroke-dasharray: 3 4; opacity: 0.7; pointer-events: none; }
-.dd-handle { cursor: grab; outline: none; }
-.dd-handle .hit { fill: transparent; }
-.dd-handle .knob {
-  fill: var(--surface);
-  stroke: var(--handle);
-  stroke-width: 2.5;
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: fill 0.15s, scale 0.15s;
-  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.25));
-}
-.dd-handle.is-peak .knob { fill: var(--handle); stroke: var(--surface); stroke-width: 2; }
-.dd-handle:hover .knob,
-.dd-handle:focus-visible .knob { scale: 1.3; }
-.dd-handle.is-width:hover .knob,
-.dd-handle.is-width:focus-visible .knob { fill: var(--handle); }
-.dd-handle:focus-visible .knob { stroke: var(--accent); stroke-width: 3; }
-.dd-chart.is-handle,
-.dd-chart.is-handle .dd-handle { cursor: grabbing; }
-.dd-trash rect { fill: var(--miss-soft); stroke: var(--danger); stroke-opacity: 0.4; stroke-dasharray: 5 4; }
-.dd-trash text { fill: var(--danger); font-size: 13px; font-weight: 600; }
-.dd-trash.is-hot rect { fill: var(--danger); fill-opacity: 0.15; stroke-opacity: 1; }
-.dd-curve-area { fill: var(--real); fill-opacity: 0.1; animation: dd-fade 0.9s ease-out both; }
-.dd-curve-line {
-  fill: none;
-  stroke: var(--real);
-  stroke-width: 3;
-  stroke-linejoin: round;
-  stroke-dasharray: 1;
-  animation: dd-draw 1.2s ease-in-out both;
-}
-@keyframes dd-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-@keyframes dd-fade { from { opacity: 0; } }
-.marker.mean .marker-line { stroke: var(--mean); }
-.marker.mean .marker-label { fill: var(--mean); }
-.marker.median .marker-line { stroke: var(--median-line); }
-.marker.median .marker-label { fill: var(--median); }
-.marker.mode .marker-line { stroke: var(--mode); }
-.marker.mode .marker-label { fill: var(--mode); }
 
-.stat-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-.stat-card {
-  position: relative;
-  padding: 10px 14px 8px 18px;
-  border-radius: 16px;
-  background: var(--surface);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-.stat-card::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 12px;
-  bottom: 12px;
-  width: 3px;
-  border-radius: 0 3px 3px 0;
-  background: var(--c);
-}
-.stat-card.mean { --c: var(--mean); }
-.stat-card.median { --c: var(--median-line); }
-.stat-card.mode { --c: var(--mode); }
-.stat-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.stat-card h3 { margin: 0; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
-.stat-value { font-family: var(--font-display); font-weight: 600; font-size: 1.55rem; font-variant-numeric: tabular-nums; }
-.formula { color: var(--text); overflow-x: auto; overflow-y: hidden; font-size: 0.86rem; }
-.formula .katex-display { margin: 2px 0 0; text-align: left; }
-.formula .katex-display > .katex { text-align: left; }
+/* ---------- Topic: mean and median (Müller-Lyer illusion) ---------- */
+.mm-main { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 4px; }
+.mm-main .chart-fill { min-height: 170px; }
+.mm-stim { position: relative; flex: none; height: 150px; }
+.mm-stim-svg { position: absolute; inset: 0; display: block; cursor: ew-resize; touch-action: none; user-select: none; -webkit-user-select: none; }
+.mm-stim-svg.is-disabled { cursor: default; opacity: 0.35; }
+.mm-figure line, .mm-figure polyline, .mm-plain { fill: none; stroke: var(--text); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.mm-knob circle { fill: var(--surface); stroke: var(--handle); stroke-width: 2.5; filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.25)); }
+.mm-knob path { fill: none; stroke: var(--handle); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.mm-stim-hint { fill: var(--muted); font-size: 12px; }
+.mm-sr-range { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.mm-stim:has(.mm-sr-range:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 12px; }
 
-.controls { min-height: 0; overflow: hidden auto; padding: 2px 2px 2px 0; }
-.controls h2 {
-  margin: 12px 0 6px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-}
-.controls h2:first-child { margin-top: 2px; }
-.control { display: block; margin-bottom: 6px; }
-.control-head { display: flex; justify-content: space-between; font-size: 0.86rem; font-weight: 500; }
-.control input[type='range'] { display: block; margin: 2px 0 4px; }
-.control-head output { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
-.control-hint { display: block; font-size: 0.82rem; color: var(--muted); margin: 0 0 6px; }
+.mm-chart.is-draggable { cursor: grab; touch-action: none; }
+.mm-chart.is-dragging { cursor: grabbing; }
+.mm-real { stroke: var(--axis); stroke-dasharray: 3 4; }
+.mm-real-label { fill: var(--muted); font-size: 11px; }
+.mm-dot circle { fill: var(--added); stroke: var(--dot-stroke); stroke-width: 1.2; }
+.mm-dot text { fill: var(--navy); font-weight: 700; pointer-events: none; }
+.mm-dot.is-last circle { stroke: var(--text); stroke-width: 2.2; }
+.mm-dot.is-mid circle { stroke: var(--median-line); stroke-width: 3; }
+.mm-dot.is-dragged circle { stroke: var(--text); stroke-width: 2.5; filter: drop-shadow(0 6px 12px rgb(230 180 0 / 0.6)); }
+.mm-dot:focus { outline: none; }
+.mm-dot:focus-visible circle { stroke: var(--accent); stroke-width: 3; }
+.mm-mark-line { stroke-width: 2.5; }
+.mm-mark-line.is-mean { stroke: var(--mean); }
+.mm-mark-line.is-median { stroke: var(--median-line); stroke-dasharray: 6 4; }
+.mm-mark-line.is-ghost { stroke-width: 2; opacity: 0.3; }
+.mm-mark-label { font-size: 12.5px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.mm-mark-label.is-mean { fill: var(--mean); }
+.mm-mark-label.is-median { fill: var(--median); }
+.mm-fulcrum { fill: var(--mean); }
+.legend-item.median::before { background: repeating-linear-gradient(90deg, var(--median-line) 0 5px, transparent 5px 8px); }
+.legend-item.mm-ghost-key::before { background: var(--muted); opacity: 0.45; }
 
-@media (max-width: 900px) {
-  .mmm-layout { grid-template-columns: 1fr; }
-  .controls { overflow: visible; }
-  .mmm-chart { flex: none; }
+@media (max-width: 700px) {
+  .stage.mm-stage { height: auto; min-height: calc(100dvh - var(--header-h)); }
+  .mm-stim { height: 128px; }
+  .mm-stage .actions { flex-wrap: nowrap; }
+  .mm-stage .actions .btn { padding: 0 13px; }
 }
-@media (max-width: 640px) {
-  .stat-cards { grid-template-columns: 1fr; }
-}
-
-/* Phones: pickers become a compact two-column grid so they fit on one screen. */
-@media (max-width: 600px) {
-  .nd-examples,
-  .dd-kinds { grid-template-columns: 1fr 1fr; gap: 10px; margin: 4px 0 auto; }
-  .nd-card,
-  .dd-kind { padding: 14px; border-radius: 16px; }
-  .nd-bell { margin-bottom: 4px; }
-  .nd-card-title,
-  .dd-kind-title { font-size: 1rem; line-height: 1.2; }
-  .nd-card-what { font-size: 0.8rem; }
-  .nd-card-stat { margin-top: 6px; font-size: 0.74rem; }
-  .dd-kind-teaser { display: none; }
-  .nd-picker { margin: 4px 0 auto; gap: 10px; }
-  .nd-card.nd-game { padding: 12px 14px; gap: 12px; }
-  .nd-game .nd-card-what { display: none; }
+@media (max-height: 600px) {
+  .mm-stim { height: 118px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dd-curve-area, .dd-curve-line, .nd-glow, .ck-button.is-next { animation: none; }
-  .topic-card, .nd-card, .dd-kind, .btn { transition: none; }
+  .nd-glow, .ck-button.is-next { animation: none; }
+  .topic-card, .btn { transition: none; }
 }
