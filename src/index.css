@@ -1,27 +1,40 @@
 :root {
-  --bg: #f6f7fb;
+  /* Palette: https://colorhunt.co/palette/ffde4253cbf35478ff111fa2 */
+  --navy: #111fa2;
+  --blue: #5478ff;
+  --sky: #53cbf3;
+  --sun: #ffde42;
+
+  --bg: #f4f7ff;
   --surface: #ffffff;
-  --text: #1b2233;
-  --muted: #5d667a;
-  --border: #e2e5ee;
-  --hover: #eef0f6;
-  --accent: #3b5bdb;
-  --accent-soft: #e8edff;
-  --bar: #b4c0f5;
-  --bar-mode: #8b7cf0;
-  --grid: #eceef4;
-  --axis: #9aa1b3;
-  --mean: #e8590c;
-  --median: #2b8a3e;
-  --mode: #7048e8;
-  --added: #d6336c;
+  --text: #0d1547;
+  --muted: #4f5a8a;
+  --border: #dce3f7;
+  --hover: #edf1ff;
+  --accent: var(--navy);          /* links, active states, small accent text */
+  --accent-soft: #e4eaff;
+  --on-accent: #ffffff;
+  --brand: var(--blue);           /* curves, bell icons, chart highlights */
+  --cta: var(--sun);              /* main buttons */
+  --on-cta: var(--navy);
+  --cta-border: #e8c416;
+  --bar: #bccbff;
+  --bar-mode: var(--blue);
+  --grid: #e8edf9;
+  --axis: #7c87b8;
+  --mean: var(--navy);
+  --median: #086d96;              /* sky, darkened for text on white */
+  --median-line: #1597cc;         /* brighter sky for the chart line */
+  --mode: #8a6a00;                /* sun, darkened for text on white */
+  --added: #ffd21f;               /* the student's dots */
+  --dot-hi: #fff3a8;
+  --dot-stroke: #b58f00;
   --danger: #e03131;
-  --real: #2b8a3e;
-  --dot-hi: #f7a8c4;
-  --handle: #3b5bdb;
-  --real-soft: #e6f4ea;
-  --miss: #c2410c;
-  --miss-soft: #fff1e6;
+  --real: #086d96;
+  --real-soft: #e2f6fd;
+  --miss: #8a6a00;
+  --miss-soft: #fff6cc;
+  --handle: var(--navy);
   color-scheme: light;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.55;
@@ -29,29 +42,36 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #11141c;
-    --surface: #191d28;
-    --text: #e6e9f2;
-    --muted: #9aa2b6;
-    --border: #2a3040;
-    --hover: #232838;
-    --accent: #7c96ff;
-    --accent-soft: #232c4d;
-    --bar: #3e4c80;
-    --bar-mode: #7b6be0;
-    --grid: #232837;
-    --axis: #5b6378;
-    --mean: #ff922b;
-    --median: #51cf66;
-    --mode: #b197fc;
-    --added: #f06595;
+    --bg: #060a29;
+    --surface: #0d1340;
+    --text: #eef1ff;
+    --muted: #a0aad8;
+    --border: #232c6b;
+    --hover: #161e57;
+    --accent: #8ea4ff;
+    --accent-soft: #1b2568;
+    --on-accent: #060a29;
+    --brand: var(--blue);
+    --cta: var(--sun);
+    --on-cta: var(--navy);
+    --cta-border: var(--sun);
+    --bar: #2b3c9a;
+    --bar-mode: var(--blue);
+    --grid: #182061;
+    --axis: #6470b8;
+    --mean: #8ea4ff;
+    --median: var(--sky);
+    --median-line: var(--sky);
+    --mode: var(--sun);
+    --added: var(--sun);
+    --dot-hi: #fff8cf;
+    --dot-stroke: #0d1340;
     --danger: #ff6b6b;
-    --real: #51cf66;
-    --dot-hi: #ffc2d8;
-    --handle: #9fb2ff;
-    --real-soft: #1d3324;
-    --miss: #ffa94d;
-    --miss-soft: #3a2a1a;
+    --real: var(--sky);
+    --real-soft: #0b2c48;
+    --miss: var(--sun);
+    --miss-soft: #2c2913;
+    --handle: #a9baff;
     color-scheme: dark;
   }
 }
@@ -150,8 +170,8 @@ code {
 }
 .btn:hover:not(:disabled) { background: var(--hover); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; margin-top: 8px; }
-.btn-primary:hover { filter: brightness(1.08); background: var(--accent) !important; }
+.btn-primary { background: var(--cta); border-color: var(--cta-border); color: var(--on-cta); font-weight: 650; margin-top: 8px; }
+.btn-primary:hover:not(:disabled) { filter: brightness(1.05); background: var(--cta); }
 .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
 
 /* ---------- Topics list ---------- */
@@ -217,8 +237,8 @@ a.topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 .added-point .hit { fill: transparent; }
 .added-point .dot {
   fill: var(--added);
-  fill-opacity: 0.75;
-  stroke: var(--surface);
+  fill-opacity: 0.9;
+  stroke: var(--dot-stroke);
   stroke-width: 1.5;
   transition: r 0.12s;
 }
@@ -236,7 +256,7 @@ a.topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 .marker-label { font-size: 13px; font-weight: 700; }
 .marker.mean .marker-line { stroke: var(--mean); }
 .marker.mean .marker-label { fill: var(--mean); }
-.marker.median .marker-line { stroke: var(--median); }
+.marker.median .marker-line { stroke: var(--median-line); }
 .marker.median .marker-label { fill: var(--median); }
 .marker.mode .marker-line { stroke: var(--mode); }
 .marker.mode .marker-label { fill: var(--mode); }
@@ -266,7 +286,7 @@ a.topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 .legend-item { display: inline-flex; align-items: center; gap: 6px; }
 .legend-item::before { content: ''; width: 14px; height: 3px; border-radius: 2px; background: currentColor; }
 .legend-item.mean::before { background: var(--mean); }
-.legend-item.median::before { background: var(--median); }
+.legend-item.median::before { background: var(--median-line); }
 .legend-item.mode::before {
   background: repeating-linear-gradient(90deg, var(--mode) 0 4px, transparent 4px 7px);
 }
@@ -332,7 +352,7 @@ a.topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 }
 .segmented button:last-child { border-right: 0; }
 .segmented button:hover { background: var(--hover); }
-.segmented button.is-active { background: var(--accent); color: #fff; }
+.segmented button.is-active { background: var(--accent); color: var(--on-accent); }
 
 /* ---------- Topic: data distributions ---------- */
 .dd-steps {
@@ -358,7 +378,7 @@ a.topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
   font-size: 0.8rem;
 }
 .dd-steps li.is-current { color: var(--text); font-weight: 600; }
-.dd-steps li.is-current .dd-step-num { background: var(--accent); border-color: var(--accent); color: #fff; }
+.dd-steps li.is-current .dd-step-num { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .dd-steps li.is-done .dd-step-num { background: var(--accent-soft); color: var(--accent); border-color: var(--accent-soft); }
 
 .dd-progress { color: var(--muted); margin: 0 0 12px; }
@@ -422,23 +442,23 @@ a.topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 .dd-chart.is-dot,
 .dd-chart.is-dot .dd-dot { cursor: grabbing; }
 .dd-col-hover { fill: var(--hover); }
-.dd-ghost { fill: var(--added); fill-opacity: 0.22; stroke: var(--added); stroke-opacity: 0.6; stroke-dasharray: 3 2; }
+.dd-ghost { fill: var(--added); fill-opacity: 0.3; stroke: var(--dot-stroke); stroke-opacity: 0.7; stroke-dasharray: 3 2; }
 .dd-hint { fill: var(--muted); font-size: 12px; }
 .dd-axis-title { fill: var(--muted); font-size: 13px; }
 
-.dd-dot { stroke: var(--surface); stroke-width: 1.2; }
+.dd-dot { stroke: var(--dot-stroke); stroke-width: 1.2; }
 .dd-chart.is-draw .dd-dot { cursor: grab; }
-.dd-chart.is-draw .dd-dot:hover { stroke: var(--added); stroke-width: 2; }
+.dd-chart.is-draw .dd-dot:hover { stroke: var(--brand); stroke-width: 2; }
 .dd-dot.is-dragged {
   stroke: var(--surface);
   stroke-width: 2;
-  filter: drop-shadow(0 6px 8px rgb(214 51 108 / 0.45));
+  filter: drop-shadow(0 6px 8px rgb(230 180 0 / 0.5));
 }
 .dd-dot.is-trash { fill: var(--danger); fill-opacity: 0.6; }
 
 .dd-fit-line {
   fill: none;
-  stroke: var(--accent);
+  stroke: var(--brand);
   stroke-width: 3;
   stroke-linejoin: round;
   stroke-linecap: round;
@@ -498,7 +518,7 @@ a.topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
   gap: 6px 16px;
   padding: 2px 0 6px;
 }
-.legend-item.fit::before { background: var(--accent); height: 3px; }
+.legend-item.fit::before { background: var(--brand); height: 3px; }
 @media (max-width: 640px) {
   .dd-mode { min-width: 0; width: 100%; }
 }
@@ -519,7 +539,7 @@ a.topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 }
 
 .dd-shape-icon { flex: none; }
-.dd-shape-icon path { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+.dd-shape-icon path { fill: var(--accent-soft); stroke: var(--brand); stroke-width: 1.5; }
 .dd-shape-icon line { stroke: var(--axis); }
 
 .dd-result { margin-top: 16px; }
@@ -566,7 +586,7 @@ a.topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 .dd-gallery li.is-guess:not(.is-real) { border-color: var(--added); }
 .dd-gallery-tags { display: flex; gap: 4px; }
 .dd-tag { font-size: 0.72rem; font-weight: 700; padding: 1px 7px; border-radius: 999px; color: var(--surface); }
-.dd-tag.is-guess { background: var(--added); }
+.dd-tag.is-guess { background: var(--added); color: var(--on-cta); }
 .dd-tag.is-real { background: var(--real); }
 
 /* ---------- Topic: the normal distribution ---------- */
@@ -599,7 +619,7 @@ a.topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 .nd-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 .nd-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .nd-bell { margin-bottom: 6px; }
-.nd-bell polyline { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+.nd-bell polyline { fill: none; stroke: var(--brand); stroke-width: 2; stroke-linejoin: round; }
 .nd-bell line { stroke: var(--axis); }
 .nd-card-title { font-weight: 700; font-size: 1.05rem; }
 .nd-card-what { color: var(--muted); font-size: 0.9rem; flex: 1; }
@@ -632,8 +652,8 @@ a.topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 .nd-fact { margin: 12px 0 0; padding-left: 12px; border-left: 3px solid var(--real); max-width: 75ch; }
 .nd-glow { animation: nd-pulse 1.6s ease-in-out infinite; }
 @keyframes nd-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent); }
-  50% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--accent) 0%, transparent); }
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--cta) 70%, transparent); }
+  50% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--cta) 0%, transparent); }
 }
 @media (prefers-reduced-motion: reduce) {
   .nd-glow { animation: none; }

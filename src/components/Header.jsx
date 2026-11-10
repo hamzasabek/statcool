@@ -9,10 +9,10 @@ const links = [
 function Logo() {
   return (
     <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
-      <rect width="28" height="28" rx="7" fill="var(--accent)" />
-      <rect x="6" y="15" width="4" height="7" rx="1" fill="#fff" opacity="0.75" />
-      <rect x="12" y="8" width="4" height="14" rx="1" fill="#fff" />
-      <rect x="18" y="12" width="4" height="10" rx="1" fill="#fff" opacity="0.75" />
+      <rect width="28" height="28" rx="7" fill="var(--navy)" />
+      <rect x="6" y="14" width="4" height="8" rx="1" fill="var(--sky)" />
+      <rect x="12" y="7" width="4" height="15" rx="1" fill="var(--sun)" />
+      <rect x="18" y="11" width="4" height="11" rx="1" fill="var(--blue)" />
     </svg>
   )
 }

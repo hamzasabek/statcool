@@ -108,3 +108,17 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   (topic 03, after mean/median/mode). The "normal distribution" coming-soon entry was replaced.
 - Shared chart code moved to `src/components/distribution/` (DrawChart, density, model).
 - Tested in headless Chrome (desktop + phone dark mode). No errors.
+
+## 2026-11-10 — Step 9: Site colour palette
+- New palette from https://colorhunt.co/palette/ffde4253cbf35478ff111fa2:
+  navy `#111FA2`, blue `#5478FF`, sky `#53CBF3`, yellow `#FFDE42` (raw tokens `--navy`,
+  `--blue`, `--sky`, `--sun` in `index.css`).
+- Roles: navy = links/active states (light mode) and logo; blue = curves, bell icons, chart
+  highlights (`--brand`); sky = real curve + success ticks + median; yellow = main buttons
+  (`--cta`, navy text), the student's dots, the mode, "needs work" hints.
+- Dark mode uses a deep-navy background (`#060a29` / `#0d1340`) with the same four colours.
+- Some palette colours are darkened only where they are text on white (median/real `#086d96`,
+  mode/miss `#8a6a00`). Every text pair passes WCAG AA (4.5:1) in both modes; chart lines
+  and axes pass 3:1. New tokens: `--on-accent`, `--brand`, `--cta`, `--on-cta`, `--cta-border`,
+  `--dot-stroke`, `--median-line`.
+- Logo bars now use sky / yellow / blue on navy.

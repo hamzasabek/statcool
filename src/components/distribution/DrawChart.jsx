@@ -350,8 +350,8 @@ export default function DrawChart({
         >
           <defs>
             <linearGradient id={`fit-${uid}`} x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" style={{ stopColor: 'var(--accent)', stopOpacity: 0.32 }} />
-              <stop offset="100%" style={{ stopColor: 'var(--accent)', stopOpacity: 0.02 }} />
+              <stop offset="0%" style={{ stopColor: 'var(--brand)', stopOpacity: 0.32 }} />
+              <stop offset="100%" style={{ stopColor: 'var(--brand)', stopOpacity: 0.02 }} />
             </linearGradient>
             <radialGradient id={`dot-${uid}`} cx="35%" cy="30%" r="75%">
               <stop offset="0%" style={{ stopColor: 'var(--dot-hi)' }} />

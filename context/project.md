@@ -78,5 +78,9 @@ context/                   this folder — project memory, updated every step
 - Charts: compute with D3, render SVG in JSX. No `d3.select` DOM manipulation.
 - Pointer gestures: capture the pointer on the `<svg>` and route moves by gesture type (see
   `DrawChart.jsx`); one undo step per gesture.
-- Colors only through CSS variables in `index.css` (dark mode supported).
+- Colors only through CSS variables in `index.css` (dark mode supported). Palette (colorhunt
+  ffde42-53cbf3-5478ff-111fa2): `--navy` links/active, `--blue` (`--brand`) curves/icons,
+  `--sky` real/success/median, `--sun` (`--cta`) main buttons + student dots + mode.
+  Text colours must pass WCAG AA 4.5:1 in light and dark mode (darken a palette colour for
+  text if needed, e.g. `--median` vs `--median-line`).
 - Every step: update `context/progress.md` (and `next.md` if plans change), then commit and push to `main`.
