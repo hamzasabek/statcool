@@ -46,7 +46,7 @@ src/
     normal-distribution/   topic 01 (minimalist): examples → draw a bell → compare, + clock game
       NormalDistribution.jsx page, dots reducer with undo; opens ClockGame from the picker
       ClockGame.jsx          game "Your inner clock": stop a hidden clock at 2 s, then 5 s;
-                             every press is a dot (play → predict → play → compare)
+                             every press is a dot (2 s game → 5 s game → compare)
       ClockChart.jsx         stacked dots + fitted normal curve + ±1 SD per series; one series
                              per game (axis 0–2×target), both in one graph on Compare
                              (2 s yellow, 5 s sky); "÷ target" view lines the bells up

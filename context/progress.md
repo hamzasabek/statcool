@@ -259,3 +259,12 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   (390×750 dark, 390×664 light), and a layout check at 375×548, 360×640, 390×664, 412×780,
   390×844, 768×1024, 667×375, 1280×600, 1366×657, 1920×969: no overlap, no errors.
 
+## 2026-11-10 — Step 21: Inner clock — no prediction page between the games
+- Owner: after the 2 s game, "Next" showed the 2 s results with three choices (less / same /
+  more spread) under the "5 seconds" step, and only then the 5 s game. It felt like a
+  chronological error.
+- Removed the prediction step. Order is now **2 s game → 5 s game → Compare**. "Next" (or the big
+  "Go to 5 s →" button) opens the 5 s game directly. Compare no longer mentions a prediction.
+- Tested in headless Chrome (1366×657): after 20 presses the big button opens the 5 s game
+  (step 2, empty chart, 0 / 20 presses), and "Compare →" works after 10 presses. No errors.
+

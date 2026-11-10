@@ -28,7 +28,9 @@
   comes back.
 
 ## Possible improvements
-- Inner-clock game: let the student pick 10 s instead of 5 s for the second target; pool results
+- Inner-clock game: a prediction question (less / same / more spread?) was removed in Step 21
+  because it sat between the games; it could come back inside the 5 s page, before the first
+  press. Let the student pick 10 s instead of 5 s for the second target; pool results
   of a whole class (needs a backend); a "reaction time" game for "Shapes of distributions"
   (right-skewed, links back to this topic); remember results in localStorage.
 - Clean up leftovers from the removed topic: `src/components/Tex.jsx` and the `katex`

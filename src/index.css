@@ -590,7 +590,6 @@ a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3
 .ck-flash { margin: 0; flex: 1 1 260px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .ck-flash.is-warn { color: var(--miss); }
 .ck-stats { font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
-.ck-choices { display: flex; flex-wrap: wrap; gap: 8px; }
 .ck-view { flex: none; }
 
 .ck-empty { fill: var(--muted); font-size: 13px; }

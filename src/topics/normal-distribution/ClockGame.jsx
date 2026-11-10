@@ -8,11 +8,6 @@ import { MIN_TRIALS, TARGETS, TOO_FAST, TRIALS, fmtPct, fmtS, stats } from './cl
 
 const STEPS = [...TARGETS.map((t) => `${t} seconds`), 'Compare']
 const COOLDOWN = 450 // ms after a stop before the next start counts (no double taps)
-const CHOICES = [
-  { id: 'less', label: 'Less spread' },
-  { id: 'same', label: 'The same' },
-  { id: 'more', label: 'More spread' },
-]
 
 const emptyResults = () => TARGETS.map(() => [])
 const KEYS = ['a', 'b'] // colour of each target's dots and curve (see .ck-dot.is-a / is-b)
@@ -21,8 +16,7 @@ const COMPARE_DOMAIN = [0, 2 * Math.max(...TARGETS)]
 export default function ClockGame({ onExit, onComplete }) {
   const [results, setResults] = useState(emptyResults)
   const [exp, setExp] = useState(0)
-  const [phase, setPhase] = useState('play') // 'play' | 'predict' | 'compare'
-  const [prediction, setPrediction] = useState(null)
+  const [phase, setPhase] = useState('play') // 'play' | 'compare'
   const [relative, setRelative] = useState(false)
   const [running, setRunning] = useState(false)
   const [flash, setFlash] = useState(null) // { text, warn }
@@ -109,13 +103,7 @@ export default function ClockGame({ onExit, onComplete }) {
     if (isLast) {
       setPhase('compare')
       onComplete?.()
-    } else setPhase('predict')
-  }
-
-  function choose(id) {
-    setPrediction(id)
-    setExp(exp + 1)
-    setPhase('play')
+    } else setExp(exp + 1) // straight on to the next game
   }
 
   function playAgain() {
@@ -123,14 +111,13 @@ export default function ClockGame({ onExit, onComplete }) {
     setResults(emptyResults())
     setExp(0)
     setPhase('play')
-    setPrediction(null)
     setRelative(false)
     setFlash(null)
   }
 
   const series = TARGETS.map((t, i) => ({ key: KEYS[i], label: `${t} s`, target: t, values: results[i] }))
   const ownDomain = (i) => [0, 2 * TARGETS[i]] // a game shows only its own presses
-  const current = phase === 'compare' ? TARGETS.length : exp + (phase === 'predict' ? 1 : 0)
+  const current = phase === 'compare' ? TARGETS.length : exp
 
   // ---------- Compare ----------
   if (phase === 'compare') {
@@ -140,10 +127,6 @@ export default function ClockGame({ onExit, onComplete }) {
     const cvB = b.sd / b.mean
     const cvClose = Math.max(cvA, cvB) / Math.min(cvA, cvB) <= 1.5
     const wider = ratio >= 1.15
-    const verdict =
-      prediction === 'more'
-        ? 'You predicted more spread. Right!'
-        : `You predicted ${prediction === 'less' ? 'less spread' : 'the same spread'}. For most people the spread grows with the time.`
     return (
       <Stage
         title="Your inner clock"
@@ -188,7 +171,6 @@ export default function ClockGame({ onExit, onComplete }) {
                 time, the spread is {fmtPct(cvA)} vs {fmtPct(cvB)}
                 {cvClose ? ': about the same. Timing errors grow in proportion to the time (Weber’s law).' : '.'}
               </p>
-              <p className="nd-fact">{verdict}</p>
             </div>
             <div className="actions">
               <button type="button" className="btn btn-ghost" onClick={onExit}>
@@ -202,42 +184,6 @@ export default function ClockGame({ onExit, onComplete }) {
         }
       >
         <ClockChart series={series} domain={relative ? [0, 2] : COMPARE_DOMAIN} relative={relative} />
-      </Stage>
-    )
-  }
-
-  // ---------- Predict (between the two experiments) ----------
-  if (phase === 'predict') {
-    const nextT = TARGETS[exp + 1]
-    return (
-      <Stage
-        title="Your inner clock"
-        className="ck-stage"
-        steps={STEPS}
-        current={current}
-        say={
-          <p>
-            <strong>Next: {nextT} seconds.</strong> Compared with {target} s, will your presses have…
-          </p>
-        }
-        foot={
-          <>
-            <div className="ck-choices" role="group" aria-label="Your prediction">
-              {CHOICES.map((c) => (
-                <button key={c.id} type="button" className="btn" onClick={() => choose(c.id)}>
-                  {c.label}
-                </button>
-              ))}
-            </div>
-            <div className="actions">
-              <button type="button" className="btn btn-ghost" onClick={onExit}>
-                All examples
-              </button>
-            </div>
-          </>
-        }
-      >
-        <ClockChart series={[series[exp]]} domain={ownDomain(exp)} />
       </Stage>
     )
   }
