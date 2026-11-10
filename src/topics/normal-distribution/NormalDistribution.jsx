@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useState } from 'react'
-import { Link } from 'react-router'
 import DrawChart from '../../components/distribution/DrawChart.jsx'
+import { Stage } from '../../components/Stage.jsx'
 import { EXAMPLES, exampleById, fmtValue } from './examples.js'
 import { MIN_DOTS, normalFeedback } from './feedback.js'
 
@@ -80,114 +80,101 @@ export default function NormalDistribution() {
 
   const nextEx = ex ? EXAMPLES.find((e) => e.id !== ex.id && !done[e.id]) : null
 
+  const checks = fb?.checks ?? CHECK_LABELS.map((label) => ({ label }))
+
+  if (!ex) {
+    return (
+      <Stage
+        title="The normal distribution"
+        steps={STEPS}
+        current={0}
+        say={<p>Most people near the middle, fewer towards the extremes. Pick an example to draw.</p>}
+      >
+        <ul className="nd-examples">
+          {EXAMPLES.map((e) => (
+            <li key={e.id}>
+              <button type="button" className="nd-card" onClick={() => pick(e.id)}>
+                <Bell />
+                <span className="nd-card-title">
+                  {e.title}
+                  {done[e.id] && <span className="nd-done" aria-label="drawn"> ✓</span>}
+                </span>
+                <span className="nd-card-what">{e.what}</span>
+                <span className="nd-card-stat">
+                  mean {fmtValue(e, e.mu)} · SD {fmtValue(e, e.sigma)}
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </Stage>
+    )
+  }
+
   return (
-    <article className="topic nd">
-      <Link to="/topics" className="back-link">
-        ← All topics
-      </Link>
-      <h1>The normal distribution</h1>
-      <p className="lead">Most people near the middle, fewer and fewer towards the extremes.</p>
-
-      <ol className="dd-steps">
-        {STEPS.map((s, i) => (
-          <li key={s} className={i === step ? 'is-current' : i < step ? 'is-done' : ''}>
-            <span className="dd-step-num">{i + 1}</span>
-            {s}
-          </li>
-        ))}
-      </ol>
-
-      {!ex && (
+    <Stage
+      title="The normal distribution"
+      steps={STEPS}
+      current={step}
+      say={
+        <p>
+          <strong>{ex.task}</strong> Each dot is {ex.dot}.
+        </p>
+      }
+      bar={
         <>
-          <p className="nd-say">These are normally distributed. Pick one to draw.</p>
-          <ul className="nd-examples">
-            {EXAMPLES.map((e) => (
-              <li key={e.id}>
-                <button type="button" className="nd-card" onClick={() => pick(e.id)}>
-                  <Bell />
-                  <span className="nd-card-title">
-                    {e.title}
-                    {done[e.id] && <span className="nd-done" aria-label="drawn"> ✓</span>}
-                  </span>
-                  <span className="nd-card-what">{e.what}</span>
-                  <span className="nd-card-stat">
-                    mean {fmtValue(e, e.mu)} · SD {fmtValue(e, e.sigma)}
-                  </span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-
-      {ex && (
-        <section>
-          <p className="nd-say">
-            <strong>{ex.task}</strong> Each dot is {ex.dot}.
-          </p>
-
-          <div className="panel chart-panel">
-            <div className="chart-toolbar">
-              <div className="legend">
-                <span className="legend-item added">{dots.length} dots</span>
-                <span className="legend-item fit">Your curve</span>
-                {revealed && <span className="legend-item real">Real</span>}
-              </div>
-              <div className="dd-tools">
-                <button
-                  type="button"
-                  className="btn btn-sm"
-                  disabled={!history.length}
-                  onClick={() => dispatch({ type: 'undo' })}
-                >
-                  Undo
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-sm"
-                  disabled={!dots.length}
-                  onClick={() => dispatch({ type: 'clear' })}
-                >
-                  Clear
-                </button>
-              </div>
-            </div>
-            <DrawChart
-              kind={ex}
-              dots={dots}
-              mode="draw"
-              model={null}
-              revealed={revealed}
-              onGestureStart={() => dispatch({ type: 'gestureStart' })}
-              onGestureEnd={(changed) => dispatch({ type: 'gestureEnd', changed })}
-              onAdd={(col, count) => dispatch({ type: 'add', col, count })}
-              onMove={(id, col) => dispatch({ type: 'move', id, col })}
-              onRemove={(id) => dispatch({ type: 'remove', id })}
-              onModel={noop}
-            />
+          <div className="legend">
+            <span className="legend-item added">{dots.length} dots</span>
+            <span className="legend-item fit">Your curve</span>
+            {revealed && <span className="legend-item real">Real</span>}
           </div>
-
+          <div className="tools">
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm"
+              disabled={!history.length}
+              onClick={() => dispatch({ type: 'undo' })}
+            >
+              Undo
+            </button>
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm"
+              disabled={!dots.length}
+              onClick={() => dispatch({ type: 'clear' })}
+            >
+              Clear
+            </button>
+          </div>
+        </>
+      }
+      foot={
+        <>
           <div className={`nd-feedback${fb.good ? ' is-good' : ''}`} aria-live="polite">
             <ul className="nd-checks" aria-label="Checklist">
-              {(fb.checks ?? CHECK_LABELS.map((label) => ({ label }))).map((c) => (
+              {checks.map((c) => (
                 <li key={c.label} className={c.ok === undefined ? '' : c.ok ? 'is-ok' : 'is-off'}>
-                  {c.ok ? '✓ ' : ''}
                   {c.label}
                 </li>
               ))}
             </ul>
             <p className="nd-hint">{fb.hint}</p>
+            {revealed && (
+              <p className="nd-fact">
+                Real data: mean {fmtValue(ex, ex.mu)}, SD {fmtValue(ex, ex.sigma)}. About 2 in 3{' '}
+                {ex.who} fall between {fmtValue(ex, ex.mu - ex.sigma)} and {fmtValue(ex, ex.mu + ex.sigma)}.
+              </p>
+            )}
           </div>
-
-          {revealed && (
-            <p className="nd-fact">
-              Real data: mean {fmtValue(ex, ex.mu)}, SD {fmtValue(ex, ex.sigma)}. About
-              2 in 3 {ex.who} fall between {fmtValue(ex, ex.mu - ex.sigma)} and{' '}
-              {fmtValue(ex, ex.mu + ex.sigma)}.
-            </p>
-          )}
-
-          <div className="dd-actions">
+          <div className="actions">
+            <button type="button" className="btn btn-ghost" onClick={() => setExId(null)}>
+              All examples
+            </button>
+            {revealed && (
+              <button type="button" className="btn" onClick={() => pick(ex.id)}>
+                Draw again
+              </button>
+            )}
             {!revealed ? (
               <button
                 type="button"
@@ -204,17 +191,23 @@ export default function NormalDistribution() {
                 </button>
               )
             )}
-            {revealed && (
-              <button type="button" className="btn" onClick={() => pick(ex.id)}>
-                Draw again
-              </button>
-            )}
-            <button type="button" className="btn" onClick={() => setExId(null)}>
-              All examples
-            </button>
           </div>
-        </section>
-      )}
-    </article>
+        </>
+      }
+    >
+      <DrawChart
+        kind={ex}
+        dots={dots}
+        mode="draw"
+        model={null}
+        revealed={revealed}
+        onGestureStart={() => dispatch({ type: 'gestureStart' })}
+        onGestureEnd={(changed) => dispatch({ type: 'gestureEnd', changed })}
+        onAdd={(col, count) => dispatch({ type: 'add', col, count })}
+        onMove={(id, col) => dispatch({ type: 'move', id, col })}
+        onRemove={(id) => dispatch({ type: 'remove', id })}
+        onModel={noop}
+      />
+    </Stage>
   )
 }

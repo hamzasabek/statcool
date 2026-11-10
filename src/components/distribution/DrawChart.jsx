@@ -6,6 +6,7 @@ import { bandwidth, grid, kde } from './density.js'
 import { HALF, colWidthOf, prepare, setHill } from './model.js'
 
 const M = { top: 44, right: 18, bottom: 74, left: 18 }
+const MIN_HEIGHT = 220
 const MIN_CAPACITY = 12 // the chart always has room for at least this many dots per column
 const MAX_DOTS = 400
 const TRASH_GAP = 16 // drop a dot this far below the axis to remove it
@@ -40,17 +41,20 @@ export default function DrawChart({
   const wrapRef = useRef(null)
   const svgRef = useRef(null)
   const gesture = useRef(null)
-  const [width, setWidth] = useState(720)
+  const [{ width, height }, setSize] = useState({ width: 720, height: 360 })
   const [hover, setHover] = useState(null) // { px, py } of the pointer when no gesture runs
   const [drag, setDrag] = useState(null) // { id, px, py } of a dot being dragged
   const [active, setActive] = useState(null) // 'brush' | 'dot' | 'handle'
   const [frozenSize, setFrozenSize] = useState(null)
   const [cursorCol, setCursorCol] = useState(null) // keyboard cursor
 
+  // The chart fills its container (width and height), so a page can fit on one screen.
   useLayoutEffect(() => {
     const el = wrapRef.current
-    setWidth(el.clientWidth)
-    const ro = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width))
+    setSize({ width: el.clientWidth, height: el.clientHeight })
+    const ro = new ResizeObserver(([entry]) =>
+      setSize({ width: entry.contentRect.width, height: entry.contentRect.height }),
+    )
     ro.observe(el)
     return () => ro.disconnect()
   }, [])
@@ -59,9 +63,8 @@ export default function DrawChart({
   const { cols } = kind
   const cw = colWidthOf(kind)
   const plotRight = Math.max(M.left + cols, width - M.right)
-  // The plot is shorter on narrow screens, where the dots are smaller.
-  const plotHeight = Math.round(Math.min(272, Math.max(190, width * 0.42)))
-  const HEIGHT = plotHeight + M.top + M.bottom
+  const HEIGHT = Math.max(MIN_HEIGHT, Math.round(height))
+  const plotHeight = HEIGHT - M.top - M.bottom
   const plotBottom = M.top + plotHeight
   const colPx = (plotRight - M.left) / cols
 
@@ -331,7 +334,7 @@ export default function DrawChart({
 
   return (
     <MotionConfig reducedMotion="user">
-      <div ref={wrapRef} className="chart-wrap">
+      <div ref={wrapRef} className="chart-fill">
         <svg
           ref={svgRef}
           width={width}

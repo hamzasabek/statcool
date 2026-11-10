@@ -130,3 +130,28 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Student dots are the plain palette yellow `#FFDE42`, flat (no gradient), with a thin
   gold outline in light mode so they show on white. Radial gradient removed from `DrawChart`.
 - Contrast re-checked: all text pairs pass WCAG AA; lines and axes pass 3:1.
+
+## 2026-11-10 — Step 11: Elegant style + every learning screen fits on one screen
+- Owner: no "rectangle style", more elegant; all learning content visible without scrolling.
+- Style (`index.css` rewritten, same colour tokens):
+  - No bordered panels/boxes. Charts sit directly on the page; cards are soft lifted surfaces
+    (radius 20, shadow tokens `--shadow` / `--shadow-hover`; a hairline in dark mode).
+  - Pill buttons (`.btn`, `.btn-ghost`, yellow `.btn-primary` with a soft glow), iOS-style
+    segmented controls, thin step indicator with connectors, header with blur and a yellow dot
+    under the active link.
+  - Fonts: Fraunces (headings) + Inter (UI) from Google Fonts, loaded without blocking the
+    first paint (`media="print" onload`), so the page shows in ~0.5 s with system fonts first.
+- Layout: new `src/components/Stage.jsx` (`Stage`, `Steps`): head (back link + title + steps),
+  one task line, optional toolbar, a main area that fills the remaining height, and a footer
+  for feedback + actions. `DrawChart` and `Histogram` now measure their container's height
+  (`.chart-fill`), so the chart takes whatever space is left.
+- Topic 01/03/02 rebuilt on `Stage`. Topic 03's result is now a compact side panel next to the
+  chart (verdict, you drew / real data, "Why?" with a 1/3 pager); the shape gallery was dropped.
+  Topic 02: one combined formula per stat card (general = live numbers), the explanation as one
+  paragraph under the cards, tighter controls.
+- Fit test in headless Chrome at 1366×657, 1280×720, 1440×900, 1920×1080 and 390×750: every
+  screen of every topic fits with no page scroll and no inner scroll on desktop/laptop. On the
+  phone, topic 01 and topic 03 (pick / draw / reshape) fit; topic 02 and topic 03's compare step
+  scroll on purpose (too much content for 390 px).
+- Interaction tests (draw, paint, drag, drop-to-remove, reshape, second hill, undo, keyboard,
+  reveal, feedback hints) re-run: all pass, no errors.

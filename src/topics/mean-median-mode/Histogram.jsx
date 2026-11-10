@@ -4,7 +4,7 @@ import { MAX_VALUE, MIN_VALUE } from './data.js'
 import { fmt } from './stats.js'
 import { useTweened } from '../../hooks/useTweened.js'
 
-const HEIGHT = 400
+const MIN_HEIGHT = 240
 const M = { top: 70, right: 20, bottom: 64, left: 44 }
 const LABEL_ROWS = [16, 36, 56]
 const DOT_OFFSET = 46 // distance of the "your students" dots below the x axis
@@ -25,20 +25,23 @@ export default function Histogram({
   const wrapRef = useRef(null)
   const svgRef = useRef(null)
   const dragRef = useRef(null)
-  const [width, setWidth] = useState(720)
+  const [{ width, height }, setSize] = useState({ width: 720, height: 400 })
   const [hover, setHover] = useState(null)
   const [dragIndex, setDragIndex] = useState(null)
   const dragging = dragIndex !== null
 
-  // Keep the SVG as wide as its container.
+  // Fill the container (width and height), so the page fits on one screen.
   useLayoutEffect(() => {
     const el = wrapRef.current
-    setWidth(el.clientWidth)
-    const ro = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width))
+    setSize({ width: el.clientWidth, height: el.clientHeight })
+    const ro = new ResizeObserver(([entry]) =>
+      setSize({ width: entry.contentRect.width, height: entry.contentRect.height }),
+    )
     ro.observe(el)
     return () => ro.disconnect()
   }, [])
 
+  const HEIGHT = Math.max(MIN_HEIGHT, Math.round(height))
   const plotBottom = HEIGHT - M.bottom
   const plotRight = Math.max(M.left + 1, width - M.right)
 
@@ -128,7 +131,7 @@ export default function Histogram({
   }
 
   return (
-    <div ref={wrapRef} className="chart-wrap">
+    <div ref={wrapRef} className="chart-fill">
       <svg
         ref={svgRef}
         width={width}

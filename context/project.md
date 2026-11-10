@@ -28,6 +28,7 @@ src/
   components/
     Header.jsx             logo + nav (Home, Topics, About)
     Tex.jsx                KaTeX formula component
+    Stage.jsx              full-viewport learning layout (head, say, bar, main, foot) + Steps
     distribution/          shared dot-drawing chart (used by two topics)
       DrawChart.jsx        click/brush/drag/remove dots, live KDE curve, reshape handles,
                            real curve after reveal (Motion springs)
@@ -73,6 +74,11 @@ context/                   this folder — project memory, updated every step
 ## Conventions
 
 - Content style (owner's wish): minimalist, one short sentence per learning step.
+- Learning pages use `<Stage>` and must fit in one screen without scrolling (desktop/laptop,
+  down to 1366×657). Charts fill the leftover height (`.chart-fill`). Pages with many controls
+  may scroll on phones (`flowOnNarrow`).
+- Visual style (owner's wish): elegant, no boxed/rectangle panels. Use soft lifted cards,
+  pill buttons, segmented pills, whitespace. Fonts: Fraunces (headings), Inter (UI).
 
 - Plain JavaScript (`.jsx` / `.js`), function components and hooks.
 - Charts: compute with D3, render SVG in JSX. No `d3.select` DOM manipulation.

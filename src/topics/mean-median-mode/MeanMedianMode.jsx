@@ -1,5 +1,5 @@
 import { useMemo, useReducer, useState } from 'react'
-import { Link } from 'react-router'
+import { Stage } from '../../components/Stage.jsx'
 import Histogram from './Histogram.jsx'
 import Tex from '../../components/Tex.jsx'
 import { MAX_N, MAX_VALUE, MIN_VALUE, generate, makeDraws } from './data.js'
@@ -167,14 +167,17 @@ function insight(stats, params) {
   return lines
 }
 
-function StatCard({ kind, title, value, tex, children }) {
+// One formula per card: the general rule and the live numbers in a single line where possible.
+const withLive = (general, live) => (live ? `${general} = ${live.replace(/^[^=]*=\s*/, '')}` : general)
+
+function StatCard({ kind, title, value, math, hint }) {
   return (
-    <div className={`stat-card ${kind}`}>
-      <h3>{title}</h3>
-      <p className="stat-value">{value}</p>
-      <Tex className="formula" math={tex.general} display />
-      {tex.live && <Tex className="formula formula-live" math={tex.live} display />}
-      <p className="stat-explain">{children}</p>
+    <div className={`stat-card ${kind}`} title={hint}>
+      <div className="stat-top">
+        <h3>{title}</h3>
+        <span className="stat-value">{value}</span>
+      </div>
+      <Tex className="formula" math={math} display />
     </div>
   )
 }
@@ -200,38 +203,42 @@ export default function MeanMedianMode() {
 
   const addPoint = (value) => dispatch({ type: 'add', value })
 
-  return (
-    <article className="topic">
-      <Link to="/topics" className="back-link">
-        ← All topics
-      </Link>
-      <h1>Mean, median &amp; mode</h1>
-      <p className="lead">
-        Imagine the exam scores (0–100) of a group of students. Change the shape of the scores, add or
-        remove students, and watch how the three measures of the center react in real time.{' '}
-        <strong>Click the chart</strong> to add a student, <strong>drag</strong> your students to move
-        them, and switch on <strong>delete mode</strong> to remove students.
-      </p>
+  const mean = meanTex(stats)
+  const median = medianTex(stats)
+  const mode = modeTex(stats)
 
+  return (
+    <Stage
+      title="Mean, median & mode"
+      flowOnNarrow
+      say={
+        <p>
+          Exam scores of a class.{' '}
+          <span className="muted">
+            Click the chart to add a student, drag your yellow dots, or switch on delete mode.
+          </span>
+        </p>
+      }
+    >
       <div className="mmm-layout">
         <div className="mmm-main">
-          <div className={`panel chart-panel${deleteMode ? ' is-deleting' : ''}`}>
-            <div className="chart-toolbar">
-              <div className="legend">
-                <span className="legend-item mean">Mean</span>
-                <span className="legend-item median">Median</span>
-                <span className="legend-item mode">Mode</span>
-                <span className="legend-item added">Your students (drag me)</span>
-              </div>
-              <button
-                type="button"
-                className={`btn btn-sm${deleteMode ? ' btn-danger' : ''}`}
-                aria-pressed={deleteMode}
-                onClick={() => setDeleteMode((d) => !d)}
-              >
-                {deleteMode ? 'Delete mode: on' : 'Delete mode'}
-              </button>
+          <div className="mmm-bar">
+            <div className="legend">
+              <span className="legend-item mean">Mean</span>
+              <span className="legend-item median">Median</span>
+              <span className="legend-item mode">Mode</span>
+              <span className="legend-item added">Your students</span>
             </div>
+            <button
+              type="button"
+              className={`btn btn-sm${deleteMode ? ' btn-danger' : ' btn-ghost'}`}
+              aria-pressed={deleteMode}
+              onClick={() => setDeleteMode((d) => !d)}
+            >
+              {deleteMode ? 'Delete mode: on' : 'Delete mode'}
+            </button>
+          </div>
+          <div className={`mmm-chart${deleteMode ? ' is-deleting' : ''}`}>
             <Histogram
               values={values}
               addedPoints={edits.added}
@@ -245,45 +252,40 @@ export default function MeanMedianMode() {
               onDragMove={(index, value) => dispatch({ type: 'dragMove', index, value })}
               onDragEnd={(moved) => dispatch({ type: 'dragEnd', moved })}
             />
-            <p className="axis-title">
-              {deleteMode
-                ? 'Delete mode: click a bar to remove one student, or click one of your dots'
-                : 'Exam score · bar height = number of students'}
-            </p>
           </div>
 
           <div className="stat-cards">
-            <StatCard kind="mean" title="Mean" value={fmt(stats.mean)} tex={meanTex(stats)}>
-              Add up every score and divide by the number of students.
-            </StatCard>
-            <StatCard kind="median" title="Median" value={fmt(stats.median)} tex={medianTex(stats)}>
-              Sort the scores and take the middle one. <Tex math="x_{(k)}" /> is the k-th smallest
-              score{stats.n % 2 === 0 && stats.n > 0 ? '. With an even n, average the two middle ones.' : '.'}
-            </StatCard>
+            <StatCard
+              kind="mean"
+              title="Mean"
+              value={fmt(stats.mean)}
+              math={withLive(mean.general, mean.live)}
+              hint="Add up every score and divide by the number of students."
+            />
+            <StatCard
+              kind="median"
+              title="Median"
+              value={fmt(stats.median)}
+              math={median.live ?? median.general}
+              hint="Sort the scores and take the middle one (with an even n, average the two middle ones)."
+            />
             <StatCard
               kind="mode"
               title="Mode"
               value={stats.modes.length ? stats.modes.join(', ') : 'none'}
-              tex={modeTex(stats)}
-            >
-              The most frequent score. <Tex math="f(v)" /> is how many students scored{' '}
-              <Tex math="v" />.
-            </StatCard>
+              math={mode.live ?? mode.general}
+              hint="The most frequent score. f(v) is how many students scored v."
+            />
           </div>
 
-          <div className="panel insight">
-            <h3>What&apos;s happening?</h3>
-            {notes.map((t) => (
-              <p key={t}>{t}</p>
-            ))}
-          </div>
+          <p className="mmm-insight" aria-live="polite">
+            {notes.join(' ')}
+          </p>
         </div>
 
-        <aside className="panel controls" aria-label="Dataset controls">
+        <aside className="controls" aria-label="Dataset controls">
           <h2>Dataset</h2>
-
           <div className="control">
-            <span className="control-head">Shape</span>
             <div className="segmented" role="group" aria-label="Distribution shape">
               {SHAPES.map((s) => (
                 <button
@@ -299,22 +301,14 @@ export default function MeanMedianMode() {
             </div>
           </div>
 
-          <Slider
-            label="Number of students"
-            value={params.n}
-            min={5}
-            max={MAX_N}
-            step={5}
-            onChange={set('n')}
-          />
+          <Slider label="Students" value={params.n} min={5} max={MAX_N} step={5} onChange={set('n')} />
           <Slider label="Center" value={params.center} min={10} max={90} onChange={set('center')} />
           <Slider
-            label="Spread"
+            label={params.shape === 'bimodal' ? 'Spread of each peak' : 'Spread'}
             value={params.spread}
             min={1}
             max={30}
             onChange={set('spread')}
-            hint={params.shape === 'bimodal' ? 'Spread of each peak' : 'How far scores scatter'}
           />
 
           {params.shape === 'bell' && (
@@ -328,7 +322,6 @@ export default function MeanMedianMode() {
               display={
                 params.skew === 0 ? 'symmetric' : params.skew > 0 ? `right +${params.skew}` : `left ${params.skew}`
               }
-              hint="Stretch a tail to the left or right"
             />
           )}
 
@@ -342,7 +335,7 @@ export default function MeanMedianMode() {
                 onChange={set('separation')}
               />
               <Slider
-                label="Students in left peak"
+                label="In left peak"
                 value={params.balance}
                 min={0.1}
                 max={0.9}
@@ -370,23 +363,24 @@ export default function MeanMedianMode() {
             </div>
           </div>
 
-          <h2>Your changes</h2>
-          <p className="control-hint">
-            You added <strong>{edits.added.length}</strong> and removed <strong>{removedCount}</strong>{' '}
-            student{removedCount === 1 ? '' : 's'}.
-          </p>
+          <h2>
+            Your changes{' '}
+            <span className="control-count">
+              +{edits.added.length} / −{removedCount}
+            </span>
+          </h2>
           <div className="btn-row">
-            <button type="button" className="btn" onClick={() => addPoint(MAX_VALUE)}>
+            <button type="button" className="btn btn-sm" onClick={() => addPoint(MAX_VALUE)}>
               + Outlier {MAX_VALUE}
             </button>
-            <button type="button" className="btn" onClick={() => addPoint(MIN_VALUE)}>
+            <button type="button" className="btn btn-sm" onClick={() => addPoint(MIN_VALUE)}>
               + Outlier {MIN_VALUE}
             </button>
           </div>
-          <div className="btn-row">
+          <div className="btn-wrap">
             <button
               type="button"
-              className="btn"
+              className="btn btn-sm btn-ghost"
               disabled={!history.length}
               onClick={() => dispatch({ type: 'undo' })}
             >
@@ -394,22 +388,18 @@ export default function MeanMedianMode() {
             </button>
             <button
               type="button"
-              className="btn"
+              className="btn btn-sm btn-ghost"
               disabled={!edits.added.length && !edits.removed.length}
               onClick={() => dispatch({ type: 'clear' })}
             >
-              Clear changes
+              Clear
             </button>
-          </div>
-
-          <h2>Start over</h2>
-          <div className="btn-row">
-            <button type="button" className="btn" onClick={() => setSeed((s) => s + 1)}>
-              New random class
+            <button type="button" className="btn btn-sm btn-ghost" onClick={() => setSeed((s) => s + 1)}>
+              New class
             </button>
             <button
               type="button"
-              className="btn"
+              className="btn btn-sm btn-ghost"
               onClick={() => {
                 setParams(DEFAULTS)
                 setSeed(42)
@@ -417,11 +407,11 @@ export default function MeanMedianMode() {
                 dispatch({ type: 'reset' })
               }}
             >
-              Reset all
+              Reset
             </button>
           </div>
         </aside>
       </div>
-    </article>
+    </Stage>
   )
 }

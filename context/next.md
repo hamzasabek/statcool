@@ -11,6 +11,11 @@
 - Correlation (like rpsychologist.com/correlation: draggable scatter points, slider for r)
 
 ## Possible improvements
+- Phones: topic 02 (mean/median/mode) and topic 03's compare step still scroll; could use a
+  bottom sheet or tabs for controls / result.
+- Self-host the two fonts (e.g. @fontsource) instead of Google Fonts.
+- Home, Topics and About pages still have lorem ipsum and are not yet restyled beyond the
+  shared styles.
 - Normal lesson: show the ±1 SD band (68%) on the Compare step; more examples (e.g. reading
   speed, line-length estimates); remember solved examples in localStorage.
 - Data distributions: save solved kinds in localStorage; more kinds (e.g. depression scores, spike

@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
-import { Link } from 'react-router'
 import * as d3 from 'd3'
 import DrawChart from '../../components/distribution/DrawChart.jsx'
-import { KINDS, SHAPES, SHAPE_ORDER, kindById } from './kinds.js'
+import { Stage } from '../../components/Stage.jsx'
+import { KINDS, SHAPES, kindById } from './kinds.js'
 import { MIN_DOTS, classify } from './classify.js'
 import {
   MIN_FIT_DOTS,
@@ -75,20 +75,7 @@ function ShapeIcon({ shape, width = 64, height = 30 }) {
   )
 }
 
-const STEPS = ['Choose the data', 'Draw it', 'Compare']
-
-function Steps({ current }) {
-  return (
-    <ol className="dd-steps">
-      {STEPS.map((s, i) => (
-        <li key={s} className={i === current ? 'is-current' : i < current ? 'is-done' : ''}>
-          <span className="dd-step-num">{i + 1}</span>
-          {s}
-        </li>
-      ))}
-    </ol>
-  )
-}
+const STEPS = ['Choose', 'Draw', 'Compare']
 
 function KindPicker({ results, onPick }) {
   return (
@@ -103,7 +90,7 @@ function KindPicker({ results, onPick }) {
               <span className="dd-kind-teaser">{k.teaser}</span>
               {r && (
                 <span className={`dd-badge ${r.match ? 'is-match' : 'is-miss'}`}>
-                  {r.match ? '✓ Shape found' : 'Tried. Try again?'}
+                  {r.match ? '✓ Shape found' : 'Try again?'}
                 </span>
               )}
             </button>
@@ -126,70 +113,76 @@ const CurveIcon = () => (
   </svg>
 )
 
+// Compact result, shown next to the chart after "Compare".
 function Result({ kind, guess }) {
-  const real = kind.shape
+  const [page, setPage] = useState(0)
   if (!guess) {
     return (
-      <div className="panel dd-result">
-        <p>Your drawing has fewer than {MIN_DOTS} dots. Add some more to compare it with the real shape.</p>
-      </div>
+      <aside className="dd-result">
+        <p className="dd-compare-text">Add at least {MIN_DOTS} dots to compare.</p>
+      </aside>
     )
   }
+  const real = kind.shape
   const match = guess.shape === real
   return (
-    <div className="panel dd-result">
+    <aside className="dd-result" aria-live="polite">
+      <p className={`dd-verdict ${match ? 'is-match' : 'is-miss'}`}>
+        {match ? 'Same shape. Well done!' : 'Not the same shape yet.'}
+      </p>
       <div className="dd-compare">
-        <div className="dd-compare-col">
-          <p className="dd-compare-head">Your drawing looks</p>
-          {guess.shape === 'spike' ? (
-            <p className="dd-compare-shape">Like a single spike</p>
-          ) : (
-            <p className="dd-compare-shape">
-              <ShapeIcon shape={guess.shape} />
-              {SHAPES[guess.shape].label}
-            </p>
-          )}
-          <p className="dd-compare-text">{guess.reason}</p>
+        <div className="dd-compare-row is-guess">
+          <span className="dd-compare-head">You drew</span>
+          <span className="dd-compare-shape">
+            {guess.shape === 'spike' ? (
+              'A single spike'
+            ) : (
+              <>
+                <ShapeIcon shape={guess.shape} width={44} height={22} />
+                {SHAPES[guess.shape].label}
+              </>
+            )}
+          </span>
         </div>
-        <div className="dd-compare-col is-real">
-          <p className="dd-compare-head">The real data are usually</p>
-          <p className="dd-compare-shape">
-            <ShapeIcon shape={real} />
+        <div className="dd-compare-row is-real">
+          <span className="dd-compare-head">Real data</span>
+          <span className="dd-compare-shape">
+            <ShapeIcon shape={real} width={44} height={22} />
             {SHAPES[real].label}
-          </p>
-          <p className="dd-compare-text">
-            The green curve on the chart shows this shape, scaled to the number of dots you drew.
-          </p>
+          </span>
         </div>
       </div>
-
-      <p className={`dd-verdict ${match ? 'is-match' : 'is-miss'}`} aria-live="polite">
-        {match
-          ? 'Same shape. Well done!'
-          : 'Not quite the same shape yet. Reshape your curve or move your dots to match the green curve.'}
+      <p className="dd-compare-text">
+        {match ? guess.reason : 'Reshape your curve or move your dots towards the real curve.'}
       </p>
-
-      <h3>Why does this data look like this?</h3>
-      {kind.why.map((t) => (
-        <p key={t}>{t}</p>
-      ))}
-
-      <h3>All the shapes</h3>
-      <ul className="dd-gallery">
-        {SHAPE_ORDER.map((s) => (
-          <li key={s} className={`${s === real ? 'is-real' : ''}${s === guess.shape ? ' is-guess' : ''}`}>
-            <ShapeIcon shape={s} width={80} height={36} />
-            <span>{SHAPES[s].label}</span>
-            {(s === real || s === guess.shape) && (
-              <span className="dd-gallery-tags">
-                {s === guess.shape && <span className="dd-tag is-guess">you</span>}
-                {s === real && <span className="dd-tag is-real">real</span>}
-              </span>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
+      <div className="dd-why">
+        <h3>Why?</h3>
+        <p>{kind.why[page]}</p>
+        <div className="dd-pager">
+          <button
+            type="button"
+            className="btn btn-ghost btn-icon"
+            aria-label="Previous reason"
+            disabled={page === 0}
+            onClick={() => setPage((p) => p - 1)}
+          >
+            ‹
+          </button>
+          <span>
+            {page + 1} / {kind.why.length}
+          </span>
+          <button
+            type="button"
+            className="btn btn-ghost btn-icon"
+            aria-label="Next reason"
+            disabled={page === kind.why.length - 1}
+            onClick={() => setPage((p) => p + 1)}
+          >
+            ›
+          </button>
+        </div>
+      </div>
+    </aside>
   )
 }
 
@@ -232,7 +225,6 @@ export default function DataDistributions() {
     dispatch({ type: 'reset' })
     setMode('draw')
     setRevealed(false)
-    window.scrollTo?.({ top: 0 })
   }
 
   function backToPicker() {
@@ -281,204 +273,196 @@ export default function DataDistributions() {
   })()
   const found = KINDS.filter((k) => results[k.id]?.match).length
 
+  if (!kind) {
+    return (
+      <Stage
+        title="Shapes of distributions"
+        steps={STEPS}
+        current={0}
+        say={
+          <p>
+            Not everything is a bell. Pick some data, draw it, then compare.{' '}
+            <span className="muted">
+              Found {found} of {KINDS.length}
+            </span>
+          </p>
+        }
+      >
+        <KindPicker results={results} onPick={pick} />
+      </Stage>
+    )
+  }
+
   const liveShape = guess
     ? guess.shape === 'spike'
       ? 'like a single spike'
       : SHAPES[guess.shape].label.toLowerCase()
     : null
 
+  const chart = (
+    <DrawChart
+      kind={kind}
+      dots={dots}
+      mode={mode}
+      model={model}
+      revealed={revealed}
+      onGestureStart={() => dispatch({ type: 'gestureStart' })}
+      onGestureEnd={(changed) => dispatch({ type: 'gestureEnd', changed })}
+      onAdd={(col, count) => dispatch({ type: 'add', col, count })}
+      onMove={(id, col) => dispatch({ type: 'move', id, col })}
+      onRemove={(id) => dispatch({ type: 'remove', id })}
+      onModel={(m) => dispatch({ type: 'setModel', model: m, remap: true, kind })}
+    />
+  )
+
+  const how =
+    mode === 'draw'
+      ? `Click or drag to draw, drag a dot to move it, drop it below the axis to remove it. Each dot is ${kind.dot}.`
+      : 'Drag ◆ to move a hill or make it taller, drag ● to stretch a side. Your dots follow.'
+
   return (
-    <article className="topic">
-      <Link to="/topics" className="back-link">
-        ← All topics
-      </Link>
-      <h1>Shapes of distributions</h1>
-      <p className="lead">
-        A distribution shows which values a measurement takes and how often. Different kinds of data
-        have different shapes. Pick a kind of data from psychology or neuroscience, draw what you
-        think it looks like, shape the curve, and then compare your drawing with the real thing.
-      </p>
-
-      <Steps current={!kind ? 0 : revealed ? 2 : 1} />
-
-      {!kind && (
+    <Stage
+      title="Shapes of distributions"
+      steps={STEPS}
+      current={revealed ? 2 : 1}
+      flowOnNarrow={revealed}
+      say={
+        <p>
+          <strong>{kind.task}</strong> <span className="muted">{how}</span>
+        </p>
+      }
+      bar={
         <>
-          <p className="dd-progress">
-            Shapes found: <strong>{found}</strong> of {KINDS.length}
-          </p>
-          <KindPicker results={results} onPick={pick} />
+          <div className="segmented dd-mode" role="group" aria-label="Interaction mode">
+            <button
+              type="button"
+              className={mode === 'draw' ? 'is-active' : ''}
+              aria-pressed={mode === 'draw'}
+              onClick={() => switchMode('draw')}
+            >
+              <PencilIcon /> Draw
+            </button>
+            <button
+              type="button"
+              className={mode === 'shape' ? 'is-active' : ''}
+              aria-pressed={mode === 'shape'}
+              disabled={!canShape}
+              title={canShape ? undefined : `Place at least ${MIN_FIT_DOTS} dots first`}
+              onClick={() => switchMode('shape')}
+            >
+              <CurveIcon /> Reshape
+            </button>
+          </div>
+          {mode === 'shape' && model && (
+            <div className="dd-shape-tools">
+              {model.length === 1 ? (
+                <button type="button" className="btn btn-sm" onClick={() => changeModel(addHill(model, kind))}>
+                  + Second hill
+                </button>
+              ) : (
+                <>
+                  <button type="button" className="btn btn-sm" onClick={() => changeModel(removeHill(model))}>
+                    − Second hill
+                  </button>
+                  <label className="dd-share">
+                    <span>Left hill</span>
+                    <input
+                      type="range"
+                      min={0.1}
+                      max={0.9}
+                      step={0.05}
+                      value={model[0].w}
+                      onPointerDown={() => {
+                        sliderActive.current = true
+                        dispatch({ type: 'gestureStart' })
+                      }}
+                      onPointerUp={() => {
+                        sliderActive.current = false
+                        dispatch({ type: 'gestureEnd', changed: true })
+                      }}
+                      onChange={(e) => onShareChange(Number(e.target.value))}
+                    />
+                    <output>{Math.round(model[0].w * 100)}%</output>
+                  </label>
+                </>
+              )}
+            </div>
+          )}
+          <div className="tools">
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm"
+              disabled={!history.length}
+              onClick={() => dispatch({ type: 'undo' })}
+            >
+              Undo
+            </button>
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm"
+              disabled={!dots.length}
+              onClick={() => {
+                dispatch({ type: 'clear' })
+                setMode('draw')
+              }}
+            >
+              Clear
+            </button>
+          </div>
         </>
-      )}
-
-      {kind && (
-        <section className="dd-task">
-          <div className="dd-task-head">
-            <span className="dd-field">{kind.field}</span>
-            <h2>{kind.title}</h2>
-            <p>{kind.task}</p>
-            {mode === 'draw' ? (
-              <ul className="dd-how">
-                <li><strong>Click</strong> to drop a dot. Each dot is {kind.dot}.</li>
-                <li><strong>Hold and drag</strong> across or upwards to paint stacks of dots.</li>
-                <li><strong>Drag a dot</strong> to move it; drop it below the axis to remove it.</li>
-              </ul>
-            ) : (
-              <ul className="dd-how">
-                <li><strong>◆ Peak:</strong> drag sideways to move the hill, up or down to make it taller or flatter.</li>
-                <li><strong>● Sides:</strong> drag to stretch the left or right side and make a tail.</li>
-                <li>Your dots follow the curve. Add a second hill for two peaks.</li>
-              </ul>
-            )}
-          </div>
-
-          <div className="panel chart-panel">
-            <div className="chart-toolbar">
-              <div className="segmented dd-mode" role="group" aria-label="Interaction mode">
-                <button
-                  type="button"
-                  className={mode === 'draw' ? 'is-active' : ''}
-                  aria-pressed={mode === 'draw'}
-                  onClick={() => switchMode('draw')}
-                >
-                  <PencilIcon /> Draw &amp; drag
-                </button>
-                <button
-                  type="button"
-                  className={mode === 'shape' ? 'is-active' : ''}
-                  aria-pressed={mode === 'shape'}
-                  disabled={!canShape}
-                  title={canShape ? undefined : `Place at least ${MIN_FIT_DOTS} dots first`}
-                  onClick={() => switchMode('shape')}
-                >
-                  <CurveIcon /> Reshape curve
-                </button>
-              </div>
-              <div className="dd-tools">
-                <button
-                  type="button"
-                  className="btn btn-sm"
-                  disabled={!history.length}
-                  onClick={() => dispatch({ type: 'undo' })}
-                >
-                  Undo
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-sm"
-                  disabled={!dots.length}
-                  onClick={() => {
-                    dispatch({ type: 'clear' })
-                    setMode('draw')
-                  }}
-                >
-                  Clear
-                </button>
-              </div>
-            </div>
-
-            {mode === 'shape' && model && (
-              <div className="dd-shape-tools">
-                {model.length === 1 ? (
-                  <button type="button" className="btn btn-sm" onClick={() => changeModel(addHill(model, kind))}>
-                    + Add a second hill
-                  </button>
-                ) : (
-                  <>
-                    <button type="button" className="btn btn-sm" onClick={() => changeModel(removeHill(model))}>
-                      − Remove second hill
-                    </button>
-                    <label className="dd-share">
-                      <span>Dots in left hill</span>
-                      <input
-                        type="range"
-                        min={0.1}
-                        max={0.9}
-                        step={0.05}
-                        value={model[0].w}
-                        onPointerDown={() => {
-                          sliderActive.current = true
-                          dispatch({ type: 'gestureStart' })
-                        }}
-                        onPointerUp={() => {
-                          sliderActive.current = false
-                          dispatch({ type: 'gestureEnd', changed: true })
-                        }}
-                        onChange={(e) => onShareChange(Number(e.target.value))}
-                      />
-                      <output>{Math.round(model[0].w * 100)}%</output>
-                    </label>
-                  </>
-                )}
-              </div>
-            )}
-
-            <DrawChart
-              kind={kind}
-              dots={dots}
-              mode={mode}
-              model={model}
-              revealed={revealed}
-              onGestureStart={() => dispatch({ type: 'gestureStart' })}
-              onGestureEnd={(changed) => dispatch({ type: 'gestureEnd', changed })}
-              onAdd={(col, count) => dispatch({ type: 'add', col, count })}
-              onMove={(id, col) => dispatch({ type: 'move', id, col })}
-              onRemove={(id) => dispatch({ type: 'remove', id })}
-              onModel={(m) => dispatch({ type: 'setModel', model: m, remap: true, kind })}
-            />
-
-            <div className="dd-chart-foot">
-              <p className="dd-live" aria-live="polite">
-                <strong>{dots.length}</strong> dot{dots.length === 1 ? '' : 's'}
-                {' · '}
-                {liveShape ? (
-                  <>
-                    looks <strong>{liveShape}</strong>
-                  </>
-                ) : (
-                  `${MIN_DOTS - dots.length} more to go`
-                )}
-              </p>
-              <div className="legend">
-                <span className="legend-item added">Your dots</span>
-                <span className="legend-item fit">
-                  {mode === 'shape' ? 'Your curve (reshape it)' : 'Your curve (fitted live)'}
-                </span>
-                {revealed && <span className="legend-item real">Real distribution</span>}
-              </div>
+      }
+      foot={
+        <>
+          <div className="dd-status">
+            <p className="dd-live" aria-live="polite">
+              <strong>{dots.length}</strong> dot{dots.length === 1 ? '' : 's'}
+              {' · '}
+              {liveShape ? (
+                <>
+                  looks <strong>{liveShape}</strong>
+                </>
+              ) : (
+                `${MIN_DOTS - dots.length} more to go`
+              )}
+            </p>
+            <div className="legend">
+              <span className="legend-item added">Your dots</span>
+              <span className="legend-item fit">Your curve</span>
+              {revealed && <span className="legend-item real">Real</span>}
             </div>
           </div>
-
-          {!revealed && (
-            <div className="dd-actions">
+          <div className="actions">
+            <button type="button" className="btn btn-ghost" onClick={backToPicker}>
+              All data
+            </button>
+            {revealed && (
+              <button type="button" className="btn" onClick={retry}>
+                Start again
+              </button>
+            )}
+            {!revealed ? (
               <button type="button" className="btn btn-primary" disabled={!guess} onClick={reveal}>
-                I&apos;m done, show me the real shape
+                Compare with real data
               </button>
-              <button type="button" className="btn" onClick={backToPicker}>
-                Choose other data
-              </button>
-            </div>
-          )}
-
-          {revealed && (
-            <>
-              <Result kind={kind} guess={guess} />
-              <div className="dd-actions">
-                {nextKind && (
-                  <button type="button" className="btn btn-primary" onClick={() => pick(nextKind.id)}>
-                    Next: {nextKind.title} →
-                  </button>
-                )}
-                <button type="button" className="btn" onClick={retry}>
-                  Start this one again
+            ) : (
+              nextKind && (
+                <button type="button" className="btn btn-primary" onClick={() => pick(nextKind.id)}>
+                  Next: {nextKind.title} →
                 </button>
-                <button type="button" className="btn" onClick={backToPicker}>
-                  All data types
-                </button>
-              </div>
-            </>
-          )}
-        </section>
+              )
+            )}
+          </div>
+        </>
+      }
+    >
+      {revealed ? (
+        <div className="dd-split">
+          <div className="dd-split-chart">{chart}</div>
+          <Result key={kind.id} kind={kind} guess={guess} />
+        </div>
+      ) : (
+        chart
       )}
-    </article>
+    </Stage>
   )
 }
