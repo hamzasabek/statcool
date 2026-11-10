@@ -568,7 +568,14 @@ a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3
 }
 .ck-button.is-running small { color: inherit; opacity: 0.7; }
 .ck-button:disabled { cursor: default; }
-.ck-button:disabled:not(.is-demo) { opacity: 0.5; }
+.ck-button.is-next {
+  background: var(--cta);
+  color: var(--on-cta);
+  box-shadow: 0 10px 34px color-mix(in srgb, var(--cta) 55%, transparent);
+  animation: nd-pulse 1.6s ease-in-out infinite;
+}
+/* Locked "Next" button: readable, clearly a button, just not active yet */
+.btn-primary.ck-next:disabled { opacity: 1; background: var(--hover); color: var(--muted); box-shadow: none; }
 .ck-ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); pointer-events: none; }
 .ck-ring circle {
   fill: none;
@@ -615,10 +622,43 @@ a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3
 .legend-item.ck-line.is-a::before { background: var(--ck-a-line); }
 .legend-item.ck-line.is-b::before { background: var(--ck-b-line); }
 
+.ck-progress { display: none; }
+@keyframes ck-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* Phones: a wide pill button under the chart. If the screen is too short, the page grows
+   (scrolls a little) instead of letting the chart and the button overlap. */
 @media (max-width: 700px) {
-  .ck-main { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; gap: 8px; }
+  .stage.ck-stage { height: auto; min-height: calc(100dvh - var(--header-h)); }
+  .ck-main { grid-template-columns: 1fr; grid-template-rows: minmax(170px, 1fr) auto; gap: 10px; }
+  .ck-main .chart-fill { min-height: 170px; }
   .ck-pad { order: 2; }
-  .ck-button { width: 112px; height: 112px; font-size: 0.95rem; padding: 0 12px; }
+  .ck-stage .actions { flex-wrap: nowrap; }
+  .ck-stage .actions .btn { padding: 0 14px; }
+  .ck-button {
+    width: 100%;
+    height: 64px;
+    border-radius: 999px;
+    flex-direction: row;
+    gap: 10px;
+    overflow: hidden;
+  }
+  .ck-ring { display: none; }
+  .ck-progress {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 5px;
+    background: var(--brand);
+    transform-origin: left;
+    animation: ck-grow linear forwards; /* duration = the target, set inline */
+  }
+}
+@media (max-height: 480px) {
+  /* Landscape phones: button and chart side by side again */
+  .ck-main { grid-template-columns: 120px minmax(0, 1fr); grid-template-rows: none; }
+  .ck-pad { order: 0; }
 }
 
 /* ---------- Topic: shapes of distributions ---------- */
@@ -824,6 +864,6 @@ a.topic-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dd-curve-area, .dd-curve-line, .nd-glow { animation: none; }
+  .dd-curve-area, .dd-curve-line, .nd-glow, .ck-button.is-next { animation: none; }
   .topic-card, .nd-card, .dd-kind, .btn { transition: none; }
 }

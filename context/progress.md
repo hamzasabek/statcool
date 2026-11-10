@@ -240,3 +240,22 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   are drawn on top.
 - Re-tested in headless Chrome (1366×657 light, 390×750 dark): fits on one screen, no errors.
 
+## 2026-11-10 — Step 20: Inner clock — the way to the 5 s game is now obvious
+- Owner: "the button of the next step (5 s) doesn't exist". It existed, but:
+  - before 10 presses it was a faded, disabled yellow pill with no explanation;
+  - after 20 presses the big round button just said "Done!" (a dead end where the eyes are),
+    and the real "Next" button sat in the bottom-right corner;
+  - on short phone screens the chart SVG (min 220 px) was drawn over the round button.
+- Fixes:
+  - When a game is full, the big button turns yellow and pulses: **"Go to 5 s →"** (then
+    **"Compare →"**). Only a fresh tap (or Enter) moves on. The tap that makes the 20th press
+    does not, because it was caught skipping past the result in a test.
+  - Locked Next button is grey and readable: "Next: 5 seconds · 7 more". The hint line says how
+    many presses unlock the next step.
+  - Phones (≤ 700 px wide): the big button is a full-width pill under the chart (demo = a bar
+    filling along its bottom). The game stage may grow and scroll a little instead of
+    overlapping. Charts under 200 px tall drop the axis title. `Stage` got a `className` prop.
+- Tested in headless Chrome: full 20 + 20 playthrough using only the big button to move on
+  (390×750 dark, 390×664 light), and a layout check at 375×548, 360×640, 390×664, 412×780,
+  390×844, 768×1024, 667×375, 1280×600, 1366×657, 1920×969: no overlap, no errors.
+

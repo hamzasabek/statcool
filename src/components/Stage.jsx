@@ -6,9 +6,9 @@ import { Link } from 'react-router'
 //   bar   : optional toolbar above the main area
 //   main  : grows to fill the remaining height (charts measure it)
 //   foot  : feedback and actions
-export function Stage({ title, steps, current, say, bar, foot, children, flowOnNarrow = false }) {
+export function Stage({ title, steps, current, say, bar, foot, children, flowOnNarrow = false, className = '' }) {
   return (
-    <article className={`stage${flowOnNarrow ? ' is-flow-narrow' : ''}`}>
+    <article className={`stage${flowOnNarrow ? ' is-flow-narrow' : ''}${className ? ` ${className}` : ''}`}>
       <header className="stage-head">
         <div className="stage-title">
           <Link to="/topics" className="back-link">

@@ -29,7 +29,8 @@ src/
   components/
     Header.jsx             logo + nav (Home, Topics, About)
     Tex.jsx                KaTeX formula component (unused for now)
-    Stage.jsx              full-viewport learning layout (head, say, bar, main, foot) + Steps
+    Stage.jsx              full-viewport learning layout (head, say, bar, main, foot) + Steps;
+                           optional `className` (e.g. `ck-stage` lets the game grow on phones)
     distribution/          shared dot-drawing chart (used by two topics)
       DrawChart.jsx        click/brush/drag/remove dots, live KDE curve, reshape handles,
                            real curve after reveal (Motion springs); big touch-friendly dots

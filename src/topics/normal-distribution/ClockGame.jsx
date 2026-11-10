@@ -31,6 +31,7 @@ export default function ClockGame({ onExit, onComplete }) {
   const coolRef = useRef(0)
   const padRef = useRef(null)
   const demoTimer = useRef(null)
+  const downWhenFull = useRef(false) // the pointer went down on the big button after the game was full
 
   const target = TARGETS[exp]
   const values = results[exp]
@@ -146,6 +147,7 @@ export default function ClockGame({ onExit, onComplete }) {
     return (
       <Stage
         title="Your inner clock"
+        className="ck-stage"
         steps={STEPS}
         current={current}
         say={
@@ -210,6 +212,7 @@ export default function ClockGame({ onExit, onComplete }) {
     return (
       <Stage
         title="Your inner clock"
+        className="ck-stage"
         steps={STEPS}
         current={current}
         say={
@@ -241,15 +244,23 @@ export default function ClockGame({ onExit, onComplete }) {
 
   // ---------- Play ----------
   const st = stats(values)
-  let padLabel = n ? 'Next' : 'Start'
+  const nextLabel = isLast ? 'Compare →' : `Next: ${TARGETS[exp + 1]} seconds →`
+  const locked = n < MIN_TRIALS
+  // When the game is full, the big button itself leads to the next step.
+  let padLabel = n ? 'Next press' : 'Start'
   if (running) padLabel = `Stop at ${target} s`
   if (demo) padLabel = `This is ${target} s`
-  if (full) padLabel = 'Done!'
-  const hint = flash?.text ?? (full ? 'All presses done!' : running ? 'Press when you feel it.' : n ? `${TRIALS - n} presses left.` : 'Tap the button or press Space.')
+  if (full) padLabel = isLast ? 'Compare →' : `Go to ${TARGETS[exp + 1]} s →`
+  let hint = 'Tap the button or press Space.'
+  if (running) hint = 'Press when you feel it.'
+  else if (full) hint = `All ${TRIALS} presses done!`
+  else if (n) hint = `${TRIALS - n} presses left${locked ? ` (${MIN_TRIALS - n} more to unlock the next step)` : ''}.`
+  if (flash) hint = `${flash.text}${full ? ` All ${TRIALS} presses done!` : ''}`
 
   return (
     <Stage
       title="Your inner clock"
+        className="ck-stage"
       steps={STEPS}
       current={current}
       say={
@@ -294,11 +305,12 @@ export default function ClockGame({ onExit, onComplete }) {
             </button>
             <button
               type="button"
-              className={`btn btn-primary${full ? ' nd-glow' : ''}`}
-              disabled={n < MIN_TRIALS}
+              className={`btn btn-primary ck-next${full ? ' nd-glow' : ''}`}
+              disabled={locked}
+              title={locked ? `Unlocks after ${MIN_TRIALS} presses` : undefined}
               onClick={next}
             >
-              {isLast ? 'Compare →' : `Next: ${TARGETS[exp + 1]} seconds →`}
+              {locked ? `${nextLabel.replace(' →', '')} · ${MIN_TRIALS - n} more` : nextLabel}
             </button>
           </div>
         </>
@@ -309,19 +321,29 @@ export default function ClockGame({ onExit, onComplete }) {
           <button
             ref={padRef}
             type="button"
-            className={`ck-button${running ? ' is-running' : ''}${demo ? ' is-demo' : ''}`}
-            disabled={full || demo}
+            className={`ck-button${running ? ' is-running' : ''}${demo ? ' is-demo' : ''}${full ? ' is-next' : ''}`}
+            disabled={demo}
+            onClick={(e) => {
+              // Only a fresh tap (or Enter) moves on: the tap that made the last press must not.
+              if (!full) return
+              const keyboard = e.detail === 0
+              if (keyboard ? e.timeStamp >= coolRef.current : downWhenFull.current) next()
+            }}
             onPointerDown={(e) => {
-              if (e.button !== 0) return
+              downWhenFull.current = full
+              if (e.button !== 0 || full) return
               e.preventDefault()
               press(e.timeStamp)
             }}
-            aria-label={`${padLabel}. Space also works.`}
+            aria-label={full ? padLabel : `${padLabel}. Space also works.`}
           >
             {demo && (
-              <svg className="ck-ring" viewBox="0 0 100 100" aria-hidden="true">
-                <circle cx="50" cy="50" r="47" pathLength="1" style={{ animationDuration: `${target}s` }} />
-              </svg>
+              <>
+                <svg className="ck-ring" viewBox="0 0 100 100" aria-hidden="true">
+                  <circle cx="50" cy="50" r="47" pathLength="1" style={{ animationDuration: `${target}s` }} />
+                </svg>
+                <span className="ck-progress" style={{ animationDuration: `${target}s` }} aria-hidden="true" />
+              </>
             )}
             <span className="ck-button-label">{padLabel}</span>
             {!full && !demo && <small>tap or Space</small>}

@@ -36,9 +36,10 @@ export default function ClockChart({ series, domain, relative = false, highlight
   const binW = (hi - lo) / bins
   const colPx = plotW / bins
   const x = d3.scaleLinear().domain(domain).range([plotL, plotR])
-  const H = Math.max(220, Math.round(height))
+  const H = Math.max(140, Math.round(height)) // never taller than its box (it would cover the button)
+  const compact = H < 200 // short charts (small phones) drop the axis title
   const bracketsH = 12 * series.length
-  const base = H - (46 + bracketsH)
+  const base = H - ((compact ? 28 : 46) + bracketsH)
   const plotH = base - M.top
   const xs = d3.range(CURVE_STEPS + 1).map((j) => lo + (j * (hi - lo)) / CURVE_STEPS)
 
@@ -179,9 +180,11 @@ export default function ClockChart({ series, domain, relative = false, highlight
             )
           })}
 
-          <text className="dd-axis-title" x={(plotL + plotR) / 2} y={base + bracketsH + 42} textAnchor="middle">
-            {axisTitle ?? (relative ? 'Your time ÷ the target (1× = spot on)' : 'Your time (seconds)')}
-          </text>
+          {!compact && (
+            <text className="dd-axis-title" x={(plotL + plotR) / 2} y={base + bracketsH + 42} textAnchor="middle">
+              {axisTitle ?? (relative ? 'Your time ÷ the target (1× = spot on)' : 'Your time (seconds)')}
+            </text>
+          )}
         </svg>
       </MotionConfig>
     </div>
