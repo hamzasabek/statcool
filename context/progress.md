@@ -317,3 +317,16 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   and 3, drag the right-most dot to +160%): 1366×657 light, 390×750 dark, 360×640 light. No
   console errors, no horizontal scroll; desktop and 390×750 fit one screen (360×640 scrolls
   ~60 px). Simulated tries of +15% ± 7% gave mean +16.9%, median +15.7%.
+
+## 2026-11-10 — Step 25: Mean & median — a bell curve and the "normal: mean = median" message
+- Owner: add a curve like in topic 01; explain that in a normal distribution the mean and the
+  median are at the same point, and that the median is less sensitive to outliers.
+- `MMChart` has a `bell` prop: a normal curve with the student's mean and SD, scaled to the
+  dots (same dark-yellow area + line as the 2 s game, `ck-fit is-a`). Shown from 3 tries on,
+  in all three steps. In "Pull a dot" it stays the bell from before the pull, so the mean
+  visibly leaves the top of the bell while the median stays there.
+- Texts: step 2 says "In a normal distribution, the mean and the median are always at the
+  same point: the top of the bell", then compares the student's values. Step 3 says "The
+  median is less sensitive to outliers…" after a dot is pulled.
+- Tested in headless Chrome (1366×657 light, 390×750 dark): full playthrough, no errors, no
+  horizontal scroll, one screen.

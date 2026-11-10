@@ -1,21 +1,24 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import * as d3 from 'd3'
 import { MotionConfig, motion } from 'motion/react'
-import { fmtPct, mean, median } from './mm.js'
+import { fmtPct, mean, median, normalPdf } from './mm.js'
 
 // Stacked dot plot of the tries (% too long), with the real length at 0, the mean (a line plus a
 // ▲ balance point under the axis) and the median (dashed line).
 //   ranks     : number the dots 1…n from left to right and ring the middle one(s)
 //   draggable : dots can be dragged left/right (onDrag(id, value)), also with arrow keys
 //   ghost     : { mean, median } from before, drawn faint
+//   bell      : { mean, sd, n } → a normal curve with that mean and SD, scaled to n dots
+//               (like topic 01), drawn behind the dots
 
 const M = { top: 12, right: 18, left: 18 }
 const BIN_WIDTHS = [2.5, 4, 5, 10, 20] // in % points; the smallest that gives wide-enough columns
 const MIN_COL_PX = 14
 const DROP = { type: 'spring', stiffness: 420, damping: 26, mass: 0.9 }
 const INSTANT = { duration: 0 }
+const CURVE_STEPS = 200
 
-export default function MMChart({ points, domain, ranks = false, draggable = false, onDrag, ghost, highlightLast = false }) {
+export default function MMChart({ points, domain, ranks = false, draggable = false, onDrag, ghost, bell, highlightLast = false }) {
   const wrapRef = useRef(null)
   const svgRef = useRef(null)
   const [{ width, height }, setSize] = useState({ width: 720, height: 300 })
@@ -50,7 +53,10 @@ export default function MMChart({ points, domain, ranks = false, draggable = fal
     const col = Math.min(bins - 1, Math.max(0, Math.floor((p.v - lo) / binW)))
     return { ...p, rank, col, level: counts[col]++ }
   })
-  const capacity = Math.max(6, d3.max(counts) ?? 0)
+  // Normal curve in "dots per column" units, so it sits on the stacks like in topic 01.
+  const xs = d3.range(CURVE_STEPS + 1).map((j) => lo + (j * (hi - lo)) / CURVE_STEPS)
+  const fit = bell && bell.sd > 0 ? xs.map((v) => bell.n * normalPdf(v, bell.mean, bell.sd) * binW) : null
+  const capacity = Math.max(6, d3.max(counts) ?? 0, fit ? d3.max(fit) * 1.08 : 0)
   const size = Math.min(colPx, plotH / capacity)
   const r = Math.max(3, size / 2 - 1)
   const showNums = ranks && r >= 5.5
@@ -61,6 +67,12 @@ export default function MMChart({ points, domain, ranks = false, draggable = fal
   const md = median(vals)
   const midRanks = n ? (n % 2 ? [(n - 1) / 2] : [n / 2 - 1, n / 2]) : []
   const clampX = (v) => Math.min(plotR, Math.max(plotL, x(v)))
+  const area = d3
+    .area()
+    .x((_, i) => x(xs[i]))
+    .y0(base)
+    .y1((c) => Math.max(markTop, base - c * size))
+    .curve(d3.curveMonotoneX)
 
   // Labels spread apart: the left marker's label is anchored at its end, the right one's at its start.
   const markers =
@@ -156,6 +168,13 @@ export default function MMChart({ points, domain, ranks = false, draggable = fal
             ].map(([k, v]) => (
               <line key={k} className={`mm-mark-line is-${k} is-ghost`} x1={clampX(v)} x2={clampX(v)} y1={markTop} y2={base} />
             ))}
+
+          {fit && (
+            <g className="ck-fit is-a" pointerEvents="none">
+              <path className="ck-fit-area" d={area(fit)} />
+              <path className="ck-fit-line" d={area.lineY1()(fit)} />
+            </g>
+          )}
 
           {/* Mean and median: lines behind the dots, labels on top */}
           {markers.map((mk) => (

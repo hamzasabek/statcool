@@ -25,6 +25,8 @@ export function sd(values) {
   return Math.sqrt(values.reduce((s, v) => s + (v - m) ** 2, 0) / (n - 1))
 }
 
+export const normalPdf = (x, m, s) => Math.exp(-0.5 * ((x - m) / s) ** 2) / (s * Math.sqrt(2 * Math.PI))
+
 // "+12.3%" / "−4.0%"
 export const fmtPct = (v, digits = 1) => `${v < 0 ? '−' : '+'}${Math.abs(v).toFixed(digits)}%`
 export const fmtPts = (v) => `${Math.abs(v).toFixed(1)} point${Math.abs(v).toFixed(1) === '1.0' ? '' : 's'}`

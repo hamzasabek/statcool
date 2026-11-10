@@ -49,7 +49,8 @@ src/
       Illusion.jsx           the figure: fins-out line (>—<) on top, plain line below; drag
                              anywhere (or arrow keys on a hidden range input) to stretch it
       MMChart.jsx            stacked dots in % too long, real length at 0, mean line + ▲,
-                             dashed median line, optional rank numbers / draggable dots / ghosts
+                             dashed median line, fitted normal curve (`bell`, same style as
+                             topic 01), optional rank numbers / draggable dots / ghosts
       mm.js                  trial counts, domains, mean, median, SD, formatting
 archive/                   code removed from the site in Step 24 (Home, About, draw-a-bell
                            lesson, "Shapes of distributions", DrawChart, Tex, their CSS).

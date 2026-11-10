@@ -25,6 +25,10 @@ export default function MeanMedian() {
   const vals = tries.map((t) => t.v)
   const m = mean(vals)
   const md = median(vals)
+  const spread = sd(vals)
+  // The normal curve with your mean and SD (like topic 01). Step 3 keeps this one, from before the pull.
+  const bell = n >= 3 && spread > 0 ? { mean: m, sd: spread, n } : null
+  const BELL_TOP = 'In a normal distribution, the mean and the median are always at the same point: the top of the bell.'
 
   function submit() {
     if (step !== 0 || full) return
@@ -103,6 +107,7 @@ export default function MeanMedian() {
                   <span className="legend-item median">Median</span>
                 </>
               )}
+              {bell && <span className="legend-item ck-line is-a">Bell</span>}
             </div>
             <div className="tools">
               <button type="button" className="btn btn-ghost btn-sm" disabled={!n} onClick={undo}>
@@ -150,7 +155,7 @@ export default function MeanMedian() {
             disabled={full}
             showHint={n < 2}
           />
-          <MMChart points={tries} domain={PLAY_DOMAIN} highlightLast />
+          <MMChart points={tries} domain={PLAY_DOMAIN} bell={bell} highlightLast />
         </div>
       </Stage>
     )
@@ -158,7 +163,7 @@ export default function MeanMedian() {
 
   // ---------- 2. Mean & median ----------
   if (step === 1) {
-    const close = Math.abs(m - md) <= Math.max(2, 0.3 * (sd(vals) || 0))
+    const close = Math.abs(m - md) <= Math.max(2, 0.3 * (spread || 0))
     const k = (n + 1) / 2
     const middle = n % 2 ? `number ${k}` : `halfway between ${k - 0.5} and ${k + 0.5}`
     let headline = `On average your plain line was ${Math.abs(m).toFixed(1)}% too long: the fins fooled you.`
@@ -180,15 +185,17 @@ export default function MeanMedian() {
             <span className="legend-item added">{n} tries, numbered in order</span>
             <span className="legend-item mean">Mean = balance point ▲</span>
             <span className="legend-item median">Median = middle dot</span>
+            <span className="legend-item ck-line is-a">Bell (normal curve)</span>
           </div>
         }
         foot={
           <>
             <div className="nd-feedback" aria-live="polite">
               <p className="nd-hint">
+                {BELL_TOP}{' '}
                 {close
-                  ? `Mean ${fmtPct(m)} and median ${fmtPct(md)} almost agree: your dots make a bell, and a bell has one clear middle.`
-                  : `Mean ${fmtPct(m)} and median ${fmtPct(md)} are ${fmtPts(m - md)} apart: a few tries pull your dots to one side.`}
+                  ? `Yours almost agree: mean ${fmtPct(m)}, median ${fmtPct(md)}.`
+                  : `Yours are ${fmtPts(m - md)} apart (mean ${fmtPct(m)}, median ${fmtPct(md)}): a few tries pull your dots to one side.`}
               </p>
               <p className="nd-fact">
                 Mean: add up all {n} tries and divide by {n}; the dots balance there. Median: line the tries up in
@@ -205,7 +212,7 @@ export default function MeanMedian() {
         }
       >
         <div className="mm-main">
-          <MMChart points={tries} domain={PLAY_DOMAIN} ranks />
+          <MMChart points={tries} domain={PLAY_DOMAIN} bell={bell} ranks />
         </div>
       </Stage>
     )
@@ -233,6 +240,7 @@ export default function MeanMedian() {
           <div className="legend">
             <span className="legend-item mean">Mean</span>
             <span className="legend-item median">Median</span>
+            <span className="legend-item ck-line is-a">Your bell</span>
             <span className="legend-item mm-ghost-key">Before</span>
           </div>
           <div className="tools">
@@ -257,8 +265,8 @@ export default function MeanMedian() {
             </p>
             <p className="nd-fact">
               {moved
-                ? 'One wild try drags the mean along. The median only cares which dot is in the middle, so it barely moves. That’s why researchers often report the median when a few trials go wrong.'
-                : `Now: mean ${fmtPct(m1)}, median ${fmtPct(md1)}.`}
+                ? 'The median is less sensitive to outliers. One wild try drags the mean away from the top of your bell; the median only cares which dot is in the middle, so it stays there. That’s why researchers often report the median when a few trials go wrong.'
+                : `Your bell stays where it was, with the mean and the median both at its top (mean ${fmtPct(m1)}, median ${fmtPct(md1)}).`}
             </p>
           </div>
           <div className="actions">
@@ -276,6 +284,7 @@ export default function MeanMedian() {
           domain={PULL_DOMAIN}
           draggable
           ghost={moved ? { mean: m, median: md } : null}
+          bell={bell}
           onDrag={(id, v) => setPulled((ps) => ps.map((p) => (p.id === id ? { ...p, v } : p)))}
         />
       </div>
