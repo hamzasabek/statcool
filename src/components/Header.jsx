@@ -10,8 +10,8 @@ import { useTheme } from '../theme.js'
 function Logo() {
   return (
     <>
-      <img className="brand-logo is-light" src={logoLight} alt="StatsCool" width="93" height="62" />
-      <img className="brand-logo is-dark" src={logoDark} alt="StatsCool" width="93" height="62" />
+      <img className="brand-logo is-light" src={logoLight} alt="StatsCool" width="110" height="62" />
+      <img className="brand-logo is-dark" src={logoDark} alt="StatsCool" width="110" height="62" />
     </>
   )
 }

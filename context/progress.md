@@ -396,3 +396,10 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   with it (`--header-h` 56 → 76 px, phones 64 px), and the game pages subtract it as before.
 - Tested in headless Chrome: logo 93×62 (desktop) / 75×50 (360 px phone), light and dark;
   the mean/median and reaction-time games still fit one 1366×657 screen; no errors.
+
+## 2026-11-10 — Step 31: New version of the logo
+- Owner redrew the logos (bigger "Stats", tiles stepping down to the right) in `design/logo/`.
+- Same processing as Step 29 (transparent background, edges un-mixed, cropped) → new
+  `src/assets/logo-light.png` / `logo-dark.png`, 313×176 (wider than before: ratio 1.78).
+- Same display height as Step 30: 62 px (110 px wide), phones 50 px (89 px wide).
+- Tested in headless Chrome: light and dark, 1366 px and 360 px wide; no overflow, no errors.

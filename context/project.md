@@ -32,7 +32,7 @@ src/
   components/
     Header.jsx             logo (links to the topic list) + EN | FR switch + light/dark button
   assets/
-    logo-light.png, logo-dark.png  the StatsCool logo, transparent, 265×176 (shown 62 px high,
+    logo-light.png, logo-dark.png  the StatsCool logo, transparent, 313×176 (shown 62 px high,
                            50 px on phones; header 76 px / 64 px = `--header-h`);
                            CSS shows the one for the current theme
     Stage.jsx              full-viewport learning layout (head, say, bar, main, foot) + Steps;
