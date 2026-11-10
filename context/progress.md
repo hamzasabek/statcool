@@ -56,5 +56,12 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   kernel density estimate (Silverman bandwidth). Order: bimodal → exponential (skewed and tallest
   stack at the left end) → right / left skew (|skew| > 0.5) → uniform (kurtosis < −0.9) → normal.
   Checked on hand-made test drawings for every shape.
-- Build passes; all six charts server-render without errors. Interaction not yet tried by hand
-  in a browser.
+- Build passes; all six charts server-render without errors.
+
+## 2026-11-10 — Step 6: Browser test of the data-distributions topic
+- Drove headless Chrome over the DevTools protocol (script kept outside the repo): picked
+  reaction times, clicked 31 dots → live guess "right-skewed" → reveal → "Same shape".
+  "Next" went to the easy-test kind; a bell drawn there gave "Not quite". Keyboard (Enter /
+  arrows) added dots, Undo removed one, picker badges and "Shapes found 1 of 6" updated.
+  Phone width (390 px) + dark mode: bimodal drawing matched, no horizontal scroll.
+  No console errors. Screenshots checked by eye.

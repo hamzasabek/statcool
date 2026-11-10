@@ -1,7 +1,7 @@
 # Next steps and ideas
 
 ## Open items
-- Test the data-distributions page by hand (clicking, keyboard, reveal animation, phone layout).
+- Try the data-distributions page on a real touch device (tested only in headless Chrome).
 - Test the mean/median/mode page by hand in a browser (drag, delete mode, animation, mobile layout).
 - Replace lorem ipsum on Home, Topics intro and About with real text.
 
