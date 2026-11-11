@@ -520,3 +520,14 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   The old card-grid CSS (`.topic-card`, `.topic-grid`) was replaced by `.timeline` / `.tl-*`.
 - Tested in headless Chrome: 1366 px EN light and dark (with a hovered row) and 390 px FR;
   5 items, links work, no horizontal scroll, no errors.
+
+## 2026-11-11 — Step 39: Code guide for a new CS student
+- Owner: explain all the code in a Markdown file, with every library and tool, for a new CS student.
+- New `docs/CODE_GUIDE.md`: how a website works (HTML/CSS/JS, DOM, SVG), the tools (Node, npm,
+  `package.json`, Vite, Git, GitHub Actions), the libraries (React and its hooks, React Router,
+  D3 for math only, Motion springs, browser APIs), the folder map, the start-up path
+  (`index.html` → `main.jsx` → `App.jsx`), the shared pieces (i18n, theme, Header, Stage,
+  useTweened), the common chart recipe (measure → scale → bins → dot size → curve as
+  n × pdf × bin width → draw), each of the five topics file by file with its statistics, the CSS,
+  recurring patterns (latest-ref, cleanups, immutable updates, timing), a glossary and exercises.
+- No code changed.

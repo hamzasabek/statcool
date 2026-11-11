@@ -112,6 +112,7 @@ design/logo/               the owner's original logos (1280×720, white / black 
                            The web versions were made from them: background made transparent
                            (edges un-mixed from white / black so no halo), cropped, resized.
 context/                   this folder — project memory, updated every step
+docs/CODE_GUIDE.md         beginner-friendly explanation of all the code, libraries and tools
 ```
 
 ## Routes
