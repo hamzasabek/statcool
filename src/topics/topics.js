@@ -62,14 +62,14 @@ export const topics = [
     available: true,
     text: {
       en: {
-        game: 'Aim and tap',
+        game: 'How precise is your memory?',
         title: 'Variance and standard deviation',
-        summary: 'Tap a target carefully, then fast. Same centre, a wider cloud: how do you measure spread?',
+        summary: 'Remember the tilt of 1 line, then of 4. Your errors stay centred but spread out: how do you measure spread?',
       },
       fr: frenchTypo({
-        game: 'Visez et touchez',
+        game: 'Votre mémoire est-elle précise ?',
         title: 'Variance et écart-type',
-        summary: 'Touchez une cible avec soin, puis vite. Même centre, un nuage plus large : comment mesurer la dispersion ?',
+        summary: 'Retenez l’inclinaison d’1 trait, puis de 4. Vos erreurs restent centrées mais s’étalent : comment mesurer la dispersion ?',
       }),
     },
   },

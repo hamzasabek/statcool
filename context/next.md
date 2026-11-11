@@ -17,10 +17,6 @@
   questions for the owner: cross-device? teachers / classes? users under 15 (consent in France)?
 
 ## Known issues
-- Aim and tap (topic 02) cannot be played with the keyboard (aiming needs a pointer). The start
-  button, views and tours are keyboard-friendly. Idea: arrow keys move a crosshair, Space taps.
-- Aim and tap measures errors in screen pixels, so numbers differ between a phone and a big screen
-  (fine for comparing your own two rounds).
 - docs/CODE_GUIDE.md (private, now gitignored) is still visible in older commits of the public
   repo. Removing it fully needs a history rewrite + force push (owner to decide).
 - The browser-tab icon (favicon) is missing (index.html has none): could use the "cool" tiles of the logo.
@@ -45,7 +41,11 @@
   "how many dots?" (the median beats the mean), memory span (the mean can be an impossible
   score), rate the face 1–7 (median for ratings), and seesaw / fair share / find-the-middle
   warm-ups.
-- More variance / SD games suggested in Step 46 (owner picked "Aim and tap", built in Step 47):
+- Variance / SD: topic 02 is "How precise is your memory?" (Step 48). "Aim and tap" (Step 47)
+  was replaced: the owner found it hard to understand (code in git history, commit 0094480).
+  Other ideas from Steps 46 and 48: rod and frame (Witkin 1948), line bisection / pseudoneglect
+  (Bowers & Heilman 1980), Stroop (more variable when incongruent; better for a later topic).
+  Older suggestions:
   keep the beat (tapping after the metronome stops: same mean, more spread), match the grey
   (method of adjustment: SD = sensitivity), how many dots (SD grows with numerosity), place the
   number (deviations drawn as literal squares).

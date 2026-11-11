@@ -4,41 +4,39 @@ import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import { num, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
-import Arena from './Arena.jsx'
-import Bullseye from './Bullseye.jsx'
+import ErrorChart from './ErrorChart.jsx'
+import MemoryTask from './MemoryTask.jsx'
 import SquaresChart from './SquaresChart.jsx'
-import { KEYS, MIN_TRIALS, ROUNDS, TRIALS, cloud, fmtPx, fmtPx2, fmtSigned, mean, sd, variance, withinOneSd } from './sd.js'
-import { AIM } from './text.js'
+import { KEYS, LOAD, MIN_TRIALS, ROUNDS, TRIALS, fmtDeg, fmtDeg2, fmtSignedDeg, mean, sd, variance, withinOneSd } from './sd.js'
+import { MEM } from './text.js'
 
-// Topic 02 "Variance and standard deviation", played as "Aim and tap".
-//   1. Careful: 15 taps on targets that wait; each tap's error from the centre is a dot
-//   2. Fast: 15 taps on targets that vanish after 0.65 s (speed–accuracy trade-off)
-//   3. Spread: both clouds on one target; same centre (mean), different spread
-//   4. The SD: the left–right errors → deviations → squares → variance → SD (side of the average square)
+// Topic 02 "Variance and standard deviation", played as "How precise is your memory?".
+//   1. 1 line: 12 trials of remembering one tilt; each error (degrees) is a dot
+//   2. 4 lines: 12 trials with 4 tilts to hold in mind; a second row of dots
+//   3. Spread: both rows with their mean and ±1 SD: same centre (≈ 0), wider spread
+//   4. The SD: deviations → squares → variance → SD (side of the average square)
 
-const TOUR_IDS = ['careful', 'fast', 'spread', 'sd']
+const TOUR_IDS = ['one', 'four', 'spread', 'sd']
 const TOUR_TARGETS = {
-  careful: [null, 'arena', 'chart', 'legend', 'tools', 'steps', 'next'],
-  fast: ['arena', 'chart'],
+  one: [null, 'task', 'chart', 'legend', 'tools', 'steps', 'next'],
+  four: ['task', 'chart'],
   spread: ['chart', 'chart', 'feedback'],
   sd: ['chart', 'view', 'round', 'feedback'],
 }
-const TOUR_PLACE = { next: 'top', arena: 'right' }
+const TOUR_PLACE = { next: 'top', task: 'right' }
 const VIEWS = ['dev', 'sq', 'sd']
-const empty = () => ({ careful: [], fast: [] })
+const empty = () => ({ one: [], four: [] })
 
-export default function AimTap() {
-  const tx = useText(AIM)
+export default function MemoryGame() {
+  const tx = useText(MEM)
   const tc = useText(COMMON)
   const [step, setStep] = useState(0)
-  const [taps, setTaps] = useState(empty) // { careful: [{ dx, dy }], fast: [...] }
-  const [slow, setSlow] = useState(0) // fast-round targets missed (too late)
-  const [flash, setFlash] = useState(null) // { d } after a tap, { slow: true } after a miss
+  const [errors, setErrors] = useState(empty) // { one: [degrees], four: [degrees] }
   const [view, setView] = useState('dev')
-  const [sdRound, setSdRound] = useState('fast')
+  const [sdRound, setSdRound] = useState('four')
 
   const tourId = TOUR_IDS[step]
-  const guide = useGuide(`aim-${tourId}`, TOUR_TARGETS[tourId], tx.tour[tourId], {
+  const guide = useGuide(`mem-${tourId}`, TOUR_TARGETS[tourId], tx.tour[tourId], {
     place: TOUR_PLACE,
     doneLabel: step === 0 ? tx.tourPlay : undefined,
   })
@@ -48,72 +46,49 @@ export default function AimTap() {
       {tc.allTopics}
     </Link>
   )
+  const rows = (faintFirst) => [
+    { key: KEYS.one, label: tx.keyOne, values: errors.one, faint: faintFirst },
+    ...(step >= 1 ? [{ key: KEYS.four, label: tx.keyFour, values: errors.four }] : []),
+  ]
 
   function playAgain() {
-    setTaps(empty())
-    setSlow(0)
-    setFlash(null)
+    setErrors(empty())
     setView('dev')
-    setSdRound('fast')
+    setSdRound('four')
     setStep(0)
   }
 
-  // ---------- 1–2. Careful and fast rounds ----------
+  // ---------- 1–2. The two rounds ----------
   if (step <= 1) {
     const round = ROUNDS[step]
-    const list = taps[round]
+    const list = errors[round]
     const n = list.length
     const full = n >= TRIALS
     const locked = n < MIN_TRIALS
-    const fast = round === 'fast'
+    const four = round === 'four'
 
-    function onHit(t) {
-      setTaps((all) => (all[round].length >= TRIALS ? all : { ...all, [round]: [...all[round], t] }))
-      setFlash({ d: Math.hypot(t.dx, t.dy) })
-    }
-    function onSlow() {
-      setSlow((k) => k + 1)
-      setFlash({ slow: true })
-    }
-    function undo() {
-      setTaps((all) => ({ ...all, [round]: all[round].slice(0, -1) }))
-      setFlash(null)
-    }
-    function goNext() {
-      setFlash(null)
-      setStep(step + 1)
-    }
+    const onAnswer = ({ error }) => setErrors((all) => (all[round].length >= TRIALS ? all : { ...all, [round]: [...all[round], error] }))
+    const undo = () => setErrors((all) => ({ ...all, [round]: all[round].slice(0, -1) }))
 
     let hint = n ? tx.hintLeft(TRIALS - n, MIN_TRIALS - n) : tx.hintStart
-    if (flash?.slow) hint = tx.tooSlow
-    else if (flash && !full) hint = tx.lastTap(fmtPx(flash.d), TRIALS - n)
     if (full) hint = tx.hintFull(TRIALS)
-
-    const series = fast
-      ? [
-          { key: KEYS.careful, taps: taps.careful, faint: true },
-          { key: KEYS.fast, taps: list },
-        ]
-      : [{ key: KEYS.careful, taps: list }]
 
     return (
       <Stage
         title={tx.title}
-        className="aim-stage"
+        className="mem-stage"
         steps={tx.steps}
         current={step}
         onGuide={guide.start}
         say={
           <p>
-            <strong>{fast ? tx.sayFastStrong : tx.sayCarefulStrong}</strong> {fast ? tx.sayFast : tx.sayCareful}
+            <strong>{four ? tx.sayFourStrong : tx.sayOneStrong}</strong> {four ? tx.sayFour : tx.sayOne}
           </p>
         }
         bar={
           <>
             <div className="legend" data-tour="legend">
               <span className={`legend-item ck-key is-${KEYS[round]}`}>{tx.count(n, TRIALS)}</span>
-              {fast && taps.careful.length > 0 && <span className="legend-item ck-key is-a is-faint">{tx.keyCareful}</span>}
-              {fast && slow > 0 && <span className="aim-slow">{tx.slowCount(slow)}</span>}
             </div>
             <div className="tools" data-tour="tools">
               <button type="button" className="btn btn-ghost btn-sm" disabled={!n} onClick={undo}>
@@ -124,46 +99,48 @@ export default function AimTap() {
         }
         foot={
           <>
-            <p className={`ck-flash${flash?.slow ? ' is-warn' : ''}`} aria-live="polite">
+            <p className="ck-flash" aria-live="polite">
               {hint}
             </p>
             <div className="actions">
               {allTopics}
               <button
                 type="button"
-                className={`btn ${full ? 'btn-primary nd-glow' : 'btn-primary ck-next'}`}
+                className={`btn btn-primary ${full ? 'nd-glow' : 'ck-next'}`}
                 data-tour="next"
                 disabled={locked}
                 title={locked ? tx.unlocks(MIN_TRIALS) : undefined}
-                onClick={goNext}
+                onClick={() => setStep(step + 1)}
               >
-                {locked ? tx.lockedNext(MIN_TRIALS - n) : fast ? tx.nextSpread : tx.nextFast}
+                {locked ? tx.lockedNext(MIN_TRIALS - n) : four ? tx.nextSpread : tx.nextFour}
               </button>
             </div>
           </>
         }
       >
-        <div className="aim-main">
+        <div className="mem-main">
           {guide.view}
-          <Arena key={round} mode={round} done={full} onHit={onHit} onSlow={onSlow} />
-          <Bullseye series={series} lastKey={KEYS[round]} />
+          <MemoryTask key={round} load={LOAD[round]} done={full} onAnswer={onAnswer} />
+          <ErrorChart series={rows(four)} lastKey={KEYS[round]} />
         </div>
       </Stage>
     )
   }
 
-  const a = cloud(taps.careful)
-  const b = cloud(taps.fast)
-
   // ---------- 3. Spread ----------
   if (step === 2) {
-    const ratio = b.spread / a.spread
+    const [m1, m4] = [mean(errors.one), mean(errors.four)]
+    const [s1, s4] = [sd(errors.one), sd(errors.four)]
+    const ratio = s4 / s1
     const wider = ratio >= 1.2
-    const centred = [a, b].every((c) => Math.abs(c.mx) <= Math.max(3, 0.5 * c.sx))
+    const centred = [
+      [m1, s1],
+      [m4, s4],
+    ].every(([m, s]) => Math.abs(m) <= Math.max(4, 0.4 * s))
     return (
       <Stage
         title={tx.title}
-        className="aim-stage"
+        className="mem-stage"
         steps={tx.steps}
         current={2}
         onGuide={guide.start}
@@ -174,16 +151,16 @@ export default function AimTap() {
         }
         bar={
           <div className="legend" data-tour="legend">
-            <span className="legend-item ck-key is-a">{tx.keyCareful}</span>
-            <span className="legend-item ck-key is-b">{tx.keyFast}</span>
-            <span className="legend-item aim-key-mean">{tx.keyMean}</span>
-            <span className="legend-item aim-key-ellipse">{tx.keyEllipse}</span>
+            <span className="legend-item ck-key is-a">{tx.keyOne}</span>
+            <span className="legend-item ck-key is-b">{tx.keyFour}</span>
+            <span className="legend-item mean">{tx.keyMean}</span>
+            <span className="legend-item mem-key-sd">{tx.keySd}</span>
           </div>
         }
         foot={
           <>
             <div className="nd-feedback" data-tour="feedback" aria-live="polite">
-              <p className="nd-hint">{(centred ? tx.centres : tx.centresOff)(`${fmtSigned(a.mx)} px`, `${fmtSigned(b.mx)} px`)}</p>
+              <p className="nd-hint">{(centred ? tx.centres : tx.centresOff)(fmtSignedDeg(m1, 1), fmtSignedDeg(m4, 1))}</p>
               <p className="nd-fact">{tx.spreadFact}</p>
             </div>
             <div className="actions">
@@ -195,52 +172,45 @@ export default function AimTap() {
           </>
         }
       >
-        <div className="aim-main is-single">
+        <div className="mem-main is-single">
           {guide.view}
-          <Bullseye
-            series={[
-              { key: KEYS.careful, taps: taps.careful },
-              { key: KEYS.fast, taps: taps.fast },
-            ]}
-            showSpread
-          />
+          <ErrorChart series={rows(false)} showStats />
         </div>
       </Stage>
     )
   }
 
   // ---------- 4. The SD ----------
-  const values = taps[sdRound].map((t) => t.dx)
-  const other = taps[sdRound === 'fast' ? 'careful' : 'fast'].map((t) => t.dx)
+  const values = errors[sdRound]
+  const other = errors[sdRound === 'four' ? 'one' : 'four']
   const m = mean(values)
   const devs = values.map((v) => v - m)
-  const left = devs.filter((d) => d < 0).reduce((s, d) => s + d, 0)
-  const right = devs.filter((d) => d > 0).reduce((s, d) => s + d, 0)
-  const sumSq = devs.reduce((s, d) => s + d * d, 0)
+  const left = devs.filter((d) => d < 0).reduce((a, d) => a + d, 0)
+  const right = devs.filter((d) => d > 0).reduce((a, d) => a + d, 0)
+  const sumSq = devs.reduce((a, d) => a + d * d, 0)
   const v = variance(values)
   const s = sd(values)
   const n = values.length
   const within = Math.round(withinOneSd(values) * n)
-  const sA = sd(taps.careful.map((t) => t.dx))
-  const sB = sd(taps.fast.map((t) => t.dx))
+  const [s1, s4] = [sd(errors.one), sd(errors.four)]
 
   let strong = tx.devStrong
-  let fact = tx.devFact(`${fmtSigned(left)} px`, `${fmtSigned(right)} px`)
+  let fact = tx.devFact(fmtSignedDeg(left, 1), fmtSignedDeg(right, 1))
   let extra = null
   if (view === 'sq') {
     strong = tx.sqStrong
-    fact = tx.sqFact(fmtPx2(sumSq), n - 1, fmtPx2(v))
+    fact = tx.sqFact(fmtDeg2(sumSq), n - 1, fmtDeg2(v))
     extra = tx.n1Note
   } else if (view === 'sd') {
-    strong = tx.sdStrong(fmtPx(s))
-    fact = tx.sdFact(fmtPx2(v), fmtPx(s), within, n)
-    extra = tx.compare(fmtPx(sA), fmtPx(sB), num(sB / sA, 1))
+    strong = tx.sdStrong(fmtDeg(s, 1))
+    fact = tx.sdFact(fmtDeg2(v), fmtDeg(s, 1), within, n)
+    extra = tx.compare(fmtDeg(s1, 1), fmtDeg(s4, 1), num(s4 / s1, 1))
   }
 
   return (
     <Stage
       title={tx.title}
-      className="aim-stage"
+      className="mem-stage"
       steps={tx.steps}
       current={3}
       onGuide={guide.start}
@@ -279,7 +249,7 @@ export default function AimTap() {
         </>
       }
     >
-      <div className="aim-main is-single">
+      <div className="mem-main is-single">
         {guide.view}
         <SquaresChart values={values} other={other} view={view} colour={KEYS[sdRound]} />
       </div>

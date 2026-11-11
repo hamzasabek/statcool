@@ -79,22 +79,19 @@ src/
                              topic 03), optional rank numbers / draggable dots / ghosts
       mm.js                  trial counts, domains, mean, median, SD, formatting
       text.js                MM texts (en + fr)
-    variance-sd/           topic 02 "Variance and standard deviation": the aim-and-tap game
-      AimTap.jsx             4 steps: Careful (15 taps, targets wait) → Fast (15 taps, targets
-                             vanish after 0.65 s; misses counted, 3 in a row or a hidden tab
-                             pauses) → Spread (both clouds on one target, mean points + 1-SD
-                             ellipses) → The SD (left–right errors; views 1 Deviations / 2
-                             Squares / 3 SD, rounds Careful / Fast)
-      Arena.jsx              the field: random target spots (never next to the last one), taps
-                             reported as { dx, dy } from the centre; Start / Paused overlay
-      Bullseye.jsx           every tap around one big target, zoomed (edge 1.6–5 × the target
-                             radius; further taps sit on the edge); optional mean + and ellipses
-      SquaresChart.jsx       the left–right errors: sticks (one row per tap) → squares on the
-                             axis from the mean → average square (side = SD) and ±1 SD band;
-                             one scale for both rounds so careful squares look as small as they are
-      sd.js                  constants (15 taps, 10 to unlock, target radius 22 px, 0.65 s),
-                             mean, variance / SD (n − 1), cloud(), withinOneSd, formatting
-      text.js                AIM texts (en + fr)
+    variance-sd/           topic 02 "Variance and standard deviation": "How precise is your memory?"
+      MemoryGame.jsx         4 steps: 1 line (12 trials) → 4 lines (12 trials) → Spread (one row
+                             of errors per round, mean line + ±1 SD bracket) → The SD (views
+                             1 Deviations / 2 Squares / 3 SD, rounds 1 line / 4 lines)
+      MemoryTask.jsx         one trial: cross 0.6 s → 1 or 4 tilted lines 1 s → blank 1 s → one
+                             circle comes back, turn its line (drag around it or ← →, Shift =
+                             10°) and Confirm (or Enter) → real tilt shown dashed 1.3 s → next
+      ErrorChart.jsx         errors (−90°…+90°) as stacked dots, one lane per round
+      SquaresChart.jsx       deviations (one row per answer) → squares on the axis from the mean
+                             → average square (side = SD) and ±1 SD band; one scale for both rounds
+      sd.js                  constants (12 trials, 8 to unlock, timings, min 20° between lines),
+                             mean, variance / SD (n − 1), tiltError (folded to ±90°), randomTilts
+      text.js                MEM texts (en + fr)
     right-skewed/          topic 04 "Right-skewed distributions": reaction-time game
       ReactionTime.jsx       3 steps: Tap (one tap starts a continuous run: wait 0.8–2 s →
                              yellow → tap → next wait…, 25 good reactions; removed automatically:
@@ -153,7 +150,7 @@ docs/CODE_GUIDE.md         private, gitignored (local only): beginner-friendly e
 Course plan (order of `topics.js`; URLs use names, not numbers, so reordering breaks no link):
 - Part 1 · Describe your data
   - `/topics/mean-median` topic 01: "Mean and median" (Müller-Lyer illusion)
-  - `/topics/variance-sd` topic 02: "Variance and standard deviation" (aim and tap)
+  - `/topics/variance-sd` topic 02: "Variance and standard deviation" (how precise is your memory?)
 - Part 2 · Shapes of data
   - `/topics/normal-distribution` topic 03: "The normal distribution" (your inner clock)
   - `/topics/right-skewed` topic 04: "Right-skewed distributions" (reaction time)

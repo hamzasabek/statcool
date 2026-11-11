@@ -2,11 +2,11 @@ import { useLayoutEffect, useRef, useState } from 'react'
 import * as d3 from 'd3'
 import { MotionConfig, motion } from 'motion/react'
 import { useText } from '../../i18n.jsx'
-import { fmtPx, fmtSigned, mean, sd } from './sd.js'
-import { AIM } from './text.js'
+import { fmtDeg, fmtSigned, fmtSignedDeg, mean, sd } from './sd.js'
+import { MEM } from './text.js'
 
 // The left–right errors of one round, built up into the SD.
-//   values : the round's errors (px, right +); other : the other round's, only to share one scale,
+//   values : the round's errors (degrees, anticlockwise +); other : the other round's, only to share one scale,
 //            so the careful round's squares look as small as they really are
 //   view   : 'dev' → a stick from the mean to each tap (the deviations)
 //            'sq'  → each stick becomes a square above the axis (the squared deviations)
@@ -18,7 +18,7 @@ const M = { top: 26, right: 16, bottom: 26, left: 16 }
 const GROW = { type: 'spring', stiffness: 160, damping: 22 }
 
 export default function SquaresChart({ values, other, view, colour }) {
-  const tx = useText(AIM)
+  const tx = useText(MEM)
   const wrapRef = useRef(null)
   const [{ width, height }, setSize] = useState({ width: 640, height: 320 })
 
@@ -73,7 +73,8 @@ export default function SquaresChart({ values, other, view, colour }) {
   const dotY = (i) => (view === 'dev' ? base - 10 - rankOf[i] * devRow : base + 6 + r + rowOf[i] * (2 * r + 3))
   const MOVE = { type: 'spring', stiffness: 260, damping: 28 }
 
-  const ticks = x.ticks(Math.max(2, Math.min(9, Math.floor(plotW / 70))))
+  // errors cannot go past ±90°: no ticks out there
+  const ticks = x.ticks(Math.max(2, Math.min(9, Math.floor(plotW / 70)))).filter((t) => Math.abs(t) <= 90)
   const xm = x(m)
   const side = s * k // the average square's side, in px on screen
   const showSq = view !== 'dev'
@@ -83,7 +84,7 @@ export default function SquaresChart({ values, other, view, colour }) {
   const bandPad = bandInside ? 4 : -4
 
   // Labels of the average square: to its right if they fit, else left of the mean line, else above it.
-  const avgLines = [tx.avgSquare, tx.sideIsSd(fmtPx(s))]
+  const avgLines = [tx.avgSquare, tx.sideIsSd(fmtDeg(s, 1))]
   const labelW = Math.max(...avgLines.map((t) => t.length)) * 6.6
   let avgLabel = { x: xm + side + 6, y: base - 22, anchor: 'start' }
   if (xm + side + 6 + labelW > M.left + plotW) {
@@ -96,10 +97,10 @@ export default function SquaresChart({ values, other, view, colour }) {
   return (
     <div ref={wrapRef} className="chart-fill" data-tour="chart">
       <MotionConfig reducedMotion="user">
-        <svg className={`chart aim-sq is-${colour} is-${view}`} width={width} height={H} role="img" aria-label={tx.sqAria(n, fmtPx(m), fmtPx(s))}>
+        <svg className={`chart mem-sq is-${colour} is-${view}`} width={width} height={H} role="img" aria-label={tx.sqAria(n, fmtDeg(m, 1), fmtDeg(s, 1))}>
           {/* ±1 SD band (last view) */}
           {view === 'sd' && s > 0 && (
-            <g className="aim-sd-band">
+            <g className="mem-sd-band">
               <rect x={x(m - s)} y={M.top} width={2 * side} height={bottom - M.top} />
               <text x={x(m - s) + bandPad} y={M.top + 12} textAnchor={bandInside ? 'start' : 'end'}>
                 {tx.minusSd}
@@ -117,7 +118,7 @@ export default function SquaresChart({ values, other, view, colour }) {
               return (
                 <motion.rect
                   key={`sq-${i}`}
-                  className="aim-square"
+                  className="mem-square"
                   x={d < 0 ? xm - a : xm}
                   width={a}
                   initial={{ height: 0, y: base }}
@@ -129,7 +130,7 @@ export default function SquaresChart({ values, other, view, colour }) {
 
           {/* The average square: area = variance, side = SD */}
           {view === 'sd' && s > 0 && (
-            <g className="aim-avg">
+            <g className="mem-avg">
               <motion.rect x={xm} width={side} initial={{ height: 0, y: base }} animate={{ height: side, y: base - side }} transition={GROW} />
               {avgLines.map((t, j) => (
                 <text key={j} x={avgLabel.x} y={avgLabel.y + j * 15} textAnchor={avgLabel.anchor}>
@@ -145,22 +146,22 @@ export default function SquaresChart({ values, other, view, colour }) {
             <g key={t}>
               <line className="axis-line" x1={x(t)} x2={x(t)} y1={bottom + 2} y2={bottom + 6} />
               <text className="tick-label" x={x(t)} y={bottom + 19} textAnchor="middle">
-                {fmtSigned(t, 0)}
+                {`${fmtSigned(t, 0)}°`}
               </text>
             </g>
           ))}
 
           {/* Mean */}
-          <line className="aim-mean-line" x1={xm} x2={xm} y1={M.top - 4} y2={bottom} />
-          <text className="aim-mean-label" x={xm} y={M.top - 10} textAnchor="middle">
-            {tx.meanMark(`${fmtSigned(m)} px`)}
+          <line className="mem-mean-line" x1={xm} x2={xm} y1={M.top - 4} y2={bottom} />
+          <text className="mem-mean-label" x={xm} y={M.top - 10} textAnchor="middle">
+            {tx.meanMark(fmtSignedDeg(m, 1))}
           </text>
 
           {/* Deviations: a stick from the mean to each tap */}
           {devs.map((d, i) => (
             <motion.line
               key={`dev-${i}`}
-              className={`aim-dev${d < 0 ? ' is-left' : ''}`}
+              className={`mem-dev${d < 0 ? ' is-left' : ''}`}
               x1={xm}
               x2={x(m + d)}
               initial={false}

@@ -687,3 +687,22 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   (now on top), labels running off narrow screens (average-square and ±1 SD labels now move to
   where they fit), a headline that said "same centre" when the fast taps had drifted. The inner
   clock's compare page was also played (10 + 10 presses): the new "within 1 SD" line shows.
+
+## 2026-11-11 — Step 48: topic 02 becomes "How precise is your memory?"
+- Owner found "Aim and tap" hard to understand (2D cloud, then left–right only, pixels, little
+  known experiment) and asked for a real psychology experiment. Picked from five suggestions:
+  delayed estimation from working-memory research (Wilken & Ma 2004; Zhang & Luck 2008), where
+  memory precision is literally the SD of the errors.
+- Same slug and place (`/topics/variance-sd`, topic 02). Removed AimTap, Arena, Bullseye; new
+  MemoryGame, MemoryTask, ErrorChart; SquaresChart kept, now in degrees. Timeline, home card and
+  About page texts updated (EN + FR).
+- The game: 1 line: a tilted line flashes 1 s, 1 s blank, then turn a line to the remembered tilt
+  (drag around the circle or ← →, Confirm or Enter; the real tilt is then shown dashed). 12 trials.
+  4 lines: 4 lines flash, one circle (yellow) comes back. Errors folded to ±90° drop as dots, one
+  row per round. Spread: mean line and ±1 SD bracket per row; "with 4 lines your errors spread N×
+  wider", the mean stays small next to the spread. The SD: deviations → squares → variance (°²) →
+  SD, with "your memory precision: SD x with 1 line, y with 4 lines". Playable with the keyboard.
+- Tested in headless Chrome (DevTools protocol, real clicks on the dial; simulated memory: 1 line
+  SD 9°, 4 lines SD 20° + 15 % guesses): 1366×768 EN light and 390×844 FR dark. All 4 tours
+  (16 bubbles), 24 answers, every screen; no overflow, no errors. Fixed: the mean was called
+  "close to 0" at +11° (now "small next to the spread"); the SD axis showed ticks beyond ±90°.
