@@ -721,3 +721,19 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   to its topic page ("← Mean, median and mode"). Topics intro text updated (EN + FR).
 - Tested in headless Chrome: /topics, a topic page, a game page, unknown topic / game (404) at
   1366 px EN light and 390 px FR dark; back links correct, no overflow, no errors.
+
+## 2026-11-11 — Step 50: topic 01, game 2 "The magical number 7" (digit span)
+- New game `/topics/mean-median/digit-span` (DigitSpan, DigitTask, SpanChart, span.js,
+  spanText.js), available on the topic page; added to the About page's experiments (EN + FR).
+- Remember: 6 runs. Digits (all different) flash 0.8 s each; type them back with the on-screen
+  keypad or the keyboard (digits, Backspace, Enter). A correct list → one digit more; the first
+  mistake ends the run (wrong digits shown with the right ones underneath). Span = longest list
+  recalled; the first run starts at 4, later runs one below the last span. Each span drops as a
+  dot in its column (2…10). Three centres: mode (highlighted column; ties named), median (dashed;
+  "halfway" when it falls between two spans), mean (line + ▲; "a span nobody can have" when it is
+  not whole). The class: 100 simulated adults (seeded, mean ≈ 6.8, SD ≈ 1.2, said on screen) as
+  bars: mode 7, median 7, mean 6.7; your most common span as a yellow dot.
+- Tested in headless Chrome (DevTools protocol; the script reads each flashed digit and types it
+  back, with one mistake when the list passes a target span): 1366×768 EN light, 390×844 FR dark.
+  6 runs (spans 6 7 6 5 7 6 → mode 6, median 6, mean 6.2), all tours (11 bubbles), no overflow,
+  no errors. Fixed: marker lines crossed the labels; dots too big with few runs.

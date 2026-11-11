@@ -104,6 +104,7 @@ export const ABOUT = {
     sep: ': ',
     experiments: [
       ['The Müller-Lyer illusion', 'Franz Müller-Lyer, 1889. A line with outward fins looks longer than a plain line of the same length.'],
+      ['The magical number 7', 'George Miller, 1956. Most adults can repeat about 7 digits in order, “plus or minus two”: the digit span, a classic measure of short-term memory.'],
       ['How precise is your memory?', 'Wilken & Ma, 2004; Zhang & Luck, 2008. Recall the tilt of a line you just saw: your errors centre on the truth, but the more lines you hold in mind, the more they spread. Memory researchers measure precision with the SD of these errors.'],
       ['Your inner clock', 'time estimation. The longer the time you estimate, the bigger your errors, in proportion (Weber’s law for time).'],
       ['Reaction time', 'one of the oldest measures in experimental psychology. Reaction times have a floor but no ceiling, so they always trail off to the right.'],
@@ -136,6 +137,7 @@ export const ABOUT = {
     sep: ' : ',
     experiments: [
       ['L’illusion de Müller-Lyer', 'Franz Müller-Lyer, 1889. Une ligne avec des pointes vers l’extérieur paraît plus longue qu’une ligne simple de même longueur.'],
+      ['Le nombre magique 7', 'George Miller, 1956. La plupart des adultes peuvent répéter environ 7 chiffres dans l’ordre, « plus ou moins deux » : l’empan de chiffres, une mesure classique de la mémoire à court terme.'],
       ['Votre mémoire est-elle précise ?', 'Wilken et Ma, 2004 ; Zhang et Luck, 2008. Retrouvez l’inclinaison d’un trait vu à l’instant : vos erreurs se centrent sur la vérité, mais plus vous retenez de traits, plus elles s’étalent. Les chercheurs en mémoire mesurent la précision par l’écart-type de ces erreurs.'],
       ['Votre horloge interne', 'l’estimation du temps. Plus la durée à estimer est longue, plus vos erreurs grandissent, en proportion (la loi de Weber pour le temps).'],
       ['Temps de réaction', 'l’une des plus anciennes mesures de la psychologie expérimentale. Les temps de réaction ont un plancher mais pas de plafond, donc ils s’étirent toujours vers la droite.'],

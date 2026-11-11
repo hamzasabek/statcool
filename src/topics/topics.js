@@ -58,7 +58,7 @@ export const topics = [
       },
       {
         slug: 'digit-span',
-        available: false,
+        available: true,
         text: {
           en: { name: 'The magical number 7', ref: 'Miller, 1956', idea: 'Your memory span in whole numbers: the mode, the median, and a mean that nobody can have.' },
           fr: frenchTypo({ name: 'Le nombre magique 7', ref: 'Miller, 1956', idea: 'Votre empan de mémoire en nombres entiers : le mode, la médiane, et une moyenne que personne ne peut avoir.' }),

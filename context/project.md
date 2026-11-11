@@ -85,6 +85,15 @@ src/
                              topic 03), optional rank numbers / draggable dots / ghosts
       mm.js                  trial counts, domains, mean, median, SD, formatting
       text.js                MM texts (en + fr)
+      DigitSpan.jsx          game 2 "The magical number 7" (digit span): 3 steps: Remember (6 runs;
+                             a run starts 1 below the last span, +1 digit per correct list, ends at
+                             the first mistake; span = longest list) → Three centres (mode column,
+                             median dashed, mean ▲ of your spans) → The class (100 simulated adults)
+      DigitTask.jsx          one run: digits 0.8 s each, then type them (keypad or keyboard, OK/Enter)
+      SpanChart.jsx          columns 2…10: your dots, or the class as bars (+ your mode as a dot);
+                             mode / median / mean markers with labels on three rows
+      span.js                runs, lengths, timings, mean / median / modes, seeded simulatedClass
+      spanText.js            SPAN texts (en + fr)
     variance-sd/           topic 02 "Variance and standard deviation": "How precise is your memory?"
       MemoryGame.jsx         4 steps: 1 line (12 trials) → 4 lines (12 trials) → Spread (one row
                              of errors per round, mean line + ±1 SD bracket) → The SD (views
@@ -158,7 +167,7 @@ docs/CODE_GUIDE.md         private, gitignored (local only): beginner-friendly e
 Course plan (order of `topics.js`; URLs use names, not numbers, so reordering breaks no link).
 Goal (owner, Step 49): at least 3 games per topic.
 - Part 1 · Describe your data
-  - 01 `mean-median` "Mean, median and mode": `muller-lyer`, `digit-span` (soon), `blue-seven` (soon)
+  - 01 `mean-median` "Mean, median and mode": `muller-lyer`, `digit-span`, `blue-seven` (soon)
   - 02 `variance-sd` "Variance and standard deviation": `memory` (how precise is your memory?)
 - Part 2 · Shapes of data
   - 03 `normal-distribution` "The normal distribution": `inner-clock`
