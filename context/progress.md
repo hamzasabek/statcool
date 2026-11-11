@@ -792,3 +792,16 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   lifted with the landing tick; a new dot's height sampled every 30 ms falls 271 → 593 and settles
   at 575 (the spring's small bounce); a removed dot fades 0.94 → 0.25 in ~150 ms, then is gone. The
   full playground test (drag, add, remove, undo, keyboard, scenarios, CEO) still passes; no errors.
+
+## 2026-11-11 — Step 54: playground dots fall like the inner-clock game
+- Owner: dropping and dragging should be the same as in the normal-distribution game (topic 03).
+- PlayChart's dots are now the clock game's dots: plain yellow `ck-dot is-a` circles, same size
+  rule (the dots of a stack touch), same spring (stiffness 420, damping 24, mass 0.9), falling from
+  the very top of the chart onto their stack (cx, cy, r and opacity animated); the newest or last
+  moved dot is ringed (`is-last`), like the last press. Dragging picks the dot up (it follows the
+  pointer, with a landing tick on the axis); on release it falls from the top into its new column,
+  like a new press (its key holds its value, so a new value = a new fall). Keyboard moves fall the
+  same way and keep the focus on the moved dot. The Step 53 lift and glow are gone.
+- Tested in headless Chrome with normal motion emulated: a new dot falls 229 → 609 and settles at
+  577; a released dot falls 270 → 633 → 604 and is ringed; a keyboard move keeps the focus; the
+  full playground test passes at 1366×768 EN light and 390×844 FR dark; no errors.

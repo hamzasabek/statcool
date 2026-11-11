@@ -1,32 +1,35 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { AnimatePresence, MotionConfig, motion } from 'motion/react'
 import { useText } from '../../i18n.jsx'
 import { useTweened } from '../../hooks/useTweened.js'
 import { mean, median, modes, snap } from './play.js'
 import { PLAY } from './playText.js'
 
-// The playground's dot plot, with the same feel as the other games (Müller-Lyer's draggable dots):
-//   - tap empty space → a dot drops in from the top and springs onto its stack
-//   - drag a dot → it lifts (bigger, glowing) and follows the pointer freely; on release it snaps to
-//     the nearest value and springs into place, and the dots it left settle down
+// The playground's dot plot. Its dots fall exactly like a press in the inner-clock game (topic 03):
+// a plain yellow dot falls from the top of the chart and springs onto its stack (same spring, same
+// size), and the newest one is ringed.
+//   - tap empty space → a new dot falls into that column
+//   - drag a dot → pick it up: it follows the pointer, with a tick on the axis where it will land; on
+//     release it falls from the top into its new column, like a new press; the dots it left settle
 //   - tap a dot without moving it → it pops away
 //   - the markers glide: the mode's column(s) fade in and out, the median (dashed) and the mean
 //     (line + ▲ balance point) slide to their new places
-// Values snap to the scenario's step, so equal values stack in a column. Keyboard: ← → move,
-// Delete removes.
-//   dots: [{ id, v }]   sc: the scenario   onAdd(v)   onMove(id, v, done)   onRemove(id)
+// Values snap to the scenario's step, so equal values stack in a column. Keyboard: ← → move (the dot
+// falls into its new column too), Delete removes.
+//   dots: [{ id, v }]   sc: the scenario   lastId: the dot to ring   onAdd(v)   onMove(id, v, done)
+//   onRemove(id)
 
 const M = { top: 10, right: 16, bottom: 44, left: 16 }
 const ROW = 15
-const DROP = { type: 'spring', stiffness: 420, damping: 26, mass: 0.9 } // as in the other games
-const INSTANT = { duration: 0 }
+const DROP = { type: 'spring', stiffness: 420, damping: 24, mass: 0.9 } // the inner-clock game's drop
 const POP = { duration: 0.18, ease: 'easeIn' }
 
-export default function PlayChart({ dots, sc, fmt, onAdd, onMove, onRemove }) {
+export default function PlayChart({ dots, sc, fmt, lastId, onAdd, onMove, onRemove }) {
   const tx = useText(PLAY)
   const wrapRef = useRef(null)
   const svgRef = useRef(null)
   const drag = useRef(null) // { id, x0, y0, moved }
+  const focusAfter = useRef(null) // a dot moved with the keyboard keeps the focus in its new place
   const [dragPos, setDragPos] = useState(null) // { id, x, y } while a dot is being dragged
   const [{ width, height }, setSize] = useState({ width: 640, height: 320 })
 
@@ -54,8 +57,8 @@ export default function PlayChart({ dots, sc, fmt, onAdd, onMove, onRemove }) {
   const levels = {}
   const placed = dots.map((d) => (d.id === dragPos?.id ? { ...d, level: 0 } : { ...d, level: (levels[d.v] = (levels[d.v] ?? 0) + 1) - 1 }))
   const cap = Math.max(6, ...Object.values(levels))
-  const size = Math.min(colW, (base - top) / cap, 28)
-  const r = Math.max(3.5, size / 2 - 1)
+  const size = Math.min(colW, (base - top) / cap, 26)
+  const r = Math.max(2.5, size / 2 - 0.75) // as in the inner-clock game: the dots of a stack touch
   const cy = (level) => base - (level + 0.5) * size
 
   const n = values.length
@@ -112,12 +115,22 @@ export default function PlayChart({ dots, sc, fmt, onAdd, onMove, onRemove }) {
   function onDotKey(e, p) {
     if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
       e.preventDefault()
-      onMove(p.id, snap(p.v + (e.key === 'ArrowRight' ? sc.step : -sc.step), sc), true)
+      const v = snap(p.v + (e.key === 'ArrowRight' ? sc.step : -sc.step), sc)
+      focusAfter.current = { id: p.id, v }
+      onMove(p.id, v, true)
     } else if (e.key === 'Delete' || e.key === 'Backspace') {
       e.preventDefault()
       onRemove(p.id)
     }
   }
+
+  useEffect(() => {
+    if (focusAfter.current === null) return
+    // the new copy of the dot (the old one is still fading out with the same id)
+    const { id, v } = focusAfter.current
+    svgRef.current?.querySelector(`[data-dot="${id}"][data-v="${v}"]`)?.focus()
+    focusAfter.current = null
+  })
 
   const every = Math.max(1, Math.ceil(cols / Math.max(2, Math.floor(plotW / 46))))
   const ticks = Array.from({ length: cols }, (_, k) => lo + k * sc.step).filter((_, k) => k % every === 0)
@@ -190,30 +203,42 @@ export default function PlayChart({ dots, sc, fmt, onAdd, onMove, onRemove }) {
             </text>
           ))}
 
-          {/* The dots: drop in, spring into place, lift while dragged, pop when removed */}
+          {/* The dots fall from the top and spring onto their stack (a dot whose value changed falls
+              again: its key holds the value); a removed dot pops away */}
           <AnimatePresence>
-            {placed.map((p) => {
-              const dragged = p.id === dragPos?.id
-              const x = dragged ? dragPos.x : xOf(p.v)
-              const y = dragged ? Math.min(base - r, Math.max(top + r, dragPos.y - lift)) : cy(p.level)
-              return (
-                <motion.g
-                  key={p.id}
-                  className={`pg-dot${dragged ? ' is-dragged' : ''}`}
-                  initial={{ x, y: top - 10, opacity: 0, scale: 1 }}
-                  animate={{ x, y, opacity: 1, scale: dragged ? 1.25 : 1 }}
-                  exit={{ opacity: 0, scale: 0.2, transition: POP }}
-                  transition={dragged ? { ...INSTANT, scale: DROP } : DROP}
-                  tabIndex={0}
-                  role="button"
-                  aria-label={tx.dotLabel(fmt(p.v))}
-                  onKeyDown={(e) => onDotKey(e, p)}
-                >
-                  <circle r={r} />
-                </motion.g>
-              )
-            })}
+            {placed
+              .filter((p) => p.id !== dragPos?.id)
+              .map((p) => {
+                const cx = xOf(p.v)
+                return (
+                  <motion.circle
+                    key={`${p.id}:${p.v}`}
+                    data-dot={p.id}
+                    data-v={p.v}
+                    className={`ck-dot is-a pg-dot${p.id === lastId ? ' is-last' : ''}`}
+                    initial={{ cx, cy: M.top, r, opacity: 0 }}
+                    animate={{ cx, cy: cy(p.level), r, opacity: 1 }}
+                    exit={{ opacity: 0, r: 0, transition: POP }}
+                    transition={DROP}
+                    tabIndex={0}
+                    role="button"
+                    aria-label={tx.dotLabel(fmt(p.v))}
+                    onKeyDown={(e) => onDotKey(e, p)}
+                  />
+                )
+              })}
           </AnimatePresence>
+
+          {/* The dot being dragged follows the pointer */}
+          {dragging && (
+            <circle
+              className="ck-dot is-a is-last pg-dot is-held"
+              cx={dragPos.x}
+              cy={Math.min(base - r, Math.max(top + r, dragPos.y - lift))}
+              r={r}
+              pointerEvents="none"
+            />
+          )}
 
           {/* While dragging: where the dot will land */}
           {dragging && (

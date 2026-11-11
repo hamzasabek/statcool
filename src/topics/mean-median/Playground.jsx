@@ -30,6 +30,7 @@ export default function Playground() {
   const [done, setDone] = useState([]) // keys of the challenges done
   const [flash, setFlash] = useState(null) // key of the challenge just done
   const dragBefore = useRef(null) // the dots when a drag started
+  const [lastId, setLastId] = useState(null) // the newest or last moved dot, ringed like the last press in the clock game
 
   const guide = useGuide('pg-mean-median', TOUR_TARGETS, tx.tour, { place: TOUR_PLACE, doneLabel: tx.tourDone })
 
@@ -75,7 +76,11 @@ export default function Playground() {
     setEvent({ type: 'load' })
     setFlash(null)
   }
-  const add = (v) => commit(dots, [...dots, { id: nextId.current++, v }], { type: 'add', v })
+  const add = (v) => {
+    const id = nextId.current++
+    setLastId(id)
+    commit(dots, [...dots, { id, v }], { type: 'add', v })
+  }
   const remove = (id) => {
     const d = dots.find((x) => x.id === id)
     commit(
@@ -98,6 +103,7 @@ export default function Playground() {
       setDots(before)
       return
     }
+    setLastId(id)
     commit(before, after, { type: 'move', from, to: v })
   }
   function undo() {
@@ -204,6 +210,7 @@ export default function Playground() {
           dots={dots}
           sc={sc}
           fmt={fmt}
+          lastId={lastId}
           onAdd={add}
           onMove={move}
           onRemove={remove}
