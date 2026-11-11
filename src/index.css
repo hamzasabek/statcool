@@ -842,8 +842,81 @@ a.tl-link:hover .tl-cta { transform: translateX(4px); }
   .stage-foot .actions > a.btn-ghost { display: none; }
 }
 
+/* ---------- Guided tour (Tour.jsx) ---------- */
+/* "? Guide" button in the stage head, next to the steps */
+.stage-head-side { display: flex; align-items: center; gap: 6px 14px; flex-wrap: wrap; }
+.guide-btn { color: var(--muted); padding: 0 12px 0 8px; }
+.guide-icon {
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+/* The page behind the bubble: blurred and greyed out, except a hole around the target */
+.tour { position: fixed; inset: 0; z-index: 1000; }
+.tour-block { position: absolute; inset: 0; }
+.tour-shade {
+  position: absolute;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--bg) 40%, transparent);
+  backdrop-filter: blur(4px) grayscale(1);
+  -webkit-backdrop-filter: blur(4px) grayscale(1);
+  transition: left 0.35s ease, top 0.35s ease, width 0.35s ease, height 0.35s ease;
+}
+.tour-ring {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 12px;
+  box-shadow: 0 0 0 2px var(--cta), 0 0 0 7px color-mix(in srgb, var(--cta) 30%, transparent);
+  transition: left 0.35s ease, top 0.35s ease, width 0.35s ease, height 0.35s ease, opacity 0.2s;
+}
+.tour-ring.is-hidden { opacity: 0; }
+
+/* The bubble, with an arrow on the side that faces the target */
+.tour-bubble {
+  position: absolute;
+  width: min(360px, calc(100vw - 24px));
+  box-sizing: border-box;
+  padding: 18px 20px 14px;
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-hover), 0 0 0 1px var(--border);
+  animation: tour-in 0.28s ease-out both;
+}
+.tour-bubble.is-center { width: min(440px, calc(100vw - 24px)); padding: 24px 26px 16px; }
+.tour-bubble::before {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: var(--surface);
+  transform: rotate(45deg);
+}
+.tour-bubble.is-bottom::before { top: -7px; left: calc(var(--arrow) - 7px); }
+.tour-bubble.is-top::before { bottom: -7px; left: calc(var(--arrow) - 7px); }
+.tour-bubble.is-right::before { left: -7px; top: calc(var(--arrow) - 7px); }
+.tour-bubble.is-left::before { right: -7px; top: calc(var(--arrow) - 7px); }
+.tour-bubble.is-center::before,
+.tour-bubble.is-inside::before { display: none; }
+.tour-title { margin: 0 0 6px; font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; line-height: 1.25; }
+.tour-bubble.is-center .tour-title { font-size: 1.5rem; }
+.tour-text { margin: 0; color: var(--muted); font-size: 0.95rem; }
+.tour-foot { display: flex; align-items: center; gap: 4px; margin-top: 14px; }
+.tour-count { margin-right: auto; font-size: 0.78rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tour-skip { color: var(--muted); }
+@keyframes tour-in { from { opacity: 0; transform: translateY(6px); } }
+
 @media (prefers-reduced-motion: reduce) {
   .nd-glow, .ck-button.is-next, .rt-pad.is-next { animation: none; }
   .tl-link, .tl-node, .tl-cta, .btn { transition: none; }
   .tl-item { animation: none; }
+  .tour-shade, .tour-ring { transition: none; }
+  .tour-bubble { animation: none; }
 }

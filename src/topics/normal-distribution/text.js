@@ -42,6 +42,64 @@ export const CLOCK = {
     unlocks: (n) => `Unlocks after ${n} presses`,
     tapOrSpace: 'tap or Space',
     spaceToo: 'Space also works.',
+    // guided tour (Tour.jsx): one bubble per thing, one tour per screen of the game
+    tourPlay: 'Let’s play!',
+    tour: (a, b) => ({
+      first: [
+        {
+          title: 'Your inner clock',
+          text: `How good is your sense of time? You start a hidden clock, then stop it when you think ${a} seconds have passed. Every try becomes a dot, and your dots slowly draw a curve.`,
+        },
+        {
+          title: 'The clock button',
+          text: `Press once to start the clock, press again when you feel that ${a} seconds have passed. Don’t count in your head: just feel it. The Space bar works too.`,
+        },
+        {
+          title: 'Your dots',
+          text: `Each press drops a dot here, at the time you stopped. Presses that land close together pile up. The dashed line is the target: ${a} s.`,
+        },
+        {
+          title: 'Your numbers',
+          text: 'How many presses you made (20 per game). From 2 presses on: your mean (your average time) and your SD, the standard deviation (how spread out your presses are).',
+        },
+        {
+          title: 'The bell curve',
+          text: 'From 3 presses on, a bell-shaped curve is drawn over your dots, with your own mean and SD. This is the normal distribution: watch your dots fill it in.',
+        },
+        {
+          title: 'Feel it, undo it',
+          text: `Not sure how long ${a} seconds is? “Feel ${a} s” shows it to you once. Undo removes your last press.`,
+        },
+        {
+          title: 'Three steps',
+          text: `First ${a} seconds, then ${b} seconds, then you compare your two curves.`,
+        },
+        {
+          title: 'Next game',
+          text: `After 10 presses this button opens the ${b}-second game. After 20, the big clock button takes you there too.`,
+        },
+      ],
+      second: [
+        {
+          title: `Now ${b} seconds`,
+          text: `Same game, a longer target, and a new empty chart. Before you start: will your presses be more spread out than at ${a} s?`,
+        },
+      ],
+      compare: [
+        {
+          title: 'Both games together',
+          text: `Yellow: your ${a}-second presses and their bell. Blue: your ${b}-second presses and theirs. The longer target usually gives the wider bell.`,
+        },
+        {
+          title: 'Same scale',
+          text: '“÷ target” divides every time by its target (1× = spot on). The two bells then usually line up: your error grows in proportion to the time.',
+        },
+        {
+          title: 'Your results',
+          text: 'Your mean and SD for each game, and the spread compared with the time. When they match, that is Weber’s law for time.',
+        },
+      ],
+    }),
     // chart
     target: 'target',
     empty: 'Your presses will land here',
@@ -91,6 +149,63 @@ export const CLOCK = {
     unlocks: (n) => `Débloqué après ${n} appuis`,
     tapOrSpace: 'touchez ou Espace',
     spaceToo: 'La touche Espace marche aussi.',
+    tourPlay: 'C’est parti !',
+    tour: (a, b) => ({
+      first: [
+        {
+          title: 'Votre horloge interne',
+          text: `Quel est votre sens du temps ? Vous démarrez une horloge cachée, puis vous l’arrêtez quand vous pensez que ${a} secondes sont passées. Chaque essai devient un point, et vos points dessinent peu à peu une courbe.`,
+        },
+        {
+          title: 'Le bouton horloge',
+          text: `Appuyez une fois pour démarrer l’horloge, puis de nouveau quand vous sentez que ${a} secondes sont passées. Ne comptez pas dans votre tête : fiez-vous à votre ressenti. La touche Espace marche aussi.`,
+        },
+        {
+          title: 'Vos points',
+          text: `Chaque appui fait tomber un point ici, au temps où vous vous êtes arrêté. Les appuis proches s’empilent. La ligne en pointillé est la cible : ${a} s.`,
+        },
+        {
+          title: 'Vos chiffres',
+          text: 'Le nombre d’appuis faits (20 par jeu). Dès 2 appuis : votre moyenne (votre temps moyen) et votre écart-type (à quel point vos appuis sont dispersés).',
+        },
+        {
+          title: 'La courbe en cloche',
+          text: 'Dès 3 appuis, une courbe en forme de cloche est tracée sur vos points, avec votre moyenne et votre écart-type. C’est la loi normale : regardez vos points la remplir.',
+        },
+        {
+          title: 'Ressentir, annuler',
+          text: `Vous ne savez pas combien durent ${a} secondes ? « Ressentir ${a} s » vous le montre une fois. Annuler retire votre dernier appui.`,
+        },
+        {
+          title: 'Trois étapes',
+          text: `D’abord ${a} secondes, puis ${b} secondes, puis vous comparez vos deux courbes.`,
+        },
+        {
+          title: 'Jeu suivant',
+          text: `Après 10 appuis, ce bouton ouvre le jeu de ${b} secondes. Après 20, le grand bouton horloge vous y emmène aussi.`,
+        },
+      ],
+      second: [
+        {
+          title: `Maintenant ${b} secondes`,
+          text: `Même jeu, une cible plus longue et un nouveau graphique vide. Avant de commencer : vos appuis seront-ils plus dispersés qu’à ${a} s ?`,
+        },
+      ],
+      compare: [
+        {
+          title: 'Les deux jeux ensemble',
+          text: `En jaune : vos appuis à ${a} secondes et leur cloche. En bleu : vos appuis à ${b} secondes et la leur. La cible la plus longue donne en général la cloche la plus large.`,
+        },
+        {
+          title: 'Même échelle',
+          text: '« ÷ cible » divise chaque temps par sa cible (1× = pile). Les deux cloches se superposent alors en général : votre erreur grandit en proportion de la durée.',
+        },
+        {
+          title: 'Vos résultats',
+          text: 'Votre moyenne et votre écart-type pour chaque jeu, et la dispersion rapportée à la durée. Quand elles se valent, c’est la loi de Weber pour le temps.',
+        },
+      ],
+    }),
     target: 'cible',
     empty: 'Vos appuis arriveront ici',
     sd1: '±1 é.-t.',

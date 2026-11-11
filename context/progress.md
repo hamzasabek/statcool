@@ -531,3 +531,30 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   n × pdf × bin width → draw), each of the five topics file by file with its statistics, the CSS,
   recurring patterns (latest-ref, cleanups, immutable updates, timing), a glossary and exercises.
 - No code changed.
+
+## 2026-11-11 — Step 40: Guided tour for topic 01 (one bubble = one thing)
+- Owner: guide the student through each step of the game. Each bubble explains one thing; the rest of
+  the page is blurred / desaturated; first a bubble explaining the game, then bubbles pointing at the
+  button, the graph, and so on. Topic 01 only for now.
+- New `src/components/Tour.jsx` (reusable): `useTour(id)` opens a tour by itself the first time (saved in
+  localStorage `statcool-tour-<id>`) and lets a button replay it; `<Tour steps onClose doneLabel>` draws
+  4 blurred + greyed shades around a hole on the target (`[data-tour="…"]`), a yellow ring, and a bubble
+  with an arrow (placed below / above / right / left, preferred side per step, else inside a big
+  target). A step with no target = a centred bubble over a fully blurred page. "1 of 8", Skip, Back,
+  Next; keys: → / Enter next, ← back, Esc skip, Tab stays in the bubble. While open it catches every
+  click and key (capture listener on window), so the game can't start behind it. Rendered in a portal.
+- `Stage` got `onGuide`: a "? Guide" button in the head to replay the tour. `<ol class="steps">` has
+  `data-tour="steps"`. Shared labels in `src/text.js`.
+- Topic 01 (`ClockGame.jsx`): three tours, texts in `text.js` (`tour(a, b)`, EN + FR):
+  - 2 s game (8 bubbles): the game (centred) → the clock button → the dots → count / mean / SD → the
+    bell curve → Feel 2 s / Undo → the three steps → the Next button ("Let’s play!").
+  - 5 s game (1 bubble): new target, new chart, "more spread?".
+  - Compare (3 bubbles): both bells → "÷ target" → your results (Weber’s law).
+  - Opening the guide stops a running clock.
+- `frenchTypo` now also fixes objects / arrays returned by text functions.
+- Tested in headless Chrome (1366×657 EN light, 390×750 FR dark, 1280×600 dark): the tour opens on the
+  first visit only, every bubble points at its target and stays on screen, a click on the blurred pad
+  and Space / arrows during the tour don't touch the game, Guide replays it, Esc closes it, the 5 s and
+  Compare tours open when those screens are reached, focus is on the bubble's button. Found and fixed:
+  the focus was lost when a tour opened after a click (the bubble was still hidden). No errors, no
+  horizontal scroll.

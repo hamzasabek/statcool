@@ -8,6 +8,9 @@
 - Live site: https://hamzasabek.github.io/statcool/ (GitHub Pages only, deployed on every push
   to `main`; Netlify removed in Step 22).
 
+- Guided tour: only topic 01 has one (Step 40). Owner to try it, then add tours to topics 02–05
+  the same way. Idea: in the "bell curve" bubble, draw an example bell on the still-empty chart.
+
 ## Known issues
 - Name: the logo says "StatsCool", the page title and README say "StatCool". Pick one.
 - The browser-tab icon (favicon) is missing (index.html has none): could use the "cool" tiles of the logo.

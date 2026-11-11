@@ -8,7 +8,8 @@ import { COMMON } from '../text.js'
 //   bar   : optional toolbar above the main area
 //   main  : grows to fill the remaining height (charts measure it)
 //   foot  : feedback and actions
-export function Stage({ title, steps, current, say, bar, foot, children, flowOnNarrow = false, className = '' }) {
+// `onGuide` adds a "? Guide" button in the head that replays the page's guided tour (Tour.jsx).
+export function Stage({ title, steps, current, say, bar, foot, children, flowOnNarrow = false, className = '', onGuide }) {
   const tx = useText(COMMON)
   return (
     <article className={`stage${flowOnNarrow ? ' is-flow-narrow' : ''}${className ? ` ${className}` : ''}`}>
@@ -19,7 +20,19 @@ export function Stage({ title, steps, current, say, bar, foot, children, flowOnN
           </Link>
           <h1>{title}</h1>
         </div>
-        {steps && <Steps steps={steps} current={current} />}
+        {(steps || onGuide) && (
+          <div className="stage-head-side">
+            {steps && <Steps steps={steps} current={current} />}
+            {onGuide && (
+              <button type="button" className="btn btn-ghost btn-sm guide-btn" onClick={onGuide} title={tx.guideLabel}>
+                <span className="guide-icon" aria-hidden="true">
+                  ?
+                </span>
+                {tx.guide}
+              </button>
+            )}
+          </div>
+        )}
       </header>
       {say && <div className="stage-say">{say}</div>}
       {bar && <div className="stage-bar">{bar}</div>}
@@ -32,7 +45,7 @@ export function Stage({ title, steps, current, say, bar, foot, children, flowOnN
 export function Steps({ steps, current }) {
   const tx = useText(COMMON)
   return (
-    <ol className="steps" aria-label={tx.progress}>
+    <ol className="steps" aria-label={tx.progress} data-tour="steps">
       {steps.map((s, i) => (
         <li
           key={s}

@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { num, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
 import { Stage } from '../../components/Stage.jsx'
+import Tour, { useTour } from '../../components/Tour.jsx'
 import ClockChart from './ClockChart.jsx'
 import { MIN_TRIALS, TARGETS, TOO_FAST, TRIALS, fmtPct, fmtS, stats } from './clock.js'
 import { CLOCK } from './text.js'
@@ -15,6 +16,15 @@ const COOLDOWN = 450 // ms after a stop before the next start counts (no double 
 const emptyResults = () => TARGETS.map(() => [])
 const KEYS = ['a', 'b'] // colour of each target's dots and curve (see .ck-dot.is-a / is-b)
 const COMPARE_DOMAIN = [0, 2 * Math.max(...TARGETS)]
+
+// Guided tour of each screen: what each bubble points at (null = middle of the screen).
+// The texts are in text.js (tour), in the same order.
+const TOUR_TARGETS = {
+  first: [null, 'pad', 'chart', 'legend', 'chart', 'tools', 'steps', 'next'],
+  second: ['chart'],
+  compare: ['chart', 'view', 'feedback'],
+}
+const TOUR_PLACE = { pad: 'right', next: 'top' } // preferred side of the bubble
 
 export default function ClockGame() {
   const tx = useText(CLOCK)
@@ -39,6 +49,19 @@ export default function ClockGame() {
   const full = n >= TRIALS
   const canPress = phase === 'play' && !full && !demo
   const isLast = exp === TARGETS.length - 1
+
+  // One tour per screen (2 s game, 5 s game, compare); each opens by itself the first time.
+  const tourId = phase === 'compare' ? 'compare' : exp === 0 ? 'first' : 'second'
+  const tour = useTour(`clock-${tourId}`)
+  const tourTexts = tx.tour(TARGETS[0], TARGETS[1])[tourId]
+  const tourSteps = TOUR_TARGETS[tourId].map((t, i) => ({
+    target: t && `[data-tour="${t}"]`,
+    place: TOUR_PLACE[t],
+    ...tourTexts[i],
+  }))
+  const tourView = tour.open && (
+    <Tour steps={tourSteps} onClose={tour.close} doneLabel={phase === 'play' ? tx.tourPlay : undefined} />
+  )
 
   function stopClock() {
     startRef.current = null
@@ -97,6 +120,12 @@ export default function ClockGame() {
     demoTimer.current = setTimeout(() => setDemo(false), target * 1000 + 80)
   }
 
+  function openGuide() {
+    stopClock() // a clock left running behind the guide would give a wrong time
+    setFlash(null)
+    tour.start()
+  }
+
   function undo() {
     stopClock()
     setFlash(null)
@@ -138,6 +167,7 @@ export default function ClockGame() {
         className="ck-stage"
         steps={STEPS}
         current={current}
+        onGuide={openGuide}
         say={
           <p>
             <strong>{tx.compareSay(wider)}</strong> {tx.compareSay2}
@@ -145,7 +175,7 @@ export default function ClockGame() {
         }
         bar={
           <>
-            <div className="segmented ck-view" role="group" aria-label={tx.axisGroup}>
+            <div className="segmented ck-view" role="group" aria-label={tx.axisGroup} data-tour="view">
               <button type="button" className={relative ? '' : 'is-active'} aria-pressed={!relative} onClick={() => setRelative(false)}>
                 {tx.seconds}
               </button>
@@ -164,7 +194,7 @@ export default function ClockGame() {
         }
         foot={
           <>
-            <div className="nd-feedback is-good" aria-live="polite">
+            <div className="nd-feedback is-good" aria-live="polite" data-tour="feedback">
               <p className="nd-hint">
                 {wider ? tx.wider(num(ratio, 1)) : tx.notWider(num(ratio, 1))}
               </p>
@@ -190,6 +220,7 @@ export default function ClockGame() {
         }
       >
         <ClockChart series={series} domain={relative ? [0, 2] : COMPARE_DOMAIN} relative={relative} />
+        {tourView}
       </Stage>
     )
   }
@@ -215,6 +246,7 @@ export default function ClockGame() {
       className="ck-stage"
       steps={STEPS}
       current={current}
+      onGuide={openGuide}
       say={
         <p>
           <strong>{tx.say(target)}</strong> {exp === 0 ? tx.sayFirst : tx.sayNext}
@@ -222,7 +254,7 @@ export default function ClockGame() {
       }
       bar={
         <>
-          <div className="legend">
+          <div className="legend" data-tour="legend">
             <span className={`legend-item ck-key is-${KEYS[exp]}`}>
               {tx.count(n, TRIALS)}
             </span>
@@ -233,7 +265,7 @@ export default function ClockGame() {
               </span>
             )}
           </div>
-          <div className="tools">
+          <div className="tools" data-tour="tools">
             <button type="button" className="btn btn-ghost btn-sm" disabled={demo || running} onClick={feel}>
               {tx.feel(target)}
             </button>
@@ -255,6 +287,7 @@ export default function ClockGame() {
             <button
               type="button"
               className={`btn btn-primary ck-next${full ? ' nd-glow' : ''}`}
+              data-tour="next"
               disabled={locked}
               title={locked ? tx.unlocks(MIN_TRIALS) : undefined}
               onClick={next}
@@ -270,6 +303,7 @@ export default function ClockGame() {
           <button
             ref={padRef}
             type="button"
+            data-tour="pad"
             className={`ck-button${running ? ' is-running' : ''}${demo ? ' is-demo' : ''}${full ? ' is-next' : ''}`}
             disabled={demo}
             onClick={(e) => {
@@ -299,6 +333,7 @@ export default function ClockGame() {
           </button>
         </div>
         <ClockChart key={exp} series={[series[exp]]} domain={ownDomain(exp)} highlightLast />
+        {tourView}
       </div>
     </Stage>
   )

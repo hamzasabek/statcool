@@ -55,10 +55,7 @@ const typo = (s) => s.replace(/ ([:;!?»])/g, ' $1').replace(/« /g, '« ')
 export function frenchTypo(value) {
   if (typeof value === 'string') return typo(value)
   if (typeof value === 'function') {
-    return (...args) => {
-      const r = value(...args)
-      return typeof r === 'string' ? typo(r) : r
-    }
+    return (...args) => frenchTypo(value(...args)) // strings, arrays and objects it returns too
   }
   if (Array.isArray(value)) return value.map(frenchTypo)
   if (value && typeof value === 'object') {

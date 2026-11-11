@@ -93,7 +93,7 @@ export default function ClockChart({ series, domain, relative = false, highlight
     .join('. ')
 
   return (
-    <div ref={wrapRef} className="chart-fill">
+    <div ref={wrapRef} className="chart-fill" data-tour="chart">
       <MotionConfig reducedMotion="user">
         <svg className="chart ck-chart" width={width} height={H} role="img" aria-label={label}>
           {targets.map((t) => (
