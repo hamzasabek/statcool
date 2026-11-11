@@ -4,7 +4,7 @@ import TopicGlyph from '../components/TopicGlyph.jsx'
 import { topics } from '../topics/topics.js'
 import { HOME } from './text.js'
 
-// Home page (/): what StatCool is. A hero with a drawing of dots dropping into a bell (the idea of
+// Home page (/): what StatsCool is. A hero with a drawing of dots dropping into a bell (the idea of
 // every game), how it works in three steps, what makes it different, the topics, and a last call
 // to play.
 

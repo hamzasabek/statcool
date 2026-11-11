@@ -4,11 +4,11 @@ import { frenchTypo } from '../i18n.jsx'
 
 export const HOME = {
   en: {
-    eyebrow: 'Statistics, by playing',
+    eyebrow: 'Statistics for psychologists',
     title: 'Learn statistics with data you make yourself',
-    lead: 'StatCool is a set of short games based on classic psychology experiments. You play, every action becomes a dot, and the dots grow into the graph that explains the idea.',
+    lead: 'StatsCool is a set of short games based on classic psychology experiments. You play, every action becomes a dot, and the dots grow into the graph that explains the idea.',
     start: 'Start playing →',
-    about: 'About StatCool',
+    about: 'About StatsCool',
     heroCaption: 'Every dot is one try at stopping a clock at 2 seconds. Together, they draw a bell.',
     heroAria: 'Dots drop one by one and pile up into a bell-shaped curve.',
     target: '2 s',
@@ -48,11 +48,11 @@ export const HOME = {
     endButton: 'Start with “Your inner clock” →',
   },
   fr: frenchTypo({
-    eyebrow: 'Les statistiques, en jouant',
+    eyebrow: 'Les statistiques pour les psychologues',
     title: 'Apprenez les statistiques avec vos propres données',
-    lead: 'StatCool est un ensemble de petits jeux inspirés d’expériences classiques de psychologie. Vous jouez, chaque action devient un point, et les points forment le graphique qui explique l’idée.',
+    lead: 'StatsCool est un ensemble de petits jeux inspirés d’expériences classiques de psychologie. Vous jouez, chaque action devient un point, et les points forment le graphique qui explique l’idée.',
     start: 'Commencer à jouer →',
-    about: 'À propos de StatCool',
+    about: 'À propos de StatsCool',
     heroCaption: 'Chaque point est un essai pour arrêter une horloge à 2 secondes. Ensemble, ils dessinent une cloche.',
     heroAria: 'Des points tombent un à un et s’empilent en une courbe en cloche.',
     target: '2 s',
@@ -96,8 +96,8 @@ export const HOME = {
 // Link texts are separate so the page can put them in <a> tags.
 export const ABOUT = {
   en: {
-    title: 'About StatCool',
-    lead: 'StatCool is a free, open-source website that teaches statistics through short games built on classic psychology experiments.',
+    title: 'About StatsCool',
+    lead: 'StatsCool is a free, open-source website that teaches statistics to psychologists through short games built on classic psychology experiments.',
     whyTitle: 'Why',
     why: 'Statistics is often taught with formulas and someone else’s data. Here you make the data yourself, and the idea appears on the graph while you play. When the dots are your own, the idea sticks.',
     expTitle: 'The experiments behind the games',
@@ -110,7 +110,7 @@ export const ABOUT = {
       ['The Ebbinghaus illusion', 'Hermann Ebbinghaus. A circle surrounded by small circles looks bigger than the same circle surrounded by big ones.'],
     ],
     inspTitle: 'Inspiration',
-    inspBefore: 'StatCool is inspired by the interactive visualisations of Kristoffer Magnusson at ',
+    inspBefore: 'StatsCool is inspired by the interactive visualisations of Kristoffer Magnusson at ',
     inspAfter: '.',
     privacyTitle: 'Privacy',
     privacy: 'No account, no ads, no tracking. What you do in a game stays in your browser and is gone when you leave the page. Only your language, your theme and which guides you have seen are saved, on your own device. The fonts are loaded from Google Fonts.',
@@ -129,8 +129,8 @@ export const ABOUT = {
     play: 'Play the games →',
   },
   fr: frenchTypo({
-    title: 'À propos de StatCool',
-    lead: 'StatCool est un site gratuit et open source qui enseigne les statistiques par de petits jeux inspirés d’expériences classiques de psychologie.',
+    title: 'À propos de StatsCool',
+    lead: 'StatsCool est un site gratuit et open source qui enseigne les statistiques aux psychologues par de petits jeux inspirés d’expériences classiques de psychologie.',
     whyTitle: 'Pourquoi',
     why: 'Les statistiques s’apprennent souvent avec des formules et les données de quelqu’un d’autre. Ici, vous créez vous-même les données, et l’idée apparaît sur le graphique pendant que vous jouez. Quand les points sont les vôtres, l’idée reste.',
     expTitle: 'Les expériences derrière les jeux',
@@ -143,7 +143,7 @@ export const ABOUT = {
       ['L’illusion d’Ebbinghaus', 'Hermann Ebbinghaus. Un cercle entouré de petits cercles paraît plus grand que le même cercle entouré de grands.'],
     ],
     inspTitle: 'Inspiration',
-    inspBefore: 'StatCool s’inspire des visualisations interactives de Kristoffer Magnusson sur ',
+    inspBefore: 'StatsCool s’inspire des visualisations interactives de Kristoffer Magnusson sur ',
     inspAfter: '.',
     privacyTitle: 'Vie privée',
     privacy: 'Pas de compte, pas de publicité, pas de pistage. Ce que vous faites dans un jeu reste dans votre navigateur et disparaît quand vous quittez la page. Seuls votre langue, votre thème et les guides déjà vus sont enregistrés, sur votre propre appareil. Les polices sont chargées depuis Google Fonts.',

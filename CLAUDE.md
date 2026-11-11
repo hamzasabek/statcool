@@ -1,4 +1,4 @@
-# StatCool
+# StatsCool: statistics for psychologists
 
 Interactive statistics learning website (React + Vite + D3 + KaTeX, plain JavaScript).
 

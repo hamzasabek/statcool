@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 import { useText } from '../i18n.jsx'
 import { ABOUT } from './text.js'
 
-// About page (/about): why StatCool exists, the experiments behind the games, inspiration, privacy,
+// About page (/about): why StatsCool exists, the experiments behind the games, inspiration, privacy,
 // open source, how it is built, and how to give feedback.
 
 const REPO = 'https://github.com/hamzasabek/statcool'

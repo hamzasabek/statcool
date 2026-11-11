@@ -1,6 +1,6 @@
-# StatCool: a guide to the code, for a new CS student
+# StatsCool: a guide to the code, for a new CS student
 
-This document explains **every part of the StatCool code**, and every library and tool it uses.
+This document explains **every part of the StatsCool code**, and every library and tool it uses.
 It assumes you know a little programming (variables, functions, `if`, loops) but nothing about
 web development. Read it from top to bottom the first time; later you can jump to a section.
 
@@ -30,7 +30,7 @@ Contents
 
 ## 1. What the project is
 
-StatCool is a website that teaches statistics through small games. In each game **you produce
+StatsCool is a website that teaches statistics through small games. In each game **you produce
 the data** (by tapping, dragging, choosing), each action becomes a dot on a graph, and the graph
 shows a statistical idea: the bell curve, mean vs median, skewed data, the exponential
 distribution, the binomial distribution.

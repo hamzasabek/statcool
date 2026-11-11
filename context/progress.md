@@ -612,3 +612,14 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   motion by default, which correctly shows the finished picture). First hero was a tall narrow
   "pyramid": widened to 17 columns.
 
+
+## 2026-11-11 — Step 43: name and tagline "StatsCool: statistics for psychologists"
+- Owner chose the name **StatsCool** (reads as "stats school") with the tagline "statistics for
+  psychologists". Every visible "StatCool" became "StatsCool" (Home and About texts EN + FR, README,
+  CLAUDE.md, context/project.md, docs/CODE_GUIDE.md, comments). The logo already said StatsCool.
+- Tagline: browser-tab title `StatsCool: statistics for psychologists` plus a meta description
+  (index.html); Home eyebrow "Statistics for psychologists" / "Les statistiques pour les
+  psychologues"; About lead "teaches statistics to psychologists"; README and CLAUDE.md headings.
+- Kept on purpose: repo name and URLs (`github.com/hamzasabek/statcool`, `…github.io/statcool/`),
+  Vite `base`, npm package name, and the localStorage keys `statcool-*` (renaming them would reset
+  visitors' saved language, theme and seen guides). Removed the "pick one name" known issue in next.md.

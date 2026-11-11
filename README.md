@@ -1,6 +1,6 @@
-# StatCool
+# StatsCool: statistics for psychologists
 
-An interactive website for learning statistics by playing with live graphs.
+An interactive website for psychologists (students and researchers) to learn statistics by playing with live graphs built on classic psychology experiments.
 
 Live site: https://hamzasabek.github.io/statcool/
 

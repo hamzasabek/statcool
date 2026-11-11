@@ -1,6 +1,6 @@
-# StatCool — project overview
+# StatsCool (statistics for psychologists): project overview
 
-An interactive website where students learn statistics intuitively by playing with
+An interactive website where psychologists (students and researchers) learn statistics intuitively by playing with
 live graphs. Inspiration and reference: https://rpsychologist.com/correlation
 
 ## Tech stack
