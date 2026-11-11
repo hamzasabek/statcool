@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { Link, NavLink } from 'react-router'
 import logoDark from '../assets/logo-dark.png'
 import logoLight from '../assets/logo-light.png'
 import { LANGS, useLang, useText } from '../i18n.jsx'
@@ -41,6 +41,11 @@ export default function Header() {
           <Logo />
         </Link>
         <div className="header-tools">
+          {/* "Topics" stays active inside a game too (/topics/…) */}
+          <nav className="main-nav" aria-label={tx.nav}>
+            <NavLink to="/topics">{tx.navTopics}</NavLink>
+            <NavLink to="/about">{tx.navAbout}</NavLink>
+          </nav>
           <div className="segmented lang-switch" role="group" aria-label={tx.language}>
             {LANGS.map((l) => (
               <button

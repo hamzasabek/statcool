@@ -201,7 +201,7 @@ export default function ClockGame() {
               </p>
             </div>
             <div className="actions">
-              <Link to="/" className="btn btn-ghost">
+              <Link to="/topics" className="btn btn-ghost">
                 {tc.allTopics}
               </Link>
               <button type="button" className="btn btn-primary" onClick={playAgain}>
@@ -273,7 +273,7 @@ export default function ClockGame() {
             {hint}
           </p>
           <div className="actions">
-            <Link to="/" className="btn btn-ghost">
+            <Link to="/topics" className="btn btn-ghost">
               {tc.allTopics}
             </Link>
             <button

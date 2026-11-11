@@ -1,6 +1,6 @@
 import { frenchTypo } from '../i18n.jsx'
 
-// The topic list shown on the home page (a timeline). Per language: the game's name (small label),
+// The topic list: the timeline on /topics and the strip on the home page. Per language: the game's name (small label),
 // the topic title and one sentence. `shape` picks the little drawing next to it (TopicGlyph).
 export const topics = [
   {

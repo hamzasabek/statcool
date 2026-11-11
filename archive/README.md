@@ -7,7 +7,7 @@ The folders mirror `src/`, so a file goes back to the same path without `archive
 
 | What | Files |
 |---|---|
-| Home and About pages | `src/pages/Home.jsx`, `src/pages/About.jsx` |
+| Home and About pages (lorem ipsum; new ones were written in Step 42) | `src/pages/Home.jsx`, `src/pages/About.jsx` |
 | Topic 01 "draw a bell" lesson (examples → draw → compare with live feedback) | `src/topics/normal-distribution/NormalDistribution.jsx`, `examples.js`, `feedback.js` |
 | Topic "Shapes of distributions" (six data kinds, reshape mode) | `src/topics/data-distributions/` |
 | Dot-drawing chart used by both lessons above (KDE, reshape handles) | `src/components/distribution/` |

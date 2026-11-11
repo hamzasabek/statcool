@@ -233,7 +233,7 @@ export default function Neuron() {
   const sim = useMemo(() => (step === 2 ? simulate() : null), [step])
 
   const allTopics = (
-    <Link to="/" className="btn btn-ghost">
+    <Link to="/topics" className="btn btn-ghost">
       {tc.allTopics}
     </Link>
   )

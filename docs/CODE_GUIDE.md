@@ -13,7 +13,7 @@ Contents
 5. [The folder map](#5-the-folder-map)
 6. [How the page starts: `index.html` → `main.jsx` → `App.jsx`](#6-how-the-page-starts)
 7. [Shared pieces: language, theme, header, Stage, useTweened](#7-shared-pieces)
-8. [The home page: `Topics.jsx` and `topics.js`](#8-the-home-page)
+8. [The pages: Home, Topics, About](#8-the-pages-home-topics-about)
 9. [How every chart is drawn (the common recipe)](#9-how-every-chart-is-drawn-the-common-recipe)
 10. [Topic 01: Your inner clock (normal distribution)](#10-topic-01-your-inner-clock)
 11. [Topic 02: Müller-Lyer illusion (mean and median)](#11-topic-02-mean-and-median)
@@ -244,14 +244,17 @@ on the address. React Router does this:
 
 ```jsx
 <Routes>
-  <Route path="/" element={<Topics />} />
+  <Route path="/" element={<Home />} />
+  <Route path="/topics" element={<Topics />} />
   <Route path="/topics/binomial" element={<Ebbinghaus />} />
   <Route path="*" element={<NotFound />} />     {/* anything else */}
 </Routes>
 ```
 
 - `<Link to="/">` is a link that changes the page **without reloading** the website.
-- `<Navigate to="/" replace />` redirects.
+- `<NavLink to="/about">` is a `Link` that gets the class `active` when its page is open (the header
+  uses it to put a yellow dot under the current page).
+- `useLocation()` gives the current address; `App.jsx` scrolls back to the top whenever it changes.
 - `HashRouter` puts the route after a `#`: `…/statcool/#/topics/binomial`. GitHub Pages only
   serves real files; with a `#` the server always sends `index.html` and the browser handles the
   rest, so refreshing a page never gives a 404.
@@ -329,12 +332,17 @@ statcool/
 │   ├─ index.css           all the styles
 │   ├─ assets/             logo images
 │   ├─ components/
-│   │   ├─ Header.jsx      logo, EN | FR switch, theme button
+│   │   ├─ Header.jsx      logo, Topics / About links, EN | FR switch, theme button
+│   │   ├─ TopicGlyph.jsx  the small drawing of each distribution
+│   │   ├─ Tour.jsx        the guided tour (bubbles that explain one thing at a time)
 │   │   └─ Stage.jsx       the common layout of every game page
 │   ├─ hooks/
 │   │   └─ useTweened.js   smooth number animation (currently not used by a page; kept for later)
 │   ├─ pages/
-│   │   ├─ Topics.jsx      home page (timeline of topics)
+│   │   ├─ Home.jsx        home page: the concept of the site (/)
+│   │   ├─ Topics.jsx      the topics as a timeline (/topics)
+│   │   ├─ About.jsx       about the site (/about)
+│   │   ├─ text.js         texts of Home and About
 │   │   └─ NotFound.jsx    the 404 page
 │   └─ topics/
 │       ├─ topics.js       the list of topics shown on the home page
@@ -513,7 +521,37 @@ for an unknown address (`path="*"`).
 
 ---
 
-## 8. The home page
+## 8. The pages: Home, Topics, About
+
+There are three ordinary pages (in `src/pages/`) next to the five games:
+
+| Address | Component | What it shows |
+|---|---|---|
+| `/` | `Home.jsx` | the concept: a hero with an animated drawing, how it works, what makes it different, the topics, a last button |
+| `/topics` | `Topics.jsx` | the topics as a timeline |
+| `/about` | `About.jsx` | why, the experiments behind the games, inspiration, privacy, open source |
+
+### `pages/Home.jsx`: the hero drawing
+
+`HeroDots` draws dots falling into a bell, the idea of every game. It is plain math and CSS:
+
+- `height(c) = 7.6 · e^(−½((c − 8)/2.9)²)` is a bell over 17 columns. Rounding it gives the number of
+  dots per column (`0 0 1 2 3 4 6 7 8 7 6 4 3 2 1 0 0`), so the dots fit under the curve.
+- The drop order is shuffled with a tiny **seeded random generator** (`seed = seed × 16807 mod
+  2³¹ − 1`): random-looking, but the same on every visit. Each column still fills from the bottom up.
+- Each dot gets `style={{ animationDelay: … }}`; the CSS keyframes `hero-drop` make it fall from
+  above with a little bounce (`cubic-bezier(0.3, 1.45, 0.55, 1)` overshoots). The curve draws itself
+  at the end with the `pathLength="1"` + `stroke-dashoffset` trick (also used by the "Feel 2 s" ring).
+- People who prefer reduced motion see the finished picture straight away.
+
+### `pages/About.jsx`
+
+Plain text from `pages/text.js`. Links inside sentences are made by splitting the sentence into
+pieces (`openBefore`, the link text, `openAfter`), because a dictionary only holds strings.
+External links use `target="_blank" rel="noreferrer"` (new tab, and the other site can't control
+this page).
+
+### The Topics page
 
 ### `topics/topics.js`: data
 
@@ -539,7 +577,7 @@ Keeping the list as data means the page code doesn't change when a topic is adde
 - `style={{ '--i': i }}` sets a CSS variable per row; the CSS uses it to delay each row's fade-in
   (`animation-delay: calc(var(--i) * 70ms)`), so they appear one after another.
 
-**`TopicGlyph`** draws the small picture of each distribution with plain math:
+**`TopicGlyph`** (`components/TopicGlyph.jsx`, also used on the home page) draws the small picture of each distribution with plain math:
 
 - `bell(u) = exp(−½((u − 0.5)/0.15)²)`: a normal curve, peak in the middle.
 - `skewed(u)`: a log-normal shape; `expo(u) = exp(−4.2u)`: decay.
@@ -1117,7 +1155,7 @@ avoids two topics accidentally using the same name. Modifier classes start with 
 Run `npm install` once, then `npm run dev`, open http://localhost:5173, and try these. After
 each change, watch the page update.
 
-1. **Texts**: in `src/text.js`, change `homeTitle`. Then switch to FR and back.
+1. **Texts**: in `src/pages/text.js`, change the home page `title`. Then switch to FR and back.
 2. **Constants**: in `normal-distribution/clock.js`, set `TRIALS = 5` and `MIN_TRIALS = 3`.
    Play a quick game.
 3. **Colours**: in `index.css`, change `--sun` and see every yellow change (buttons and dots).

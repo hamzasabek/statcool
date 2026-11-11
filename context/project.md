@@ -26,11 +26,13 @@ src/
   i18n.jsx                 language (en / fr): LangProvider, useLang, useText(dict), num() and pct()
                            number formatting (French: 16,9 %), frenchTypo() for no-break spaces
   theme.js                 useTheme(): light / dark on <html data-theme>, saved in localStorage
-  text.js                  COMMON texts (header, home page, Stage, All topics / Play again / Undo)
-  App.jsx                  header + routes (the topic list is the home page)
+  text.js                  COMMON texts (header + nav, topics page, Stage, tour buttons, All topics / Play again)
+  App.jsx                  header + routes; scrolls to the top when the page changes
   index.css                all styles; color tokens on :root (light + dark mode)
   components/
-    Header.jsx             logo (links to the topic list) + EN | FR switch + light/dark button
+    Header.jsx             logo (links to /) + Topics / About links (NavLink, yellow dot when active;
+                           Topics stays active inside a game) + EN | FR switch + light/dark button
+    TopicGlyph.jsx         small drawing of a distribution (topics timeline + home page strip)
     Tour.jsx               guided tour: useGuide / useTour(id) (auto-opens once, replayable) + <Tour>: one
                            bubble per thing, pointing at [data-tour="…"], the rest blurred and grey
   assets/
@@ -42,9 +44,15 @@ src/
   hooks/
     useTweened.js          smooth animation of numbers / number arrays
   pages/
-    Topics.jsx             home page: title, one sentence, the topics as a vertical timeline
-                           (numbered nodes on a line; game name, title, one sentence, Play →;
-                           a small drawing of each distribution, hidden on phones)
+    Home.jsx               / : the concept. Hero (dots dropping into a bell, curve drawn at the end;
+                           seeded order, CSS animation, off with reduced motion) + How it works (3) +
+                           What makes it different (3) + the 5 topics as small cards + last button
+    Topics.jsx             /topics : the topics as a vertical timeline (numbered nodes on a line;
+                           game name, title, one sentence, Play →; drawings hidden on phones)
+    About.jsx              /about : why, the experiments behind the games, inspiration
+                           (rpsychologist), privacy, open source (GitHub + docs/CODE_GUIDE.md),
+                           built with, contact (GitHub issues)
+    text.js                HOME and ABOUT texts (en + fr)
     NotFound.jsx
   topics/
     topics.js              list of topics: slug, shape (for the drawing), and per language the
@@ -119,7 +127,9 @@ docs/CODE_GUIDE.md         beginner-friendly explanation of all the code, librar
 
 ## Routes
 
-- `/` topic list (home page); `/topics` redirects here
+- `/` home page (the concept of the site)
+- `/topics` the topic list (timeline); "← Topics", "All topics" and the 404 page link here
+- `/about` about the site
 - `/topics/normal-distribution` topic 01: "Your inner clock"
 - `/topics/mean-median` topic 02: "Mean and median" (Müller-Lyer illusion)
 - `/topics/right-skewed` topic 03: "Right-skewed distributions" (reaction time)

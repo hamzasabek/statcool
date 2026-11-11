@@ -585,3 +585,30 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   target, on screen, below the header; the header's theme button is clickable during a tour; focus on
   the bubble; Guide pauses the reaction-time game; no errors.
 
+## 2026-11-11 — Step 42: Home (the concept), Topics and About pages
+- Owner: an About page and a Topics page; the home page only presents the concept of the site.
+- Routes: `/` = new `Home.jsx`, `/topics` = the timeline (was the home page), `/about` = new
+  `About.jsx`. Header: "Topics" and "About" links (`NavLink`, yellow dot under the active one; Topics
+  stays active inside a game); narrow phones (≤ 480 px) get a smaller logo and tighter links so the
+  header fits on one row at 360 px. "← Topics", "All topics" and the 404 link now go to `/topics`.
+  The page scrolls to the top on every page change.
+- Home: eyebrow + title "Learn statistics with data you make yourself", one paragraph, "Start
+  playing →" / "About StatCool"; a hero drawing where 54 yellow dots drop one by one (seeded random
+  order, columns fill bottom-up) into a bell and the curve draws itself (CSS animations; finished
+  picture straight away with reduced motion); How it works (play → your actions become data → the
+  graph shows the idea); What makes it different (real experiments, one idea at a time, free and
+  private); the 5 topics as small lifted cards with their drawing; a last button to topic 01.
+- About: why; the experiment behind each game; inspiration (rpsychologist.com); privacy (nothing
+  leaves the browser except the Google Fonts request; only language, theme and seen guides are
+  saved); open source (MIT, GitHub, link to docs/CODE_GUIDE.md, "Made by Hamza Sabek"); built
+  with; contact (GitHub issues).
+- `TopicGlyph` moved to `src/components/TopicGlyph.jsx`. Texts in `src/pages/text.js` (EN + FR);
+  `COMMON` lost `homeTitle`/`homeLead`, got `topicsTitle`/`topicsLead` and the nav labels.
+  `docs/CODE_GUIDE.md` and `archive/README.md` updated.
+- Tested in headless Chrome: 1366×768 light and dark, 390×844 FR dark, 360×640 FR light. Links
+  (nav, logo, See all topics, Play, ← Topics, 404) go to the right pages, active link correct, new
+  pages open at the top, no horizontal scroll, the header never overflows, no errors. The hero
+  animation runs and finishes (checked with normal motion; this headless Chrome reports reduced
+  motion by default, which correctly shows the finished picture). First hero was a tall narrow
+  "pyramid": widened to 17 columns.
+

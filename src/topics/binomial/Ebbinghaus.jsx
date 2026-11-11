@@ -159,7 +159,7 @@ export default function Ebbinghaus() {
   const you = picks.length >= N ? [{ id: 0, k, kind: 'you' }] : []
   const crowd = people.slice(0, shown).map((score, i) => ({ id: i, k: score, kind: 'class' }))
   const allTopics = (
-    <Link to="/" className="btn btn-ghost">
+    <Link to="/topics" className="btn btn-ghost">
       {tc.allTopics}
     </Link>
   )

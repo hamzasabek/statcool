@@ -8,7 +8,7 @@ export default function NotFound() {
     <section>
       <h1>{tx.notFoundTitle}</h1>
       <p className="lead">
-        {tx.notFoundText} <Link to="/">{tx.notFoundLink}</Link>.
+        {tx.notFoundText} <Link to="/topics">{tx.notFoundLink}</Link>.
       </p>
     </section>
   )

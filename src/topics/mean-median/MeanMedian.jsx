@@ -92,7 +92,7 @@ export default function MeanMedian() {
   }
 
   const allTopics = (
-    <Link to="/" className="btn btn-ghost">
+    <Link to="/topics" className="btn btn-ghost">
       {tc.allTopics}
     </Link>
   )
