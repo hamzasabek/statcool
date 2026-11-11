@@ -1,5 +1,6 @@
 // A small drawing of a distribution, used on the home page and the topics timeline.
-// shape: 'normal' | 'meanMedian' (bell with mean and median lines) | 'skewed' | 'exponential' | 'binomial'
+// shape: 'normal' | 'meanMedian' (bell with mean and median lines) | 'spread' (a wide and a narrow bell,
+// same centre) | 'skewed' | 'exponential' | 'binomial'
 
 const GW = 112 // glyph size
 const GH = 52
@@ -18,6 +19,8 @@ function curvePaths(f) {
 }
 
 const bell = (u) => Math.exp(-0.5 * ((u - 0.5) / 0.15) ** 2)
+const wideBell = (u) => 0.5 * Math.exp(-0.5 * ((u - 0.5) / 0.2) ** 2) // same area as narrowBell
+const narrowBell = (u) => Math.exp(-0.5 * ((u - 0.5) / 0.1) ** 2)
 const skewed = (u) => {
   if (u <= 0.02) return 0
   const x = u * 4
@@ -40,12 +43,13 @@ export default function TopicGlyph({ shape }) {
     }
     body = bars
   } else {
-    const f = shape === 'skewed' ? skewed : shape === 'exponential' ? expo : bell
+    const f = shape === 'skewed' ? skewed : shape === 'exponential' ? expo : shape === 'spread' ? wideBell : bell
     const { line, area } = curvePaths(f)
     body = (
       <>
         <path className="tl-glyph-area" d={area} />
         <path className="tl-glyph-line" d={line} />
+        {shape === 'spread' && <path className="tl-glyph-line is-narrow" d={curvePaths(narrowBell).line} />}
         {shape === 'meanMedian' && (
           <>
             <line className="tl-glyph-mean" x1={xOf(0.5)} x2={xOf(0.5)} y1={PAD} y2={GH - PAD} />

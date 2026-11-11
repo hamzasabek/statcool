@@ -46,25 +46,29 @@ src/
   pages/
     Home.jsx               / : the concept. Hero (dots dropping into a bell, curve drawn at the end;
                            seeded order, CSS animation, off with reduced motion) + How it works (3) +
-                           What makes it different (3) + the 5 topics as small cards + last button
-    Topics.jsx             /topics : the topics as a vertical timeline (numbered nodes on a line;
-                           game name, title, one sentence, Play →; drawings hidden on phones)
+                           What makes it different (3) + the topics as small cards (unavailable ones dashed,
+                           "Coming soon") + last button to the first topic
+    Topics.jsx             /topics : the course plan. One heading per part ("Part 1 · Describe your
+                           data"…), under it a vertical timeline of its topics (numbered nodes,
+                           numbers run on across parts; game name, title, one sentence, Play → or
+                           Coming soon; drawings hidden on phones). A `soon` part is a dashed box.
     About.jsx              /about : why, the experiments behind the games, inspiration
                            (rpsychologist), privacy, open source (GitHub link),
                            built with, contact (GitHub issues)
     text.js                HOME and ABOUT texts (en + fr)
     NotFound.jsx
   topics/
-    topics.js              list of topics: slug, shape (for the drawing), and per language the
-                           game name, title and one sentence
-    normal-distribution/   topic 01: the game "Your inner clock" (opens directly)
+    topics.js              PARTS (the course parts, in order: describe, shapes, conclude = soon)
+                           and topics (in order: slug, part, shape for the drawing, available, and
+                           per language the game name, title and one sentence); topicNumber(slug)
+    normal-distribution/   topic 03: the game "Your inner clock" (opens directly)
       ClockGame.jsx          stop a hidden clock at 2 s, then 5 s; every press is a dot
                              (2 s game → 5 s game → compare)
       ClockChart.jsx         stacked dots + fitted normal curve + ±1 SD per series
                              (2 s yellow, 5 s sky); "÷ target" view lines the bells up
       clock.js               targets, trial counts, mean/SD, normal pdf
       text.js                CLOCK texts (en + fr)
-    mean-median/           topic 02 "Mean and median": the Müller-Lyer illusion game
+    mean-median/           topic 01 "Mean and median": the Müller-Lyer illusion game
       MeanMedian.jsx         3 steps: Match the lines (15 tries) → Mean & median (numbered
                              dots, middle one ringed, ▲ balance point) → Pull a dot (drag one
                              try far out: the mean follows, the median does not)
@@ -72,10 +76,10 @@ src/
                              anywhere (or arrow keys on a hidden range input) to stretch it
       MMChart.jsx            stacked dots in % too long, real length at 0, mean line + ▲,
                              dashed median line, fitted normal curve (`bell`, same style as
-                             topic 01), optional rank numbers / draggable dots / ghosts
+                             topic 03), optional rank numbers / draggable dots / ghosts
       mm.js                  trial counts, domains, mean, median, SD, formatting
       text.js                MM texts (en + fr)
-    right-skewed/          topic 03 "Right-skewed distributions": reaction-time game
+    right-skewed/          topic 04 "Right-skewed distributions": reaction-time game
       ReactionTime.jsx       3 steps: Tap (one tap starts a continuous run: wait 0.8–2 s →
                              yellow → tap → next wait…, 25 good reactions; removed automatically:
                              taps before yellow, < 100 ms guesses, no tap within 1.5 s; Pause
@@ -86,7 +90,7 @@ src/
                              lines with labels on separate rows, floor band, half brackets
       rt.js                  constants, mean, median, log-normal fit (mode = e^(mu − s²)), skewness
       text.js                RT texts (en + fr)
-    exponential/           topic 04 "The exponential distribution": listen to a neuron
+    exponential/           topic 05 "The exponential distribution": listen to a neuron
       Neuron.jsx             3 steps: Tap the spikes (one tap starts; the neuron fires at random,
                              rate 1/s, flash + click sound (Web Audio, can be muted); tap on each
                              flash = catch; each wait between two spikes is a dot; 40 waits, next
@@ -98,7 +102,7 @@ src/
       exp.js                 rate, counts, exponential draws, fit (rate = 1/mean), simulation,
                              chanceWithin(gaps, quiet, window)
       text.js                EXP texts (en + fr)
-    binomial/              topic 05 "The binomial distribution": the Ebbinghaus illusion
+    binomial/              topic 06 "The binomial distribution": the Ebbinghaus illusion
       Ebbinghaus.jsx         3 steps: Which is bigger? (20 forced choices between two figures;
                              the middle circles are ALWAYS the same size, one ringed by small
                              circles, one by big ones; tap or ←/→; no feedback, then the reveal)
@@ -130,16 +134,25 @@ docs/CODE_GUIDE.md         private, gitignored (local only): beginner-friendly e
 - `/` home page (the concept of the site)
 - `/topics` the topic list (timeline); "← Topics", "All topics" and the 404 page link here
 - `/about` about the site
-- `/topics/normal-distribution` topic 01: "Your inner clock"
-- `/topics/mean-median` topic 02: "Mean and median" (Müller-Lyer illusion)
-- `/topics/right-skewed` topic 03: "Right-skewed distributions" (reaction time)
-- `/topics/exponential` topic 04: "The exponential distribution" (listen to a neuron)
-- `/topics/binomial` topic 05: "The binomial distribution" (Ebbinghaus illusion)
+Course plan (order of `topics.js`; URLs use names, not numbers, so reordering breaks no link):
+- Part 1 · Describe your data
+  - `/topics/mean-median` topic 01: "Mean and median" (Müller-Lyer illusion)
+  - topic 02 "Variance and standard deviation" (aim and tap): planned, `variance-sd`, Coming soon
+- Part 2 · Shapes of data
+  - `/topics/normal-distribution` topic 03: "The normal distribution" (your inner clock)
+  - `/topics/right-skewed` topic 04: "Right-skewed distributions" (reaction time)
+  - `/topics/exponential` topic 05: "The exponential distribution" (listen to a neuron)
+  - `/topics/binomial` topic 06: "The binomial distribution" (Ebbinghaus illusion; first test)
+- Part 3 · From data to conclusions: coming (samples & CLT, correlation, comparing groups)
+
+Texts that name another topic by number ("topic 03", "thème 03") must be updated when the order
+changes: `grep -rn "topic 0|thème 0" src`.
 
 ## How to add a new topic
 
-1. Add an entry in `src/topics/topics.js` with `available: true` (game, title, summary in en and fr,
-   and a `shape` for the timeline drawing: add a new one in `TopicGlyph` in `Topics.jsx` if needed).
+1. Add an entry in `src/topics/topics.js`, at its place in the course, with its `part` and
+   `available: true` (game, title, summary in en and fr, and a `shape` for the timeline drawing: add
+   a new one in `src/components/TopicGlyph.jsx` if needed).
 2. Create `src/topics/<slug>/` with the page component.
 3. Add a `<Route path="/topics/<slug>" …>` in `src/App.jsx`.
 

@@ -41,7 +41,7 @@ export default function MeanMedian() {
   const m = mean(vals)
   const md = median(vals)
   const spread = sd(vals)
-  // The normal curve with your mean and SD (like topic 01). Step 3 keeps this one, from before the pull.
+  // The normal curve with your mean and SD (like topic 03). Step 3 keeps this one, from before the pull.
   const bell = n >= 3 && spread > 0 ? { mean: m, sd: spread, n } : null
 
   // One tour per step; each opens by itself the first time.

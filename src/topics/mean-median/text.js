@@ -1,6 +1,6 @@
 import { frenchTypo, num } from '../../i18n.jsx'
 
-// Texts of topic 02 "Mean and median" (MeanMedian, MMChart, Illusion). Numbers arrive formatted.
+// Texts of topic 01 "Mean and median" (MeanMedian, MMChart, Illusion). Numbers arrive formatted.
 
 export const MM = {
   en: {
@@ -33,7 +33,7 @@ export const MM = {
     key2Mean: 'Mean = balance point ▲',
     key2Median: 'Median = middle dot',
     key2Bell: 'Bell (normal curve)',
-    bellTop: 'In a normal distribution, the mean and the median are always at the same point: the top of the bell.',
+    bellTop: 'In a normal distribution (the bell, topic 03), the mean and the median are always at the same point: the top of the bell.',
     agree: (m, md) => `Yours almost agree: mean ${m}, median ${md}.`,
     apart: (pts, m, md) => `Yours are ${pts} apart (mean ${m}, median ${md}): a few tries pull your dots to one side.`,
     middleOdd: (k) => `number ${k}`,
@@ -122,7 +122,7 @@ export const MM = {
     key2Mean: 'Moyenne = point d’équilibre ▲',
     key2Median: 'Médiane = point du milieu',
     key2Bell: 'Cloche (courbe normale)',
-    bellTop: 'Dans une loi normale, la moyenne et la médiane sont toujours au même endroit : au sommet de la cloche.',
+    bellTop: 'Dans une loi normale (la cloche, thème 03), la moyenne et la médiane sont toujours au même endroit : au sommet de la cloche.',
     agree: (m, md) => `Les vôtres sont presque égales : moyenne ${m}, médiane ${md}.`,
     apart: (pts, m, md) =>
       `Les vôtres sont à ${pts} l’une de l’autre (moyenne ${m}, médiane ${md}) : quelques essais tirent vos points d’un côté.`,

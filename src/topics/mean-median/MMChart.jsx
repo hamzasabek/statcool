@@ -11,7 +11,7 @@ import { MM } from './text.js'
 //   draggable : dots can be dragged left/right (onDrag(id, value)), also with arrow keys
 //   ghost     : { mean, median } from before, drawn faint
 //   bell      : { mean, sd, n } → a normal curve with that mean and SD, scaled to n dots
-//               (like topic 01), drawn behind the dots
+//               (like topic 03), drawn behind the dots
 
 const M = { top: 12, right: 18, left: 18 }
 const BIN_WIDTHS = [2.5, 4, 5, 10, 20] // in % points; the smallest that gives wide-enough columns
@@ -58,7 +58,7 @@ export default function MMChart({ points, domain, ranks = false, draggable = fal
     const col = Math.min(bins - 1, Math.max(0, Math.floor((p.v - lo) / binW)))
     return { ...p, rank, col, level: counts[col]++ }
   })
-  // Normal curve in "dots per column" units, so it sits on the stacks like in topic 01.
+  // Normal curve in "dots per column" units, so it sits on the stacks like in topic 03.
   const xs = d3.range(CURVE_STEPS + 1).map((j) => lo + (j * (hi - lo)) / CURVE_STEPS)
   const fit = bell && bell.sd > 0 ? xs.map((v) => bell.n * normalPdf(v, bell.mean, bell.sd) * binW) : null
   const capacity = Math.max(6, d3.max(counts) ?? 0, fit ? d3.max(fit) * 1.08 : 0)

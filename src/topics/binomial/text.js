@@ -1,6 +1,6 @@
 import { frenchTypo } from '../../i18n.jsx'
 
-// Texts of topic 05 "The binomial distribution" (Ebbinghaus + BinomChart). Numbers arrive formatted.
+// Texts of topic 06 "The binomial distribution" (Ebbinghaus + BinomChart). Numbers arrive formatted.
 
 export const BIN = {
   en: {

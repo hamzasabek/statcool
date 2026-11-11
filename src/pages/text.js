@@ -45,7 +45,7 @@ export const HOME = {
     topicsTitle: 'The topics',
     topicsMore: 'See all topics →',
     endTitle: 'Your first dot is one tap away.',
-    endButton: 'Start with “Your inner clock” →',
+    endButton: 'Start with “The Müller-Lyer illusion” →',
   },
   fr: frenchTypo({
     eyebrow: 'Les statistiques pour les psychologues',
@@ -89,7 +89,7 @@ export const HOME = {
     topicsTitle: 'Les thèmes',
     topicsMore: 'Voir tous les thèmes →',
     endTitle: 'Votre premier point est à un toucher.',
-    endButton: 'Commencer par « Votre horloge interne » →',
+    endButton: 'Commencer par « L’illusion de Müller-Lyer » →',
   }),
 }
 
@@ -103,8 +103,8 @@ export const ABOUT = {
     expTitle: 'The experiments behind the games',
     sep: ': ',
     experiments: [
-      ['Your inner clock', 'time estimation. The longer the time you estimate, the bigger your errors, in proportion (Weber’s law for time).'],
       ['The Müller-Lyer illusion', 'Franz Müller-Lyer, 1889. A line with outward fins looks longer than a plain line of the same length.'],
+      ['Your inner clock', 'time estimation. The longer the time you estimate, the bigger your errors, in proportion (Weber’s law for time).'],
       ['Reaction time', 'one of the oldest measures in experimental psychology. Reaction times have a floor but no ceiling, so they always trail off to the right.'],
       ['Listen to a neuron', 'neurons fire at irregular moments. A simple model is a random (Poisson) process, whose waits follow the exponential distribution.'],
       ['The Ebbinghaus illusion', 'Hermann Ebbinghaus. A circle surrounded by small circles looks bigger than the same circle surrounded by big ones.'],
@@ -134,8 +134,8 @@ export const ABOUT = {
     expTitle: 'Les expériences derrière les jeux',
     sep: ' : ',
     experiments: [
-      ['Votre horloge interne', 'l’estimation du temps. Plus la durée à estimer est longue, plus vos erreurs grandissent, en proportion (la loi de Weber pour le temps).'],
       ['L’illusion de Müller-Lyer', 'Franz Müller-Lyer, 1889. Une ligne avec des pointes vers l’extérieur paraît plus longue qu’une ligne simple de même longueur.'],
+      ['Votre horloge interne', 'l’estimation du temps. Plus la durée à estimer est longue, plus vos erreurs grandissent, en proportion (la loi de Weber pour le temps).'],
       ['Temps de réaction', 'l’une des plus anciennes mesures de la psychologie expérimentale. Les temps de réaction ont un plancher mais pas de plafond, donc ils s’étirent toujours vers la droite.'],
       ['Écoutez un neurone', 'les neurones déchargent à des moments irréguliers. Un modèle simple est un processus aléatoire (de Poisson), dont les attentes suivent la loi exponentielle.'],
       ['L’illusion d’Ebbinghaus', 'Hermann Ebbinghaus. Un cercle entouré de petits cercles paraît plus grand que le même cercle entouré de grands.'],

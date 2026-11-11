@@ -1,6 +1,6 @@
 import { frenchTypo } from '../../i18n.jsx'
 
-// Texts of topic 04 "The exponential distribution" (Neuron + ExpChart). Numbers arrive formatted.
+// Texts of topic 05 "The exponential distribution" (Neuron + ExpChart). Numbers arrive formatted.
 
 export const EXP = {
   en: {
@@ -44,7 +44,7 @@ export const EXP = {
     curveHint: (md, mn, rate) =>
       `Peak at 0 → median ${md} → mean ${mn}. Your neuron fires about ${rate} times a second (1 ÷ ${mn}).`,
     curveFact: (a, b, c) =>
-      `Each extra median of waiting halves what is left: about ½ of the waits are longer than ${a}, ¼ longer than ${b}, ⅛ longer than ${c}. Unlike reaction times (topic 03) there is no floor: the next spike can come at any moment.`,
+      `Each extra median of waiting halves what is left: about ½ of the waits are longer than ${a}, ¼ longer than ${b}, ⅛ longer than ${c}. Unlike reaction times (topic 04) there is no floor: the next spike can come at any moment.`,
     nextDue: 'Next: is it due? →',
     // 3. Is it due?
     question: (t, w) => `The neuron has been quiet for ${t}. Is it now more likely to fire within the next ${w}?`,
@@ -131,7 +131,7 @@ export const EXP = {
     curveHint: (md, mn, rate) =>
       `Sommet à 0 → médiane ${md} → moyenne ${mn}. Votre neurone décharge environ ${rate} fois par seconde (1 ÷ ${mn}).`,
     curveFact: (a, b, c) =>
-      `Chaque médiane d’attente en plus divise par deux ce qui reste : environ ½ des attentes dure plus de ${a}, ¼ plus de ${b}, ⅛ plus de ${c}. Contrairement aux temps de réaction (thème 03), il n’y a pas de plancher : la prochaine décharge peut arriver à tout moment.`,
+      `Chaque médiane d’attente en plus divise par deux ce qui reste : environ ½ des attentes dure plus de ${a}, ¼ plus de ${b}, ⅛ plus de ${c}. Contrairement aux temps de réaction (thème 04), il n’y a pas de plancher : la prochaine décharge peut arriver à tout moment.`,
     nextDue: 'Suivant : est-ce son tour ? →',
     question: (t, w) =>
       `Le neurone est silencieux depuis ${t}. Est-il maintenant plus probable qu’il décharge dans les ${w} qui suivent ?`,

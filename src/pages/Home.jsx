@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import { useLang, useText } from '../i18n.jsx'
+import { COMMON } from '../text.js'
 import TopicGlyph from '../components/TopicGlyph.jsx'
 import { topics } from '../topics/topics.js'
 import { HOME } from './text.js'
@@ -79,6 +80,7 @@ function HeroDots({ caption, aria, target }) {
 export default function Home() {
   const { lang } = useLang()
   const tx = useText(HOME)
+  const tc = useText(COMMON)
   return (
     <div className="home">
       <section className="home-hero">
@@ -135,14 +137,25 @@ export default function Home() {
         <ul className="home-topics">
           {topics.map((t, i) => {
             const { game, title } = t.text[lang]
+            const inner = (
+              <>
+                <TopicGlyph shape={t.shape} />
+                <span className="home-topic-num">{String(i + 1).padStart(2, '0')}</span>
+                <span className="home-topic-title">{title}</span>
+                <span className="home-topic-game">{t.available ? game : tc.comingSoon}</span>
+              </>
+            )
             return (
               <li key={t.slug}>
-                <Link to={`/topics/${t.slug}`} className="home-topic">
-                  <TopicGlyph shape={t.shape} />
-                  <span className="home-topic-num">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="home-topic-title">{title}</span>
-                  <span className="home-topic-game">{game}</span>
-                </Link>
+                {t.available ? (
+                  <Link to={`/topics/${t.slug}`} className="home-topic">
+                    {inner}
+                  </Link>
+                ) : (
+                  <div className="home-topic is-disabled" aria-disabled="true">
+                    {inner}
+                  </div>
+                )}
               </li>
             )
           })}
@@ -151,7 +164,7 @@ export default function Home() {
 
       <section className="home-end">
         <h2>{tx.endTitle}</h2>
-        <Link to="/topics/normal-distribution" className="btn btn-primary btn-lg">
+        <Link to={`/topics/${topics[0].slug}`} className="btn btn-primary btn-lg">
           {tx.endButton}
         </Link>
       </section>

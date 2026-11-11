@@ -5,7 +5,7 @@ import { COMMON } from '../../text.js'
 import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import ClockChart from './ClockChart.jsx'
-import { MIN_TRIALS, TARGETS, TOO_FAST, TRIALS, fmtPct, fmtS, stats } from './clock.js'
+import { MIN_TRIALS, TARGETS, TOO_FAST, TRIALS, fmtPct, fmtS, stats, withinOneSd } from './clock.js'
 import { CLOCK } from './text.js'
 
 // Game: "Your inner clock". Stop a hidden clock at 2 s, then at 5 s. Every press drops a
@@ -199,6 +199,7 @@ export default function ClockGame() {
                   cvClose,
                 )}
               </p>
+              <p className="nd-fact">{tx.within(fmtPct(withinOneSd(results[0])), fmtPct(withinOneSd(results[1])))}</p>
             </div>
             <div className="actions">
               <Link to="/topics" className="btn btn-ghost">

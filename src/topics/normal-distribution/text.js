@@ -1,6 +1,6 @@
 import { frenchTypo } from '../../i18n.jsx'
 
-// Texts of topic 01 "Your inner clock" (ClockGame + ClockChart). Numbers arrive already formatted.
+// Texts of topic 03 "Your inner clock" (ClockGame + ClockChart). Numbers arrive already formatted.
 
 export const CLOCK = {
   en: {
@@ -21,6 +21,8 @@ export const CLOCK = {
       `2 s: mean ${a.mean}, SD ${a.sd} · 5 s: mean ${b.mean}, SD ${b.sd}. Relative to the time, the spread is ${cvA} vs ${cvB}${
         close ? ': about the same. Timing errors grow in proportion to the time (Weber’s law).' : '.'
       }`,
+    within: (a, b) =>
+      `Within 1 SD of the mean: ${a} of your 2 s presses and ${b} of your 5 s presses. A bell puts about 68 % there, and 95 % within 2 SD.`,
     nextLabel: (isLast, t) => (isLast ? 'Compare →' : `Next: ${t} seconds →`),
     padStart: 'Start',
     padNext: 'Next press',
@@ -60,11 +62,11 @@ export const CLOCK = {
         },
         {
           title: 'Your numbers',
-          text: 'How many presses you made (20 per game). From 2 presses on: your mean (your average time) and your SD, the standard deviation (how spread out your presses are).',
+          text: 'How many presses you made (20 per game). From 2 presses on: your mean (the centre of your presses, topic 01) and your SD (how far a press typically lands from the mean, topic 02).',
         },
         {
           title: 'The bell curve',
-          text: 'From 3 presses on, a bell-shaped curve is drawn over your dots, with your own mean and SD. This is the normal distribution: watch your dots fill it in.',
+          text: 'From 3 presses on, a bell-shaped curve is drawn over your dots, with your own mean and SD. This is the normal distribution: watch your dots fill it in. In any bell, about 68 % of the dots lie within 1 SD of the mean.',
         },
         {
           title: 'Feel it, undo it',
@@ -96,7 +98,7 @@ export const CLOCK = {
         },
         {
           title: 'Your results',
-          text: 'Your mean and SD for each game, and the spread compared with the time. When they match, that is Weber’s law for time.',
+          text: 'Your mean and SD for each game, the spread compared with the time (when they match, that is Weber’s law for time), and how many presses fall within 1 SD of the mean.',
         },
       ],
     }),
@@ -128,6 +130,8 @@ export const CLOCK = {
       `2 s : moyenne ${a.mean}, écart-type ${a.sd} · 5 s : moyenne ${b.mean}, écart-type ${b.sd}. Rapportée à la durée, la dispersion est de ${cvA} contre ${cvB}${
         close ? ' : à peu près la même. Les erreurs de timing grandissent en proportion de la durée (loi de Weber).' : '.'
       }`,
+    within: (a, b) =>
+      `À moins d’un écart-type de la moyenne : ${a} de vos appuis à 2 s et ${b} de vos appuis à 5 s. Une cloche en met environ 68 %, et 95 % à moins de deux écarts-types.`,
     nextLabel: (isLast, t) => (isLast ? 'Comparer →' : `Suivant : ${t} secondes →`),
     padStart: 'Démarrer',
     padNext: 'Appui suivant',
@@ -166,11 +170,11 @@ export const CLOCK = {
         },
         {
           title: 'Vos chiffres',
-          text: 'Le nombre d’appuis faits (20 par jeu). Dès 2 appuis : votre moyenne (votre temps moyen) et votre écart-type (à quel point vos appuis sont dispersés).',
+          text: 'Le nombre d’appuis faits (20 par jeu). Dès 2 appuis : votre moyenne (le centre de vos appuis, thème 01) et votre écart-type (l’écart typique entre un appui et la moyenne, thème 02).',
         },
         {
           title: 'La courbe en cloche',
-          text: 'Dès 3 appuis, une courbe en forme de cloche est tracée sur vos points, avec votre moyenne et votre écart-type. C’est la loi normale : regardez vos points la remplir.',
+          text: 'Dès 3 appuis, une courbe en forme de cloche est tracée sur vos points, avec votre moyenne et votre écart-type. C’est la loi normale : regardez vos points la remplir. Dans toute cloche, environ 68 % des points sont à moins d’un écart-type de la moyenne.',
         },
         {
           title: 'Ressentir, annuler',
@@ -202,7 +206,7 @@ export const CLOCK = {
         },
         {
           title: 'Vos résultats',
-          text: 'Votre moyenne et votre écart-type pour chaque jeu, et la dispersion rapportée à la durée. Quand elles se valent, c’est la loi de Weber pour le temps.',
+          text: 'Votre moyenne et votre écart-type pour chaque jeu, la dispersion rapportée à la durée (quand elles se valent, c’est la loi de Weber pour le temps), et combien d’appuis tombent à moins d’un écart-type de la moyenne.',
         },
       ],
     }),

@@ -41,7 +41,11 @@
   "how many dots?" (the median beats the mean), memory span (the mean can be an impossible
   score), rate the face 1–7 (median for ratings), and seesaw / fair share / find-the-middle
   warm-ups.
-- Variance & standard deviation
+- Variance & standard deviation: NEXT, topic 02 "Aim and tap" (careful vs fast taps on a target;
+  same centre, wider cloud; deviations → squares → variance → SD). Other games suggested in Step 46:
+  keep the beat (tapping after the metronome stops: same mean, more spread), match the grey
+  (method of adjustment: SD = sensitivity), how many dots (SD grows with numerosity), place the
+  number (deviations drawn as literal squares).
 - Sampling & the central limit theorem
 - Correlation (like rpsychologist.com/correlation: draggable scatter points, slider for r)
 - Archived, can come back (see `archive/README.md`): the draw-a-bell lesson, "Shapes of

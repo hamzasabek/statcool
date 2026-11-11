@@ -1,6 +1,6 @@
 import { frenchTypo } from '../../i18n.jsx'
 
-// Texts of topic 03 "Right-skewed distributions" (ReactionTime + RTChart). Numbers arrive formatted.
+// Texts of topic 04 "Right-skewed distributions" (ReactionTime + RTChart). Numbers arrive formatted.
 
 export const RT = {
   en: {
@@ -85,7 +85,7 @@ export const RT = {
       ],
       tail: [
         { title: 'The tail', text: 'Your dots pile up on the fast side and trail off to the right: a right-skewed distribution. The grey band at 0–100 ms is the floor: nobody is that fast. But there is no ceiling.' },
-        { title: 'Peak, median, mean', text: 'Three markers: the peak (your most common time), the median (the middle one) and the mean (the average). The slow tail pulls the mean furthest to the right.' },
+        { title: 'Peak, median, mean', text: 'Three markers: the peak (your most common time), and the median and the mean from topic 01. The slow tail pulls the mean furthest to the right.' },
         { title: 'Two halves', text: 'The brackets under the axis show each half of your data: from your fastest tap to the median, and from the median to your slowest. The slow half is much wider.' },
       ],
       log: [

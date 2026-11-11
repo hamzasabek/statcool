@@ -21,6 +21,13 @@ export function stats(values) {
   return { n, mean, sd: Math.sqrt(ss / (n - 1)) }
 }
 
+// Share of the values within 1 SD of their mean (a normal distribution puts about 68 % there).
+export function withinOneSd(values) {
+  const { mean, sd } = stats(values)
+  if (!(sd > 0)) return NaN
+  return values.filter((v) => Math.abs(v - mean) <= sd).length / values.length
+}
+
 export const normalPdf = (x, m, s) => Math.exp(-0.5 * ((x - m) / s) ** 2) / (s * Math.sqrt(2 * Math.PI))
 
 export const fmtS = (v) => `${num(v, 2)}\u00a0s`

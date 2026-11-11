@@ -640,3 +640,25 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   listed in .gitignore, so it stays on the local disk and is never pushed. The About page no longer
   links to it ("…It is on GitHub. Made by Hamza Sabek.", EN + FR).
 - Still in older commits of the public repo's history unless the history is rewritten (see next.md).
+
+## 2026-11-11 — Step 46: the topics become a course in three parts
+- Review of all topics: topic 01 (inner clock) used the mean and the SD before any topic explained
+  them; the order was not the usual stats-course order (centre → spread → shapes → inference).
+  Owner agreed to reorder.
+- New order (`src/topics/topics.js`, which now also has `PARTS`): Part 1 "Describe your data":
+  01 Mean & median (Müller-Lyer), 02 Variance & SD (aim and tap, `variance-sd`, Coming soon until
+  built). Part 2 "Shapes of data": 03 Normal (inner clock), 04 Right-skewed, 05 Exponential,
+  06 Binomial. Part 3 "From data to conclusions": a dashed box, coming (says topic 06 is already a
+  test). URLs unchanged.
+- Topics page: a "Part n" label, heading and one-line lead per part, a timeline per part, numbers run
+  on. Home: topic cards renumbered, unavailable ones dashed with "Coming soon"; the last button now
+  goes to the first topic ("Start with “The Müller-Lyer illusion”"). About: experiments reordered.
+  New glyph `spread` (a wide and a narrow bell, same centre).
+- Texts: topic numbers updated ("topic 03" → 04 in the neuron fact, comments, EN + FR); the inner
+  clock's tour now points back to topics 01–02 for mean and SD and says 68 % of a bell lies within
+  1 SD; its compare page shows how many presses fall within 1 SD (new `withinOneSd` in clock.js);
+  the mean & median bell note says "the bell, topic 03"; reaction time's "Peak, median, mean" bubble
+  refers to topic 01.
+- Tested in headless Chrome: /topics at 1366 px and 390 px (FR, dark), home at 390 px: parts,
+  numbers and the Coming-soon item correct, no horizontal overflow. (Headless Chrome on Windows
+  cannot make a window narrower than ~500 px: phone widths are checked in a 390 px iframe.)
