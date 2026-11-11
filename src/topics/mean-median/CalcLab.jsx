@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { LayoutGroup, motion } from 'motion/react'
 import { Stage } from '../../components/Stage.jsx'
+import Tex, { texNum } from '../../components/Tex.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import { num, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
@@ -9,17 +10,18 @@ import PlayChart from './PlayChart.jsx'
 import { snap, stats } from './play.js'
 import { CALC } from './calcText.js'
 
-// Topic 01's "Live calculation": the same dots as the playground (they fall and drag like the
-// clock game's), and under them the three calculations written out with the student's numbers:
-//   mean   : (a + b + …) ÷ n = sum ÷ n = mean       (the changed number is highlighted)
-//   median : the numbers slide into order, the middle one (or two) ringed, (a + b) ÷ 2 if even
-//   mode   : a tally of each value; the most common one(s) highlighted
-// After each change, a sentence ties the action to the arithmetic ("the sum grows by 1, so the
-// mean grows by 1 ÷ 5 = 0.2"). Hovering a number rings its dot on the line.
+// Topic 01's "Live calculation", on one screen: the playground's dots (they fall and drag like the
+// clock game's), the explanation of the last change, and three cards. Each card shows the real
+// formula (typeset by KaTeX), then the student's numbers in it:
+//   mean   : x̄ = (1/n) Σ xᵢ → the numbers as a fraction over n (the changed one highlighted)
+//   median : the two cases with order statistics x₍ₖ₎ (the active case highlighted) → the numbers
+//            slide into order, each with its rank, the middle one (or two) ringed
+//   mode   : Mo = the x with the largest frequency f(x) → a column per value (x, f(x))
+// On narrow screens one card at a time (tabs). Hovering a number rings its dot on the line.
 
 const SC = { key: 'calc', domain: [0, 10], step: 1, unit: '' }
 const START = [2, 4, 4, 5, 9]
-const MAX = 15 // more dots would make the formulas too long
+const MAX = 12 // more dots would make the formulas too long
 const TOUR_TARGETS = [null, 'chart', 'mean', 'median', 'mode', 'feedback']
 const SLIDE = { type: 'spring', stiffness: 380, damping: 30 }
 
@@ -45,6 +47,7 @@ export default function CalcLab() {
   const [lastId, setLastId] = useState(null)
   const [hover, setHover] = useState(null)
   const [event, setEvent] = useState({ type: 'start' })
+  const [tab, setTab] = useState('mean') // the card shown on narrow screens
   const dragBefore = useRef(null)
   const guide = useGuide('calc-mean-median', TOUR_TARGETS, tx.tour, { doneLabel: tx.tourDone })
 
@@ -143,7 +146,7 @@ export default function CalcLab() {
     what = parts.filter(Boolean).join(' ')
   }
 
-  const chip = (d, extra = '') => (
+  const chip = (d, extra = '', index = null) => (
     <motion.span
       key={d.id}
       layout
@@ -153,8 +156,18 @@ export default function CalcLab() {
       onMouseLeave={() => setHover(null)}
     >
       {f(d.v)}
+      {index !== null && <small className="cl-idx">({index})</small>}
     </motion.span>
   )
+  const t = (v) => texNum(f(v)) // a number inside a formula
+  const odd = n % 2 === 1
+  const k1 = midIdx[0] + 1
+  const k2 = (midIdx[1] ?? midIdx[0]) + 1
+
+  // The general formulas (the median's active case is highlighted).
+  const meanTex = String.raw`\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i`
+  const medianTex = String.raw`\tilde{x} = \begin{cases} \htmlClass{${odd ? 'tex-on' : 'tex-off'}}{x_{\left(\frac{n+1}{2}\right)}} & \htmlClass{${odd ? 'tex-on' : 'tex-off'}}{\text{${tx.texOdd}}} \\[4pt] \htmlClass{${odd ? 'tex-off' : 'tex-on'}}{\dfrac{x_{\left(\frac{n}{2}\right)} + x_{\left(\frac{n}{2}+1\right)}}{2}} & \htmlClass{${odd ? 'tex-off' : 'tex-on'}}{\text{${tx.texEven}}} \end{cases}`
+  const modeTex = String.raw`\mathrm{Mo} = \text{${tx.texModeArg}}\ x\ \text{${tx.texModeMax}}\ f(x)`
 
   return (
     <Stage
@@ -169,6 +182,13 @@ export default function CalcLab() {
       bar={
         <>
           <span className="cl-count">{tx.count(n, MAX)}</span>
+          <div className="segmented cl-tabs" role="tablist" aria-label={tx.tabsLabel}>
+            {['mean', 'median', 'mode'].map((k) => (
+              <button key={k} type="button" role="tab" aria-selected={tab === k} className={tab === k ? 'is-active' : ''} onClick={() => setTab(k)}>
+                {tx[k]}
+              </button>
+            ))}
+          </div>
           <div className="tools">
             <button type="button" className="btn btn-ghost btn-sm" disabled={n >= MAX} onClick={() => add(snap(5, SC))}>
               {tx.addDot}
@@ -196,6 +216,9 @@ export default function CalcLab() {
       }
       foot={
         <>
+          <div className="nd-feedback cl-what" data-tour="feedback" aria-live="polite">
+            <p className="nd-hint">{what}</p>
+          </div>
           <div className="actions">
             <Link to="/topics/mean-median" className="btn btn-ghost">
               {tc.toGames}
@@ -210,107 +233,90 @@ export default function CalcLab() {
           <PlayChart dots={dots} sc={SC} fmt={(v) => f(v)} lastId={hover ?? lastId} onAdd={add} onMove={move} onRemove={remove} />
         </div>
 
-        {/* What the last change did: right under the dots, so it is seen without scrolling */}
-        <div className="nd-feedback cl-what" data-tour="feedback" aria-live="polite">
-          <p className="nd-hint">{what}</p>
-        </div>
-
         <LayoutGroup>
           <div className="cl-cards">
-            {/* Mean */}
-            <section className="cl-card is-mean" data-tour="mean">
-              <h2>
-                {tx.mean} <small>{tx.meanWhat}</small>
-              </h2>
+            {/* Mean: x̄ = (1/n) Σ xᵢ, then the student's numbers as a fraction */}
+            <section className={`cl-card is-mean${tab === 'mean' ? ' is-tab' : ''}`} data-tour="mean">
+              <h2>{tx.mean}</h2>
+              <Tex math={meanTex} block className="cl-tex" />
+              {n ? (
+                <div className="cl-calc">
+                  <Tex math={String.raw`\bar{x} =`} />
+                  <span className="cl-frac">
+                    <span className="cl-num">
+                      {dots.map((d, k) => (
+                        <span key={d.id} className="cl-term">
+                          {k > 0 && <span className="cl-op">+</span>}
+                          {chip(d)}
+                        </span>
+                      ))}
+                    </span>
+                    <span className="cl-den">{n}</span>
+                  </span>
+                  <Tex math={String.raw`= \dfrac{${t(total)}}{${n}} ${eq(st.mean)} \htmlClass{tex-mean}{${t(st.mean)}}`} />
+                </div>
+              ) : (
+                <p className="cl-note">{tx.empty}</p>
+              )}
+            </section>
+
+            {/* Median: the order statistics x₍ₖ₎, then the student's sorted numbers */}
+            <section className={`cl-card is-median${tab === 'median' ? ' is-tab' : ''}`} data-tour="median">
+              <h2>{tx.median}</h2>
+              <Tex math={medianTex} block className="cl-tex" />
               {n ? (
                 <>
-                  <div className="cl-formula">
-                    <span className="cl-paren">(</span>
-                    {dots.map((d, k) => (
-                      <span key={d.id} className="cl-term">
-                        {k > 0 && <span className="cl-op">+</span>}
-                        {chip(d)}
-                      </span>
-                    ))}
-                    <span className="cl-paren">)</span>
-                    <span className="cl-op">÷</span>
-                    <span className="cl-n">{n}</span>
+                  <div className="cl-sorted" aria-label={tx.sortedLabel}>
+                    {sorted.map((d, k) => chip(d, midIds.includes(d.id) ? ' is-mid' : '', k + 1))}
                   </div>
-                  <p className="cl-result">
-                    = {f(total)} ÷ {n} {eq(st.mean)} <strong>{f(st.mean)}</strong>
-                  </p>
-                  <p className="cl-note">{tx.meanNote}</p>
+                  <div className="cl-calc">
+                    <Tex
+                      math={
+                        odd
+                          ? String.raw`n = ${n}:\quad \tilde{x} = x_{(${k1})} = \htmlClass{tex-median}{${t(st.median)}}`
+                          : String.raw`n = ${n}:\quad \tilde{x} = \dfrac{x_{(${k1})} + x_{(${k2})}}{2} = \dfrac{${t(sorted[midIdx[0]].v)} + ${t(sorted[midIdx[1]].v)}}{2} = \htmlClass{tex-median}{${t(st.median)}}`
+                      }
+                    />
+                  </div>
                 </>
               ) : (
                 <p className="cl-note">{tx.empty}</p>
               )}
             </section>
 
-            {/* Median */}
-            <section className="cl-card is-median" data-tour="median">
-              <h2>
-                {tx.median} <small>{tx.medianWhat}</small>
-              </h2>
+            {/* Mode: the value with the largest frequency f(x) */}
+            <section className={`cl-card is-mode${tab === 'mode' ? ' is-tab' : ''}`} data-tour="mode">
+              <h2>{tx.mode}</h2>
+              <Tex math={modeTex} block className="cl-tex" />
               {n ? (
                 <>
-                  <p className="cl-step">{tx.sortStep}</p>
-                  <div className="cl-sorted">{sorted.map((d) => chip(d, midIds.includes(d.id) ? ' is-mid' : ''))}</div>
-                  <p className="cl-step">
-                    {n % 2
-                      ? tx.middleOdd(midIdx[0] + 1, n)
-                      : tx.middleEven(midIdx[0] + 1, midIdx[1] + 1, n)}
-                  </p>
-                  <p className="cl-result">
-                    {n % 2 ? (
-                      <>
-                        = <strong>{f(st.median)}</strong>
-                      </>
-                    ) : (
-                      <>
-                        = ({f(sorted[midIdx[0]].v)} + {f(sorted[midIdx[1]].v)}) ÷ 2 = <strong>{f(st.median)}</strong>
-                      </>
-                    )}
-                  </p>
-                </>
-              ) : (
-                <p className="cl-note">{tx.empty}</p>
-              )}
-            </section>
-
-            {/* Mode */}
-            <section className="cl-card is-mode" data-tour="mode">
-              <h2>
-                {tx.mode} <small>{tx.modeWhat}</small>
-              </h2>
-              {n ? (
-                <>
-                  <p className="cl-step">{tx.countStep}</p>
-                  <ul className="cl-tally">
-                    {tally.map((t) => (
-                      <motion.li key={t.v} layout transition={SLIDE} className={t.c === topCount && topCount > 1 ? 'is-top' : ''}>
-                        <span className="cl-tally-v">{f(t.v)}</span>
-                        <span className="cl-tally-dots" aria-hidden="true">
-                          {Array.from({ length: t.c }, (_, k) => (
+                  <div className="cl-tally" aria-label={tx.tallyLabel}>
+                    {tally.map((r) => (
+                      <motion.div key={r.v} layout transition={SLIDE} className={`cl-col${r.c === topCount && topCount > 1 ? ' is-top' : ''}`}>
+                        <span className="cl-col-dots" aria-hidden="true">
+                          {Array.from({ length: r.c }, (_, k) => (
                             <i key={k} />
                           ))}
                         </span>
-                        <span className="cl-tally-c">×{t.c}</span>
-                      </motion.li>
+                        <span className="cl-col-v">{f(r.v)}</span>
+                        <span className="cl-col-f">{r.c}</span>
+                      </motion.div>
                     ))}
-                  </ul>
-                  <p className="cl-result">
+                    <div className="cl-col is-head" aria-hidden="true">
+                      <span className="cl-col-dots" />
+                      <Tex math="x" />
+                      <Tex math="f(x)" />
+                    </div>
+                  </div>
+                  <div className="cl-calc">
                     {st.modes.length === 0 ? (
-                      tx.noMode
-                    ) : st.modes.length === 1 ? (
-                      <>
-                        = <strong>{f(st.modes[0])}</strong> {tx.times(topCount)}
-                      </>
+                      <span className="cl-note">{tx.noMode}</span>
                     ) : (
-                      <>
-                        = <strong>{st.modes.map(f).join(tx.and)}</strong> {tx.tie(topCount)}
-                      </>
+                      <Tex
+                        math={String.raw`\mathrm{Mo} = \htmlClass{tex-mode}{${st.modes.map(t).join(String.raw`\ \text{${tx.and.trim()}}\ `)}} \quad (f = ${topCount})`}
+                      />
                     )}
-                  </p>
+                  </div>
                 </>
               ) : (
                 <p className="cl-note">{tx.empty}</p>

@@ -33,6 +33,8 @@ src/
     Header.jsx             logo (links to /) + Topics / About links (NavLink, yellow dot when active;
                            Topics stays active inside a game) + EN | FR switch + light/dark button
     TopicGlyph.jsx         small drawing of a distribution (topics timeline + home page strip)
+    Tex.jsx                <Tex math block /> renders LaTeX with KaTeX (0.16.11; \htmlClass allowed
+                           for styling parts of a formula); texNum() for French decimal commas
     Tour.jsx               guided tour: useGuide / useTour(id) (auto-opens once, replayable) + <Tour>: one
                            bubble per thing, pointing at [data-tour="…"], the rest blurred and grey
   assets/
@@ -110,10 +112,13 @@ src/
                              dot = remove; keyboard: Tab to a dot, ← → move, Delete removes
       play.js                SCENARIOS, snap, mean / median / modes, CHALLENGES (checks)
       playText.js            PLAY texts (en + fr)
-      CalcLab.jsx            "Live calculation" (/topics/mean-median/calculate): PlayChart dots (0–10,
-                             max 15) + the explanation of the last change + 3 cards: mean
-                             "(a + b + …) ÷ n = sum ÷ n = m", median (numbers slide into order, middle
-                             ringed, "(a + b) ÷ 2" if even), mode (a tally); hover a number → its dot
+      CalcLab.jsx            "Live calculation" (/topics/mean-median/calculate), one screen: PlayChart
+                             dots (0–10, max 12), 3 cards, each: title + the real formula (KaTeX) on
+                             one row, then the student's numbers in it: mean x̄ = (1/n) Σ xᵢ → chips
+                             over n = Σ/n; median: cases (odd / even, the active one highlighted) →
+                             sorted chips with ranks (k), middle ringed → x₍ₖ₎ or (x₍ₖ₎+x₍ₖ₊₁₎)/2;
+                             mode Mo = the x with the largest f(x) → columns x / f(x). Explanation of
+                             the last change in the foot. Narrow screens: one card at a time (tabs).
       calcText.js            CALC texts (en + fr)
       MeanQuiz.jsx           the topic's quiz (/topics/mean-median/quiz) = components/Quiz.jsx with
       quiz.js                9 questions (en + fr): question, optional dot figure, options, answer, why

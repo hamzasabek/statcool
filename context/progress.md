@@ -843,3 +843,27 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   FR dark: drag 9 → 10, add 1 (even count), remove a 4 (mode gone), hover link, topic page shows
   the three extras; every number checked; no overflow, no errors. Fixed: the explanation was below
   the cards (now right under the dots); rounded means now say "≈".
+
+## 2026-11-11 — Step 57: Live calculation on one screen, with the real formulas
+- Owner: all the interaction on one page without scrolling, and the real mathematical formula of
+  each measure.
+- KaTeX 0.16.11 installed (exact version; it was listed in the stack but never installed). New
+  `src/components/Tex.jsx`: renders LaTeX (MathML too, for screen readers), `\htmlClass` allowed to
+  colour parts of a formula; `texNum()` keeps French decimal commas tight ("4{,}8").
+- Each card: its title and the general formula on one row, then the student's numbers in it:
+  mean x̄ = (1/n) Σ xᵢ → the dots as chips over a fraction bar and n, then = Σ/n ≈ result; median:
+  the two cases with order statistics (x₍(n+1)/2₎ if n is odd, (x₍n/2₎ + x₍n/2+1₎)/2 if even), the
+  active case highlighted and the other faded → the sorted chips with their rank (1)…(n), the middle
+  one(s) ringed → x̃ = x₍₃₎ = 4 or (x₍₃₎ + x₍₄₎)/2 = (4 + 4)/2 = 4; mode Mo = the x with the
+  largest f(x) → one column per value (dots, x, f(x)), the winner highlighted → Mo = 4 (f = 2).
+- One screen: the explanation moved to the foot; the dot chart takes the rest of the height and
+  can now shrink (PlayChart: minimum drawing height 220 → 140 px, which also fixed the chart drawing
+  over the cards); dots sized for the tallest stack + 1 (bigger dots, also in the playground);
+  at most 12 dots. Narrow screens (≤ 980 px): one card at a time with Mean / Median / Mode tabs;
+  phones hide the one-line instruction (the guide explains) and the duplicate back button. If a
+  screen is too small the page scrolls a little instead of overlapping.
+- Tested in headless Chrome with an overlap check (chart above the cards, cards above the foot)
+  and page height = window height: fits with no overlap at 1366×768, 1280×720 (EN and FR),
+  768×1024 and 390×844; 360×640 scrolls ~100 px (no overlap). KaTeX: no errors; the median's active
+  case switches with odd / even n. Playground test still passes. Shortened the mode formula ("the x
+  with the largest f(x)") so it fits its card.

@@ -1526,34 +1526,46 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
   .page .qz-q { font-size: 1.1rem; }
 }
 
-/* ---------- Live calculation (topic 01) ---------- */
-.stage.cl-stage { height: auto; min-height: calc(100dvh - var(--header-h)); }
+/* ---------- Live calculation (topic 01): one screen, the formulas and the student's numbers ---------- */
 .cl-count { font-size: 0.86rem; font-weight: 600; color: var(--muted); }
-.cl-main { display: flex; flex-direction: column; gap: 16px; }
-.cl-chart { height: 270px; display: flex; }
+.cl-tabs { display: none; }
+.cl-main { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 10px; }
+.cl-chart { flex: 1; min-height: 150px; display: flex; }
 .cl-chart .chart-fill { min-height: 0; }
-.cl-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: start; }
-.cl-card { padding: 16px 18px; border-radius: 20px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--border); }
+.cl-cards { flex: none; display: grid; grid-template-columns: 1fr 1.25fr 1fr; gap: 12px; align-items: stretch; }
+.cl-card { min-width: 0; padding: 10px 14px 12px; border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
 .cl-card.is-mean { border-top-color: var(--mean); }
 .cl-card.is-median { border-top-color: var(--median-line); }
 .cl-card.is-mode { border-top-color: var(--ck-a-line); }
-.page .cl-card h2 { margin: 0 0 10px; font-size: 1.1rem; }
-.cl-card h2 small { display: block; margin-top: 2px; font-size: 0.8rem; font-weight: 500; color: var(--muted); }
-.cl-formula, .cl-sorted { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; line-height: 1; }
-.cl-term { display: inline-flex; align-items: center; gap: 4px; }
-.cl-op, .cl-paren { font-weight: 700; color: var(--muted); font-size: 1rem; }
-.cl-n { font-weight: 800; font-size: 1rem; }
+.page .cl-card h2 { margin: 0; font-size: 0.95rem; }
+.cl-tex.is-block { display: block; padding: 4px 6px; border-radius: 10px; background: var(--hover); overflow-x: auto; overflow-y: hidden; }
+.cl-tex .katex-display { margin: 0; }
+.cl-tex .katex { font-size: 1.05em; }
+.tex .tex-on { color: var(--text); }
+.tex .tex-off { opacity: 0.35; }
+.tex .tex-mean { color: var(--mean); font-weight: 700; }
+.tex .tex-median { color: var(--median); }
+.tex .tex-mode { color: var(--ck-a-text); }
+.cl-calc { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 40px; }
+.cl-calc .katex { font-size: 1.08em; }
+.cl-frac { display: inline-flex; flex-direction: column; align-items: center; gap: 3px; }
+.cl-num { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 3px; padding-bottom: 4px; border-bottom: 2px solid var(--text); }
+.cl-den { font-weight: 800; font-variant-numeric: tabular-nums; }
+.cl-term { display: inline-flex; align-items: center; gap: 3px; }
+.cl-op { font-weight: 700; color: var(--muted); }
 .cl-chip {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 28px;
-  height: 28px;
-  padding: 0 6px;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 5px;
   box-sizing: border-box;
-  border-radius: 8px;
+  border-radius: 7px;
   background: color-mix(in srgb, var(--sun) 30%, var(--surface));
   box-shadow: inset 0 0 0 1px var(--dot-stroke);
+  font-size: 0.9rem;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
   cursor: default;
@@ -1562,23 +1574,47 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
 @keyframes cl-flash { from { transform: scale(1.35); } }
 .cl-chip.is-hover { box-shadow: inset 0 0 0 2.5px var(--accent); }
 .cl-chip.is-mid { outline: 3px solid var(--median-line); outline-offset: 2px; }
-.cl-result { margin: 10px 0 0; font-size: 1.05rem; font-variant-numeric: tabular-nums; }
-.cl-card.is-mean .cl-result strong { color: var(--mean); font-size: 1.3rem; }
-.cl-card.is-median .cl-result strong { color: var(--median); font-size: 1.3rem; }
-.cl-card.is-mode .cl-result strong { color: var(--ck-a-text); font-size: 1.3rem; }
-.cl-step { margin: 0 0 8px; font-size: 0.88rem; color: var(--muted); }
-.cl-sorted + .cl-step { margin-top: 10px; }
-.cl-note { margin: 8px 0 0; font-size: 0.85rem; color: var(--muted); }
-.cl-tally { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
-.cl-tally li { display: flex; align-items: center; gap: 8px; padding: 2px 6px; border-radius: 8px; }
-.cl-tally li.is-top { background: color-mix(in srgb, var(--sun) 25%, transparent); }
-.cl-tally-v { min-width: 22px; font-weight: 800; text-align: right; font-variant-numeric: tabular-nums; }
-.cl-tally-dots { display: inline-flex; gap: 3px; flex: 1; }
-.cl-tally-dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--added); box-shadow: inset 0 0 0 1px var(--dot-stroke); }
-.cl-tally-c { font-size: 0.82rem; font-weight: 700; color: var(--muted); }
-@media (max-width: 900px) {
+.cl-idx { position: absolute; top: 100%; margin-top: 3px; font-size: 0.66rem; font-weight: 600; color: var(--muted); }
+.cl-sorted { display: flex; flex-wrap: wrap; gap: 6px 5px; padding-bottom: 14px; }
+.cl-note { margin: 0; font-size: 0.86rem; color: var(--muted); }
+.cl-tally { display: flex; align-items: flex-end; gap: 4px; overflow-x: auto; }
+.cl-col { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 24px; padding: 2px 2px 3px; border-radius: 8px; }
+.cl-col.is-top { background: color-mix(in srgb, var(--sun) 28%, transparent); }
+.cl-col.is-head { order: -1; margin-right: 4px; color: var(--muted); }
+.cl-col-dots { display: flex; flex-direction: column-reverse; align-items: center; gap: 2px; min-height: 8px; }
+.cl-col-dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--added); box-shadow: inset 0 0 0 1px var(--dot-stroke); }
+.cl-col-v { font-weight: 800; font-size: 0.85rem; font-variant-numeric: tabular-nums; border-top: 1.5px solid var(--axis); padding-top: 1px; width: 100%; text-align: center; }
+.cl-col-f { font-size: 0.78rem; font-weight: 700; color: var(--muted); }
+.cl-col.is-top .cl-col-f { color: var(--ck-a-text); }
+.cl-col.is-head .cl-col-v { border-top-color: transparent; }
+.cl-what { padding: 8px 12px; border-radius: 12px; background: var(--accent-soft); }
+.cl-what .nd-hint { color: var(--text); font-weight: 600; font-size: 0.92rem; }
+.cl-stage .stage-foot { flex-wrap: nowrap; align-items: stretch; }
+.cl-stage .stage-foot .actions { align-items: center; }
+
+/* Narrow screens: one card at a time, picked with the tabs */
+@media (max-width: 980px) {
+  .cl-tabs { display: inline-flex; }
   .cl-cards { grid-template-columns: 1fr; }
-  .cl-chart { height: 240px; }
+  .cl-card:not(.is-tab) { display: none; }
+  .cl-count { display: none; }
 }
-.cl-what { flex: none; padding: 10px 14px; border-radius: 14px; background: var(--accent-soft); }
-.cl-what .nd-hint { color: var(--text); font-weight: 600; }
+@media (max-width: 600px) {
+  .cl-stage .stage-foot { flex-wrap: wrap; }
+  .cl-chart { min-height: 170px; }
+  .cl-stage .tools .btn { padding: 0 9px; }
+}
+/* the page fills the window; if the content ever needs more, the page scrolls instead of overlapping */
+.stage.cl-stage { height: auto; min-height: calc(100dvh - var(--header-h)); }
+.cl-chart { min-height: 150px; }
+@media (max-width: 600px) {
+  .cl-stage .stage-say { display: none; }
+  .cl-chart { min-height: 160px; }
+  .cl-what .nd-hint { font-size: 0.82rem; }
+  .cl-stage .stage-foot .actions { display: none; }
+  .cl-card { padding: 8px 12px 10px; }
+}
+/* each card: its title and its formula on one row, to leave the chart more height */
+.cl-card { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 10px; row-gap: 8px; }
+.cl-card > :not(h2):not(.cl-tex) { grid-column: 1 / -1; }
+.cl-tex.is-block { justify-self: stretch; }

@@ -47,7 +47,7 @@ export default function PlayChart({ dots, sc, fmt, lastId, onAdd, onMove, onRemo
   const colW = plotW / cols
   const xOf = (v) => M.left + ((v - lo) / sc.step + 0.5) * colW
   const vOf = (x) => snap(lo + ((x - M.left) / colW - 0.5) * sc.step, sc)
-  const H = Math.max(220, height)
+  const H = Math.max(140, height) // never taller than its box (it would cover what is below)
   const base = H - M.bottom
   const top = M.top + 3 * ROW + 8
   const values = dots.map((d) => d.v)
@@ -56,7 +56,7 @@ export default function PlayChart({ dots, sc, fmt, lastId, onAdd, onMove, onRemo
   // Stack the dots per value, in the order they were added (the dragged dot keeps no slot).
   const levels = {}
   const placed = dots.map((d) => (d.id === dragPos?.id ? { ...d, level: 0 } : { ...d, level: (levels[d.v] = (levels[d.v] ?? 0) + 1) - 1 }))
-  const cap = Math.max(6, ...Object.values(levels))
+  const cap = Math.max(3, ...Object.values(levels).map((c) => c + 1)) // room for the tallest stack and one more dot
   const size = Math.min(colW, (base - top) / cap, 26)
   const r = Math.max(2.5, size / 2 - 0.75) // as in the inner-clock game: the dots of a stack touch
   const cy = (level) => base - (level + 0.5) * size
