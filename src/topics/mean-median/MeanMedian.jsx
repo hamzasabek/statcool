@@ -16,6 +16,10 @@ import { MM } from './text.js'
 
 const MOVED = 15 // % points a dot must be dragged before step 3 explains what happened
 
+// The mean of the previous round, kept while the site is open: "play again: did your mean move?"
+// (a sample's mean changes from one sample to the next; it estimates a value you never see, μ).
+let lastMean = null
+
 // Guided tour of each step: what each bubble points at (null = middle of the screen); the texts
 // are in text.js (tour), in the same order.
 const TOUR_IDS = ['match', 'meanMedian', 'pull']
@@ -84,6 +88,7 @@ export default function MeanMedian() {
   }
 
   function playAgain() {
+    if (tries.length) lastMean = m
     setTries([])
     setPulled([])
     setStim(newTrial())
@@ -221,6 +226,7 @@ export default function MeanMedian() {
                 {close ? tx.agree(fmtPct(m), fmtPct(md)) : tx.apart(tx.points(Math.abs(m - md)), fmtPct(m), fmtPct(md))}
               </p>
               <p className="nd-fact">{tx.fact2(n, middle)}</p>
+              {lastMean !== null && <p className="nd-fact mm-again">{tx.again(fmtPct(lastMean), fmtPct(m))}</p>}
             </div>
             <div className="actions">
               {allTopics}
@@ -285,6 +291,7 @@ export default function MeanMedian() {
               {moved ? tx.moved(tx.points(Math.abs(m1 - m)), mdShift < 0.05 ? null : tx.points(mdShift)) : tx.grab}
             </p>
             <p className="nd-fact">{moved ? tx.robust : tx.stays(fmtPct(m1), fmtPct(md1))}</p>
+            <p className="nd-fact">{tx.playAgainAsk}</p>
           </div>
           <div className="actions">
             {allTopics}

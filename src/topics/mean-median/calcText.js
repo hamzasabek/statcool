@@ -46,7 +46,7 @@ export const CALC = {
     tour: [
       { title: 'Live calculation', text: 'The three centres, calculated in front of you with your own numbers. Change the dots and watch every step redo itself.' },
       { title: 'The dots', text: 'Tap the line to add a dot, drag a dot to move it, tap a dot to remove it. The numbers in the cards are these dots.' },
-      { title: 'The mean', text: 'The formula: add all the xᵢ (Σ), then divide by n. Under it, your own numbers in the formula; the one you just changed is highlighted.' },
+      { title: 'The mean', text: 'The formula: add all the xᵢ (Σ), then divide by n. x̄ (“x-bar”) is the mean of your dots, a sample; the mean of a whole population is written μ (“mu”) and is usually unknown. Under the formula, your own numbers; the one you just changed is highlighted.' },
       { title: 'The median', text: 'x₍ₖ₎ is the k-th number once they are in order. The formula has two cases, odd or even n: the one that applies is highlighted. Your numbers slide into order, with their rank.' },
       { title: 'The mode', text: 'f(x) is the frequency of x: how many times it appears. The mode is the x with the largest f(x).' },
       { title: 'What happened', text: 'After every change, this sentence links what you did to the arithmetic.' },
@@ -93,7 +93,7 @@ export const CALC = {
     tour: [
       { title: 'Le calcul en direct', text: 'Les trois centres, calculés devant vous avec vos propres nombres. Changez les points et regardez chaque étape se refaire.' },
       { title: 'Les points', text: 'Touchez la ligne pour ajouter un point, faites glisser un point pour le déplacer, touchez un point pour le retirer. Les nombres des cartes sont ces points.' },
-      { title: 'La moyenne', text: 'La formule : additionnez tous les xᵢ (Σ), puis divisez par n. En dessous, vos propres nombres dans la formule ; celui que vous venez de changer est mis en avant.' },
+      { title: 'La moyenne', text: 'La formule : additionnez tous les xᵢ (Σ), puis divisez par n. x̄ (« x barre ») est la moyenne de vos points, un échantillon ; la moyenne d’une population entière s’écrit μ (« mu ») et est en général inconnue. Sous la formule, vos propres nombres ; celui que vous venez de changer est mis en avant.' },
       { title: 'La médiane', text: 'x₍ₖ₎ est le k-ième nombre une fois rangés dans l’ordre. La formule a deux cas, n impair ou pair : celui qui s’applique est mis en avant. Vos nombres se rangent dans l’ordre, avec leur rang.' },
       { title: 'Le mode', text: 'f(x) est la fréquence de x : le nombre de fois où il apparaît. Le mode est le x de plus grande fréquence f(x).' },
       { title: 'Ce qui s’est passé', text: 'Après chaque changement, cette phrase relie ce que vous avez fait au calcul.' },

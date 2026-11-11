@@ -38,6 +38,7 @@ export const MM = {
     apart: (pts, m, md) => `Yours are ${pts} apart (mean ${m}, median ${md}): a few tries pull your dots to one side.`,
     middleOdd: (k) => `number ${k}`,
     middleEven: (a, b) => `halfway between ${a} and ${b}`,
+    again: (a, b) => `Last round your mean was ${a}; this round it is ${b}. Your tries are a sample of what you could do: their mean (x̄) changes a little from one sample to the next. It estimates your true average (μ), which you never see; more tries make the estimate steadier.`,
     fact2: (n, middle) =>
       `Mean: add up all ${n} tries and divide by ${n}; the dots balance there. Median: line the tries up in order and take the middle one (${middle}).`,
     nextPull: 'Next: pull a dot →',
@@ -50,6 +51,7 @@ export const MM = {
     moved: (mPts, mdPts) =>
       `The mean moved ${mPts}, ${mdPts === null ? 'the median did not move at all' : `the median only ${mdPts}`}.`,
     grab: 'Grab any dot and pull it right (or focus it and use the arrow keys).',
+    playAgainAsk: 'Play again: will your mean come out the same?',
     robust:
       'The median is less sensitive to outliers. One wild try drags the mean away from the top of your bell; the median only cares which dot is in the middle, so it stays there. That’s why researchers often report the median when a few trials go wrong.',
     stays: (m, md) => `Your bell stays where it was, with the mean and the median both at its top (mean ${m}, median ${md}).`,
@@ -128,6 +130,7 @@ export const MM = {
       `Les vôtres sont à ${pts} l’une de l’autre (moyenne ${m}, médiane ${md}) : quelques essais tirent vos points d’un côté.`,
     middleOdd: (k) => `le n° ${k}`,
     middleEven: (a, b) => `à mi-chemin entre le ${a} et le ${b}`,
+    again: (a, b) => `Au tour précédent, votre moyenne était ${a} ; cette fois, ${b}. Vos essais sont un échantillon de ce que vous pourriez faire : leur moyenne (x̄) change un peu d’un échantillon à l’autre. Elle estime votre vraie moyenne (μ), que vous ne voyez jamais ; plus d’essais rendent l’estimation plus stable.`,
     fact2: (n, middle) =>
       `Moyenne : additionnez les ${n} essais et divisez par ${n} ; les points s’équilibrent là. Médiane : rangez les essais dans l’ordre et prenez celui du milieu (${middle}).`,
     nextPull: 'Suivant : tirer un point →',
@@ -139,6 +142,7 @@ export const MM = {
     moved: (mPts, mdPts) =>
       `La moyenne a bougé de ${mPts}, ${mdPts === null ? 'la médiane n’a pas bougé du tout' : `la médiane de ${mdPts} seulement`}.`,
     grab: 'Attrapez un point et tirez-le vers la droite (ou sélectionnez-le et utilisez les flèches du clavier).',
+    playAgainAsk: 'Rejouez : votre moyenne sera-t-elle la même ?',
     robust:
       'La médiane est moins sensible aux valeurs extrêmes. Un essai aberrant éloigne la moyenne du sommet de votre cloche ; la médiane, elle, ne regarde que le point du milieu, donc elle reste en place. C’est pourquoi les chercheurs donnent souvent la médiane quand quelques essais ratent.',
     stays: (m, md) =>

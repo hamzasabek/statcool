@@ -61,10 +61,10 @@ const MORE_EN = [
     why: 'Every value appears once: none is more common than the others, so by the usual convention there is no mode. (6 is the median, 6.4 the mean.)',
   },
   {
-    q: 'Can the mean be a value that nobody in the data has?',
-    options: ['No, it is always one of the values', 'Yes, it often is', 'Only if there is an outlier', 'Only with whole numbers'],
+    q: 'You play the Müller-Lyer game twice: your mean error is +8% the first time and +11% the second. Why?',
+    options: ['You made a calculation mistake', 'Each round is a sample: its mean varies a little from one sample to the next', 'The illusion became stronger', 'Only the median can be trusted'],
     answer: 1,
-    why: 'The mean is a balance point, not one of the values: the mean of 1 and 2 is 1.5, which nobody has. Only the mode is always a value that really occurs.',
+    why: 'Your tries are a sample of what you could do. Their mean, x̄, estimates your true average error, μ, which you never see; and x̄ changes a little from sample to sample. The more tries, the less it varies (Part 3).',
   },
   {
     q: 'There are 8 values, in order. Where is the median?',
@@ -202,10 +202,10 @@ const MORE_FR = [
     why: 'Chaque valeur apparaît une fois : aucune n’est plus fréquente que les autres, donc par convention il n’y a pas de mode. (6 est la médiane, 6,4 la moyenne.)',
   },
   {
-    q: 'La moyenne peut-elle être une valeur que personne n’a dans les données ?',
-    options: ['Non, c’est toujours une des valeurs', 'Oui, c’est même fréquent', 'Seulement s’il y a une valeur extrême', 'Seulement avec des nombres entiers'],
+    q: 'Vous jouez deux fois au jeu de Müller-Lyer : votre erreur moyenne est de +8 % la première fois et de +11 % la seconde. Pourquoi ?',
+    options: ['Vous avez fait une erreur de calcul', 'Chaque tour est un échantillon : sa moyenne varie un peu d’un échantillon à l’autre', 'L’illusion est devenue plus forte', 'Seule la médiane est fiable'],
     answer: 1,
-    why: 'La moyenne est un point d’équilibre, pas une des valeurs : la moyenne de 1 et 2 est 1,5, que personne n’a. Seul le mode est toujours une valeur qui existe vraiment.',
+    why: 'Vos essais sont un échantillon de ce que vous pourriez faire. Leur moyenne, x̄, estime votre vraie erreur moyenne, μ, que vous ne voyez jamais ; et x̄ change un peu d’un échantillon à l’autre. Plus il y a d’essais, moins elle varie (partie 3).',
   },
   {
     q: 'Il y a 8 valeurs, rangées dans l’ordre. Où est la médiane ?',
@@ -319,11 +319,11 @@ export const QUIZ = {
       options: [
         'You can remember exactly 6.2 digits',
         'The mean is wrong for whole numbers',
-        'It is a span nobody can have, but it is still useful to compare people',
+        'No single run gives 6.2, but it is a sound estimate of your typical span',
         'It is the span you got most often',
       ],
       answer: 2,
-      why: 'You remember whole digits, so a span of 6.2 never happens. The mean is still a fair summary: a class with a mean of 6.8 remembers more than one with 6.2. The span you got most often is the mode.',
+      why: 'You remember whole digits, so no single run gives 6.2. But the mean is a sound summary: it estimates your typical span, and it is the right tool to compare groups (a class averaging 6.8 remembers more than one averaging 6.2). The span you got most often is the mode: a different question.',
     },
     {
       q: 'People name their favourite colour. Which centre can you give?',
@@ -390,11 +390,11 @@ export const QUIZ = {
       options: [
         'Vous retenez exactement 6,2 chiffres',
         'La moyenne est fausse pour des nombres entiers',
-        'C’est un empan que personne ne peut avoir, mais il reste utile pour comparer des personnes',
+        'Aucune série ne donne 6,2, mais c’est une estimation solide de votre empan typique',
         'C’est l’empan que vous avez obtenu le plus souvent',
       ],
       answer: 2,
-      why: 'On retient des chiffres entiers : un empan de 6,2 n’existe pas. La moyenne reste un bon résumé : une classe de moyenne 6,8 retient plus qu’une classe de moyenne 6,2. L’empan obtenu le plus souvent, c’est le mode.',
+      why: 'On retient des chiffres entiers : aucune série ne donne 6,2. Mais la moyenne est un résumé solide : elle estime votre empan typique, et c’est le bon outil pour comparer des groupes (une classe de moyenne 6,8 retient plus qu’une de moyenne 6,2). L’empan obtenu le plus souvent, c’est le mode : une autre question.',
     },
     {
       q: 'Des gens citent leur couleur préférée. Quel centre pouvez-vous donner ?',

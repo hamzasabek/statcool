@@ -912,3 +912,18 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   "more than two in five (Simon, 1971)". Bank re-checked: 30/30, EN = FR.
 - Tested in headless Chrome: grouping (stats and sentences at 10/25/50/100 ms, EN and FR), blue-seven
   0–9 crowd (29 % with you) and colours (41 %); no errors.
+
+## 2026-11-11 — Step 60: professor's review, step 2: the concepts (within / between, estimate, sample)
+- Digit span, the class step: "two kinds of spread": your runs vary within one person
+  (measurement noise), the 100 bars vary between people; topic 02 measures both.
+- The "impossible mean" reworded: no single run gives 6.2, but the mean is a sound estimate of the
+  typical span and the tool to compare groups; it answers "how much on average?", the mode "what
+  happened most often?". Quiz Q4 option and explanation changed the same way.
+- Sample vs population: Müller-Lyer and digit span keep the previous round's mean while the site is
+  open (a module variable, nothing stored): after "Play again", the mean & median page (or the three
+  centres page) says "Last round your mean was a; this round it is b. Your tries are a sample: x̄
+  changes from sample to sample; it estimates your true average μ…"; Müller-Lyer's last page asks
+  "Play again: will your mean come out the same?". Live calculation's guide explains x̄ vs μ. Quiz
+  Q18 (it repeated Q4's idea) replaced by "+8 % then +11 %: why?" (each round is a sample).
+- Tested in headless Chrome: two Müller-Lyer rounds (−1.3 % then +11.4 %) show the comparison and
+  the question; quiz bank 30/30, EN = FR; no errors.

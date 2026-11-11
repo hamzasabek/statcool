@@ -22,6 +22,9 @@ const TOUR_TARGETS = {
 }
 const TOUR_PLACE = { next: 'top', task: 'right' }
 
+// The mean span of the previous round, kept while the site is open (a sample's mean varies).
+let lastMean = null
+
 export default function DigitSpan() {
   const tx = useText(SPAN)
   const tc = useText(COMMON)
@@ -42,6 +45,7 @@ export default function DigitSpan() {
     </Link>
   )
   const playAgain = () => {
+    if (spans.length) lastMean = mean(spans)
     setSpans([])
     setStep(0)
   }
@@ -133,6 +137,7 @@ export default function DigitSpan() {
                 {isWhole(md) ? tx.medianWhole(fmt(md)) : tx.medianHalf(fmt(md))} {isWhole(mn) ? tx.meanWhole(fmt(mn)) : tx.meanOdd(fmtSpan(mn, 1))}
               </p>
               <p className="nd-fact">{tx.summary}</p>
+              {lastMean !== null && <p className="nd-fact">{tx.again(fmtSpan(lastMean, 1), fmtSpan(mn, 1))}</p>}
             </div>
             <div className="actions">
               {allTopics}
@@ -178,6 +183,7 @@ export default function DigitSpan() {
         <>
           <div className="nd-feedback is-good" data-tour="feedback" aria-live="polite">
             <p className="nd-hint">{tx.classFact(yourModes.map(fmt).join(tx.and))}</p>
+            <p className="nd-fact">{tx.twoSpreads}</p>
             <p className="nd-fact">{tx.classNote}</p>
           </div>
           <div className="actions">
