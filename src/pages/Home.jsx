@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 import { useLang, useText } from '../i18n.jsx'
 import { COMMON } from '../text.js'
 import TopicGlyph from '../components/TopicGlyph.jsx'
-import { topics } from '../topics/topics.js'
+import { firstGamePath, topics } from '../topics/topics.js'
 import { HOME } from './text.js'
 
 // Home page (/): what StatsCool is. A hero with a drawing of dots dropping into a bell (the idea of
@@ -136,26 +136,15 @@ export default function Home() {
         </div>
         <ul className="home-topics">
           {topics.map((t, i) => {
-            const { game, title } = t.text[lang]
-            const inner = (
-              <>
-                <TopicGlyph shape={t.shape} />
-                <span className="home-topic-num">{String(i + 1).padStart(2, '0')}</span>
-                <span className="home-topic-title">{title}</span>
-                <span className="home-topic-game">{t.available ? game : tc.comingSoon}</span>
-              </>
-            )
+            const { title } = t.text[lang]
             return (
               <li key={t.slug}>
-                {t.available ? (
-                  <Link to={`/topics/${t.slug}`} className="home-topic">
-                    {inner}
-                  </Link>
-                ) : (
-                  <div className="home-topic is-disabled" aria-disabled="true">
-                    {inner}
-                  </div>
-                )}
+                <Link to={`/topics/${t.slug}`} className="home-topic">
+                  <TopicGlyph shape={t.shape} />
+                  <span className="home-topic-num">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="home-topic-title">{title}</span>
+                  <span className="home-topic-game">{tc.gamesCount(t.games.length)}</span>
+                </Link>
               </li>
             )
           })}
@@ -164,7 +153,7 @@ export default function Home() {
 
       <section className="home-end">
         <h2>{tx.endTitle}</h2>
-        <Link to={`/topics/${topics[0].slug}`} className="btn btn-primary btn-lg">
+        <Link to={firstGamePath(topics[0])} className="btn btn-primary btn-lg">
           {tx.endButton}
         </Link>
       </section>

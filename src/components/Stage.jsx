@@ -1,6 +1,7 @@
-import { Link } from 'react-router'
-import { useText } from '../i18n.jsx'
+import { Link, useParams } from 'react-router'
+import { useLang, useText } from '../i18n.jsx'
 import { COMMON } from '../text.js'
+import { findTopic } from '../topics/topics.js'
 
 // Full-viewport layout for a learning page: everything fits on one screen, no scrolling.
 //   head  : back link, title, optional steps
@@ -11,12 +12,15 @@ import { COMMON } from '../text.js'
 // `onGuide` adds a "? Guide" button in the head that replays the page's guided tour (Tour.jsx).
 export function Stage({ title, steps, current, say, bar, foot, children, flowOnNarrow = false, className = '', onGuide }) {
   const tx = useText(COMMON)
+  const { lang } = useLang()
+  // A game goes back to its topic's page ("← Mean, median and mode").
+  const topic = findTopic(useParams().slug)
   return (
     <article className={`stage${flowOnNarrow ? ' is-flow-narrow' : ''}${className ? ` ${className}` : ''}`}>
       <header className="stage-head">
         <div className="stage-title">
-          <Link to="/topics" className="back-link">
-            {tx.back}
+          <Link to={topic ? `/topics/${topic.slug}` : '/topics'} className="back-link">
+            {topic ? tx.backTo(topic.text[lang].title) : tx.back}
           </Link>
           <h1>{title}</h1>
         </div>

@@ -706,3 +706,18 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   SD 9°, 4 lines SD 20° + 15 % guesses): 1366×768 EN light and 390×844 FR dark. All 4 tours
   (16 bubbles), 24 answers, every screen; no overflow, no errors. Fixed: the mean was called
   "close to 0" at +11° (now "small next to the spread"); the SD axis showed ticks beyond ±90°.
+
+## 2026-11-11 — Step 49: a page per topic, several games per topic
+- Owner: at least 3 games per topic. Topic 01 becomes "Mean, median and mode" with 3 games:
+  Müller-Lyer (built), "The magical number 7" (digit span, Miller 1956) and "Pick a random number"
+  (blue-seven, Simon & Primavera 1972), both Coming soon until built (Steps 50–51).
+- `topics.js`: each topic now has a title + summary about its idea, and `games` (slug, available,
+  name, ref = the experiment, idea). New `src/topics/games.jsx` maps "<topic>/<game>" to the
+  component. Routes: `/topics/:slug` = new TopicPage (Part · Topic number, title, summary, one card
+  per game, previous / next topic), `/topics/:slug/:game` = GamePage (404 if unknown). Game URLs
+  changed (e.g. `/topics/mean-median/muller-lyer`); the old topic URLs now open the topic page.
+- Timeline: "n games" label, the topic summary, and the games as chips (dashed = coming soon).
+  Home cards: "n games". Home's last button goes to the first game. A game's back link now goes
+  to its topic page ("← Mean, median and mode"). Topics intro text updated (EN + FR).
+- Tested in headless Chrome: /topics, a topic page, a game page, unknown topic / game (404) at
+  1366 px EN light and 390 px FR dark; back links correct, no overflow, no errors.

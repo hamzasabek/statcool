@@ -48,6 +48,10 @@ src/
                            seeded order, CSS animation, off with reduced motion) + How it works (3) +
                            What makes it different (3) + the topics as small cards (unavailable ones dashed,
                            "Coming soon") + last button to the first topic
+    TopicPage.jsx          /topics/<slug> : a topic's page (Part · Topic number, title, summary,
+                           one card per game: name, experiment, idea, Play → or Coming soon; previous /
+                           next topic). GamePage: /topics/<slug>/<game> → GAMES, or 404. A game's
+                           back link (Stage) goes to its topic page: "← Mean, median and mode".
     Topics.jsx             /topics : the course plan. One heading per part ("Part 1 · Describe your
                            data"…), under it a vertical timeline of its topics (numbered nodes,
                            numbers run on across parts; game name, title, one sentence, Play → or
@@ -59,8 +63,10 @@ src/
     NotFound.jsx
   topics/
     topics.js              PARTS (the course parts, in order: describe, shapes, conclude = soon)
-                           and topics (in order: slug, part, shape for the drawing, available, and
-                           per language the game name, title and one sentence); topicNumber(slug)
+                           and topics (in order: slug, part, shape, title + summary per language,
+                           games: [{ slug, available, name / ref (experiment) / idea per language }]);
+                           topicNumber, findTopic, firstGamePath
+    games.jsx              GAMES: "<topic>/<game>" → the game's component
     normal-distribution/   topic 03: the game "Your inner clock" (opens directly)
       ClockGame.jsx          stop a hidden clock at 2 s, then 5 s; every press is a dot
                              (2 s game → 5 s game → compare)
@@ -145,29 +151,32 @@ docs/CODE_GUIDE.md         private, gitignored (local only): beginner-friendly e
 ## Routes
 
 - `/` home page (the concept of the site)
-- `/topics` the topic list (timeline); "← Topics", "All topics" and the 404 page link here
+- `/topics` the course plan (timeline); "← Topics", "All topics" and the 404 page link here
+- `/topics/<topic>` a topic's page with its games; `/topics/<topic>/<game>` a game
 - `/about` about the site
-Course plan (order of `topics.js`; URLs use names, not numbers, so reordering breaks no link):
+
+Course plan (order of `topics.js`; URLs use names, not numbers, so reordering breaks no link).
+Goal (owner, Step 49): at least 3 games per topic.
 - Part 1 · Describe your data
-  - `/topics/mean-median` topic 01: "Mean and median" (Müller-Lyer illusion)
-  - `/topics/variance-sd` topic 02: "Variance and standard deviation" (how precise is your memory?)
+  - 01 `mean-median` "Mean, median and mode": `muller-lyer`, `digit-span` (soon), `blue-seven` (soon)
+  - 02 `variance-sd` "Variance and standard deviation": `memory` (how precise is your memory?)
 - Part 2 · Shapes of data
-  - `/topics/normal-distribution` topic 03: "The normal distribution" (your inner clock)
-  - `/topics/right-skewed` topic 04: "Right-skewed distributions" (reaction time)
-  - `/topics/exponential` topic 05: "The exponential distribution" (listen to a neuron)
-  - `/topics/binomial` topic 06: "The binomial distribution" (Ebbinghaus illusion; first test)
+  - 03 `normal-distribution` "The normal distribution": `inner-clock`
+  - 04 `right-skewed` "Right-skewed distributions": `reaction-time`
+  - 05 `exponential` "The exponential distribution": `neuron`
+  - 06 `binomial` "The binomial distribution": `ebbinghaus` (first test)
 - Part 3 · From data to conclusions: coming (samples & CLT, correlation, comparing groups)
 
 Texts that name another topic by number ("topic 03", "thème 03") must be updated when the order
 changes: `grep -rn "topic 0|thème 0" src`.
 
-## How to add a new topic
+## How to add a topic or a game
 
-1. Add an entry in `src/topics/topics.js`, at its place in the course, with its `part` and
-   `available: true` (game, title, summary in en and fr, and a `shape` for the timeline drawing: add
-   a new one in `src/components/TopicGlyph.jsx` if needed).
-2. Create `src/topics/<slug>/` with the page component.
-3. Add a `<Route path="/topics/<slug>" …>` in `src/App.jsx`.
+1. In `src/topics/topics.js`: a new topic at its place in the course (slug, `part`, `shape`, title
+   and summary in en and fr, games), or a new game in a topic's `games` (slug, `available`, name,
+   ref, idea in en and fr). A new drawing goes in `src/components/TopicGlyph.jsx`.
+2. Create the game's component in `src/topics/<topic>/`.
+3. Register it in `src/topics/games.jsx` as `"<topic>/<game>": Component`. No route to add.
 
 ## Language and theme
 
