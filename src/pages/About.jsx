@@ -5,7 +5,7 @@ import { ABOUT } from './text.js'
 // About page (/about): why StatsCool exists, the experiments behind the games, inspiration, privacy,
 // open source, how it is built, and how to give feedback.
 
-const REPO = 'https://github.com/hamzasabek/statcool'
+const REPO = 'https://github.com/hamzasabek/statscool'
 
 const Out = ({ href, children }) => (
   <a href={href} target="_blank" rel="noreferrer">

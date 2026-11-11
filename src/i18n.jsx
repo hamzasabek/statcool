@@ -5,12 +5,13 @@ import { createContext, useContext, useEffect, useState } from 'react'
 // component that uses it; components pick theirs with useText(dict).
 
 export const LANGS = ['en', 'fr']
-const KEY = 'statcool-lang'
+const KEY = 'statscool-lang'
+const OLD_KEY = 'statcool-lang' // before the repo was renamed: still read, so no one loses their choice
 let current = 'en' // read by the number formatters below
 
 function initialLang() {
   try {
-    const saved = localStorage.getItem(KEY)
+    const saved = localStorage.getItem(KEY) ?? localStorage.getItem(OLD_KEY)
     if (LANGS.includes(saved)) return saved
   } catch {
     /* storage blocked: fall back to the browser language */

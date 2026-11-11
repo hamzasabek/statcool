@@ -1,11 +1,11 @@
 # Next steps and ideas
 
 ## Open items
-- Test on a real phone (GitHub Pages https://hamzasabek.github.io/statcool/, or locally with
+- Test on a real phone (GitHub Pages https://hamzasabek.github.io/statscool/, or locally with
   `npm run dev -- --host`). The Müller-Lyer drag, the dot dragging and the reaction-time taps
   were only tested with an emulated mouse in headless Chrome. Check that the yellow appears
   without delay and tap times feel right on a phone (touch adds latency).
-- Live site: https://hamzasabek.github.io/statcool/ (GitHub Pages only, deployed on every push
+- Live site: https://hamzasabek.github.io/statscool/ (GitHub Pages only, deployed on every push
   to `main`; Netlify removed in Step 22).
 
 - Guided tours on all topics (Steps 40–41). Idea: in topic 01's "bell curve" bubble, draw an example

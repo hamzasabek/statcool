@@ -18,10 +18,11 @@ const GAP = 14 // space between the ring and the bubble (room for the arrow)
 const EDGE = 12 // minimum distance from the window edges
 const SIDES = ['bottom', 'top', 'right', 'left']
 
-const storageKey = (id) => `statcool-tour-${id}`
+const storageKey = (id) => `statscool-tour-${id}`
+const oldKey = (id) => `statcool-tour-${id}` // before the repo was renamed: still read
 function seen(id) {
   try {
-    return localStorage.getItem(storageKey(id)) === 'done'
+    return localStorage.getItem(storageKey(id)) === 'done' || localStorage.getItem(oldKey(id)) === 'done'
   } catch {
     return false
   }

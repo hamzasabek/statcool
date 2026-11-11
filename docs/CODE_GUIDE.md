@@ -37,7 +37,7 @@ distribution, the binomial distribution.
 
 The whole site runs **in the browser**. There is no server program and no database: the files
 are built once and then served as plain static files by GitHub Pages
-(https://hamzasabek.github.io/statcool/).
+(https://hamzasabek.github.io/statscool/).
 
 The code is about 5 600 lines:
 
@@ -98,7 +98,7 @@ Libraries written by other people are called **packages**. npm downloads them.
 
 ```json
 {
-  "name": "statcool",
+  "name": "statscool",
   "type": "module",            // use modern `import` / `export` syntax
   "scripts": {
     "dev": "vite",             // npm run dev     → start the development server
@@ -145,7 +145,7 @@ export default defineConfig({
 })
 ```
 
-`base: './'` matters because GitHub Pages serves the site under `/statcool/`, not at the root.
+`base: './'` matters because GitHub Pages serves the site under `/statscool/`, not at the root.
 
 Vite also lets JS **import non-JS files**: `import logoDark from '../assets/logo-dark.png'` gives
 you the URL of the image (Vite copies the file into `dist/` with a unique name).
@@ -255,7 +255,7 @@ on the address. React Router does this:
 - `<NavLink to="/about">` is a `Link` that gets the class `active` when its page is open (the header
   uses it to put a yellow dot under the current page).
 - `useLocation()` gives the current address; `App.jsx` scrolls back to the top whenever it changes.
-- `HashRouter` puts the route after a `#`: `…/statcool/#/topics/binomial`. GitHub Pages only
+- `HashRouter` puts the route after a `#`: `…/statscool/#/topics/binomial`. GitHub Pages only
   serves real files; with a `#` the server always sends `index.html` and the browser handles the
   rest, so refreshing a page never gives a 404.
 
@@ -316,7 +316,7 @@ reduce motion (an accessibility setting).
 ## 5. The folder map
 
 ```
-statcool/
+statscool/
 ├─ index.html              the only HTML page (skeleton + early theme script)
 ├─ package.json            project ID card (scripts, dependencies)
 ├─ package-lock.json       exact versions of all packages

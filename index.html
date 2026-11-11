@@ -10,7 +10,7 @@
       // browser setting. Kept in sync by src/theme.js and src/i18n.jsx.
       (function () {
         var t = null, l = null
-        try { t = localStorage.getItem('statcool-theme'); l = localStorage.getItem('statcool-lang') } catch (e) {}
+        try { t = localStorage.getItem('statscool-theme') || localStorage.getItem('statcool-theme'); l = localStorage.getItem('statscool-lang') || localStorage.getItem('statcool-lang') } catch (e) {}
         if (t !== 'light' && t !== 'dark') t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
         if (l !== 'en' && l !== 'fr') l = (navigator.language || '').toLowerCase().indexOf('fr') === 0 ? 'fr' : 'en'
         document.documentElement.dataset.theme = t

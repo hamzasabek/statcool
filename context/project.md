@@ -153,9 +153,9 @@ docs/CODE_GUIDE.md         beginner-friendly explanation of all the code, librar
 - French: "vous", typographic apostrophe ’, guillemets « », `frenchTypo` adds the no-break
   spaces before : ; ! ? ». Terms: loi normale, moyenne, médiane, écart-type, mode (sommet),
   asymétrique à droite, traîne, échelle log.
-- Language: saved in localStorage `statcool-lang`; first visit = browser language (fr* → fr).
+- Language: saved in localStorage `statscool-lang`; first visit = browser language (fr* → fr).
 - Theme: dark tokens are on `:root[data-theme='dark']` in `index.css`. An inline script in
-  `index.html` sets `data-theme` and `lang` before the first paint (saved `statcool-theme`, else
+  `index.html` sets `data-theme` and `lang` before the first paint (saved `statscool-theme`, else
   the system setting). Until the student picks a theme, the site follows the system setting.
 - Phones (≤ 700 px): the foot hides its "All topics" button (the "← Topics" link does that job).
 

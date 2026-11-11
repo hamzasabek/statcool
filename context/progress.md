@@ -623,3 +623,14 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Kept on purpose: repo name and URLs (`github.com/hamzasabek/statcool`, `…github.io/statcool/`),
   Vite `base`, npm package name, and the localStorage keys `statcool-*` (renaming them would reset
   visitors' saved language, theme and seen guides). Removed the "pick one name" known issue in next.md.
+
+## 2026-11-11 — Step 44: repo renamed to statscool
+- Owner renamed the GitHub repo to `statscool`. Every `statcool` became `statscool`: live site
+  https://hamzasabek.github.io/statscool/, repo link on the About page, npm package name
+  (package.json + package-lock.json), vite.config.js comment, README, context/, docs/CODE_GUIDE.md.
+  Git remote now `git@github.com:hamzasabek/statscool.git`.
+- localStorage keys are now `statscool-lang`, `statscool-theme`, `statscool-tour-<id>`. The old
+  `statcool-*` keys are still read as a fallback (theme.js, i18n.jsx, Tour.jsx, index.html): the
+  site stays on the same origin (hamzasabek.github.io), so visitors keep their language, theme and
+  seen guides.
+- The local folder is still `D:\Projects\statcool` (renaming it would only change the local path).

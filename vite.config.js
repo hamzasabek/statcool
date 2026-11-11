@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // Relative base ('./') allows deploying to any host:
-// GitHub Pages (/statcool/) or local preview.
+// GitHub Pages (/statscool/) or local preview.
 export default defineConfig({
   plugins: [react()],
   base: './',
