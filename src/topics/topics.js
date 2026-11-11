@@ -38,7 +38,8 @@ export const PARTS = [
 // drawing, TopicGlyph), its title and one sentence per language, and its games. A game: `slug`
 // (its page: /topics/<topic>/<game>, component in games.jsx), `available`, and per language its
 // name, the experiment behind it (`ref`) and the one idea it teaches. An optional `playground`
-// (its idea per language) adds a free-play page at /topics/<topic>/playground.
+// (its idea per language) adds a free-play page at /topics/<topic>/playground, an optional `quiz`
+// a quiz at /topics/<topic>/quiz.
 export const topics = [
   {
     slug: 'mean-median',
@@ -78,6 +79,11 @@ export const topics = [
     playground: {
       en: { idea: 'Add, drag and remove dots, try real-life examples and six challenges: see how the mean, the median and the mode react.' },
       fr: frenchTypo({ idea: 'Ajoutez, déplacez et retirez des points, essayez des exemples réels et six défis : regardez la moyenne, la médiane et le mode réagir.' }),
+    },
+    // A quiz at the end (component in games.jsx as "<topic>/quiz").
+    quiz: {
+      en: { idea: '9 questions on the games and the playground, each with its explanation. No timer.' },
+      fr: frenchTypo({ idea: '9 questions sur les jeux et le bac à sable, chacune avec son explication. Pas de chrono.' }),
     },
   },
   {

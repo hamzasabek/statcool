@@ -27,6 +27,7 @@
   thresholds tuned for old column counts) now only concern archived code (`archive/`).
 
 ## Topic ideas
+- Each topic could get a quiz like topic 01's (Step 55): components/Quiz.jsx is generic.
 - Each topic could get a playground like topic 01's (Step 52), e.g. topic 02: drag dots and watch
   the squares and the SD; topic 03: shape a bell with mean / SD sliders.
 - Goal (owner, Step 49): at least 3 games per topic. Done: topic 01 (Müller-Lyer, digit span,

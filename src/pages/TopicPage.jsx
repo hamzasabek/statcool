@@ -74,6 +74,15 @@ export function TopicPage() {
         </Link>
       )}
 
+      {topic.quiz && (
+        <Link to={`/topics/${topic.slug}/quiz`} className="topic-play is-quiz">
+          <span className="topic-play-tag">{tx.quizTag}</span>
+          <span className="topic-game-name">{tx.quiz}</span>
+          <span className="topic-game-idea">{topic.quiz[lang].idea}</span>
+          <span className="tl-cta">{tx.play}</span>
+        </Link>
+      )}
+
       <nav className="topic-nav" aria-label={tx.topicNav}>
         {prev ? (
           <Link to={`/topics/${prev.slug}`} className="topic-nav-link is-prev">

@@ -805,3 +805,21 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Tested in headless Chrome with normal motion emulated: a new dot falls 229 → 609 and settles at
   577; a released dot falls 270 → 633 → 604 and is ringed; a keyboard move keeps the focus; the
   full playground test passes at 1366×768 EN light and 390×844 FR dark; no errors.
+
+## 2026-11-11 — Step 55: a quiz for topic 01
+- New generic quiz page `src/components/Quiz.jsx` (+ `quizText.js`, EN + FR): one multiple-choice
+  question at a time; after an answer the right option turns green (yours red if wrong) and a short
+  explanation appears; one dot per question keeps the score; at the end the score (with a message
+  by level), the dots, and a review of every question with your answer and the right one; "Try
+  again". Optional small dot figure per question (QuizFigure: values stacked on a line, falling in
+  with the clock game's spring). Keyboard: 1–4 or A–D answer, Enter goes on. Guided tour (4).
+- Topic 01's quiz: `/topics/mean-median/quiz` (MeanQuiz.jsx + quiz.js), 9 questions tied to the
+  games and the playground: outlier (mean moves 3.8 → 6.1, median 3.5 → 4), CEO salaries
+  (median), mode of digit spans, the impossible mean span, colours (only a mode), the polarised
+  survey (two modes), reaction times (mean right of the median), median of an even list (6), the
+  symmetric bell (all three equal). Every number checked by script.
+- Topic page: a "Test yourself · Quiz" card (sky tint) after the playground; timeline: a "Quiz" chip;
+  topics.js: optional `quiz` per topic; COMMON: quiz, quizTag.
+- Tested in headless Chrome (clicks and number keys; 7 right + 2 wrong on purpose): 1366×768 EN
+  light and 390×844 FR dark: verdicts, explanations, figures, score 7 / 9 with the right message,
+  review ✓✗✓✓✓✗✓✓✓, restart; no overflow, no errors.
