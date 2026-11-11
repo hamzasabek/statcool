@@ -56,8 +56,11 @@ function TopicItem({ topic: t, number, delay, lang, tx }) {
                 {g.text[lang].name}
               </span>
             ))}
-            {t.playground && <span className="tl-chip is-play">{tx.playground}</span>}
-            {t.quiz && <span className="tl-chip is-quiz">{tx.quiz}</span>}
+            {t.extras?.map((x) => (
+              <span key={x.slug} className={`tl-chip is-${x.kind}`}>
+                {x.text[lang].name}
+              </span>
+            ))}
           </span>
         </span>
         <TopicGlyph shape={t.shape} />

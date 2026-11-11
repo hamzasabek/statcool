@@ -4,6 +4,7 @@ import DigitSpan from './mean-median/DigitSpan.jsx'
 import BlueSeven from './mean-median/BlueSeven.jsx'
 import Playground from './mean-median/Playground.jsx'
 import MeanQuiz from './mean-median/MeanQuiz.jsx'
+import CalcLab from './mean-median/CalcLab.jsx'
 import ReactionTime from './right-skewed/ReactionTime.jsx'
 import Neuron from './exponential/Neuron.jsx'
 import Ebbinghaus from './binomial/Ebbinghaus.jsx'
@@ -15,6 +16,7 @@ export const GAMES = {
   'mean-median/digit-span': DigitSpan,
   'mean-median/blue-seven': BlueSeven,
   'mean-median/playground': Playground,
+  'mean-median/calculate': CalcLab,
   'mean-median/quiz': MeanQuiz,
   'variance-sd/memory': MemoryGame,
   'normal-distribution/inner-clock': ClockGame,

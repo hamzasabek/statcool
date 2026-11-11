@@ -7,7 +7,7 @@ import TopicGlyph from '../components/TopicGlyph.jsx'
 import NotFound from './NotFound.jsx'
 
 // A topic's page (/topics/<slug>): its title and idea, then one card per game (the experiment
-// behind it and the one idea it teaches), its playground if it has one, and links to the previous
+// behind it and the one idea it teaches), its extras (free play, quiz), and links to the previous
 // and next topics.
 export function TopicPage() {
   const { slug } = useParams()
@@ -65,23 +65,14 @@ export function TopicPage() {
         })}
       </ol>
 
-      {topic.playground && (
-        <Link to={`/topics/${topic.slug}/playground`} className="topic-play">
-          <span className="topic-play-tag">{tx.playgroundTag}</span>
-          <span className="topic-game-name">{tx.playground}</span>
-          <span className="topic-game-idea">{topic.playground[lang].idea}</span>
+      {topic.extras?.map((x) => (
+        <Link key={x.slug} to={`/topics/${topic.slug}/${x.slug}`} className={`topic-play is-${x.kind}`}>
+          <span className="topic-play-tag">{x.kind === 'quiz' ? tx.quizTag : tx.playgroundTag}</span>
+          <span className="topic-game-name">{x.text[lang].name}</span>
+          <span className="topic-game-idea">{x.text[lang].idea}</span>
           <span className="tl-cta">{tx.play}</span>
         </Link>
-      )}
-
-      {topic.quiz && (
-        <Link to={`/topics/${topic.slug}/quiz`} className="topic-play is-quiz">
-          <span className="topic-play-tag">{tx.quizTag}</span>
-          <span className="topic-game-name">{tx.quiz}</span>
-          <span className="topic-game-idea">{topic.quiz[lang].idea}</span>
-          <span className="tl-cta">{tx.play}</span>
-        </Link>
-      )}
+      ))}
 
       <nav className="topic-nav" aria-label={tx.topicNav}>
         {prev ? (

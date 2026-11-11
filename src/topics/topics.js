@@ -37,9 +37,8 @@ export const PARTS = [
 // A topic: `slug` (its page: /topics/<slug>), `part` (id of its PARTS heading), `shape` (the little
 // drawing, TopicGlyph), its title and one sentence per language, and its games. A game: `slug`
 // (its page: /topics/<topic>/<game>, component in games.jsx), `available`, and per language its
-// name, the experiment behind it (`ref`) and the one idea it teaches. An optional `playground`
-// (its idea per language) adds a free-play page at /topics/<topic>/playground, an optional `quiz`
-// a quiz at /topics/<topic>/quiz.
+// name, the experiment behind it (`ref`) and the one idea it teaches. Optional `extras` come after
+// the games: free play (`kind: 'play'`) or a quiz (`kind: 'quiz'`), each at /topics/<topic>/<slug>.
 export const topics = [
   {
     slug: 'mean-median',
@@ -75,16 +74,33 @@ export const topics = [
         },
       },
     ],
-    // Free play after the games (component in games.jsx as "<topic>/playground").
-    playground: {
-      en: { idea: 'Add, drag and remove dots, try real-life examples and six challenges: see how the mean, the median and the mode react.' },
-      fr: frenchTypo({ idea: 'Ajoutez, déplacez et retirez des points, essayez des exemples réels et six défis : regardez la moyenne, la médiane et le mode réagir.' }),
-    },
-    // A quiz at the end (component in games.jsx as "<topic>/quiz").
-    quiz: {
-      en: { idea: '9 questions on the games and the playground, each with its explanation. No timer.' },
-      fr: frenchTypo({ idea: '9 questions sur les jeux et le bac à sable, chacune avec son explication. Pas de chrono.' }),
-    },
+    // After the games: free play and a quiz (components in games.jsx as "<topic>/<slug>").
+    extras: [
+      {
+        slug: 'playground',
+        kind: 'play',
+        text: {
+          en: { name: 'Playground', idea: 'Add, drag and remove dots, try real-life examples and six challenges: see how the mean, the median and the mode react.' },
+          fr: frenchTypo({ name: 'Bac à sable', idea: 'Ajoutez, déplacez et retirez des points, essayez des exemples réels et six défis : regardez la moyenne, la médiane et le mode réagir.' }),
+        },
+      },
+      {
+        slug: 'calculate',
+        kind: 'play',
+        text: {
+          en: { name: 'Live calculation', idea: 'Move the dots and watch the calculation redo itself: the sum and the division for the mean, the sorting for the median, the tally for the mode.' },
+          fr: frenchTypo({ name: 'Le calcul en direct', idea: 'Déplacez les points et regardez le calcul se refaire : la somme et la division pour la moyenne, le tri pour la médiane, le décompte pour le mode.' }),
+        },
+      },
+      {
+        slug: 'quiz',
+        kind: 'quiz',
+        text: {
+          en: { name: 'Quiz', idea: '9 questions on the games and the free play, each with its explanation. No timer.' },
+          fr: frenchTypo({ name: 'Quiz', idea: '9 questions sur les jeux et le jeu libre, chacune avec son explication. Pas de chrono.' }),
+        },
+      },
+    ],
   },
   {
     slug: 'variance-sd',

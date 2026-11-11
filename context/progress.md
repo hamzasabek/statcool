@@ -823,3 +823,23 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Tested in headless Chrome (clicks and number keys; 7 right + 2 wrong on purpose): 1366×768 EN
   light and 390×844 FR dark: verdicts, explanations, figures, score 7 / 9 with the right message,
   review ✓✗✓✓✓✗✓✓✓, restart; no overflow, no errors.
+
+## 2026-11-11 — Step 56: topic 01 "Live calculation" (see the formulas change with the dots)
+- Owner: a free game to calculate intuitively: change the points and watch the formulas and the
+  calculations follow.
+- `/topics/mean-median/calculate` (CalcLab.jsx, calcText.js, EN + FR). The playground's dots
+  (PlayChart: they fall and drag like the clock game's; 0–10, at most 15 dots; + Dot, Undo, Reset,
+  Clear). Under them, the explanation of the last change, then three cards with the student's
+  numbers: Mean "(2 + 4 + 4 + 5 + 9) ÷ 5 = 24 ÷ 5 = 4.8" (the changed number highlighted, "≈" when
+  rounded); Median: the numbers slide into order (motion layout), the middle one (or two) ringed,
+  "number 3 of 5" or "(4 + 4) ÷ 2 = 4"; Mode: a tally of each value with dots and ×count, the
+  winner highlighted, ties and "no mode" named. Hovering a number rings its dot on the line.
+  Explanations: "9 → 10: the sum changes by +1 (24 → 25), so the mean changes by +1 ÷ 5 = +0.2
+  (4.8 → 5). The middle value stays 4."; adding / removing say how the sum and n change, when the
+  count becomes even or odd, and when the mode changes or disappears.
+- topics.js: the topic's playground and quiz became one `extras` list ({ slug, kind: play | quiz,
+  name, idea }): Playground, Live calculation, Quiz. TopicPage and the timeline chips read it.
+- Tested in headless Chrome (real drags and taps, normal motion): 1366×768 EN light and 390×844
+  FR dark: drag 9 → 10, add 1 (even count), remove a 4 (mode gone), hover link, topic page shows
+  the three extras; every number checked; no overflow, no errors. Fixed: the explanation was below
+  the cards (now right under the dots); rounded means now say "≈".

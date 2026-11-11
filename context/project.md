@@ -110,6 +110,11 @@ src/
                              dot = remove; keyboard: Tab to a dot, ← → move, Delete removes
       play.js                SCENARIOS, snap, mean / median / modes, CHALLENGES (checks)
       playText.js            PLAY texts (en + fr)
+      CalcLab.jsx            "Live calculation" (/topics/mean-median/calculate): PlayChart dots (0–10,
+                             max 15) + the explanation of the last change + 3 cards: mean
+                             "(a + b + …) ÷ n = sum ÷ n = m", median (numbers slide into order, middle
+                             ringed, "(a + b) ÷ 2" if even), mode (a tally); hover a number → its dot
+      calcText.js            CALC texts (en + fr)
       MeanQuiz.jsx           the topic's quiz (/topics/mean-median/quiz) = components/Quiz.jsx with
       quiz.js                9 questions (en + fr): question, optional dot figure, options, answer, why
     variance-sd/           topic 02 "Variance and standard deviation": "How precise is your memory?"
@@ -185,7 +190,7 @@ docs/CODE_GUIDE.md         private, gitignored (local only): beginner-friendly e
 Course plan (order of `topics.js`; URLs use names, not numbers, so reordering breaks no link).
 Goal (owner, Step 49): at least 3 games per topic.
 - Part 1 · Describe your data
-  - 01 `mean-median` "Mean, median and mode": `muller-lyer`, `digit-span`, `blue-seven`, + `playground`, `quiz`
+  - 01 `mean-median` "Mean, median and mode": `muller-lyer`, `digit-span`, `blue-seven`, + extras `playground`, `calculate`, `quiz`
   - 02 `variance-sd` "Variance and standard deviation": `memory` (how precise is your memory?)
 - Part 2 · Shapes of data
   - 03 `normal-distribution` "The normal distribution": `inner-clock`
@@ -204,9 +209,9 @@ changes: `grep -rn "topic 0|thème 0" src`.
    ref, idea in en and fr). A new drawing goes in `src/components/TopicGlyph.jsx`.
 2. Create the game's component in `src/topics/<topic>/`.
 3. Register it in `src/topics/games.jsx` as `"<topic>/<game>": Component`. No route to add.
-4. A playground: add `playground: { en: { idea }, fr }` to the topic and register
-   `"<topic>/playground"`; the topic page shows a "Free play" card, the timeline a chip.
-5. A quiz: add `quiz: { en: { idea }, fr }` to the topic, write its questions like
+4. Free play or a quiz: add an entry to the topic's `extras` ({ slug, kind: 'play' | 'quiz', name and
+   idea per language }) and register `"<topic>/<slug>"`; the topic page shows a card after the games
+   ("Free play" / "Test yourself"), the timeline a chip. For a quiz, write its questions like
    `topics/mean-median/quiz.js`, and register `"<topic>/quiz"` as a small component that renders
    `<Quiz questions title topic guideId />` (components/Quiz.jsx; texts in components/quizText.js).
 
