@@ -777,3 +777,18 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   tours (6 bubbles); no overflow, no errors. Fixed: a challenge message hid the change's
   description (now its own line), the side panel scrolled and cut the centres (now one row of three,
   the page grows instead), the survey said "balanced" without warning that nobody answered 4.
+
+## 2026-11-11 — Step 53: the playground's dots move like in the other games
+- Owner: dragging and adding dots should feel like the other games (physics and motion).
+- PlayChart now uses the same motion as Müller-Lyer's draggable dots: a new dot drops in from the
+  top and springs onto its stack (DROP spring: stiffness 420, damping 26); a dragged dot lifts
+  (×1.25, glow, floats just above the pointer so a finger does not hide it) and follows the pointer
+  freely, with a small tick on the axis where it will land; on release it snaps to the nearest
+  value and springs into place, and the dots it left settle down; a removed dot pops away (fade +
+  shrink, AnimatePresence). The mean and median lines glide (useTweened, 260 ms; immediate while
+  dragging so they follow the hand); the mode's column fades in and out. Reduced motion respected
+  (MotionConfig "user").
+- Tested in headless Chrome with real mouse drags and normal motion emulated: mid-drag the dot is
+  lifted with the landing tick; a new dot's height sampled every 30 ms falls 271 → 593 and settles
+  at 575 (the spring's small bounce); a removed dot fades 0.94 → 0.25 in ~150 ms, then is gone. The
+  full playground test (drag, add, remove, undo, keyboard, scenarios, CEO) still passes; no errors.

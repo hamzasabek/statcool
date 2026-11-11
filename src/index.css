@@ -1409,7 +1409,12 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
 .pg-chart.is-dragging { cursor: grabbing; }
 .pg-hit { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
 .pg-dot { cursor: grab; }
-.pg-dot:focus-visible { outline: none; stroke: var(--accent); stroke-width: 3; }
+.pg-dot circle { fill: var(--added); stroke: var(--dot-stroke); stroke-width: 1.2; }
+.pg-dot.is-dragged { cursor: grabbing; }
+.pg-dot.is-dragged circle { stroke: var(--text); stroke-width: 2.5; filter: drop-shadow(0 6px 12px rgb(230 180 0 / 0.6)); }
+.pg-dot:focus { outline: none; }
+.pg-dot:focus-visible circle { stroke: var(--accent); stroke-width: 3; }
+.pg-landing { stroke: var(--text); stroke-width: 3; stroke-linecap: round; opacity: 0.6; }
 .pg-scenarios { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .pg-scenarios-label { margin-right: 4px; font-size: 0.82rem; font-weight: 600; color: var(--muted); }
 .pg-chip {
