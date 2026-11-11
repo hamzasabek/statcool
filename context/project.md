@@ -50,7 +50,7 @@ src/
     Topics.jsx             /topics : the topics as a vertical timeline (numbered nodes on a line;
                            game name, title, one sentence, Play →; drawings hidden on phones)
     About.jsx              /about : why, the experiments behind the games, inspiration
-                           (rpsychologist), privacy, open source (GitHub + docs/CODE_GUIDE.md),
+                           (rpsychologist), privacy, open source (GitHub link),
                            built with, contact (GitHub issues)
     text.js                HOME and ABOUT texts (en + fr)
     NotFound.jsx
@@ -122,7 +122,7 @@ design/logo/               the owner's original logos (1280×720, white / black 
                            The web versions were made from them: background made transparent
                            (edges un-mixed from white / black so no halo), cropped, resized.
 context/                   this folder — project memory, updated every step
-docs/CODE_GUIDE.md         beginner-friendly explanation of all the code, libraries and tools
+docs/CODE_GUIDE.md         private, gitignored (local only): beginner-friendly explanation of the code
 ```
 
 ## Routes

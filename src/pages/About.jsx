@@ -48,8 +48,6 @@ export default function About() {
       <p>
         {tx.openBefore}
         <Out href={REPO}>{tx.github}</Out>
-        {tx.openMiddle}
-        <Out href={`${REPO}/blob/main/docs/CODE_GUIDE.md`}>{tx.guide}</Out>
         {tx.openAfter}
       </p>
 

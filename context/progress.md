@@ -634,3 +634,9 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   site stays on the same origin (hamzasabek.github.io), so visitors keep their language, theme and
   seen guides.
 - The local folder is still `D:\Projects\statcool` (renaming it would only change the local path).
+
+## 2026-11-11 — Step 45: the code guide is private
+- Owner: docs/CODE_GUIDE.md is only for them. It is no longer tracked (`git rm --cached`) and is
+  listed in .gitignore, so it stays on the local disk and is never pushed. The About page no longer
+  links to it ("…It is on GitHub. Made by Hamza Sabek.", EN + FR).
+- Still in older commits of the public repo's history unless the history is rewritten (see next.md).

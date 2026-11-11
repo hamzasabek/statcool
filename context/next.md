@@ -17,6 +17,8 @@
   questions for the owner: cross-device? teachers / classes? users under 15 (consent in France)?
 
 ## Known issues
+- docs/CODE_GUIDE.md (private, now gitignored) is still visible in older commits of the public
+  repo. Removing it fully needs a history rewrite + force push (owner to decide).
 - The browser-tab icon (favicon) is missing (index.html has none): could use the "cool" tiles of the logo.
 - French texts were written by Claude: have a French speaker read them once (tone: "vous").
 - Mean & median: on very small phones (360×640) the page scrolls ~60 px. That is allowed for
