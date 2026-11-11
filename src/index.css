@@ -1618,3 +1618,5 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
 .cl-card { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 10px; row-gap: 8px; }
 .cl-card > :not(h2):not(.cl-tex) { grid-column: 1 / -1; }
 .cl-tex.is-block { justify-self: stretch; }
+.pg-groups { display: inline-flex; align-items: center; }
+.pg-groups-label { padding: 0 8px 0 6px; font-size: 0.8rem; font-weight: 600; color: var(--muted); }

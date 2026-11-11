@@ -885,3 +885,30 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Tested in headless Chrome, 5 attempts each at 1366×768 EN and 390×844 FR: 9 different questions
   per attempt, 5 different sets, the green option always matches the verdict, scores and review
   correct, right answers spread over A–D (15 8 8 14 / 11 15 10 9); no errors.
+
+## 2026-11-11 — Step 59: professor's review, step 1: errors fixed (sources checked)
+- Owner asked for a tough statistics professor's review of topic 01 and then for all its steps.
+  Sources checked first: Kubovy & Psotka 1976 (read from the scanned paper: 28.4 % of 1,770 people
+  chose 7, digits 0–9, 13 pooled groups); Simon 1971 (~490 US students asked for a number and a
+  colour: more than two in five said blue; disputed outside the US: Knowles 1977, Trueman 1979);
+  Woods et al. 2011 (adult forward digit span ≈ 6.5); Cowan 2001 (core capacity ≈ 4 chunks);
+  von Hippel 2005 (mean > median ⇒ right skew often fails, especially for discrete data).
+- Blue-seven: now asks for a digit from 0 to 9 like the study; simulated crowd reshaped on Kubovy &
+  Psotka's Figure 1 (7 = 28.5 %) and Simon (blue = 41 %); the on-screen note cites both and says the
+  samples are mostly US students; topic card ref "Simon, 1971; Kubovy & Psotka, 1976"; About page.
+- Digit span: simulated class centred on 6.5 (Woods et al., 2011): mean 6.36, median 6, mode 7;
+  class text and About page add Cowan's ≈ 4 chunks.
+- Playground: reaction times are now exact milliseconds with "Group by 10 / 25 / 50 / 100 ms":
+  the mode is found on the groups (340 → three modes → 300), the mean (365.5) and the median (327)
+  use the exact values and never move; the sentence says the mode of measured data depends on the
+  grouping. PlayChart takes `centres` (exact) separately from the dots drawn (grouped). Lists of
+  several modes read "275, 300 and 350 ms". "Usually" added to the mean-vs-median sentences; "no
+  mode" labelled as a convention (playground, live calculation).
+- Quiz bank: Q30 "symmetric ⇒ three centres agree" corrected to symmetric with one peak (the pizza
+  survey is the counter-example); Q9 "when they come apart, the shape is skewed or has more than one
+  peak"; Q22 adds a discrete counter-example (0–3 errors: mean 0.88 < median 1, von Hippel 2005);
+  Q23 "usually"; Q20 ordinal: "always safe" = median and mode, averaging a scale is common but
+  debated; Q17 convention; Q26 digits 0–9 and the real 28 %; Q27 adds Woods 6.5 and Cowan 4; Q5 blue
+  "more than two in five (Simon, 1971)". Bank re-checked: 30/30, EN = FR.
+- Tested in headless Chrome: grouping (stats and sentences at 10/25/50/100 ms, EN and FR), blue-seven
+  0–9 crowd (29 % with you) and colours (41 %); no errors.

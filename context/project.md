@@ -110,7 +110,9 @@ src/
                              change did to the mean and the median + what the data looks like
       PlayChart.jsx          dots snapped to the scenario's step: tap empty = add, drag = move, tap a
                              dot = remove; keyboard: Tab to a dot, ← → move, Delete removes
-      play.js                SCENARIOS, snap, mean / median / modes, CHALLENGES (checks)
+      play.js                SCENARIOS (reaction times = exact ms with `groups` 10/25/50/100: the mode is
+                             found on the groups, mean and median on the exact values), snap, mean /
+                             median / modes, stats(values, sc), listOf, CHALLENGES (checks)
       playText.js            PLAY texts (en + fr)
       CalcLab.jsx            "Live calculation" (/topics/mean-median/calculate), one screen: PlayChart
                              dots (0–10, max 12), 3 cards, each: title + the real formula (KaTeX) on

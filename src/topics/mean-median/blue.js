@@ -1,25 +1,27 @@
-// "Pick a random number": the blue-seven effect (Simon & Primavera 1972; Kubovy & Psotka 1976).
-// Asked for a number from 1 to 10 "at random", about a quarter of people say 7; asked for a
-// colour, about a third say blue. The crowd below is simulated with that shape (said on screen).
+// "Pick a random number": the blue-seven effect. Asked for the first digit from 0 to 9 that comes
+// to mind, 28.4 % of 1,770 people said 7 (Kubovy & Psotka, 1976, pooling 13 groups); asked for a
+// number and a colour, more than two in five of ~490 US college students named blue (Simon, 1971).
+// Mostly US samples: the effect is weaker or disputed elsewhere (Knowles 1977; Trueman 1979).
+// The crowd below is simulated with those shapes (said on screen).
 // Numbers have a mode, a median and a mean; colours (categories) only have a mode.
 
-export const NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-// 200 simulated people (7 = 28 %, in line with published surveys).
-export const CROWD_NUMBERS = { 1: 7, 2: 12, 3: 20, 4: 16, 5: 18, 6: 16, 7: 56, 8: 20, 9: 18, 10: 17 }
-export const COLOURS = [
+export const NUMBERS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+// 200 simulated people, shaped like Kubovy & Psotka's Figure 1 (7 = 28.5 %, then 3, 5, 6 and 8).
+export const CROWD_NUMBERS = { 0: 4, 1: 8, 2: 14, 3: 24, 4: 18, 5: 22, 6: 20, 7: 57, 8: 20, 9: 13 }
+export const COLOURS = [ // most named first
   { key: 'blue', hex: '#2f6fe0' },
   { key: 'red', hex: '#e03131' },
   { key: 'green', hex: '#2f9e44' },
+  { key: 'yellow', hex: '#fcc419' },
   { key: 'purple', hex: '#8a4fd1' },
   { key: 'black', hex: '#1d1d22' },
   { key: 'orange', hex: '#f08c00' },
-  { key: 'yellow', hex: '#fcc419' },
   { key: 'pink', hex: '#f06595' },
   { key: 'white', hex: '#f4f4f6' },
   { key: 'brown', hex: '#8a5a2b' },
 ]
-// 200 simulated people (blue ≈ a third).
-export const CROWD_COLOURS = { blue: 70, red: 34, green: 26, purple: 20, black: 14, orange: 10, yellow: 10, pink: 10, white: 4, brown: 2 }
+// 200 simulated people (blue = 41 %, as in Simon, 1971: "more than two in five").
+export const CROWD_COLOURS = { blue: 82, red: 40, green: 26, purple: 12, black: 8, orange: 6, yellow: 14, pink: 6, white: 4, brown: 2 }
 
 // The crowd plus the student's own answer.
 export const withYou = (crowd, you) => ({ ...crowd, [you]: (crowd[you] ?? 0) + 1 })

@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { AnimatePresence, MotionConfig, motion } from 'motion/react'
 import { useText } from '../../i18n.jsx'
 import { useTweened } from '../../hooks/useTweened.js'
-import { mean, median, modes, snap } from './play.js'
+import { listOf, mean, median, modes, snap } from './play.js'
 import { PLAY } from './playText.js'
 
 // The playground's dot plot. Its dots fall exactly like a press in the inner-clock game (topic 03):
@@ -17,6 +17,8 @@ import { PLAY } from './playText.js'
 // Values snap to the scenario's step, so equal values stack in a column. Keyboard: ← → move (the dot
 // falls into its new column too), Delete removes.
 //   dots: [{ id, v }]   sc: the scenario   lastId: the dot to ring   onAdd(v)   onMove(id, v, done)
+//   centres: { mean, median, modes } when they come from other values than the dots drawn (grouped
+//            measurements: the dots show the groups, the centres use the exact values)
 //   onRemove(id)
 
 const M = { top: 10, right: 16, bottom: 44, left: 16 }
@@ -24,7 +26,7 @@ const ROW = 15
 const DROP = { type: 'spring', stiffness: 420, damping: 24, mass: 0.9 } // the inner-clock game's drop
 const POP = { duration: 0.18, ease: 'easeIn' }
 
-export default function PlayChart({ dots, sc, fmt, lastId, onAdd, onMove, onRemove }) {
+export default function PlayChart({ dots, sc, fmt, lastId, centres, onAdd, onMove, onRemove }) {
   const tx = useText(PLAY)
   const wrapRef = useRef(null)
   const svgRef = useRef(null)
@@ -62,9 +64,11 @@ export default function PlayChart({ dots, sc, fmt, lastId, onAdd, onMove, onRemo
   const cy = (level) => base - (level + 0.5) * size
 
   const n = values.length
-  const mo = modes(values)
+  const mo = centres?.modes ?? modes(values)
+  const exactMean = centres?.mean ?? mean(values)
+  const exactMedian = centres?.median ?? median(values)
   // The mean and the median glide to their new places (and follow at once while dragging).
-  const [m, md] = useTweened([mean(values), median(values)], { duration: 260, immediate: dragging || n < 1 })
+  const [m, md] = useTweened([exactMean, exactMedian], { duration: 260, immediate: dragging || n < 1 })
 
   const local = (e) => {
     const box = svgRef.current.getBoundingClientRect()
@@ -179,13 +183,13 @@ export default function PlayChart({ dots, sc, fmt, lastId, onAdd, onMove, onRemo
               <line className="ds-mark-line is-mean" x1={xOf(m)} x2={xOf(m)} y1={top - 2} y2={base} />
               <path className="ds-fulcrum" d={`M${xOf(m)},${base + 1}l-7,10h14z`} />
               <text className="ds-mark-label is-mode" x={labelX(mo.length ? xOf((mo[0] + mo[mo.length - 1]) / 2) : xOf(md))} y={M.top + 11} textAnchor="middle">
-                {mo.length ? tx.markMode(mo.map((v) => fmt(v)).join(tx.and)) : tx.noModeMark}
+                {mo.length ? tx.markMode(listOf(mo, fmt, tx.and)) : tx.noModeMark}
               </text>
               <text className="ds-mark-label is-median" x={labelX(xOf(md))} y={M.top + 11 + ROW} textAnchor="middle">
-                {tx.markMedian(fmt(median(values)))}
+                {tx.markMedian(fmt(exactMedian))}
               </text>
               <text className="ds-mark-label is-mean" x={labelX(xOf(m))} y={M.top + 11 + 2 * ROW} textAnchor="middle">
-                {tx.markMean(fmt(mean(values)))}
+                {tx.markMean(fmt(exactMean))}
               </text>
             </g>
           )}

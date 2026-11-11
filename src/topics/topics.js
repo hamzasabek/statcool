@@ -69,8 +69,8 @@ export const topics = [
         slug: 'blue-seven',
         available: true,
         text: {
-          en: { name: 'Pick a random number', ref: 'Simon & Primavera, 1972', idea: 'Everyone picks 7: the mode is the most popular answer, and the only centre for categories.' },
-          fr: frenchTypo({ name: 'Choisissez un nombre au hasard', ref: 'Simon et Primavera, 1972', idea: 'Tout le monde choisit 7 : le mode est la réponse la plus fréquente, et le seul centre pour des catégories.' }),
+          en: { name: 'Pick a random number', ref: 'Simon, 1971; Kubovy & Psotka, 1976', idea: 'Everyone picks 7: the mode is the most popular answer, and the only centre for categories.' },
+          fr: frenchTypo({ name: 'Choisissez un nombre au hasard', ref: 'Simon, 1971 ; Kubovy et Psotka, 1976', idea: 'Tout le monde choisit 7 : le mode est la réponse la plus fréquente, et le seul centre pour des catégories.' }),
         },
       },
     ],

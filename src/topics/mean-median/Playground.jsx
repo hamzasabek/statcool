@@ -5,7 +5,7 @@ import { useGuide } from '../../components/Tour.jsx'
 import { num, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
 import PlayChart from './PlayChart.jsx'
-import { CHALLENGES, SCENARIOS, snap, stats } from './play.js'
+import { CHALLENGES, SCENARIOS, listOf, snap, stats } from './play.js'
 import { PLAY } from './playText.js'
 
 // Topic 01's playground: free play with mean, median and mode.
@@ -13,6 +13,8 @@ import { PLAY } from './playText.js'
 //   - scenarios: real-life starting points (salaries + the CEO, reaction times, a 1–7 survey, spans)
 //   - challenges: six goals; one ticks when the student's own change makes it true
 //   - feedback: what the last change did to the mean and the median, and what the data looks like
+//   - reaction times are exact measurements: the student picks how to group them; the mode changes
+//     with the grouping, the mean and the median do not
 
 const TOUR_TARGETS = [null, 'chart', 'scenarios', 'stats', 'challenges', 'feedback']
 const TOUR_PLACE = { scenarios: 'bottom' }
@@ -23,7 +25,10 @@ export default function Playground() {
   const nextId = useRef(0)
   const toDots = (vals) => vals.map((v) => ({ id: nextId.current++, v }))
   const [scKey, setScKey] = useState('free')
-  const sc = SCENARIOS.find((s) => s.key === scKey)
+  const sc0 = SCENARIOS.find((s) => s.key === scKey)
+  const [group, setGroup] = useState(null) // grouping chosen for measured data (null = the scenario's)
+  // The scenario as drawn: grouped measurements use the chosen group size as their step.
+  const sc = sc0.groups ? { ...sc0, step: group ?? sc0.step } : sc0
   const [dots, setDots] = useState(() => toDots(SCENARIOS[0].values))
   const [history, setHistory] = useState([])
   const [event, setEvent] = useState({ type: 'load' }) // what the last change was, for the feedback
@@ -40,8 +45,8 @@ export default function Playground() {
 
   // Apply a change: keep the history, describe it, and tick the challenges it made true.
   function commit(before, after, ev) {
-    const sb = stats(before.map((d) => d.v))
-    const sa = stats(after.map((d) => d.v))
+    const sb = stats(before.map((d) => d.v), sc)
+    const sa = stats(after.map((d) => d.v), sc)
     const last = { ...ev, before: sb, after: sa }
     setHistory((h) => [...h.slice(-49), before])
     setDots(after)
@@ -71,6 +76,7 @@ export default function Playground() {
   function load(key) {
     const s = SCENARIOS.find((x) => x.key === key)
     setScKey(key)
+    setGroup(null)
     setDots(toDots(s.values))
     setHistory([])
     setEvent({ type: 'load' })
@@ -116,10 +122,12 @@ export default function Playground() {
 
   // ---- feedback ----
   const values = dots.map((d) => d.v)
-  const st = stats(values)
+  const st = stats(values, sc)
   let what = null
   if (event.type === 'load') what = tx.loaded(tx.intro[scKey])
   else if (event.type === 'clear') what = tx.cleared
+  else if (event.type === 'group')
+    what = tx.regrouped(fmt(sc.step), st.modes.length ? listOf(st.modes, fmt, tx.and) : tx.none, fmt(st.mean), fmt(st.median), st.modes.length)
   else if (event.type !== 'undo') {
     const label =
       event.type === 'add' ? (event.ceo ? tx.ceo : tx.added(fmt(event.v))) : event.type === 'remove' ? tx.removed(fmt(event.v)) : tx.moved(fmt(event.from), fmt(event.to))
@@ -135,7 +143,7 @@ export default function Playground() {
     state = Math.abs(gap) < sc.step / 2 ? tx.sBalanced : gap > 0 ? tx.sRight : tx.sLeft
     if (!st.modes.length) state += tx.sNoMode
     else if (st.modes.length > 1) {
-      state += tx.sModes(st.modes.length, st.modes.map((v) => fmt(v)).join(tx.and))
+      state += tx.sModes(st.modes.length, listOf(st.modes, fmt, tx.and))
       // Two peaks with an empty middle: the mean is a value almost nobody has.
       const atMean = values.filter((v) => Math.abs(v - st.mean) <= sc.step / 2).length
       if (atMean <= st.n * 0.1) state += tx.sHollow(atMean)
@@ -164,6 +172,26 @@ export default function Playground() {
               </button>
             ))}
           </div>
+          {sc.groups && (
+            <div className="segmented pg-groups" role="group" aria-label={tx.groupLabel} data-tour="groups">
+              <span className="pg-groups-label">{tx.groupLabel}</span>
+              {sc.groups.map((w) => (
+                <button
+                  key={w}
+                  type="button"
+                  className={sc.step === w ? 'is-active' : ''}
+                  aria-pressed={sc.step === w}
+                  onClick={() => {
+                    setGroup(w)
+                    setEvent({ type: 'group' })
+                    setFlash(null)
+                  }}
+                >
+                  {fmt(w)}
+                </button>
+              ))}
+            </div>
+          )}
           <div className="tools">
             {sc.extra !== undefined && (
               <button type="button" className="btn btn-primary btn-sm" disabled={ceoIn} onClick={() => commit(dots, [...dots, { id: nextId.current++, v: sc.extra }], { type: 'add', v: sc.extra, ceo: true })}>
@@ -207,8 +235,9 @@ export default function Playground() {
       <div className="pg-main">
         {guide.view}
         <PlayChart
-          dots={dots}
+          dots={sc.groups ? dots.map((d) => ({ ...d, v: snap(d.v, sc) })) : dots}
           sc={sc}
+          centres={sc.groups ? st : undefined}
           fmt={fmt}
           lastId={lastId}
           onAdd={add}
@@ -221,7 +250,7 @@ export default function Playground() {
             <dl className="pg-stats">
               <div className="is-mode">
                 <dt>{tx.mode}</dt>
-                <dd>{st.modes.length ? st.modes.map((v) => fmt(v)).join(tx.and) : tx.none}</dd>
+                <dd>{st.modes.length ? listOf(st.modes, fmt, tx.and) : tx.none}</dd>
               </div>
               <div className="is-median">
                 <dt>{tx.median}</dt>

@@ -106,7 +106,7 @@ export default function BlueSeven() {
     const counts = withYou(CROWD_NUMBERS, number)
     const n = total(counts)
     const st = numberStats(counts)
-    const at = (v) => v - 1 // position of a number among the bars
+    const at = (v) => v - NUMBERS[0] // position of a digit among the bars (also between two bars)
     return (
       <Stage
         title={tx.title}

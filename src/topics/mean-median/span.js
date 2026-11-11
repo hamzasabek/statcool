@@ -44,7 +44,8 @@ export const counts = (v) => {
   return c
 }
 
-// A simulated class: one typical span per person, from adult norms (mean ≈ 6.8, SD ≈ 1.2), rounded.
+// A simulated class: one typical span per person, around the adult average forward span of about
+// 6.5 digits (Woods et al., 2011) with a spread of about 1.2, rounded.
 // Seeded, so everyone sees the same class.
 export function simulatedClass(n = CLASS_SIZE) {
   let a = 1956 // Miller's year as the seed
@@ -57,7 +58,7 @@ export function simulatedClass(n = CLASS_SIZE) {
   const out = []
   for (let i = 0; i < n; i++) {
     const z = Math.sqrt(-2 * Math.log(1 - rand())) * Math.cos(2 * Math.PI * rand())
-    out.push(Math.min(9, Math.max(4, Math.round(6.8 + 1.2 * z))))
+    out.push(Math.min(9, Math.max(4, Math.round(6.5 + 1.2 * z))))
   }
   return out
 }

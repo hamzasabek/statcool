@@ -44,10 +44,10 @@ export const SPAN = {
     keyClass: '100 people',
     keyYou: 'Your most common span',
     classStrong: (mo, md, mn) => `100 people: mode ${mo}, median ${md}, mean ${mn}.`,
-    classSay: 'Most adults hold about 7 digits: Miller’s “magical number seven, plus or minus two”.',
+    classSay: 'Adults repeat about 6 or 7 digits: Miller’s “magical number seven, plus or minus two”. Today the core capacity is put nearer 4 chunks (Cowan, 2001): grouping digits stretches the span.',
     classFact: (you) =>
       `Your most common span (${you}) is marked by the yellow dot. With 100 people the three centres land close together; with a handful of runs they can differ more.`,
-    classNote: 'These 100 people are simulated from typical adult results, not real players.',
+    classNote: 'These 100 people are simulated around the adult average of about 6.5 digits (Woods et al., 2011), not real players.',
     // chart
     markMode: (v) => `mode ${v}`,
     markMedian: (v) => `median ${v}`,
@@ -73,7 +73,7 @@ export const SPAN = {
       ],
       class: [
         { title: 'A class of 100', text: 'Each bar counts the people with that span. The highlighted column is the class’s mode; the yellow dot is your own most common span.' },
-        { title: 'The magical number 7', text: 'With 100 people the mode, the median and the mean land close together, near 7.' },
+        { title: 'The magical number 7', text: 'With 100 people the mode, the median and the mean land close together, around 6 or 7.' },
       ],
     },
   },
@@ -114,10 +114,10 @@ export const SPAN = {
     keyClass: '100 personnes',
     keyYou: 'Votre empan le plus fréquent',
     classStrong: (mo, md, mn) => `100 personnes : mode ${mo}, médiane ${md}, moyenne ${mn}.`,
-    classSay: 'La plupart des adultes retiennent environ 7 chiffres : le « nombre magique sept, plus ou moins deux » de Miller.',
+    classSay: 'Les adultes répètent environ 6 ou 7 chiffres : le « nombre magique sept, plus ou moins deux » de Miller. Aujourd’hui, on situe la capacité de base plutôt vers 4 unités (Cowan, 2001) : regrouper les chiffres allonge l’empan.',
     classFact: (you) =>
       `Votre empan le plus fréquent (${you}) est marqué par le point jaune. Avec 100 personnes, les trois centres sont proches ; avec quelques séries seulement, ils peuvent s’écarter davantage.`,
-    classNote: 'Ces 100 personnes sont simulées à partir de résultats typiques d’adultes, ce ne sont pas de vrais joueurs.',
+    classNote: 'Ces 100 personnes sont simulées autour de la moyenne adulte d’environ 6,5 chiffres (Woods et al., 2011), ce ne sont pas de vrais joueurs.',
     markMode: (v) => `mode ${v}`,
     markMedian: (v) => `médiane ${v}`,
     markMean: (v) => `moyenne ${v}`,
@@ -141,7 +141,7 @@ export const SPAN = {
       ],
       class: [
         { title: 'Une classe de 100', text: 'Chaque barre compte les personnes qui ont cet empan. La colonne en surbrillance est le mode de la classe ; le point jaune est votre propre empan le plus fréquent.' },
-        { title: 'Le nombre magique 7', text: 'Avec 100 personnes, le mode, la médiane et la moyenne sont proches les uns des autres, près de 7.' },
+        { title: 'Le nombre magique 7', text: 'Avec 100 personnes, le mode, la médiane et la moyenne sont proches les uns des autres, vers 6 ou 7.' },
       ],
     },
   }),

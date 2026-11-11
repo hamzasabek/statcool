@@ -58,7 +58,7 @@ const MORE_EN = [
     q: 'What is the mode of 1, 4, 6, 9, 12?',
     options: ['6', '1', 'There is no mode', '6.4'],
     answer: 2,
-    why: 'Every value appears once: none is more common than the others, so there is no mode. (6 is the median, 6.4 the mean.)',
+    why: 'Every value appears once: none is more common than the others, so by the usual convention there is no mode. (6 is the median, 6.4 the mean.)',
   },
   {
     q: 'Can the mean be a value that nobody in the data has?',
@@ -73,10 +73,10 @@ const MORE_EN = [
     why: 'With an even n there is no single middle: the median is halfway between the two middle values, here the 4th and the 5th (n/2 and n/2 + 1).',
   },
   {
-    q: 'The answers are “never”, “sometimes”, “often”, “always”. Which centres make sense?',
+    q: 'One question is answered “never”, “sometimes”, “often” or “always”. Which centres are always safe to give?',
     options: ['Only the mean', 'The median and the mode', 'Only the mode', 'All three'],
     answer: 1,
-    why: 'These answers have an order but no numbers to add: you can find the middle answer (median) and the most common one (mode), but not a mean. Such ordinal answers are everywhere in questionnaires.',
+    why: 'These answers have an order but no real distances between them: the middle answer (median) and the most common one (mode) are always safe. Coding them 1–4 and averaging is common in psychology, especially for scales made of many questions, but it is a debated choice for a single question.',
   },
   {
     q: 'Why do researchers often report the median reaction time rather than the mean?',
@@ -88,13 +88,13 @@ const MORE_EN = [
     q: 'In a data set, the mean is much bigger than the median. What is the most likely shape?',
     options: ['Symmetric, like a bell', 'A long tail to the right', 'A long tail to the left', 'Two equal peaks'],
     answer: 1,
-    why: 'A tail of large values pulls the mean towards it, not the median: mean > median is the sign of a right-skewed distribution (salaries, reaction times).',
+    why: 'A tail of large values pulls the mean towards it, not the median: mean > median usually signals a right-skewed distribution (salaries, reaction times). Usually, not always: with whole-number data the rule can fail. Counts of 0, 1, 2, 3 errors in 39, 39, 17 and 5 people trail off to the right, yet the mean (0.88) is below the median (1) (von Hippel, 2005).',
   },
   {
     q: 'Most students score between 16 and 19 out of 20; a few score 3. Where is the mean?',
     options: ['Above the median', 'Equal to the median', 'Below the median', 'At 3'],
     answer: 2,
-    why: 'The few very low scores form a tail on the left and pull the mean down, below the median: a left-skewed distribution.',
+    why: 'The few very low scores form a tail on the left and usually pull the mean down, below the median: a left-skewed distribution.',
   },
   {
     q: 'Which centre is “robust”, meaning hardly affected by a few extreme values?',
@@ -114,10 +114,10 @@ const MORE_EN = [
     why: 'The mean is your average error: some tries were further off, some less. A positive mean shows the fins really fooled you: you had to stretch the plain line to make it look as long.',
   },
   {
-    q: 'If 200 people picked a number from 1 to 10 truly at random, about how many would pick 7?',
+    q: 'If 200 people picked a digit from 0 to 9 truly at random, about how many would pick 7?',
     options: ['About 7', 'About 20', 'About 56', 'About 100'],
     answer: 1,
-    why: '200 ÷ 10 = 20 for each number. Real people pick 7 far more often (about 56 out of 200): that is why the mode stands out.',
+    why: '200 ÷ 10 = 20 for each digit. Real people pick 7 far more often: 28% of 1,770 people in Kubovy & Psotka (1976), that is about 57 out of 200. That is why the mode stands out.',
   },
   {
     q: 'Miller’s “magical number seven, plus or minus two” means that…',
@@ -128,7 +128,7 @@ const MORE_EN = [
       'nobody can remember more than 9 digits',
     ],
     answer: 1,
-    why: 'It gives a typical value and a spread: spans cluster around 7, and most people fall between 5 and 9. Some people remember more.',
+    why: 'It gives a typical value and a spread: adult spans cluster around 6 or 7 (about 6.5 on average, Woods et al., 2011), most people between 5 and 9. Today the core capacity is put nearer 4 chunks (Cowan, 2001): grouping digits stretches the span.',
   },
   {
     q: 'There are 8 dots. You move one dot 4 steps to the right. How far does the mean move?',
@@ -147,7 +147,7 @@ const MORE_EN = [
     figure: { values: [1, 2, 2, 3, 3, 3, 4, 4, 5], domain: [0, 6], step: 1 },
     options: ['3, 3 and 3', '3, 3 and 2', '2.7, 3 and 3', '3, 4 and 3'],
     answer: 0,
-    why: 'The data is symmetric around 3: mean = 27 ÷ 9 = 3, median = the 5th value = 3, mode = 3 (three times). In a symmetric shape the three centres agree.',
+    why: 'The data is symmetric around 3: mean = 27 ÷ 9 = 3, median = the 5th value = 3, mode = 3 (three times). In a symmetric shape with one peak the three centres agree. With two peaks they do not: the pizza survey is symmetric, yet its modes are 1 and 7.',
   },
 ]
 
@@ -199,7 +199,7 @@ const MORE_FR = [
     q: 'Quel est le mode de 1, 4, 6, 9, 12 ?',
     options: ['6', '1', 'Il n’y a pas de mode', '6,4'],
     answer: 2,
-    why: 'Chaque valeur apparaît une fois : aucune n’est plus fréquente que les autres, donc il n’y a pas de mode. (6 est la médiane, 6,4 la moyenne.)',
+    why: 'Chaque valeur apparaît une fois : aucune n’est plus fréquente que les autres, donc par convention il n’y a pas de mode. (6 est la médiane, 6,4 la moyenne.)',
   },
   {
     q: 'La moyenne peut-elle être une valeur que personne n’a dans les données ?',
@@ -214,10 +214,10 @@ const MORE_FR = [
     why: 'Avec un n pair, il n’y a pas de milieu unique : la médiane est à mi-chemin entre les deux valeurs du milieu, ici la 4e et la 5e (n/2 et n/2 + 1).',
   },
   {
-    q: 'Les réponses sont « jamais », « parfois », « souvent », « toujours ». Quels centres ont un sens ?',
+    q: 'Une question reçoit les réponses « jamais », « parfois », « souvent » ou « toujours ». Quels centres peut-on toujours donner sans risque ?',
     options: ['Seulement la moyenne', 'La médiane et le mode', 'Seulement le mode', 'Les trois'],
     answer: 1,
-    why: 'Ces réponses ont un ordre mais pas de nombres à additionner : on peut trouver la réponse du milieu (médiane) et la plus fréquente (mode), mais pas une moyenne. Ces réponses ordinales sont partout dans les questionnaires.',
+    why: 'Ces réponses ont un ordre mais pas de vraies distances entre elles : la réponse du milieu (médiane) et la plus fréquente (mode) sont toujours sûres. Les coder de 1 à 4 et en faire la moyenne est courant en psychologie, surtout pour des échelles de plusieurs questions, mais c’est un choix discuté pour une seule question.',
   },
   {
     q: 'Pourquoi les chercheurs donnent-ils souvent le temps de réaction médian plutôt que la moyenne ?',
@@ -229,13 +229,13 @@ const MORE_FR = [
     q: 'Dans des données, la moyenne est bien plus grande que la médiane. Quelle forme est la plus probable ?',
     options: ['Symétrique, comme une cloche', 'Une longue traîne vers la droite', 'Une longue traîne vers la gauche', 'Deux pics égaux'],
     answer: 1,
-    why: 'Une traîne de grandes valeurs tire la moyenne vers elle, pas la médiane : moyenne > médiane est le signe d’une distribution asymétrique à droite (salaires, temps de réaction).',
+    why: 'Une traîne de grandes valeurs tire la moyenne vers elle, pas la médiane : moyenne > médiane signale en général une distribution asymétrique à droite (salaires, temps de réaction). En général, pas toujours : avec des nombres entiers, la règle peut échouer. 0, 1, 2 ou 3 erreurs chez 39, 39, 17 et 5 personnes : une traîne à droite, et pourtant la moyenne (0,88) est sous la médiane (1) (von Hippel, 2005).',
   },
   {
     q: 'La plupart des élèves ont entre 16 et 19 sur 20 ; quelques-uns ont 3. Où est la moyenne ?',
     options: ['Au-dessus de la médiane', 'Égale à la médiane', 'En dessous de la médiane', 'À 3'],
     answer: 2,
-    why: 'Les quelques notes très basses forment une traîne à gauche et tirent la moyenne vers le bas, sous la médiane : une distribution asymétrique à gauche.',
+    why: 'Les quelques notes très basses forment une traîne à gauche et tirent en général la moyenne vers le bas, sous la médiane : une distribution asymétrique à gauche.',
   },
   {
     q: 'Quel centre est « robuste », c’est-à-dire peu sensible à quelques valeurs extrêmes ?',
@@ -255,10 +255,10 @@ const MORE_FR = [
     why: 'La moyenne est votre erreur moyenne : certains essais étaient plus loin, d’autres moins. Une moyenne positive montre que les pointes vous ont vraiment trompé·e : vous avez dû allonger la ligne simple pour qu’elle paraisse aussi longue.',
   },
   {
-    q: 'Si 200 personnes choisissaient un nombre de 1 à 10 vraiment au hasard, environ combien choisiraient 7 ?',
+    q: 'Si 200 personnes choisissaient un chiffre de 0 à 9 vraiment au hasard, environ combien choisiraient 7 ?',
     options: ['Environ 7', 'Environ 20', 'Environ 56', 'Environ 100'],
     answer: 1,
-    why: '200 ÷ 10 = 20 pour chaque nombre. Les vraies personnes choisissent 7 bien plus souvent (environ 56 sur 200) : c’est pourquoi le mode ressort.',
+    why: '200 ÷ 10 = 20 pour chaque chiffre. Les vraies personnes choisissent 7 bien plus souvent : 28 % de 1 770 personnes chez Kubovy et Psotka (1976), soit environ 57 sur 200. C’est pourquoi le mode ressort.',
   },
   {
     q: 'Le « nombre magique sept, plus ou moins deux » de Miller veut dire que…',
@@ -269,7 +269,7 @@ const MORE_FR = [
       'personne ne peut retenir plus de 9 chiffres',
     ],
     answer: 1,
-    why: 'Il donne une valeur typique et une dispersion : les empans se regroupent autour de 7, et la plupart des gens sont entre 5 et 9. Certaines personnes retiennent plus.',
+    why: 'Il donne une valeur typique et une dispersion : les empans adultes se regroupent autour de 6 ou 7 (environ 6,5 en moyenne, Woods et al., 2011), la plupart des gens entre 5 et 9. Aujourd’hui, on situe la capacité de base plutôt vers 4 unités (Cowan, 2001) : regrouper les chiffres allonge l’empan.',
   },
   {
     q: 'Il y a 8 points. Vous déplacez un point de 4 pas vers la droite. De combien bouge la moyenne ?',
@@ -288,7 +288,7 @@ const MORE_FR = [
     figure: { values: [1, 2, 2, 3, 3, 3, 4, 4, 5], domain: [0, 6], step: 1 },
     options: ['3, 3 et 3', '3, 3 et 2', '2,7, 3 et 3', '3, 4 et 3'],
     answer: 0,
-    why: 'Les données sont symétriques autour de 3 : moyenne = 27 ÷ 9 = 3, médiane = la 5e valeur = 3, mode = 3 (trois fois). Dans une forme symétrique, les trois centres sont d’accord.',
+    why: 'Les données sont symétriques autour de 3 : moyenne = 27 ÷ 9 = 3, médiane = la 5e valeur = 3, mode = 3 (trois fois). Dans une forme symétrique à un seul pic, les trois centres sont d’accord. Avec deux pics, non : le sondage sur la pizza est symétrique, et pourtant ses modes sont 1 et 7.',
   },
 ]
 
@@ -329,7 +329,7 @@ export const QUIZ = {
       q: 'People name their favourite colour. Which centre can you give?',
       options: ['The mean colour', 'The median colour', 'The mode', 'All three'],
       answer: 2,
-      why: 'Colours are categories: you cannot add them (no mean) or put them in order (no median). The only centre is the most common answer, the mode (blue, for about a third of people).',
+      why: 'Colours are categories: you cannot add them (no mean) or put them in order (no median). The only centre is the most common answer, the mode (blue, for more than two in five students in Simon’s 1971 study).',
     },
     {
       q: '31 people rate “Pineapple belongs on pizza” from 1 to 7. The mean is 4. What is the best summary?',
@@ -360,7 +360,7 @@ export const QUIZ = {
       q: 'In a perfectly symmetric bell curve, where are the mean, the median and the mode?',
       options: ['The mean is higher', 'The median is in the middle, the others apart', 'All at the same point, the top of the bell', 'It depends on the spread'],
       answer: 2,
-      why: 'A symmetric bell balances at its middle (mean), has half of its values on each side of the middle (median), and is highest there (mode). When the three come apart, the data is not symmetric.',
+      why: 'A symmetric bell balances at its middle (mean), has half of its values on each side of the middle (median), and is highest there (mode). When they come apart, the shape is skewed or has more than one peak.',
     },
     ...MORE_EN,
   ],
@@ -400,7 +400,7 @@ export const QUIZ = {
       q: 'Des gens citent leur couleur préférée. Quel centre pouvez-vous donner ?',
       options: ['La couleur moyenne', 'La couleur médiane', 'Le mode', 'Les trois'],
       answer: 2,
-      why: 'Les couleurs sont des catégories : on ne peut pas les additionner (pas de moyenne) ni les ranger dans l’ordre (pas de médiane). Le seul centre est la réponse la plus fréquente, le mode (le bleu, pour environ un tiers des gens).',
+      why: 'Les couleurs sont des catégories : on ne peut pas les additionner (pas de moyenne) ni les ranger dans l’ordre (pas de médiane). Le seul centre est la réponse la plus fréquente, le mode (le bleu, pour plus de deux étudiants sur cinq dans l’étude de Simon, 1971).',
     },
     {
       q: '31 personnes notent « L’ananas a sa place sur une pizza » de 1 à 7. La moyenne vaut 4. Quel est le meilleur résumé ?',
@@ -431,7 +431,7 @@ export const QUIZ = {
       q: 'Dans une courbe en cloche parfaitement symétrique, où sont la moyenne, la médiane et le mode ?',
       options: ['La moyenne est plus haute', 'La médiane est au milieu, les autres à part', 'Tous au même endroit, au sommet de la cloche', 'Cela dépend de la dispersion'],
       answer: 2,
-      why: 'Une cloche symétrique s’équilibre en son milieu (moyenne), a la moitié de ses valeurs de chaque côté du milieu (médiane), et y est la plus haute (mode). Quand les trois se séparent, les données ne sont pas symétriques.',
+      why: 'Une cloche symétrique s’équilibre en son milieu (moyenne), a la moitié de ses valeurs de chaque côté du milieu (médiane), et y est la plus haute (mode). Quand ils se séparent, la forme est asymétrique ou a plusieurs pics.',
     },
     ...MORE_FR,
   ]),

@@ -4,7 +4,10 @@
 
 // Each scenario: its domain [lo, hi], the step values snap to (so equal values stack and a mode can
 // appear), the unit shown after numbers, the starting values, and an optional extra dot to add
-// with a button (the CEO's salary).
+// with a button (the CEO's salary). A scenario with `groups` holds exact measurements (reaction
+// times to the millisecond): the dots are drawn in groups of `step` (one of `groups`, chosen by the
+// student), the mode is found on those groups, but the mean and the median use the exact values.
+// So changing the grouping changes the mode, never the mean or the median.
 export const SCENARIOS = [
   { key: 'free', domain: [0, 20], step: 1, unit: '', values: [4, 6, 7, 7, 9, 10, 12] },
   {
@@ -17,10 +20,13 @@ export const SCENARIOS = [
   },
   {
     key: 'reaction',
-    domain: [150, 750],
-    step: 25,
+    domain: [100, 800],
+    step: 50,
+    groups: [10, 25, 50, 100],
     unit: 'ms',
-    values: [250, 275, 275, 300, 300, 300, 325, 325, 350, 375, 400, 450, 550, 700],
+    // grouped by 10 ms the mode is 340, by 25 ms there are three modes, by 50 or 100 ms it is 300;
+    // the mean (365.5) and the median (327) never change
+    values: [262, 271, 279, 286, 293, 301, 308, 316, 338, 341, 343, 377, 412, 468, 551, 702],
   },
   {
     key: 'survey',
@@ -49,8 +55,10 @@ export function modes(v) {
   if (top < 2) return []
   return [...c.keys()].filter((k) => c.get(k) === top).sort((a, b) => a - b)
 }
-export function stats(values) {
-  return { n: values.length, mean: mean(values), median: median(values), modes: modes(values) }
+// The three centres. With a grouped scenario (sc.groups), the mode is found on the groups.
+export function stats(values, sc) {
+  const forMode = sc?.groups ? values.map((v) => snap(v, sc)) : values
+  return { n: values.length, mean: mean(values), median: median(values), modes: modes(forMode) }
 }
 
 // The challenges, in order. `check(st, values, sc, last)` → true when done. `last` is the latest
@@ -87,3 +95,7 @@ export const CHALLENGES = [
     },
   },
 ]
+
+// "a, b and c": a list of values for a sentence (`and` is the language's " and ").
+export const listOf = (vals, fmt, and) =>
+  vals.length < 3 ? vals.map((v) => fmt(v)).join(and) : `${vals.slice(0, -1).map((v) => fmt(v)).join(', ')}${and}${fmt(vals.at(-1))}`

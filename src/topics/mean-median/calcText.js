@@ -22,7 +22,7 @@ export const CALC = {
     tallyLabel: 'Each value x and its frequency f(x)',
     median: 'Median',
     mode: 'Mode',
-    noMode: 'No value appears twice: no mode.',
+    noMode: 'No value appears twice: by the usual convention, no mode.',
     and: ' and ',
     empty: 'No dots: tap the line to add some.',
     // what the last change did
@@ -70,7 +70,7 @@ export const CALC = {
     tallyLabel: 'Chaque valeur x et sa fréquence f(x)',
     median: 'Médiane',
     mode: 'Mode',
-    noMode: 'Aucune valeur n’apparaît deux fois : pas de mode.',
+    noMode: 'Aucune valeur n’apparaît deux fois : par convention, pas de mode.',
     and: ' et ',
     empty: 'Aucun point : touchez la ligne pour en ajouter.',
     start: 'Cinq nombres pour commencer. Déplacez un point, ajoutez-en un, ou touchez-en un pour le retirer : chaque calcul se refait.',
