@@ -68,6 +68,31 @@ export const MM = {
     dragHint: 'Drag left or right, anywhere here',
     rangeLabel: 'Length of the plain line',
     px: (n) => `${n} pixels`,
+    tourPlay: 'Let’s play!',
+    // guided tour (Tour.jsx): one bubble per thing, in the order of the game's TOUR_TARGETS
+    tour: {
+      match: [
+        { title: 'The Müller-Lyer illusion', text: 'Two lines: one with fins (>—<), one plain. Make the plain line exactly as long as the other. 15 tries, and each try becomes a dot that shows how far off you were.' },
+        { title: 'The lines', text: 'Drag anywhere on the figure to stretch or shrink the bottom line (the arrow keys work too). The top line, with its fins, never changes.' },
+        { title: 'Looks equal', text: 'When both lines look the same length, press “Looks equal” (or Enter). A new pair appears.' },
+        { title: 'Your dots', text: 'Each try is a dot: how much too long (+) or too short (−) you made the line, in %. The line at 0 is the real length.' },
+        { title: 'Mean and median', text: 'How many tries you made. From 2 tries on, two lines appear on the chart: the mean (solid) and the median (dashed). The next step explains them.' },
+        { title: 'Undo', text: 'Undo removes your last try, if you pressed too soon.' },
+        { title: 'Three steps', text: 'First match the lines, then look at your mean and median, then pull one dot far away and watch what happens.' },
+        { title: 'Next step', text: 'After 10 tries this button opens the next step. After 15, it is the way on.' },
+      ],
+      meanMedian: [
+        { title: 'The median', text: 'Your tries are numbered from the smallest to the largest. The ringed dot in the middle is the median: half of your tries are below it, half above.' },
+        { title: 'The mean', text: 'The ▲ under the axis is the mean: add up all your tries and divide by how many there are. It is the balance point: if the dots were weights on a ruler, it would balance there.' },
+        { title: 'Same place', text: 'For a bell like yours, the mean and the median land at about the same spot: the top of the bell.' },
+        { title: 'One more step', text: 'Next: what happens to both when one try goes very wrong?' },
+      ],
+      pull: [
+        { title: 'Pull a dot', text: 'Grab any dot and drag it far to the right, as if one try had gone very wrong (an outlier). The arrow keys work too.' },
+        { title: 'Before and after', text: 'Faint lines show where the mean and the median were before. Watch: the mean follows the pulled dot, the median hardly moves.' },
+        { title: 'Start again', text: '“Reset dots” puts every dot back where it was.' },
+      ],
+    },
   },
   fr: frenchTypo({
     title: 'L’illusion de Müller-Lyer',
@@ -131,5 +156,30 @@ export const MM = {
     dragHint: 'Glissez à gauche ou à droite, n’importe où ici',
     rangeLabel: 'Longueur de la ligne simple',
     px: (n) => `${n} pixels`,
+    tourPlay: 'C’est parti !',
+    // guided tour (Tour.jsx): one bubble per thing, in the order of the game's TOUR_TARGETS
+    tour: {
+      match: [
+        { title: 'L’illusion de Müller-Lyer', text: 'Deux lignes : l’une avec des pointes (>—<), l’autre simple. Rendez la ligne simple exactement aussi longue que l’autre. 15 essais, et chaque essai devient un point qui montre votre écart.' },
+        { title: 'Les lignes', text: 'Faites glisser n’importe où sur la figure pour allonger ou raccourcir la ligne du bas (les flèches du clavier marchent aussi). La ligne du haut, avec ses pointes, ne change jamais.' },
+        { title: 'Ça paraît égal', text: 'Quand les deux lignes semblent de même longueur, appuyez sur « Ça paraît égal » (ou Entrée). Une nouvelle paire apparaît.' },
+        { title: 'Vos points', text: 'Chaque essai est un point : de combien vous avez fait la ligne trop longue (+) ou trop courte (−), en %. La ligne à 0 est la vraie longueur.' },
+        { title: 'Moyenne et médiane', text: 'Le nombre d’essais faits. Dès 2 essais, deux lignes apparaissent sur le graphique : la moyenne (pleine) et la médiane (pointillée). L’étape suivante les explique.' },
+        { title: 'Annuler', text: 'Annuler retire votre dernier essai, si vous avez validé trop vite.' },
+        { title: 'Trois étapes', text: 'D’abord égaliser les lignes, puis regarder votre moyenne et votre médiane, puis tirer un point très loin et voir ce qui se passe.' },
+        { title: 'Étape suivante', text: 'Après 10 essais, ce bouton ouvre l’étape suivante. Après 15, c’est le chemin pour continuer.' },
+      ],
+      meanMedian: [
+        { title: 'La médiane', text: 'Vos essais sont numérotés du plus petit au plus grand. Le point entouré au milieu est la médiane : la moitié de vos essais est en dessous, l’autre moitié au-dessus.' },
+        { title: 'La moyenne', text: 'Le ▲ sous l’axe est la moyenne : additionnez tous vos essais et divisez par leur nombre. C’est le point d’équilibre : si les points étaient des poids sur une règle, elle tiendrait en équilibre là.' },
+        { title: 'Au même endroit', text: 'Pour une cloche comme la vôtre, la moyenne et la médiane tombent à peu près au même endroit : le sommet de la cloche.' },
+        { title: 'Encore une étape', text: 'Ensuite : que deviennent-elles quand un essai tourne très mal ?' },
+      ],
+      pull: [
+        { title: 'Tirez un point', text: 'Attrapez un point et tirez-le loin vers la droite, comme si un essai avait très mal tourné (une valeur aberrante). Les flèches du clavier marchent aussi.' },
+        { title: 'Avant et après', text: 'Des lignes pâles montrent où étaient la moyenne et la médiane avant. Regardez : la moyenne suit le point tiré, la médiane bouge à peine.' },
+        { title: 'Recommencer', text: '« Remettre les points » replace chaque point à sa place.' },
+      ],
+    },
   }),
 }

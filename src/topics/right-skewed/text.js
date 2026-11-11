@@ -71,6 +71,28 @@ export const RT = {
     axisMs: 'Reaction time (ms)',
     aria: (n, a, b, md) => `${n} reaction times from ${a} to ${b}, median ${md}.`,
     ariaNone: 'No taps yet.',
+    tourPlay: 'Let’s play!',
+    // guided tour (Tour.jsx): one bubble per thing, in the order of the game's TOUR_TARGETS
+    tour: {
+      tap: [
+        { title: 'Reaction time', text: 'How fast are you? The circle turns yellow at random moments: tap as soon as it does. 25 good reactions, each one a dot. You will see that reaction times do not make a symmetric bell.' },
+        { title: 'The circle', text: 'Tap once to start. Then wait: when the circle turns yellow, tap as fast as you can. The next wait starts by itself. The Space bar works too.' },
+        { title: 'Your dots', text: 'Each reaction time, in milliseconds, becomes a dot, and a curve grows with them. Watch which side gets the long tail.' },
+        { title: 'Removed tries', text: 'Your good reactions out of 25. A tap before the yellow, a guess under 100 ms or no tap within 1.5 s does not count: it is removed and counted here.' },
+        { title: 'Pause', text: 'Need a break? Pause stops the run; tap the circle to go on. Leaving the tab pauses it too.' },
+        { title: 'Three steps', text: 'First tap, then look at the long tail, then see your data on a log scale.' },
+        { title: 'Next step', text: 'After 15 reactions this button opens the next step. After 25, the circle takes you there too.' },
+      ],
+      tail: [
+        { title: 'The tail', text: 'Your dots pile up on the fast side and trail off to the right: a right-skewed distribution. The grey band at 0–100 ms is the floor: nobody is that fast. But there is no ceiling.' },
+        { title: 'Peak, median, mean', text: 'Three markers: the peak (your most common time), the median (the middle one) and the mean (the average). The slow tail pulls the mean furthest to the right.' },
+        { title: 'Two halves', text: 'The brackets under the axis show each half of your data: from your fastest tap to the median, and from the median to your slowest. The slow half is much wider.' },
+      ],
+      log: [
+        { title: 'Log scale', text: 'Switch to “Log scale”: each step on the axis doubles the time (100, 200, 400, 800 ms).' },
+        { title: 'A bell again', text: 'On the log scale the tail folds in and your dots make a bell again. That is why researchers often analyse the log of reaction times.' },
+      ],
+    },
   },
   fr: frenchTypo({
     title: 'Temps de réaction',
@@ -138,5 +160,27 @@ export const RT = {
     axisMs: 'Temps de réaction (ms)',
     aria: (n, a, b, md) => `${n} temps de réaction de ${a} à ${b}, médiane ${md}.`,
     ariaNone: 'Pas encore d’essai.',
+    tourPlay: 'C’est parti !',
+    // guided tour (Tour.jsx): one bubble per thing, in the order of the game's TOUR_TARGETS
+    tour: {
+      tap: [
+        { title: 'Temps de réaction', text: 'Êtes-vous rapide ? Le cercle devient jaune à des moments au hasard : touchez-le dès qu’il change. 25 bonnes réactions, chacune devient un point. Vous verrez que les temps de réaction ne forment pas une cloche symétrique.' },
+        { title: 'Le cercle', text: 'Touchez une fois pour démarrer. Puis attendez : quand le cercle devient jaune, touchez le plus vite possible. L’attente suivante démarre toute seule. La touche Espace marche aussi.' },
+        { title: 'Vos points', text: 'Chaque temps de réaction, en millisecondes, devient un point, et une courbe grandit avec eux. Regardez de quel côté pousse la longue traîne.' },
+        { title: 'Essais retirés', text: 'Vos bonnes réactions sur 25. Un appui avant le jaune, un appui deviné sous 100 ms ou aucun appui en 1,5 s ne compte pas : il est retiré et compté ici.' },
+        { title: 'Pause', text: 'Besoin d’une pause ? Pause arrête la série ; touchez le cercle pour reprendre. Changer d’onglet la met aussi en pause.' },
+        { title: 'Trois étapes', text: 'D’abord toucher, puis regarder la longue traîne, puis voir vos données sur une échelle log.' },
+        { title: 'Étape suivante', text: 'Après 15 réactions, ce bouton ouvre l’étape suivante. Après 25, le cercle vous y emmène aussi.' },
+      ],
+      tail: [
+        { title: 'La traîne', text: 'Vos points s’entassent du côté rapide et s’étirent vers la droite : une distribution asymétrique à droite. La bande grise de 0 à 100 ms est le plancher : personne n’est aussi rapide. Mais il n’y a pas de plafond.' },
+        { title: 'Sommet, médiane, moyenne', text: 'Trois repères : le sommet (votre temps le plus fréquent), la médiane (celui du milieu) et la moyenne. La traîne lente tire la moyenne le plus loin vers la droite.' },
+        { title: 'Deux moitiés', text: 'Les crochets sous l’axe montrent chaque moitié de vos données : de votre appui le plus rapide à la médiane, et de la médiane au plus lent. La moitié lente est bien plus large.' },
+      ],
+      log: [
+        { title: 'Échelle log', text: 'Passez à « Échelle log » : chaque pas sur l’axe double le temps (100, 200, 400, 800 ms).' },
+        { title: 'De nouveau une cloche', text: 'Sur l’échelle log, la traîne se replie et vos points forment de nouveau une cloche. C’est pourquoi les chercheurs analysent souvent le log des temps de réaction.' },
+      ],
+    },
   }),
 }

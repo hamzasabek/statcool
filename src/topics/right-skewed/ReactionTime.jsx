@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { Link } from 'react-router'
 import { Stage } from '../../components/Stage.jsx'
+import { useGuide } from '../../components/Tour.jsx'
 import { useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
 import RTChart from './RTChart.jsx'
@@ -17,6 +18,16 @@ import { RT } from './text.js'
 const NEXT_DELAY = 600 // ms after the last tap before the big button can move on (no double taps)
 const LATE_GRACE = 400 // ms after a miss: a tap now is a late reaction, not a "too soon"
 const NO_ERRORS = { tooSoon: 0, guess: 0, missed: 0 }
+
+// Guided tour of each step: what each bubble points at (null = middle of the screen); the texts
+// are in text.js (tour), in the same order.
+const TOUR_IDS = ['tap', 'tail', 'log']
+const TOUR_TARGETS = {
+  tap: [null, 'pad', 'chart', 'legend', 'tools', 'steps', 'next'],
+  tail: ['chart', 'legend', 'chart'],
+  log: ['view', 'chart'],
+}
+const TOUR_PLACE = { pad: 'right', next: 'top' }
 
 export default function ReactionTime() {
   const tx = useText(RT)
@@ -175,6 +186,16 @@ export default function ReactionTime() {
   const msgText = msg ? (msg.k === 'guess' ? tx.guess(fmtMs(msg.ms)) : tx[msg.k]) : null
   const removed = errors.tooSoon + errors.guess + errors.missed
 
+  // One tour per step; each opens by itself the first time. Opening it pauses a running game.
+  const tourId = TOUR_IDS[step]
+  const guide = useGuide(`rt-${tourId}`, TOUR_TARGETS[tourId], tx.tour[tourId], {
+    place: TOUR_PLACE,
+    doneLabel: step === 0 ? tx.tourPlay : undefined,
+    onStart: () => {
+      if (phase === 'wait' || phase === 'go') pause()
+    },
+  })
+
   // ---------- 1. Tap ----------
   if (step === 0) {
     const locked = n < MIN_TRIALS
@@ -202,6 +223,7 @@ export default function ReactionTime() {
         title={tx.title}
         className="rt-stage"
         steps={tx.steps}
+        onGuide={guide.start}
         current={0}
         say={
           <p>
@@ -210,12 +232,12 @@ export default function ReactionTime() {
         }
         bar={
           <>
-            <div className="legend">
+            <div className="legend" data-tour="legend">
               <span className="legend-item added">{tx.count(n, TRIALS)}</span>
               {fit && curveKey}
               {removed > 0 && <span className="rt-removed">{tx.removed(removed)}</span>}
             </div>
-            <div className="tools">
+            <div className="tools" data-tour="tools">
               <button
                 type="button"
                 className="btn btn-ghost btn-sm"
@@ -237,6 +259,7 @@ export default function ReactionTime() {
               <button
                 type="button"
                 className={`btn btn-primary ck-next${full ? ' nd-glow' : ''}`}
+                data-tour="next"
                 disabled={locked}
                 title={locked ? tx.unlocks(MIN_TRIALS) : undefined}
                 onClick={goTail}
@@ -248,11 +271,13 @@ export default function ReactionTime() {
         }
       >
         <div className="rt-main">
+          {guide.view}
           <div className="rt-pad-wrap">
             <button
               ref={padRef}
               type="button"
               className={`rt-pad is-${padClass}`}
+              data-tour="pad"
               onPointerDown={(e) => {
                 if (e.button !== 0) return
                 e.preventDefault()
@@ -290,6 +315,7 @@ export default function ReactionTime() {
         title={tx.title}
         className="rt-stage"
         steps={tx.steps}
+        onGuide={guide.start}
         current={1}
         say={
           <p>
@@ -297,7 +323,7 @@ export default function ReactionTime() {
           </p>
         }
         bar={
-          <div className="legend">
+          <div className="legend" data-tour="legend">
             {curveKey}
             <span className="legend-item rt-key is-mode">{tx.keyMode}</span>
             <span className="legend-item median">{tx.keyMedian}</span>
@@ -306,7 +332,7 @@ export default function ReactionTime() {
         }
         foot={
           <>
-            <div className="nd-feedback" aria-live="polite">
+            <div data-tour="feedback" className="nd-feedback" aria-live="polite">
               <p className="nd-hint">
                 {ordered ? tx.ordered(fmtMs(fit.mode), fmtMs(md), fmtMs(mn)) : tx.unordered(fmtMs(md), fmtMs(mn))}
               </p>
@@ -325,6 +351,7 @@ export default function ReactionTime() {
         }
       >
         <div className="rt-main is-full">
+          {guide.view}
           <RTChart points={taps} fit={fit} markers={['mode', 'median', 'mean']} floor halves />
         </div>
       </Stage>
@@ -337,6 +364,7 @@ export default function ReactionTime() {
       title={tx.title}
       className="rt-stage"
       steps={tx.steps}
+      onGuide={guide.start}
       current={2}
       say={
         <p>
@@ -345,7 +373,7 @@ export default function ReactionTime() {
       }
       bar={
         <>
-          <div className="segmented rt-view" role="group" aria-label={tx.axisGroup}>
+          <div className="segmented rt-view" role="group" aria-label={tx.axisGroup} data-tour="view">
             <button type="button" className={log ? '' : 'is-active'} aria-pressed={!log} onClick={() => setLog(false)}>
               {tx.ms}
             </button>
@@ -353,7 +381,7 @@ export default function ReactionTime() {
               {tx.logScale}
             </button>
           </div>
-          <div className="legend">
+          <div className="legend" data-tour="legend">
             {curveKey}
             <span className="legend-item median">{tx.keyMedian}</span>
             {!log && <span className="legend-item mean">{tx.mean}</span>}
@@ -362,7 +390,7 @@ export default function ReactionTime() {
       }
       foot={
         <>
-          <div className={`nd-feedback${log ? ' is-good' : ''}`} aria-live="polite">
+          <div data-tour="feedback" className={`nd-feedback${log ? ' is-good' : ''}`} aria-live="polite">
             <p className="nd-hint">
               {log ? tx.logHint(fmtMs(md)) : tx.msHint}
             </p>
@@ -378,6 +406,7 @@ export default function ReactionTime() {
       }
     >
       <div className="rt-main is-full">
+        {guide.view}
         <RTChart points={taps} fit={fit} scale={log ? 'log' : 'linear'} markers={log ? ['median'] : ['median', 'mean']} />
       </div>
     </Stage>

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { Stage } from '../../components/Stage.jsx'
+import { useGuide } from '../../components/Tour.jsx'
 import { useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
 import BinomChart from './BinomChart.jsx'
@@ -30,6 +31,16 @@ import { BIN } from './text.js'
 //   3. How strong?: slider for p; 100 people with that p, expected line, the chance line dashed.
 
 const VIEW = 300 // figure viewBox size
+
+// Guided tour of each screen: what each bubble points at (null = middle of the screen); the texts
+// are in text.js (tour), in the same order. Step 1 has two: the game, then the reveal.
+const TOUR_TARGETS = {
+  pick: [null, 'figures', 'progress', 'steps', 'next'],
+  reveal: ['figures', 'next'],
+  luck: ['chart', 'legend', 'feedback'],
+  strong: ['slider', 'chart', 'feedback'],
+}
+const TOUR_PLACE = { next: 'top' }
 
 // One Ebbinghaus figure: a middle circle of radius rc, ringed by small or big circles.
 function Figure({ rc, small, rot, dy, faded = false }) {
@@ -154,6 +165,13 @@ export default function Ebbinghaus() {
   )
   const youKey = <span className="legend-item bn-key-you">{tx.youKey}</span>
 
+  // One tour per screen; each opens by itself the first time.
+  const tourId = [phase === 'over' ? 'reveal' : 'pick', 'luck', 'strong'][step]
+  const guide = useGuide(`eb-${tourId}`, TOUR_TARGETS[tourId], tx.tour[tourId], {
+    place: TOUR_PLACE,
+    doneLabel: tourId === 'pick' ? tx.tourPlay : undefined,
+  })
+
   if (step === 0) {
     const over = phase === 'over'
     const locked = picks.length < N
@@ -162,6 +180,7 @@ export default function Ebbinghaus() {
         title={tx.title}
         className="mm-stage bn-stage"
         steps={tx.steps}
+        onGuide={guide.start}
         current={0}
         say={
           <p>
@@ -184,6 +203,7 @@ export default function Ebbinghaus() {
               <button
                 type="button"
                 className={`btn btn-primary ck-next${over ? ' nd-glow' : ''}`}
+                data-tour="next"
                 disabled={locked}
                 onClick={goLuck}
               >
@@ -194,7 +214,8 @@ export default function Ebbinghaus() {
         }
       >
         <div className="eb-game">
-          <div className="eb-figures">
+          {guide.view}
+          <div className="eb-figures" data-tour="figures">
             {[0, 1].map((side) => {
               const small = (side === 0) === trial.smallLeft
               return (
@@ -219,7 +240,7 @@ export default function Ebbinghaus() {
               )
             })}
           </div>
-          <ol className="bn-progress eb-progress" aria-hidden="true">
+          <ol className="bn-progress eb-progress" data-tour="progress" aria-hidden="true">
             {Array.from({ length: N }, (_, i) => (
               <li key={i} className={i < picks.length ? 'is-done' : ''} />
             ))}
@@ -247,6 +268,7 @@ export default function Ebbinghaus() {
         title={tx.title}
         className="mm-stage bn-stage"
         steps={tx.steps}
+        onGuide={guide.start}
         current={1}
         say={
           <p>
@@ -254,7 +276,7 @@ export default function Ebbinghaus() {
           </p>
         }
         bar={
-          <div className="legend">
+          <div className="legend" data-tour="legend">
             {youKey}
             <span className="legend-item bn-key-class">{tx.coinKey(CLASS)}</span>
             <span className="legend-item bn-key-curve">{tx.expectedKey}</span>
@@ -263,7 +285,7 @@ export default function Ebbinghaus() {
         }
         foot={
           <>
-            <div className="nd-feedback" aria-live="polite">
+            <div data-tour="feedback" className="nd-feedback" aria-live="polite">
               <p className="nd-hint">{hint}</p>
               <p className="nd-fact">{tx.luckFact(N)}</p>
             </div>
@@ -277,6 +299,7 @@ export default function Ebbinghaus() {
         }
       >
         <div className="mm-main">
+          {guide.view}
           <BinomChart n={N} points={[...you, ...crowd]} curve={{ p: 0.5, size: CLASS }} tail={tail} />
         </div>
       </Stage>
@@ -296,6 +319,7 @@ export default function Ebbinghaus() {
       title={tx.title}
       className="mm-stage bn-stage"
       steps={tx.steps}
+      onGuide={guide.start}
       current={2}
       say={
         <p>
@@ -304,7 +328,7 @@ export default function Ebbinghaus() {
       }
       bar={
         <>
-          <label className="eb-slider">
+          <label className="eb-slider" data-tour="slider">
             <span>
               {tx.pLabel}: <output>{fmtP(p)}</output>
             </span>
@@ -317,7 +341,7 @@ export default function Ebbinghaus() {
               onChange={(e) => setP(Number(Number(e.target.value).toFixed(2)))}
             />
           </label>
-          <div className="legend">
+          <div className="legend" data-tour="legend">
             {youKey}
             <span className="legend-item bn-key-class">{tx.peopleKey(CLASS, fmtP(p))}</span>
             <span className="legend-item bn-key-curve">{tx.expectedKey}</span>
@@ -327,7 +351,7 @@ export default function Ebbinghaus() {
       }
       foot={
         <>
-          <div className="nd-feedback is-good" aria-live="polite">
+          <div data-tour="feedback" className="nd-feedback is-good" aria-live="polite">
             <p className="nd-hint">
               {tx.strongHint(fmtP(p), fmtNum(np, Number.isInteger(np) ? 0 : 1), lo, hi)}
               {shape}
@@ -344,6 +368,7 @@ export default function Ebbinghaus() {
       }
     >
       <div className="mm-main">
+        {guide.view}
         <BinomChart
           n={N}
           points={[...you, ...crowd]}

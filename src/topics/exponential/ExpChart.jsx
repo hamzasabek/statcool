@@ -99,7 +99,7 @@ export default function ExpChart({ points, fit, markers = [], halving = false, h
   const label = n ? tx.aria(n, fmtS(md), fmtS(mn)) : tx.ariaNone
 
   return (
-    <div ref={wrapRef} className="chart-fill">
+    <div ref={wrapRef} className="chart-fill" data-tour="chart">
       <MotionConfig reducedMotion="user">
         <svg className="chart exp-chart" width={width} height={H} role="img" aria-label={label}>
           {!n && (

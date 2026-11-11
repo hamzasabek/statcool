@@ -66,6 +66,31 @@ export const EXP = {
     axis: 'Wait between two spikes (seconds)',
     aria: (n, md, mn) => `${n} waits between spikes, median ${md}, mean ${mn}.`,
     ariaNone: 'No waits yet.',
+    tourPlay: 'Let’s listen!',
+    // guided tour (Tour.jsx): one bubble per thing, in the order of the game's TOUR_TARGETS
+    tour: {
+      listen: [
+        { title: 'Listen to a neuron', text: 'Neurons send tiny electrical spikes at random moments. This one fires about once per second. Tap each time it fires. The waits between its spikes become dots, and they draw the exponential distribution.' },
+        { title: 'The neuron', text: 'Tap once to start listening. On each spike the cell flashes yellow and you hear a click: tap (or press Space) when you see it.' },
+        { title: 'Your dots', text: 'Each wait between two spikes is a dot. It turns yellow if you caught the spike that ended it, and stays hollow if you missed it. Watch where the dots pile up.' },
+        { title: 'Your score', text: 'The waits collected (40 per game), the spikes you caught, and taps with no spike (false alarms).' },
+        { title: 'Sound and pause', text: 'Turn the click sound on or off. Pause stops the neuron; tap it to go on.' },
+        { title: 'Three steps', text: 'First listen, then look at the curve, then a question: is a spike ever “due”?' },
+        { title: 'Next step', text: 'After 25 waits this button opens the next step. After 40, the neuron button takes you there too.' },
+      ],
+      curve: [
+        { title: 'Most waits are short', text: 'The pile is highest at 0 and falls off smoothly: short waits are common, long ones are rare. That is the exponential curve.' },
+        { title: 'Peak, median, mean', text: 'The peak is at 0. The median: half of the waits are shorter. The mean: the average wait.' },
+        { title: 'Halvings', text: 'The dashed lines are at 1, 2 and 3 medians. After each one, only half of the waits still going are left: ½, then ¼, then ⅛.' },
+      ],
+      due: [
+        { title: 'Is it due?', text: 'The neuron has been quiet for a while. Is a spike now more likely, just as likely, or less likely? Pick your answer.' },
+      ],
+      answer: [
+        { title: 'The answer', text: 'From 100 000 simulated waits of this neuron: the chance of a spike in the next 0.5 s right after a spike, and after a silence. They are the same.' },
+        { title: 'Any silence', text: 'Move the slider: whatever the silence, the chance stays the same. The neuron has no memory: the memoryless property.' },
+      ],
+    },
   },
   fr: frenchTypo({
     title: 'Écoutez un neurone',
@@ -127,5 +152,30 @@ export const EXP = {
     axis: 'Attente entre deux décharges (secondes)',
     aria: (n, md, mn) => `${n} attentes entre décharges, médiane ${md}, moyenne ${mn}.`,
     ariaNone: 'Pas encore d’attente.',
+    tourPlay: 'On écoute !',
+    // guided tour (Tour.jsx): one bubble per thing, in the order of the game's TOUR_TARGETS
+    tour: {
+      listen: [
+        { title: 'Écoutez un neurone', text: 'Les neurones envoient de petites décharges électriques à des moments au hasard. Celui-ci décharge environ une fois par seconde. Touchez à chaque décharge. Les attentes entre ses décharges deviennent des points, et elles dessinent la loi exponentielle.' },
+        { title: 'Le neurone', text: 'Touchez une fois pour commencer l’écoute. À chaque décharge, la cellule clignote en jaune et vous entendez un clic : touchez (ou appuyez sur Espace) quand vous la voyez.' },
+        { title: 'Vos points', text: 'Chaque attente entre deux décharges est un point. Il devient jaune si vous avez attrapé la décharge qui la termine, et reste creux si vous l’avez manquée. Regardez où les points s’entassent.' },
+        { title: 'Votre score', text: 'Les attentes recueillies (40 par jeu), les décharges attrapées, et les appuis sans décharge (fausses alertes).' },
+        { title: 'Son et pause', text: 'Activez ou coupez le clic. Pause arrête le neurone ; touchez-le pour reprendre.' },
+        { title: 'Trois étapes', text: 'D’abord écouter, puis regarder la courbe, puis une question : une décharge est-elle un jour « due » ?' },
+        { title: 'Étape suivante', text: 'Après 25 attentes, ce bouton ouvre l’étape suivante. Après 40, le bouton du neurone vous y emmène aussi.' },
+      ],
+      curve: [
+        { title: 'La plupart des attentes sont courtes', text: 'La pile est la plus haute à 0 et descend doucement : les attentes courtes sont fréquentes, les longues sont rares. C’est la courbe exponentielle.' },
+        { title: 'Sommet, médiane, moyenne', text: 'Le sommet est à 0. La médiane : la moitié des attentes sont plus courtes. La moyenne : l’attente moyenne.' },
+        { title: 'Moitiés', text: 'Les lignes pointillées sont à 1, 2 et 3 médianes. Après chacune, il ne reste que la moitié des attentes encore en cours : ½, puis ¼, puis ⅛.' },
+      ],
+      due: [
+        { title: 'Est-ce son tour ?', text: 'Le neurone est silencieux depuis un moment. Une décharge est-elle maintenant plus probable, aussi probable ou moins probable ? Choisissez votre réponse.' },
+      ],
+      answer: [
+        { title: 'La réponse', text: 'D’après 100 000 attentes simulées de ce neurone : la chance d’une décharge dans les 0,5 s qui suivent, juste après une décharge et après un silence. Elles sont égales.' },
+        { title: 'N’importe quel silence', text: 'Bougez le curseur : quel que soit le silence, la chance reste la même. Le neurone n’a pas de mémoire : c’est la propriété « sans mémoire ».' },
+      ],
+    },
   }),
 }

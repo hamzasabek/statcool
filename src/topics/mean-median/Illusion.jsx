@@ -71,7 +71,7 @@ export default function Illusion({ trial, ratio, onRatio, disabled = false, show
   }
 
   return (
-    <div ref={wrapRef} className="mm-stim">
+    <div ref={wrapRef} className="mm-stim" data-tour="figure">
       <svg
         className={`mm-stim-svg${disabled ? ' is-disabled' : ''}`}
         width={W}

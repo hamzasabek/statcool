@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { Stage } from '../../components/Stage.jsx'
+import { useGuide } from '../../components/Tour.jsx'
 import { num, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
 import ExpChart from './ExpChart.jsx'
@@ -31,6 +32,16 @@ import { EXP } from './text.js'
 //      and a slider: the chance never changes (memoryless; the gambler's fallacy).
 
 const NEXT_DELAY = 400 // ms after the catch window of the last spike before the big button moves on
+
+// Guided tour of each screen: what each bubble points at (null = middle of the screen); the texts
+// are in text.js (tour), in the same order. Step 3 has two: the question, then the answer.
+const TOUR_TARGETS = {
+  listen: [null, 'pad', 'chart', 'legend', 'tools', 'steps', 'next'],
+  curve: ['chart', 'legend', 'chart'],
+  due: ['choices'],
+  answer: ['answer', 'slider'],
+}
+const TOUR_PLACE = { pad: 'right', next: 'top' }
 
 // The neuron drawing: dendrites (left), cell body, axon (right). A pulse runs down the axon on
 // each spike (the group is re-mounted with a new key, which restarts the CSS animation).
@@ -235,6 +246,16 @@ export default function Neuron() {
     </>
   )
 
+  // One tour per screen; each opens by itself the first time. Opening it pauses the neuron.
+  const tourId = ['listen', 'curve', bet ? 'answer' : 'due'][step]
+  const guide = useGuide(`nr-${tourId}`, TOUR_TARGETS[tourId], tx.tour[tourId], {
+    place: TOUR_PLACE,
+    doneLabel: step === 0 ? tx.tourPlay : undefined,
+    onStart: () => {
+      if (phase === 'run') pause()
+    },
+  })
+
   // ---------- 1. Tap the spikes ----------
   if (step === 0) {
     const locked = n < MIN_GAPS
@@ -251,6 +272,7 @@ export default function Neuron() {
         title={tx.title}
         className="rt-stage nr-stage"
         steps={tx.steps}
+        onGuide={guide.start}
         current={0}
         say={
           <p>
@@ -259,14 +281,14 @@ export default function Neuron() {
         }
         bar={
           <>
-            <div className="legend">
+            <div className="legend" data-tour="legend">
               <span className="legend-item added">{tx.count(n, GAPS)}</span>
               {n > 0 && caughtKeys}
               {fit && curveKey}
               {spike > 0 && <span className="nr-score">{tx.score(caught, spike)}</span>}
               {falseAlarms > 0 && <span className="rt-removed">{tx.falseAlarms(falseAlarms)}</span>}
             </div>
-            <div className="tools">
+            <div className="tools" data-tour="tools">
               <button
                 type="button"
                 className="btn btn-ghost btn-sm"
@@ -291,6 +313,7 @@ export default function Neuron() {
               <button
                 type="button"
                 className={`btn btn-primary ck-next${phase === 'done' ? ' nd-glow' : ''}`}
+                data-tour="next"
                 disabled={locked}
                 title={locked ? tx.unlocks(MIN_GAPS) : undefined}
                 onClick={goCurve}
@@ -302,11 +325,13 @@ export default function Neuron() {
         }
       >
         <div className="rt-main">
+          {guide.view}
           <div className="rt-pad-wrap">
             <button
               ref={padRef}
               type="button"
               className={`rt-pad nr-pad is-${padState}`}
+              data-tour="pad"
               onPointerDown={(e) => {
                 if (e.button !== 0) return
                 e.preventDefault()
@@ -344,6 +369,7 @@ export default function Neuron() {
         title={tx.title}
         className="rt-stage nr-stage"
         steps={tx.steps}
+        onGuide={guide.start}
         current={1}
         say={
           <p>
@@ -351,7 +377,7 @@ export default function Neuron() {
           </p>
         }
         bar={
-          <div className="legend">
+          <div className="legend" data-tour="legend">
             {caughtKeys}
             {curveKey}
             <span className="legend-item rt-key is-mode">{tx.keyMode}</span>
@@ -362,7 +388,7 @@ export default function Neuron() {
         }
         foot={
           <>
-            <div className="nd-feedback" aria-live="polite">
+            <div data-tour="feedback" className="nd-feedback" aria-live="polite">
               <p className="nd-hint">{tx.curveHint(fmtS(md), fmtS(mn), num(1 / mn, 1))}</p>
               <p className="nd-fact">{tx.curveFact(fmtS(md), fmtS(2 * md), fmtS(3 * md))}</p>
             </div>
@@ -376,6 +402,7 @@ export default function Neuron() {
         }
       >
         <div className="rt-main is-full">
+          {guide.view}
           <ExpChart points={gaps} fit={fit} markers={['mode', 'median', 'mean']} halving />
         </div>
       </Stage>
@@ -395,6 +422,7 @@ export default function Neuron() {
       title={tx.title}
       className="rt-stage nr-stage"
       steps={tx.steps}
+      onGuide={guide.start}
       current={2}
       say={
         <p>
@@ -403,7 +431,7 @@ export default function Neuron() {
       }
       foot={
         <>
-          <div className={`nd-feedback${bet ? ' is-good' : ''}`} aria-live="polite">
+          <div data-tour="feedback" className={`nd-feedback${bet ? ' is-good' : ''}`} aria-live="polite">
             {bet && (
               <>
                 <p className="nd-hint">{tx.answer[bet]}</p>
@@ -423,7 +451,8 @@ export default function Neuron() {
       }
     >
       <div className="nr-bet">
-        <div className="nr-choices" role="group" aria-label={tx.question(fmtS(BET_QUIET, 1), w)}>
+        {guide.view}
+        <div className="nr-choices" data-tour="choices" role="group" aria-label={tx.question(fmtS(BET_QUIET, 1), w)}>
           {['more', 'same', 'less'].map((k) => (
             <button
               key={k}
@@ -441,7 +470,7 @@ export default function Neuron() {
         </div>
 
         {bet && (
-          <div className="nr-answer">
+          <div className="nr-answer" data-tour="answer">
             {rows.map((row) => (
               <div key={row.cls} className={`nr-row ${row.cls}`}>
                 <span className="nr-row-label">{row.label}</span>
@@ -451,7 +480,7 @@ export default function Neuron() {
                 <span className="nr-row-value">{Number.isFinite(row.p) ? fmtShare(row.p) : '–'}</span>
               </div>
             ))}
-            <label className="nr-slider">
+            <label className="nr-slider" data-tour="slider">
               <span>
                 {tx.quietFor} <output>{fmtS(quiet, 1)}</output>
               </span>

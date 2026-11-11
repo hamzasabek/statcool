@@ -73,7 +73,7 @@ export default function BinomChart({ n, points, curve, refCurve = null, tail = n
   const ticks = d3.range(0, n + 1, step)
 
   return (
-    <div ref={wrapRef} className="chart-fill">
+    <div ref={wrapRef} className="chart-fill" data-tour="chart">
       <MotionConfig reducedMotion="user">
         <svg className="chart bn-chart" width={width} height={H} role="img" aria-label={tx.aria(n, points.length)}>
           {tail && (

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { Stage } from '../../components/Stage.jsx'
+import { useGuide } from '../../components/Tour.jsx'
 import { num, pct, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
 import Illusion, { newTrial } from './Illusion.jsx'
@@ -14,6 +15,16 @@ import { MM } from './text.js'
 //   3. Pull a dot: drag one try far out; the mean follows, the median hardly moves
 
 const MOVED = 15 // % points a dot must be dragged before step 3 explains what happened
+
+// Guided tour of each step: what each bubble points at (null = middle of the screen); the texts
+// are in text.js (tour), in the same order.
+const TOUR_IDS = ['match', 'meanMedian', 'pull']
+const TOUR_TARGETS = {
+  match: [null, 'figure', 'equal', 'chart', 'legend', 'tools', 'steps', 'next'],
+  meanMedian: ['chart', 'chart', 'feedback', 'next'],
+  pull: ['chart', 'legend', 'tools'],
+}
+const TOUR_PLACE = { equal: 'top', next: 'top' }
 
 export default function MeanMedian() {
   const tx = useText(MM)
@@ -32,6 +43,13 @@ export default function MeanMedian() {
   const spread = sd(vals)
   // The normal curve with your mean and SD (like topic 01). Step 3 keeps this one, from before the pull.
   const bell = n >= 3 && spread > 0 ? { mean: m, sd: spread, n } : null
+
+  // One tour per step; each opens by itself the first time.
+  const tourId = TOUR_IDS[step]
+  const guide = useGuide(`mm-${tourId}`, TOUR_TARGETS[tourId], tx.tour[tourId], {
+    place: TOUR_PLACE,
+    doneLabel: step === 0 ? tx.tourPlay : undefined,
+  })
 
   function submit() {
     if (step !== 0 || full) return
@@ -93,6 +111,7 @@ export default function MeanMedian() {
         title={tx.title}
         className="mm-stage"
         steps={tx.steps}
+        onGuide={guide.start}
         current={0}
         say={
           <p>
@@ -101,7 +120,7 @@ export default function MeanMedian() {
         }
         bar={
           <>
-            <div className="legend">
+            <div className="legend" data-tour="legend">
               <span className="legend-item added">{tx.count(n, TRIALS)}</span>
               {n >= 2 && (
                 <>
@@ -111,7 +130,7 @@ export default function MeanMedian() {
               )}
               {bell && <span className="legend-item ck-line is-a">{tx.bell}</span>}
             </div>
-            <div className="tools">
+            <div className="tools" data-tour="tools">
               <button type="button" className="btn btn-ghost btn-sm" disabled={!n} onClick={undo}>
                 {tc.undo}
               </button>
@@ -126,7 +145,7 @@ export default function MeanMedian() {
             <div className="actions">
               {allTopics}
               {full ? (
-                <button type="button" className="btn btn-primary nd-glow" onClick={() => setStep(1)}>
+                <button type="button" className="btn btn-primary nd-glow" data-tour="next" onClick={() => setStep(1)}>
                   {tx.nextMM}
                 </button>
               ) : (
@@ -134,13 +153,14 @@ export default function MeanMedian() {
                   <button
                     type="button"
                     className="btn ck-next"
+                    data-tour="next"
                     disabled={locked}
                     title={locked ? tx.unlocks(MIN_TRIALS) : undefined}
                     onClick={() => setStep(1)}
                   >
                     {locked ? tx.lockedNext(MIN_TRIALS - n) : tx.next}
                   </button>
-                  <button type="button" className="btn btn-primary" onClick={submit}>
+                  <button type="button" className="btn btn-primary" data-tour="equal" onClick={submit}>
                     {tx.looksEqual}
                   </button>
                 </>
@@ -150,6 +170,7 @@ export default function MeanMedian() {
         }
       >
         <div className="mm-main">
+          {guide.view}
           <Illusion
             trial={stim}
             ratio={stim.ratio}
@@ -177,6 +198,7 @@ export default function MeanMedian() {
         title={tx.title}
         className="mm-stage"
         steps={tx.steps}
+        onGuide={guide.start}
         current={1}
         say={
           <p>
@@ -184,7 +206,7 @@ export default function MeanMedian() {
           </p>
         }
         bar={
-          <div className="legend">
+          <div className="legend" data-tour="legend">
             <span className="legend-item added">{tx.key2Tries(n)}</span>
             <span className="legend-item mean">{tx.key2Mean}</span>
             <span className="legend-item median">{tx.key2Median}</span>
@@ -193,7 +215,7 @@ export default function MeanMedian() {
         }
         foot={
           <>
-            <div className="nd-feedback" aria-live="polite">
+            <div data-tour="feedback" className="nd-feedback" aria-live="polite">
               <p className="nd-hint">
                 {tx.bellTop}{' '}
                 {close ? tx.agree(fmtPct(m), fmtPct(md)) : tx.apart(tx.points(Math.abs(m - md)), fmtPct(m), fmtPct(md))}
@@ -202,7 +224,7 @@ export default function MeanMedian() {
             </div>
             <div className="actions">
               {allTopics}
-              <button type="button" className="btn btn-primary" onClick={goPull}>
+              <button type="button" className="btn btn-primary" data-tour="next" onClick={goPull}>
                 {tx.nextPull}
               </button>
             </div>
@@ -210,6 +232,7 @@ export default function MeanMedian() {
         }
       >
         <div className="mm-main">
+          {guide.view}
           <MMChart points={tries} domain={PLAY_DOMAIN} bell={bell} ranks />
         </div>
       </Stage>
@@ -228,6 +251,7 @@ export default function MeanMedian() {
       title={tx.title}
       className="mm-stage"
       steps={tx.steps}
+      onGuide={guide.start}
       current={2}
       say={
         <p>
@@ -236,13 +260,13 @@ export default function MeanMedian() {
       }
       bar={
         <>
-          <div className="legend">
+          <div className="legend" data-tour="legend">
             <span className="legend-item mean">{tx.mean}</span>
             <span className="legend-item median">{tx.median}</span>
             <span className="legend-item ck-line is-a">{tx.yourBell}</span>
             <span className="legend-item mm-ghost-key">{tx.before}</span>
           </div>
-          <div className="tools">
+          <div className="tools" data-tour="tools">
             <button
               type="button"
               className="btn btn-ghost btn-sm"
@@ -256,7 +280,7 @@ export default function MeanMedian() {
       }
       foot={
         <>
-          <div className={`nd-feedback${moved ? ' is-good' : ''}`} aria-live="polite">
+          <div data-tour="feedback" className={`nd-feedback${moved ? ' is-good' : ''}`} aria-live="polite">
             <p className="nd-hint">
               {moved ? tx.moved(tx.points(Math.abs(m1 - m)), mdShift < 0.05 ? null : tx.points(mdShift)) : tx.grab}
             </p>
@@ -272,6 +296,7 @@ export default function MeanMedian() {
       }
     >
       <div className="mm-main">
+        {guide.view}
         <MMChart
           points={pulled}
           domain={PULL_DOMAIN}

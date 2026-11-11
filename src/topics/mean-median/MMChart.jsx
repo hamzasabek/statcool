@@ -135,7 +135,7 @@ export default function MMChart({ points, domain, ranks = false, draggable = fal
   const label = n ? tx.aria(n, fmtPct(m), fmtPct(md)) : tx.ariaNone
 
   return (
-    <div ref={wrapRef} className="chart-fill">
+    <div ref={wrapRef} className="chart-fill" data-tour="chart">
       <MotionConfig reducedMotion="user">
         <svg
           ref={svgRef}

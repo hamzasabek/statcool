@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import { num, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
 import { Stage } from '../../components/Stage.jsx'
-import Tour, { useTour } from '../../components/Tour.jsx'
+import { useGuide } from '../../components/Tour.jsx'
 import ClockChart from './ClockChart.jsx'
 import { MIN_TRIALS, TARGETS, TOO_FAST, TRIALS, fmtPct, fmtS, stats } from './clock.js'
 import { CLOCK } from './text.js'
@@ -52,16 +52,14 @@ export default function ClockGame() {
 
   // One tour per screen (2 s game, 5 s game, compare); each opens by itself the first time.
   const tourId = phase === 'compare' ? 'compare' : exp === 0 ? 'first' : 'second'
-  const tour = useTour(`clock-${tourId}`)
-  const tourTexts = tx.tour(TARGETS[0], TARGETS[1])[tourId]
-  const tourSteps = TOUR_TARGETS[tourId].map((t, i) => ({
-    target: t && `[data-tour="${t}"]`,
-    place: TOUR_PLACE[t],
-    ...tourTexts[i],
-  }))
-  const tourView = tour.open && (
-    <Tour steps={tourSteps} onClose={tour.close} doneLabel={phase === 'play' ? tx.tourPlay : undefined} />
-  )
+  const guide = useGuide(`clock-${tourId}`, TOUR_TARGETS[tourId], tx.tour(TARGETS[0], TARGETS[1])[tourId], {
+    place: TOUR_PLACE,
+    doneLabel: phase === 'play' ? tx.tourPlay : undefined,
+    onStart: () => {
+      stopClock() // a clock left running behind the guide would give a wrong time
+      setFlash(null)
+    },
+  })
 
   function stopClock() {
     startRef.current = null
@@ -120,12 +118,6 @@ export default function ClockGame() {
     demoTimer.current = setTimeout(() => setDemo(false), target * 1000 + 80)
   }
 
-  function openGuide() {
-    stopClock() // a clock left running behind the guide would give a wrong time
-    setFlash(null)
-    tour.start()
-  }
-
   function undo() {
     stopClock()
     setFlash(null)
@@ -167,7 +159,7 @@ export default function ClockGame() {
         className="ck-stage"
         steps={STEPS}
         current={current}
-        onGuide={openGuide}
+        onGuide={guide.start}
         say={
           <p>
             <strong>{tx.compareSay(wider)}</strong> {tx.compareSay2}
@@ -220,7 +212,7 @@ export default function ClockGame() {
         }
       >
         <ClockChart series={series} domain={relative ? [0, 2] : COMPARE_DOMAIN} relative={relative} />
-        {tourView}
+        {guide.view}
       </Stage>
     )
   }
@@ -246,7 +238,7 @@ export default function ClockGame() {
       className="ck-stage"
       steps={STEPS}
       current={current}
-      onGuide={openGuide}
+      onGuide={guide.start}
       say={
         <p>
           <strong>{tx.say(target)}</strong> {exp === 0 ? tx.sayFirst : tx.sayNext}
@@ -333,7 +325,7 @@ export default function ClockGame() {
           </button>
         </div>
         <ClockChart key={exp} series={[series[exp]]} domain={ownDomain(exp)} highlightLast />
-        {tourView}
+        {guide.view}
       </div>
     </Stage>
   )

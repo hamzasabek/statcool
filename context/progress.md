@@ -558,3 +558,30 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   Compare tours open when those screens are reached, focus is on the bubble's button. Found and fixed:
   the focus was lost when a tour opened after a click (the bubble was still hidden). No errors, no
   horizontal scroll.
+
+## 2026-11-11 — Step 41: Guided tours for topics 02–05; lighter blur; header left sharp
+- Owner liked the topic 01 tour: do it for the other topics, blur a little less, and don't blur the
+  header and logo.
+- `Tour.jsx`: blur 4 px → 2.5 px (tint 40 % → 35 %). The tour now covers only what is below the sticky
+  header: the logo, EN | FR and the theme button stay sharp and usable during a tour (Enter / Space work
+  on them; the game still never gets a key). New `useGuide(id, targets, texts, { place, doneLabel,
+  onStart })` = the usual way to add a tour to a screen; topic 01 now uses it too. When a bubble has to
+  sit inside a big target (a chart), it picks the spot (centre or a corner, top or bottom) that covers
+  the fewest dots and labels, and the target is measured once more after 0.9 s (dots dropping in).
+- Tours (EN + FR, in each topic's `text.js` → `tour`; targets in `TOUR_TARGETS` in each game):
+  - 02 Müller-Lyer: match (8: game, figure, Looks equal, dots, mean / median lines, Undo, steps, Next) →
+    mean & median (4: median, mean ▲, same place, next) → pull (3: pull a dot, before / after, reset).
+  - 03 Reaction time: tap (7: game, circle, dots, removed tries, Pause, steps, Next) → tail (3: the
+    tail and floor, peak / median / mean, two halves) → log (2: switch, a bell again).
+  - 04 Neuron: listen (7: game, neuron, dots caught / hollow, score, sound / pause, steps, Next) →
+    curve (3: short waits, peak / median / mean, halvings) → is it due? (1: pick) → answer (2: bars,
+    slider = memoryless).
+  - 05 Ebbinghaus: pick (5: game, figures, progress marks, steps, Next; the intro does not spoil that
+    the circles are equal) → reveal (2) → luck (3: coin-flippers, you + expected line, p-value) →
+    strong (3: slider p, people with that p, average and 95 % range).
+  - Opening the Guide pauses a running reaction-time or neuron game (and stops the clock in topic 01).
+- Tested in headless Chrome with a script that plays each game far enough to open every tour (1366×657
+  EN light) and the first tour of each topic at 390×750 FR dark: 21 tours, 85 bubbles, all with their
+  target, on screen, below the header; the header's theme button is clickable during a tour; focus on
+  the bubble; Guide pauses the reaction-time game; no errors.
+

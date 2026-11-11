@@ -8,8 +8,13 @@
 - Live site: https://hamzasabek.github.io/statcool/ (GitHub Pages only, deployed on every push
   to `main`; Netlify removed in Step 22).
 
-- Guided tour: only topic 01 has one (Step 40). Owner to try it, then add tours to topics 02–05
-  the same way. Idea: in the "bell curve" bubble, draw an example bell on the still-empty chart.
+- Guided tours on all topics (Steps 40–41). Idea: in topic 01's "bell curve" bubble, draw an example
+  bell on the still-empty chart.
+- Accounts / progress over time (asked in Step 41, not started): options discussed = progress in
+  localStorage only; Supabase (auth + Postgres); Firebase; AWS (Amplify Gen 2 = Cognito + AppSync +
+  DynamoDB, or Cognito + API Gateway + Lambda + DynamoDB, region eu-west-3); own backend. Suggested
+  plan: a `progress.js` module saving locally first, then an optional account that syncs it. Open
+  questions for the owner: cross-device? teachers / classes? users under 15 (consent in France)?
 
 ## Known issues
 - Name: the logo says "StatsCool", the page title and README say "StatCool". Pick one.

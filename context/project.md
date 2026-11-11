@@ -31,7 +31,7 @@ src/
   index.css                all styles; color tokens on :root (light + dark mode)
   components/
     Header.jsx             logo (links to the topic list) + EN | FR switch + light/dark button
-    Tour.jsx               guided tour: useTour(id) (auto-opens once, replayable) + <Tour steps>: one
+    Tour.jsx               guided tour: useGuide / useTour(id) (auto-opens once, replayable) + <Tour>: one
                            bubble per thing, pointing at [data-tour="…"], the rest blurred and grey
   assets/
     logo-light.png, logo-dark.png  the StatsCool logo, transparent, 313×176 (shown 62 px high,
@@ -169,7 +169,9 @@ docs/CODE_GUIDE.md         beginner-friendly explanation of all the code, librar
   `#FFDE42`, flat) + mode. Backgrounds are neutral: white-like (light), black-like (dark).
   Text colours must pass WCAG AA 4.5:1 in light and dark mode (darken a palette colour for
   text if needed, e.g. `--median` vs `--median-line`).
-- Guided tours (topic 01 so far): one bubble explains one thing. Mark targets with `data-tour="name"`,
-  list `[target…]` per screen in the game (`TOUR_TARGETS`) and the texts in the same order in `text.js`
-  (`tour`); pass `onGuide` to `Stage` for the "? Guide" button.
+- Guided tours (every topic): one bubble explains one thing; the page under the header is blurred.
+  Mark targets with `data-tour="name"` (charts already have `data-tour="chart"`, Stage's steps
+  `data-tour="steps"`), list the targets per screen in `TOUR_TARGETS` (null = centred bubble), put the
+  texts in the same order in `text.js` → `tour`, call `useGuide(id, targets, texts, …)` before any early
+  return, render `{guide.view}` and pass `onGuide={guide.start}` to `Stage`.
 - Every step: update `context/progress.md` (and `next.md` if plans change), then commit and push to `main`.

@@ -859,14 +859,16 @@ a.tl-link:hover .tl-cta { transform: translateX(4px); }
 }
 
 /* The page behind the bubble: blurred and greyed out, except a hole around the target */
-.tour { position: fixed; inset: 0; z-index: 1000; }
-.tour-block { position: absolute; inset: 0; }
+/* Below the header (z-index 10): the header stays sharp and usable */
+.tour { position: fixed; inset: 0; z-index: 1000; pointer-events: none; }
+.tour-block { position: absolute; left: 0; right: 0; bottom: 0; pointer-events: auto; }
+.tour-bubble { pointer-events: auto; }
 .tour-shade {
   position: absolute;
   pointer-events: none;
-  background: color-mix(in srgb, var(--bg) 40%, transparent);
-  backdrop-filter: blur(4px) grayscale(1);
-  -webkit-backdrop-filter: blur(4px) grayscale(1);
+  background: color-mix(in srgb, var(--bg) 35%, transparent);
+  backdrop-filter: blur(2.5px) grayscale(1);
+  -webkit-backdrop-filter: blur(2.5px) grayscale(1);
   transition: left 0.35s ease, top 0.35s ease, width 0.35s ease, height 0.35s ease;
 }
 .tour-ring {

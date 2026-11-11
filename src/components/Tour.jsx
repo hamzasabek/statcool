@@ -6,7 +6,8 @@ import { COMMON } from '../text.js'
 // Guided tour: one bubble at a time, each explaining one thing. The rest of the page is blurred
 // and greyed out; the element the bubble talks about stays sharp inside a yellow ring, and the
 // bubble points at it with a small arrow. A step without a target (or whose target is missing)
-// shows the bubble in the middle of the screen, with everything behind it blurred.
+// shows the bubble in the middle of the screen, with everything behind it blurred. The site header
+// (logo, language, theme) is never covered: it stays sharp and usable during a tour.
 //   steps     : [{ target: CSS selector | null, title, text, place?: 'bottom'|'top'|'right'|'left' }]
 //   onClose   : called when the tour ends (last "Next", Skip, or Escape)
 //   doneLabel : text of the last button (default "Got it")
@@ -33,6 +34,9 @@ function markSeen(id) {
   }
 }
 
+// Height of the sticky site header: the tour covers only what is below it.
+const headerBottom = () => Math.max(0, document.querySelector('.header')?.getBoundingClientRect().bottom ?? 0)
+
 // Opens the tour `id` automatically the first time (per browser), and lets a button replay it.
 export function useTour(id) {
   const [openId, setOpenId] = useState(() => (seen(id) ? null : id))
@@ -51,16 +55,35 @@ export function useTour(id) {
 
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v))
 
+// The usual way to give a game screen its tour: `targets` lists what each bubble points at
+// (a data-tour name, or null for a centred bubble) and `texts` the { title, text } of each bubble,
+// in the same order. Returns the tour element to render (or null) and a `start` for the Guide
+// button (`onStart` runs first, e.g. to pause a game that is running).
+export function useGuide(id, targets, texts, { place = {}, doneLabel, onStart } = {}) {
+  const tour = useTour(id)
+  const steps = targets.map((t, i) => ({ target: t && `[data-tour="${t}"]`, place: place[t], ...texts[i] }))
+  const view = tour.open ? <Tour steps={steps} onClose={tour.close} doneLabel={doneLabel} /> : null
+  return {
+    view,
+    start: () => {
+      onStart?.()
+      tour.start()
+    },
+  }
+}
+
 // Where the bubble goes: next to the hole on the preferred side if it fits, else another side,
-// else inside the hole (big targets like a chart that fills the screen).
-function place(hole, bw, bh, vw, vh, prefer) {
+// else inside the hole (big targets like a chart that fills the screen). Inside, it takes the spot
+// that covers the fewest dots and labels (`items`: their boxes), so it never hides the data.
+function place(hole, bw, bh, vw, vh, prefer, items) {
+  const top0 = hole.top0 + EDGE // the bubble stays below the header
   const cx = (hole.l + hole.r) / 2
   const cy = (hole.t + hole.b) / 2
   const x = (l) => clamp(l, EDGE, vw - bw - EDGE)
-  const y = (t) => clamp(t, EDGE, vh - bh - EDGE)
+  const y = (t) => clamp(t, top0, vh - bh - EDGE)
   const fits = {
     bottom: () => hole.b + GAP + bh + EDGE <= vh && { top: hole.b + GAP, left: x(cx - bw / 2) },
-    top: () => hole.t - GAP - bh >= EDGE && { top: hole.t - GAP - bh, left: x(cx - bw / 2) },
+    top: () => hole.t - GAP - bh >= top0 && { top: hole.t - GAP - bh, left: x(cx - bw / 2) },
     right: () => hole.r + GAP + bw + EDGE <= vw && { left: hole.r + GAP, top: y(cy - bh / 2) },
     left: () => hole.l - GAP - bw >= EDGE && { left: hole.l - GAP - bw, top: y(cy - bh / 2) },
   }
@@ -73,16 +96,26 @@ function place(hole, bw, bh, vw, vh, prefer) {
       return { ...p, side, arrow }
     }
   }
-  return { side: 'inside', left: x(cx - bw / 2), top: y(hole.t + 20), arrow: 0 }
+  const xs = [cx - bw / 2, hole.r - bw - 16, hole.l + 16].map(x) // centre first, then the corners
+  const ys = [hole.t + 16, hole.b - bh - 16].map(y)
+  let best = null
+  for (const top of ys) {
+    for (const left of xs) {
+      const covered = items.filter((r) => r.right > left && r.left < left + bw && r.bottom > top && r.top < top + bh).length
+      if (!best || covered < best.covered) best = { covered, left, top }
+    }
+  }
+  return { side: 'inside', left: best.left, top: best.top, arrow: 0 }
 }
 
 export default function Tour({ steps, onClose, doneLabel }) {
   const tc = useText(COMMON)
   const [i, setI] = useState(0)
-  const [hole, setHole] = useState(null) // { l, t, r, b, vw, vh } in window pixels
+  const [hole, setHole] = useState(null) // { l, t, r, b, vw, vh, top0 } in window pixels (top0 = header bottom)
   const [pos, setPos] = useState(null) // { left, top, side, arrow }
   const bubbleRef = useRef(null)
   const nextRef = useRef(null)
+  const targetRef = useRef(null)
   const step = steps[Math.min(i, steps.length - 1)]
   const last = i >= steps.length - 1
 
@@ -94,22 +127,27 @@ export default function Tour({ steps, onClose, doneLabel }) {
   // Find the target, bring it into view and keep measuring it (resize, scroll, layout changes).
   useLayoutEffect(() => {
     const el = step.target ? document.querySelector(step.target) : null
+    targetRef.current = el
     function measure() {
       const vw = window.innerWidth
       const vh = window.innerHeight
+      const top0 = headerBottom()
       if (!el) {
-        // No target: a hole of size 0 in the middle, so the whole screen is blurred.
-        setHole({ l: vw / 2, r: vw / 2, t: vh / 2, b: vh / 2, vw, vh, none: true })
+        // No target: a hole of size 0 in the middle, so the whole page is blurred.
+        const my = (top0 + vh) / 2
+        setHole({ l: vw / 2, r: vw / 2, t: my, b: my, vw, vh, top0, none: true })
         return
       }
       const r = el.getBoundingClientRect()
+      const t = clamp(r.top - PAD, top0 + 2, vh - 4)
       setHole({
         l: clamp(r.left - PAD, 4, vw - 4),
         r: clamp(r.right + PAD, 4, vw - 4),
-        t: clamp(r.top - PAD, 4, vh - 4),
-        b: clamp(r.bottom + PAD, 4, vh - 4),
+        t,
+        b: clamp(r.bottom + PAD, t, vh - 4),
         vw,
         vh,
+        top0,
         none: false,
       })
     }
@@ -120,7 +158,9 @@ export default function Tour({ steps, onClose, doneLabel }) {
     ro.observe(document.body)
     window.addEventListener('resize', measure)
     window.addEventListener('scroll', measure, true)
+    const again = setTimeout(measure, 900) // once more when the dots have finished dropping in
     return () => {
+      clearTimeout(again)
       ro.disconnect()
       window.removeEventListener('resize', measure)
       window.removeEventListener('scroll', measure, true)
@@ -134,8 +174,14 @@ export default function Tour({ steps, onClose, doneLabel }) {
     const { vw, vh } = hole
     const bw = b.offsetWidth
     const bh = b.offsetHeight
-    if (hole.none) setPos({ side: 'center', left: (vw - bw) / 2, top: Math.max(EDGE, (vh - bh) / 2), arrow: 0 })
-    else setPos(place(hole, bw, bh, vw, vh, step.place))
+    if (hole.none) {
+      const top = Math.max(hole.top0 + EDGE, hole.top0 + (vh - hole.top0 - bh) / 2)
+      setPos({ side: 'center', left: (vw - bw) / 2, top, arrow: 0 })
+    }
+    else {
+      const items = [...(targetRef.current?.querySelectorAll('circle, text') ?? [])].map((e) => e.getBoundingClientRect())
+      setPos(place(hole, bw, bh, vw, vh, step.place, items))
+    }
   }, [hole, i, step.text, step.title, step.place])
 
   // Keyboard focus: on the bubble's main button once it is visible (a hidden element can't take
@@ -167,8 +213,9 @@ export default function Tour({ steps, onClose, doneLabel }) {
         items[to].focus()
         return
       }
-      e.stopPropagation()
-      if (inBubble && (e.key === 'Enter' || e.key === ' ')) return // the focused button clicks itself
+      e.stopPropagation() // the game never sees the key
+      const inHeader = e.target instanceof Element && e.target.closest('.header')
+      if ((inBubble || inHeader) && (e.key === 'Enter' || e.key === ' ')) return // the focused button clicks itself
       if (e.key === 'Escape') onClose()
       else if (e.key === 'Enter' || e.key === 'ArrowRight') go(1)
       else if (e.key === 'ArrowLeft') go(-1)
@@ -179,9 +226,9 @@ export default function Tour({ steps, onClose, doneLabel }) {
     return () => window.removeEventListener('keydown', onKey, true)
   })
 
-  const h = hole ?? { l: 0, r: 0, t: 0, b: 0, vw: 0, vh: 0, none: true }
+  const h = hole ?? { l: 0, r: 0, t: 0, b: 0, vw: 0, vh: 0, top0: 0, none: true }
   const shades = [
-    { left: 0, top: 0, width: h.vw, height: h.t }, // above
+    { left: 0, top: h.top0, width: h.vw, height: Math.max(0, h.t - h.top0) }, // above (under the header)
     { left: 0, top: h.b, width: h.vw, height: Math.max(0, h.vh - h.b) }, // below
     { left: 0, top: h.t, width: h.l, height: h.b - h.t }, // left
     { left: h.r, top: h.t, width: Math.max(0, h.vw - h.r), height: h.b - h.t }, // right
@@ -189,7 +236,7 @@ export default function Tour({ steps, onClose, doneLabel }) {
 
   return createPortal(
     <div className="tour">
-      <div className="tour-block" onPointerDown={(e) => e.preventDefault()} />
+      <div className="tour-block" style={{ top: h.top0 }} onPointerDown={(e) => e.preventDefault()} />
       {shades.map((s, k) => (
         <div key={k} className="tour-shade" style={s} />
       ))}
