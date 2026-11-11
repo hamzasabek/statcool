@@ -695,6 +695,99 @@ a.tl-link:hover .tl-cta { transform: translateX(4px); }
   .mm-stim { height: 118px; }
 }
 
+/* ---------- Topic: variance and SD (aim and tap) ---------- */
+.aim-main { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 18px; }
+.aim-main.is-single { display: flex; flex-direction: column; }
+.aim-main .chart-fill { min-height: 0; }
+.aim-arena {
+  position: relative;
+  min-height: 0;
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: var(--shadow), inset 0 0 0 1.5px var(--border);
+  overflow: hidden;
+  cursor: crosshair;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.aim-arena.is-fast { box-shadow: var(--shadow), inset 0 0 0 1.5px color-mix(in srgb, var(--sky) 55%, var(--border)); }
+.aim-target { position: absolute; pointer-events: none; overflow: visible; animation: aim-pop 0.12s ease-out; }
+@keyframes aim-pop { from { transform: scale(0.6); opacity: 0; } }
+.aim-ring-out { fill: var(--surface); stroke: var(--navy); stroke-width: 3; }
+.aim-ring-mid { fill: none; stroke: var(--navy); stroke-width: 2; }
+.aim-ring-in { fill: var(--sun); stroke: var(--navy); stroke-width: 1.5; }
+:root[data-theme='dark'] .aim-ring-out,
+:root[data-theme='dark'] .aim-ring-mid { stroke: #a9baff; }
+:root[data-theme='dark'] .aim-ring-in { stroke: #a9baff; }
+.aim-timer {
+  fill: none;
+  stroke: var(--sky);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  transform: rotate(-90deg);
+  animation: aim-time linear forwards; /* duration = FAST_MS, set inline */
+}
+@keyframes aim-time { to { stroke-dashoffset: 1; } }
+.aim-hit {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--text);
+  pointer-events: none;
+  animation: aim-fade 0.7s ease-out forwards;
+}
+@keyframes aim-fade { to { opacity: 0; transform: scale(1.8); } }
+.aim-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 16px; text-align: center; }
+.aim-overlay-text { margin: 0; font-weight: 700; color: var(--muted); }
+.aim-slow { font-size: 0.86rem; font-weight: 600; color: var(--miss); }
+.legend-item.ck-key.is-faint::before { opacity: 0.4; }
+
+.aim-bull-view { fill: var(--surface); stroke: var(--border); stroke-width: 1.5; }
+.aim-bull-axis { stroke: var(--grid); }
+.aim-bull-ring { fill: none; stroke: var(--axis); stroke-width: 1.2; }
+.aim-bull-ring.is-in { fill: color-mix(in srgb, var(--sun) 35%, transparent); }
+.aim-bull-label,
+.aim-bull-scale { fill: var(--muted); font-size: 11px; }
+.ck-dot.is-faint { opacity: 0.35; }
+.aim-spread ellipse { fill: none; stroke-width: 2; stroke-dasharray: 6 4; }
+.aim-spread.is-a ellipse,
+.aim-spread.is-a .aim-mean-cross { stroke: var(--ck-a-line); }
+.aim-spread.is-b ellipse,
+.aim-spread.is-b .aim-mean-cross { stroke: var(--ck-b-line); }
+.aim-mean-cross { fill: none; stroke-width: 3; stroke-linecap: round; }
+.aim-mean-halo { fill: none; stroke: var(--surface); stroke-width: 7; stroke-linecap: round; }
+.aim-spread ellipse { paint-order: stroke; }
+.legend-item.aim-key-mean::before { content: '+'; width: auto; height: auto; background: none; font-weight: 800; color: var(--text); }
+.legend-item.aim-key-ellipse::before { width: 16px; height: 9px; border-radius: 50%; background: none; border: 1.5px dashed var(--muted); }
+
+.aim-sq .aim-square { stroke-width: 1; }
+.aim-sq.is-a .aim-square { fill: color-mix(in srgb, var(--sun) 16%, transparent); stroke: var(--ck-a-line); }
+.aim-sq.is-b .aim-square { fill: color-mix(in srgb, var(--sky) 12%, transparent); stroke: var(--ck-b-line); }
+.aim-sq.is-sd .aim-square { opacity: 0.35; }
+.aim-avg rect { fill: color-mix(in srgb, var(--brand) 22%, transparent); stroke: var(--mean); stroke-width: 2.5; }
+.aim-avg text { fill: var(--mean); font-size: 12px; font-weight: 700; paint-order: stroke; stroke: var(--bg); stroke-width: 3px; }
+.aim-sd-band rect { fill: var(--accent-soft); opacity: 0.7; }
+.aim-sd-band text { fill: var(--muted); font-size: 11px; font-weight: 600; }
+.aim-mean-line { stroke: var(--mean); stroke-width: 2; }
+.aim-mean-label { fill: var(--mean); font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.aim-dev { stroke: var(--brand); stroke-width: 2; }
+.aim-dev.is-left { stroke: var(--median-line); }
+.aim-sq.is-sd .aim-dev { opacity: 0.25; }
+
+@media (max-width: 700px) {
+  .stage.aim-stage { height: auto; min-height: calc(100dvh - var(--header-h)); }
+  .aim-main { grid-template-columns: 1fr; grid-template-rows: minmax(260px, 1.3fr) minmax(190px, 1fr); gap: 10px; }
+  .aim-main.is-single .chart-fill { min-height: 300px; }
+  .aim-stage .actions .btn { padding: 0 13px; }
+  .aim-stage .stage-bar .segmented button { padding: 0 9px; }
+}
+
 /* ---------- Topic: right-skewed distributions (reaction time) ---------- */
 .rt-main { flex: 1; min-height: 0; display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 20px; }
 .rt-main.is-full { display: flex; flex-direction: column; }

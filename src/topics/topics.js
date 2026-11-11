@@ -59,7 +59,7 @@ export const topics = [
     slug: 'variance-sd',
     part: 'describe',
     shape: 'spread',
-    available: false,
+    available: true,
     text: {
       en: {
         game: 'Aim and tap',

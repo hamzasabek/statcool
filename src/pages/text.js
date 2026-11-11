@@ -104,6 +104,7 @@ export const ABOUT = {
     sep: ': ',
     experiments: [
       ['The Müller-Lyer illusion', 'Franz Müller-Lyer, 1889. A line with outward fins looks longer than a plain line of the same length.'],
+      ['Aim and tap', 'Robert Woodworth, 1899. The faster you move, the less precise you are: the speed–accuracy trade-off, one of the oldest results on how we control our movements.'],
       ['Your inner clock', 'time estimation. The longer the time you estimate, the bigger your errors, in proportion (Weber’s law for time).'],
       ['Reaction time', 'one of the oldest measures in experimental psychology. Reaction times have a floor but no ceiling, so they always trail off to the right.'],
       ['Listen to a neuron', 'neurons fire at irregular moments. A simple model is a random (Poisson) process, whose waits follow the exponential distribution.'],
@@ -135,6 +136,7 @@ export const ABOUT = {
     sep: ' : ',
     experiments: [
       ['L’illusion de Müller-Lyer', 'Franz Müller-Lyer, 1889. Une ligne avec des pointes vers l’extérieur paraît plus longue qu’une ligne simple de même longueur.'],
+      ['Visez et touchez', 'Robert Woodworth, 1899. Plus on bouge vite, moins on est précis : le compromis vitesse–précision, l’un des plus anciens résultats sur le contrôle de nos mouvements.'],
       ['Votre horloge interne', 'l’estimation du temps. Plus la durée à estimer est longue, plus vos erreurs grandissent, en proportion (la loi de Weber pour le temps).'],
       ['Temps de réaction', 'l’une des plus anciennes mesures de la psychologie expérimentale. Les temps de réaction ont un plancher mais pas de plafond, donc ils s’étirent toujours vers la droite.'],
       ['Écoutez un neurone', 'les neurones déchargent à des moments irréguliers. Un modèle simple est un processus aléatoire (de Poisson), dont les attentes suivent la loi exponentielle.'],

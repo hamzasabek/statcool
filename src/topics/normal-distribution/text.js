@@ -22,7 +22,7 @@ export const CLOCK = {
         close ? ': about the same. Timing errors grow in proportion to the time (Weber’s law).' : '.'
       }`,
     within: (a, b) =>
-      `Within 1 SD of the mean: ${a} of your 2 s presses and ${b} of your 5 s presses. A bell puts about 68 % there, and 95 % within 2 SD.`,
+      `Within 1 SD of the mean: ${a} of your 2 s presses and ${b} of your 5 s presses. A bell puts about 68% there, and 95% within 2 SD.`,
     nextLabel: (isLast, t) => (isLast ? 'Compare →' : `Next: ${t} seconds →`),
     padStart: 'Start',
     padNext: 'Next press',
@@ -66,7 +66,7 @@ export const CLOCK = {
         },
         {
           title: 'The bell curve',
-          text: 'From 3 presses on, a bell-shaped curve is drawn over your dots, with your own mean and SD. This is the normal distribution: watch your dots fill it in. In any bell, about 68 % of the dots lie within 1 SD of the mean.',
+          text: 'From 3 presses on, a bell-shaped curve is drawn over your dots, with your own mean and SD. This is the normal distribution: watch your dots fill it in. In any bell, about 68% of the dots lie within 1 SD of the mean.',
         },
         {
           title: 'Feel it, undo it',

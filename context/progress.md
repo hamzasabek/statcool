@@ -662,3 +662,28 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Tested in headless Chrome: /topics at 1366 px and 390 px (FR, dark), home at 390 px: parts,
   numbers and the Coming-soon item correct, no horizontal overflow. (Headless Chrome on Windows
   cannot make a window narrower than ~500 px: phone widths are checked in a 390 px iframe.)
+
+## 2026-11-11 — Step 47: topic 02 "Variance and standard deviation" (Aim and tap)
+- New game in `src/topics/variance-sd/` (AimTap, Arena, Bullseye, SquaresChart, sd.js, text.js),
+  route `/topics/variance-sd`, now available in the timeline (Part 1, topic 02). Based on the
+  speed–accuracy trade-off (Woodworth 1899), added to the About page's experiments (EN + FR).
+- Steps: 1 Careful: 15 taps on targets that pop up at random spots and wait; each tap's error from
+  the centre becomes a dot on a zoomed bullseye. 2 Fast: 15 taps, each target vanishes after
+  0.65 s (a ring shows the time; too-late targets are counted, not recorded; 3 in a row or hiding
+  the tab pauses). 3 Spread: both clouds on one target with their mean points (+) and 1-SD
+  ellipses: "your fast cloud is N× wider", the means say where, not how scattered. 4 The SD, on
+  the left–right errors: view 1 Deviations (one stick per tap, one row each; left and right sums
+  cancel to 0), view 2 Squares (each stick becomes a square standing on the axis from the mean;
+  sum ÷ (n − 1) = variance in px², with a short "why n − 1"), view 3 SD (the average square,
+  whose side is the SD, ±1 SD band, taps outside faded, how many fall within 1 SD, careful vs
+  fast SD). Careful / Fast switch shares one scale. Guided tours for every step (EN + FR).
+- New glyph `spread` (Step 46) used in the timeline and home cards.
+- Inner clock: English "68 %" → "68%" (the French keeps the space).
+- Tested in headless Chrome through the DevTools protocol, with real mouse clicks on the targets
+  (scripted aim errors: careful SD 3 px, fast SD 12 px at 120 ms): 1366×768 EN light, 390×844 FR
+  dark, 360×640 EN light. All 4 tours (16 bubbles) open with their targets; both rounds fill;
+  spread and SD screens correct; no horizontal overflow; no errors. Fixed after the first run:
+  overlapping deviation sticks (now one row per tap), mean crosses / ellipses hidden under dots
+  (now on top), labels running off narrow screens (average-square and ±1 SD labels now move to
+  where they fit), a headline that said "same centre" when the fast taps had drifted. The inner
+  clock's compare page was also played (10 + 10 presses): the new "within 1 SD" line shows.

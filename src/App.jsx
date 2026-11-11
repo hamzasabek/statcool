@@ -10,6 +10,7 @@ import MeanMedian from './topics/mean-median/MeanMedian.jsx'
 import ReactionTime from './topics/right-skewed/ReactionTime.jsx'
 import Neuron from './topics/exponential/Neuron.jsx'
 import Ebbinghaus from './topics/binomial/Ebbinghaus.jsx'
+import AimTap from './topics/variance-sd/AimTap.jsx'
 
 // Home = the concept of the site, Topics = the list of games, About. Archived pages are in archive/.
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/topics/normal-distribution" element={<ClockGame />} />
           <Route path="/topics/mean-median" element={<MeanMedian />} />
+          <Route path="/topics/variance-sd" element={<AimTap />} />
           <Route path="/topics/right-skewed" element={<ReactionTime />} />
           <Route path="/topics/exponential" element={<Neuron />} />
           <Route path="/topics/binomial" element={<Ebbinghaus />} />
