@@ -9,8 +9,12 @@ import { QUIZ_UI } from './quizText.js'
 // A topic's quiz: one question at a time, multiple choice. After an answer the right option turns
 // green (yours red if wrong) and a short explanation appears; the dots at the bottom keep the score.
 // At the end: the score and a review of every question. Keyboard: 1–4 (or A–D) answer, Enter goes on.
-//   questions : { en: [...], fr: [...] }, each { q, figure?, options, answer, why } (see
+//   questions : the bank, { en: [...], fr: [...] }, each { q, figure?, options, answer, why } (see
 //               topics/mean-median/quiz.js)
+//   count     : how many questions to draw from the bank at each attempt (default: all). The draw
+//               keeps the bank's order (it goes from basics to harder ideas), and the options of each
+//               question are shuffled, so the right answer is not always in the same place. "Try
+//               again" draws a new set.
 //   title     : the page title (per language: { en, fr })
 //   topic     : the topic's slug (the "back to the games" link)
 //   guideId   : the id of the guided tour (seen once per browser)
@@ -18,10 +22,32 @@ import { QUIZ_UI } from './quizText.js'
 const LETTERS = ['A', 'B', 'C', 'D']
 const DROP = { type: 'spring', stiffness: 420, damping: 24, mass: 0.9 }
 
-export default function Quiz({ questions, title, topic, guideId }) {
+const shuffle = (a) => {
+  const b = [...a]
+  for (let i = b.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[b[i], b[j]] = [b[j], b[i]]
+  }
+  return b
+}
+// One attempt: which questions of the bank (in bank order) and, for each, the order of its options.
+function draw(bank, count) {
+  const picked = shuffle(bank.map((_, k) => k))
+    .slice(0, Math.min(count ?? bank.length, bank.length))
+    .sort((a, b) => a - b)
+  return picked.map((k) => ({ k, order: shuffle(bank[k].options.map((_, o) => o)) }))
+}
+
+export default function Quiz({ questions, title, topic, guideId, count }) {
   const tx = useText(QUIZ_UI)
   const { lang } = useLang()
-  const qs = useText(questions)
+  const bank = useText(questions)
+  const [set, setSet] = useState(() => draw(bank, count))
+  // This attempt's questions, options in their shuffled order (the same order in both languages).
+  const qs = set.map(({ k, order }) => {
+    const b = bank[k]
+    return { ...b, options: order.map((o) => b.options[o]), answer: order.indexOf(b.answer) }
+  })
   const [i, setI] = useState(0)
   const [picks, setPicks] = useState(() => qs.map(() => null))
   const [done, setDone] = useState(false)
@@ -43,7 +69,9 @@ export default function Quiz({ questions, title, topic, guideId }) {
     else setI(i + 1)
   }
   function restart() {
-    setPicks(qs.map(() => null))
+    const next = draw(bank, count)
+    setSet(next)
+    setPicks(next.map(() => null))
     setI(0)
     setDone(false)
   }

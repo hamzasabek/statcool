@@ -120,8 +120,10 @@ src/
                              mode Mo = the x with the largest f(x) → columns x / f(x). Explanation of
                              the last change in the foot. Narrow screens: one card at a time (tabs).
       calcText.js            CALC texts (en + fr)
-      MeanQuiz.jsx           the topic's quiz (/topics/mean-median/quiz) = components/Quiz.jsx with
-      quiz.js                9 questions (en + fr): question, optional dot figure, options, answer, why
+      MeanQuiz.jsx           the topic's quiz (/topics/mean-median/quiz) = components/Quiz.jsx, count 9
+      quiz.js                a bank of 30 questions (en + fr, same order and answers): question,
+                             optional dot figure, options, answer, why. Quiz.jsx draws 9 at random per
+                             attempt (kept in bank order) and shuffles each question's options
     variance-sd/           topic 02 "Variance and standard deviation": "How precise is your memory?"
       MemoryGame.jsx         4 steps: 1 line (12 trials) → 4 lines (12 trials) → Spread (one row
                              of errors per round, mean line + ±1 SD bracket) → The SD (views
@@ -218,7 +220,7 @@ changes: `grep -rn "topic 0|thème 0" src`.
    idea per language }) and register `"<topic>/<slug>"`; the topic page shows a card after the games
    ("Free play" / "Test yourself"), the timeline a chip. For a quiz, write its questions like
    `topics/mean-median/quiz.js`, and register `"<topic>/quiz"` as a small component that renders
-   `<Quiz questions title topic guideId />` (components/Quiz.jsx; texts in components/quizText.js).
+   `<Quiz questions count title topic guideId />` (count = how many to draw from the bank) (components/Quiz.jsx; texts in components/quizText.js).
 
 ## Language and theme
 

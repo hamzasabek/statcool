@@ -867,3 +867,21 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   768×1024 and 390×844; 360×640 scrolls ~100 px (no overlap). KaTeX: no errors; the median's active
   case switches with odd / even n. Playground test still passes. Shortened the mode formula ("the x
   with the largest f(x)") so it fits its card.
+
+## 2026-11-11 — Step 58: topic 01 quiz: a bank of 30 questions, 9 drawn at random
+- Owner: a bank of 30 questions for topic 01's quiz, 9 chosen at random each time.
+- quiz.js: 21 new questions (EN + FR) added to the 9: computing a mean (2, 4, 6, 8), +3 to every
+  score, a fifth person joins (mean 7, not 8.5), sum from mean × n, median of an unsorted list, one
+  value × 10 (only the mean moves), two modes, no mode, the mean need not be a value, median of
+  8 values, ordinal answers (median and mode only), why the median reaction time, mean > median →
+  right tail, mean < median → left tail, robustness, Müller-Lyer's 10 %, 20 of 200 by chance,
+  Miller's 7 ± 2, one dot moved 4 among 8 → 0.5, adding a value equal to the mean, a symmetric
+  set (3, 3, 3). Every number recomputed by script; EN and FR checked to have the same answers,
+  options and figures.
+- components/Quiz.jsx: new `count` prop; each attempt draws `count` questions from the bank (kept
+  in bank order, basics first) and shuffles each question's options (the bank had 17 right answers
+  in B and none in D); "Try again" draws a new set. MeanQuiz passes count={9}. Topic card text:
+  "9 questions drawn from a bank of 30… a new set every time".
+- Tested in headless Chrome, 5 attempts each at 1366×768 EN and 390×844 FR: 9 different questions
+  per attempt, 5 different sets, the green option always matches the verdict, scores and review
+  correct, right answers spread over A–D (15 8 8 14 / 11 15 10 9); no errors.

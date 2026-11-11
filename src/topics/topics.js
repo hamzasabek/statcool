@@ -96,8 +96,8 @@ export const topics = [
         slug: 'quiz',
         kind: 'quiz',
         text: {
-          en: { name: 'Quiz', idea: '9 questions on the games and the free play, each with its explanation. No timer.' },
-          fr: frenchTypo({ name: 'Quiz', idea: '9 questions sur les jeux et le jeu libre, chacune avec son explication. Pas de chrono.' }),
+          en: { name: 'Quiz', idea: '9 questions drawn from a bank of 30, each with its explanation. A new set every time, no timer.' },
+          fr: frenchTypo({ name: 'Quiz', idea: '9 questions tirées d’une banque de 30, chacune avec son explication. Une nouvelle série à chaque fois, sans chrono.' }),
         },
       },
     ],
