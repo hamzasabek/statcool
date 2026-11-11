@@ -27,6 +27,8 @@
   thresholds tuned for old column counts) now only concern archived code (`archive/`).
 
 ## Topic ideas
+- Goal (owner, Step 49): at least 3 games per topic. Done: topic 01 (Müller-Lyer, digit span,
+  blue-seven). Each other topic needs 2 more games: see the ideas below for each topic.
 - More binomial games suggested in Step 37: can you be random? (switches in 20 "random" H/T
   vs Binomial(19, ½); people switch too often), Asch conformity (conforming answers out of 12,
   Asch's 37 %), Monty Hall (wins out of 10 staying vs switching), change blindness.

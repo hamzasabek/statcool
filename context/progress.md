@@ -737,3 +737,20 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   back, with one mistake when the list passes a target span): 1366×768 EN light, 390×844 FR dark.
   6 runs (spans 6 7 6 5 7 6 → mode 6, median 6, mean 6.2), all tours (11 bubbles), no overflow,
   no errors. Fixed: marker lines crossed the labels; dots too big with few runs.
+
+## 2026-11-11 — Step 51: topic 01, game 3 "Pick a random number" (blue-seven)
+- New game `/topics/mean-median/blue-seven` (BlueSeven, CategoryChart, blue.js, blueText.js),
+  available on the topic page; added to the About page (Simon & Primavera 1972; Kubovy & Psotka
+  1976). Topic 01 now has its 3 games.
+- Choose: a number from 1 to 10 "at random" (round buttons), then a colour (10 swatches; the
+  colour question unlocks after the number). The crowd: 200 simulated people + you (shape of
+  published surveys, said on screen: 7 = 28 %, blue = 35 %) as bars, your answer outlined and
+  marked "you", a dashed "if random: 20 each" line, mode column, median and mean lines: "the
+  median and the mean answer another question; only the mode says which number people pick".
+  Colours: bars in their colour, mode = blue; "median colour? no order"; the "mean colour" is the
+  paint mix of everyone's answer, shown as a muddy swatch nobody chose.
+- Tested in headless Chrome: 1366×768 EN light (picked 3 + green), 390×844 FR dark (7 + blue,
+  then 4 + orange): all tours (8 bubbles), every screen, no overflow, no errors. Fixed: count
+  labels crossed by lines (labels now drawn last with a halo), the "if random" label colliding
+  on phones (hidden there; the legend explains the line), colour names that did not all fit (then
+  only yours is written), "10 %" breaking across lines in French.

@@ -94,6 +94,13 @@ src/
                              mode / median / mean markers with labels on three rows
       span.js                runs, lengths, timings, mean / median / modes, seeded simulatedClass
       spanText.js            SPAN texts (en + fr)
+      BlueSeven.jsx          game 3 "Pick a random number" (blue-seven): Choose (a number 1–10, a
+                             colour) → The crowd (200 simulated + you: bars, "if random" line, mode /
+                             median / mean) → Colours (mode only; the "mean colour" = mixed paint)
+      CategoryChart.jsx      bars per category, your answer outlined, mode column, optional median /
+                             mean lines and chance line; labels drawn last with a halo
+      blue.js                crowd counts (7 = 28 %, blue = 35 %), colours, stats, meanColour
+      blueText.js            BLUE texts (en + fr)
     variance-sd/           topic 02 "Variance and standard deviation": "How precise is your memory?"
       MemoryGame.jsx         4 steps: 1 line (12 trials) → 4 lines (12 trials) → Spread (one row
                              of errors per round, mean line + ±1 SD bracket) → The SD (views
@@ -167,7 +174,7 @@ docs/CODE_GUIDE.md         private, gitignored (local only): beginner-friendly e
 Course plan (order of `topics.js`; URLs use names, not numbers, so reordering breaks no link).
 Goal (owner, Step 49): at least 3 games per topic.
 - Part 1 · Describe your data
-  - 01 `mean-median` "Mean, median and mode": `muller-lyer`, `digit-span`, `blue-seven` (soon)
+  - 01 `mean-median` "Mean, median and mode": `muller-lyer`, `digit-span`, `blue-seven`
   - 02 `variance-sd` "Variance and standard deviation": `memory` (how precise is your memory?)
 - Part 2 · Shapes of data
   - 03 `normal-distribution` "The normal distribution": `inner-clock`

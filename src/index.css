@@ -810,7 +810,7 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
 
 .ds-mode-col { fill: color-mix(in srgb, var(--sun) 22%, transparent); }
 .ds-bar { fill: color-mix(in srgb, var(--sky) 45%, transparent); stroke: var(--ck-b-line); stroke-width: 1; }
-.ds-bar-count { fill: var(--muted); font-size: 11px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ds-bar-count { fill: var(--muted); font-size: 11px; font-weight: 600; font-variant-numeric: tabular-nums; paint-order: stroke; stroke: var(--bg); stroke-width: 3px; }
 .ds-mark-line { stroke-width: 2.5; }
 .ds-mark-line.is-median { stroke: var(--median-line); stroke-dasharray: 6 4; }
 .ds-mark-line.is-mean { stroke: var(--mean); }
@@ -830,6 +830,76 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
   .ds-digit { font-size: 4rem; }
   .ds-pad { grid-template-columns: repeat(3, 72px); }
   .ds-stage .actions .btn { padding: 0 13px; }
+}
+
+/* ---------- Topic 01, game 3: pick a random number (blue-seven) ---------- */
+.bs-main { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; gap: 22px; max-width: 760px; width: 100%; margin: 0 auto; }
+.bs-main.is-chart { max-width: none; margin: 0; justify-content: stretch; gap: 0; }
+.bs-main .chart-fill { min-height: 0; }
+.bs-q { margin: 0; padding: 18px 20px 20px; border: 0; border-radius: 22px; background: var(--surface); box-shadow: var(--shadow); transition: opacity 0.2s; }
+.bs-q.is-later { opacity: 0.45; }
+.bs-q legend { float: left; width: 100%; margin-bottom: 14px; font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; }
+.bs-numbers { clear: both; display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 8px; }
+.bs-num {
+  aspect-ratio: 1;
+  max-height: 56px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--hover);
+  color: var(--text);
+  font: inherit;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: inset 0 0 0 1.5px var(--border);
+}
+.bs-num:hover:not(:disabled) { background: var(--hover-strong); }
+.bs-num.is-on { background: var(--cta); color: var(--on-cta); box-shadow: none; }
+.bs-num:focus-visible,
+.bs-colour:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.bs-colours { clear: both; display: flex; flex-wrap: wrap; gap: 8px; }
+.bs-colour {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px 7px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--hover);
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1.5px var(--border);
+}
+.bs-colour:disabled { cursor: default; }
+.bs-colour.is-on { box-shadow: inset 0 0 0 2.5px var(--accent); background: var(--accent-soft); }
+.bs-swatch { width: 20px; height: 20px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.18); }
+
+.bs-bar { fill: color-mix(in srgb, var(--sky) 45%, transparent); stroke: var(--ck-b-line); stroke-width: 1; }
+.bs-bar.is-colour { stroke: rgb(0 0 0 / 0.25); }
+:root[data-theme='dark'] .bs-bar.is-colour { stroke: rgb(255 255 255 / 0.3); }
+.bs-bar.is-you { stroke: var(--text); stroke-width: 2.5; }
+.bs-you { fill: var(--text); font-size: 12px; font-weight: 800; paint-order: stroke; stroke: var(--bg); stroke-width: 3px; }
+.bs-tick.is-you { fill: var(--text); font-weight: 800; }
+.bs-chance line { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 5 5; }
+.bs-chance text { fill: var(--muted); font-size: 11px; font-weight: 600; }
+.legend-item.bs-key-you::before { width: 10px; height: 12px; border-radius: 2px; background: none; box-shadow: inset 0 0 0 2px var(--text); }
+.legend-item.bs-key-chance::before { height: 0; border-top: 2px dashed var(--muted); background: none; }
+.bs-mean { display: flex; align-items: center; gap: 14px; }
+.bs-mean-swatch { flex: none; width: 46px; height: 46px; border-radius: 12px; box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.2); }
+.bs-mean-name { font-style: italic; }
+
+@media (max-width: 700px) {
+  .stage.bs-stage { height: auto; min-height: calc(100dvh - var(--header-h)); }
+  .bs-main { justify-content: flex-start; gap: 14px; }
+  .bs-main.is-chart .chart-fill { min-height: 300px; }
+  .bs-numbers { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .bs-num { max-height: none; }
+  .bs-q { padding: 14px 14px 16px; }
+  .bs-q legend { font-size: 1.05rem; }
+  .bs-stage .actions .btn { padding: 0 13px; }
 }
 
 /* ---------- Topic: variance and SD (how precise is your memory?) ---------- */
