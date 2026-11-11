@@ -56,6 +56,7 @@ function TopicItem({ topic: t, number, delay, lang, tx }) {
                 {g.text[lang].name}
               </span>
             ))}
+            {t.playground && <span className="tl-chip is-play">{tx.playground}</span>}
           </span>
         </span>
         <TopicGlyph shape={t.shape} />

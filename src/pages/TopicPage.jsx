@@ -7,7 +7,8 @@ import TopicGlyph from '../components/TopicGlyph.jsx'
 import NotFound from './NotFound.jsx'
 
 // A topic's page (/topics/<slug>): its title and idea, then one card per game (the experiment
-// behind it and the one idea it teaches), and links to the previous and next topics.
+// behind it and the one idea it teaches), its playground if it has one, and links to the previous
+// and next topics.
 export function TopicPage() {
   const { slug } = useParams()
   const { lang } = useLang()
@@ -63,6 +64,15 @@ export function TopicPage() {
           )
         })}
       </ol>
+
+      {topic.playground && (
+        <Link to={`/topics/${topic.slug}/playground`} className="topic-play">
+          <span className="topic-play-tag">{tx.playgroundTag}</span>
+          <span className="topic-game-name">{tx.playground}</span>
+          <span className="topic-game-idea">{topic.playground[lang].idea}</span>
+          <span className="tl-cta">{tx.play}</span>
+        </Link>
+      )}
 
       <nav className="topic-nav" aria-label={tx.topicNav}>
         {prev ? (

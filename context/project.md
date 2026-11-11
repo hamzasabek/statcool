@@ -101,6 +101,15 @@ src/
                              mean lines and chance line; labels drawn last with a halo
       blue.js                crowd counts (7 = 28 %, blue = 35 %), colours, stats, meanColour
       blueText.js            BLUE texts (en + fr)
+      Playground.jsx         the topic's free play (/topics/mean-median/playground): scenario chips
+                             (free, salaries + "Add the CEO", reaction times, a 1–7 survey, spans),
+                             + Dot / Undo / Reset / Clear, the three centres, 6 challenges (one ticks
+                             when the student's own change makes it true), feedback: what the last
+                             change did to the mean and the median + what the data looks like
+      PlayChart.jsx          dots snapped to the scenario's step: tap empty = add, drag = move, tap a
+                             dot = remove; keyboard: Tab to a dot, ← → move, Delete removes
+      play.js                SCENARIOS, snap, mean / median / modes, CHALLENGES (checks)
+      playText.js            PLAY texts (en + fr)
     variance-sd/           topic 02 "Variance and standard deviation": "How precise is your memory?"
       MemoryGame.jsx         4 steps: 1 line (12 trials) → 4 lines (12 trials) → Spread (one row
                              of errors per round, mean line + ±1 SD bracket) → The SD (views
@@ -174,7 +183,7 @@ docs/CODE_GUIDE.md         private, gitignored (local only): beginner-friendly e
 Course plan (order of `topics.js`; URLs use names, not numbers, so reordering breaks no link).
 Goal (owner, Step 49): at least 3 games per topic.
 - Part 1 · Describe your data
-  - 01 `mean-median` "Mean, median and mode": `muller-lyer`, `digit-span`, `blue-seven`
+  - 01 `mean-median` "Mean, median and mode": `muller-lyer`, `digit-span`, `blue-seven`, + `playground`
   - 02 `variance-sd` "Variance and standard deviation": `memory` (how precise is your memory?)
 - Part 2 · Shapes of data
   - 03 `normal-distribution` "The normal distribution": `inner-clock`
@@ -193,6 +202,8 @@ changes: `grep -rn "topic 0|thème 0" src`.
    ref, idea in en and fr). A new drawing goes in `src/components/TopicGlyph.jsx`.
 2. Create the game's component in `src/topics/<topic>/`.
 3. Register it in `src/topics/games.jsx` as `"<topic>/<game>": Component`. No route to add.
+4. A playground: add `playground: { en: { idea }, fr }` to the topic and register
+   `"<topic>/playground"`; the topic page shows a "Free play" card, the timeline a chip.
 
 ## Language and theme
 

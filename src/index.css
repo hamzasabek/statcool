@@ -1380,3 +1380,76 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
   .tour-shade, .tour-ring { transition: none; }
   .tour-bubble { animation: none; }
 }
+
+/* ---------- A topic's playground card (topic page) ---------- */
+.topic-play {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 16px;
+  padding: 20px 22px;
+  border-radius: 22px;
+  background: linear-gradient(120deg, color-mix(in srgb, var(--sun) 22%, var(--surface)), var(--surface) 70%);
+  box-shadow: var(--shadow), inset 0 0 0 1.5px color-mix(in srgb, var(--sun) 55%, transparent);
+  color: var(--text);
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.topic-play:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover), inset 0 0 0 1.5px var(--sun); }
+.topic-play:hover .tl-cta { transform: translateX(4px); }
+.topic-play:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.topic-play-tag { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ck-a-text); }
+.topic-play .topic-game-idea { margin-top: 2px; max-width: 70ch; }
+.tl-chip.is-play { background: color-mix(in srgb, var(--sun) 28%, transparent); color: var(--ck-a-text); }
+
+/* ---------- Playground (topic 01) ---------- */
+.pg-main { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 18px; }
+.pg-main .chart-fill { min-height: 0; }
+.pg-chart { touch-action: none; cursor: copy; }
+.pg-chart.is-dragging { cursor: grabbing; }
+.pg-hit { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+.pg-dot { cursor: grab; }
+.pg-dot:focus-visible { outline: none; stroke: var(--accent); stroke-width: 3; }
+.pg-scenarios { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.pg-scenarios-label { margin-right: 4px; font-size: 0.82rem; font-weight: 600; color: var(--muted); }
+.pg-chip {
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--hover);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1.5px var(--border);
+}
+.pg-chip:hover { background: var(--hover-strong); }
+.pg-chip.is-on { background: var(--accent-soft); color: var(--accent); box-shadow: inset 0 0 0 2px var(--accent); }
+.pg-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pg-side { display: flex; flex-direction: column; gap: 12px; }
+.stage.pg-stage { height: auto; min-height: calc(100dvh - var(--header-h)); }
+.pg-main .chart-fill { min-height: 380px; }
+.pg-card { padding: 14px 16px; border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); }
+.page .pg-card h2 { margin: 0 0 10px; font-size: 0.95rem; display: flex; justify-content: space-between; align-items: baseline; }
+.pg-count { font-size: 0.82rem; font-weight: 600; color: var(--muted); }
+.pg-stats { margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.pg-stats div { display: flex; flex-direction: column; gap: 2px; padding: 8px 6px; border-radius: 12px; background: var(--hover); text-align: center; }
+.pg-stats dt { font-size: 0.78rem; font-weight: 600; color: var(--muted); }
+.pg-stats dd { margin: 0; font-size: 1.05rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.pg-stats .is-mode dd { color: var(--ck-a-text); }
+.pg-stats .is-median dd { color: var(--median); }
+.pg-stats .is-mean dd { color: var(--mean); }
+.pg-n { margin: 8px 0 0; font-size: 0.82rem; color: var(--muted); }
+.pg-challenges { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; font-size: 0.86rem; line-height: 1.35; }
+.pg-challenges li { display: flex; gap: 9px; align-items: flex-start; }
+.pg-check { flex: none; width: 20px; height: 20px; margin-top: 1px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1.5px var(--border); font-size: 0.8rem; font-weight: 800; }
+.pg-challenges li.is-done { color: var(--muted); }
+.pg-challenges li.is-done .pg-check { background: var(--real); color: var(--bg); box-shadow: none; }
+
+@media (max-width: 860px) {
+  .stage.pg-stage { height: auto; min-height: calc(100dvh - var(--header-h)); }
+  .pg-main { grid-template-columns: 1fr; }
+  .pg-main .chart-fill { min-height: 300px; }
+}
+.pg-flash { margin: 0; align-self: flex-start; padding: 4px 12px; border-radius: 999px; background: color-mix(in srgb, var(--real) 16%, transparent); color: var(--real); font-weight: 700; font-size: 0.9rem; animation: ds-pop 0.25s ease-out; }

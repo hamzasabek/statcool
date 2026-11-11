@@ -2,6 +2,7 @@ import ClockGame from './normal-distribution/ClockGame.jsx'
 import MeanMedian from './mean-median/MeanMedian.jsx'
 import DigitSpan from './mean-median/DigitSpan.jsx'
 import BlueSeven from './mean-median/BlueSeven.jsx'
+import Playground from './mean-median/Playground.jsx'
 import ReactionTime from './right-skewed/ReactionTime.jsx'
 import Neuron from './exponential/Neuron.jsx'
 import Ebbinghaus from './binomial/Ebbinghaus.jsx'
@@ -12,6 +13,7 @@ export const GAMES = {
   'mean-median/muller-lyer': MeanMedian,
   'mean-median/digit-span': DigitSpan,
   'mean-median/blue-seven': BlueSeven,
+  'mean-median/playground': Playground,
   'variance-sd/memory': MemoryGame,
   'normal-distribution/inner-clock': ClockGame,
   'right-skewed/reaction-time': ReactionTime,

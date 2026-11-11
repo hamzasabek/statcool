@@ -754,3 +754,26 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   labels crossed by lines (labels now drawn last with a halo), the "if random" label colliding
   on phones (hidden there; the legend explains the line), colour names that did not all fit (then
   only yours is written), "10 %" breaking across lines in French.
+
+## 2026-11-11 — Step 52: topic 01 playground (free play with mean, median and mode)
+- Owner: consolidate topic 01 with a free game where the student manipulates things and sees the
+  effect, with feedback. Chosen from 5 suggestions: dots on a line + real-life scenarios +
+  challenges.
+- `/topics/mean-median/playground` (Playground, PlayChart, play.js, playText.js). Topic page: a
+  "Free play · Playground" card after the 3 games; timeline: a "Playground" chip. topics.js: an
+  optional `playground` per topic; COMMON: playground, playgroundTag, toGames (EN + FR).
+- Dots snap to the scenario's step so equal values stack (a mode can appear). Tap empty = add, drag
+  = move (markers follow live), tap a dot = remove; keyboard: Tab, ← →, Delete; + Dot, Undo (50
+  steps), Reset, Clear. Scenarios: free (0–20), salaries in k€ (+ "Add the CEO, 190 k€": the mean
+  jumps, the median does not), reaction times in ms (tail), a polarised 1–7 survey (two modes;
+  "only 1 dot sits at the mean: the modes tell the real story"), digit spans. Panel: the three
+  centres and 6 challenges (mean > median, mean where no dot is, two modes, all three equal,
+  median between two dots, move the mean a lot without moving the median); a challenge ticks only
+  when the student's own change makes it true (not when a scenario loads with it already true).
+  Feedback: a ✓ line when a challenge is done, what the change did ("Dot moved from 12 to 20: the
+  mean moved +1.1, the median did not move"), and what the data looks like now.
+- Tested in headless Chrome (DevTools protocol with real mouse drags, taps and arrow keys):
+  1366×768 EN light, 390×844 FR dark: drag, add, remove, undo, keyboard move, scenarios, the CEO,
+  tours (6 bubbles); no overflow, no errors. Fixed: a challenge message hid the change's
+  description (now its own line), the side panel scrolled and cut the centres (now one row of three,
+  the page grows instead), the survey said "balanced" without warning that nobody answered 4.
