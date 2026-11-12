@@ -1199,3 +1199,40 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   "trad." and "(Original work published 1868)" / "(Œuvre originale publiée en 1868)"; 32 quiz runs
   (both quizzes, both languages): every explanation with a citation rendered, none raw.
 
+## 2026-11-13 — Step 71: "Train your eye" games for topics 01–03, the four steps on Home and About (Claude)
+- Owner asked whether little games (not experiments) would add value; we agreed on four roles for
+  every topic: Discover (experiments), Explore (playground, live calculation), Train your eye (quick
+  practice), Check yourself (quiz). Owner tested the topic-01 pilot on localhost ("really perfect"),
+  then asked for topics 02 and 03, an argument for this way of learning on the Home and About pages,
+  and to commit and push everything.
+- components/TrainShell.jsx (+ trainText.js): the shared shell: rounds, one gesture answers, grade
+  (spot on / close / not quite) + why, Enter or the button goes on, right / wrong sounds, end chime,
+  end screen (score, a dot per round, the game's paragraphs, a link).
+- Topic 01 "Spot the centre" (/topics/mean-median/spot-the-centre): a pile of simulated dots (~25
+  columns), "where is the mean / median / mode?"; your mark, the true centre, the other centre faded,
+  why (Howell, 2013). "Your mark sat too close to the peak" for a skewed mean placed > 5 % of the axis
+  short of the tail; end: distances for means and medians and the bias toward the peak.
+- Topic 02 "Spot the spread" (/topics/variance-sd/spot-the-spread): 6 rounds "where is the mean + 1
+  SD?" (mean shown; then the ±1 SD band, how many dots lie in it vs about 68 % in a bell [Howell] or
+  58 % in a flat pile [Ross]) and 4 rounds "which pile has the bigger SD?" with traps (same range;
+  two clusters whose range is checked to be smaller; many dots vs few). End: comparisons right, and
+  SDs too wide (the range slip) / too narrow / well judged.
+- Topic 03 "Read the bell" (/topics/normal-distribution/read-the-bell): normal curves of the site's
+  bells with axis ticks that avoid μ ± σ; "the point with 84.1 % of the area to its left", 15.9,
+  97.5, 2.5, 99.9, 50 %, μ ± 1 SD, μ + 2 SD; the area shaded after the answer with the true point's
+  share and yours; why (68–95–99.7, inflection point; Howell). End: average error in SDs, tail
+  points too central / too far.
+- Topic pages: activities grouped by role, each with a heading and one line (all topics); extra kind
+  'train' (blue card "Quick practice", blue chip). Home: "Four steps for every idea" (4 numbered
+  columns in the topic-card colours). About: "How each topic is built" (each step's job, why the
+  order). Sources added and checked with Crossref: Freeman et al. (2014, active learning), Hattie &
+  Timperley (2007, feedback), Roediger & Karpicke (2006, testing effect). 37 references, 31 DOIs, all
+  match.
+- Tested: npm run check (33 pages, 2 sizes, EN + FR: no problems; the three games fit one screen on
+  desktop and phone). Scripted play-throughs in headless Chrome (EN desktop, FR phone) with the
+  classic slips: centre at the tallest stack → skewed means "too close to the peak", end bias found;
+  SD at the outermost dot → "Too far out", end "1.9 times too wide"; pile with the wider range → the
+  clusters and same-range traps answered wrong (2 of 4), the others right; bell answered at the peak
+  → tails "too close to the centre" (end 2.23 SD). Fixed after testing: the clusters trap (drawn
+  until the other pile's range is clearly wider), "−0°", French "1 manche". No console errors.
+

@@ -12,6 +12,19 @@ import NotFound from './NotFound.jsx'
 // A topic's page (/topics/<slug>): its title and idea, then one card per game (the experiment
 // behind it and the one idea it teaches), its extras (free play, quiz), its recap sheet, and links to the previous
 // and next topics.
+// The heading of a group of activities: its role and one line on what it is for.
+function RoleHead({ role, extra }) {
+  return (
+    <div className="topic-role">
+      <h2 className="topic-games-title">
+        {role.title}
+        {extra && <span className="topic-role-extra"> · {extra}</span>}
+      </h2>
+      <p className="topic-role-text">{role.text}</p>
+    </div>
+  )
+}
+
 export function TopicPage() {
   const { slug } = useParams()
   const { lang } = useLang()
@@ -39,7 +52,7 @@ export function TopicPage() {
         <TopicGlyph shape={topic.shape} />
       </header>
 
-      <h2 className="topic-games-title">{tx.gamesCount(topic.games.length)}</h2>
+      <RoleHead role={tx.roles.discover} extra={tx.gamesCount(topic.games.length)} />
       <ol className="topic-games">
         {topic.games.map((g, k) => {
           // The card is a link: its citations are plain text (no button inside a link).
@@ -69,14 +82,25 @@ export function TopicPage() {
         })}
       </ol>
 
-      {topic.extras?.map((x) => (
-        <Link key={x.slug} to={`/topics/${topic.slug}/${x.slug}`} className={`topic-play is-${x.kind}`}>
-          <span className="topic-play-tag">{x.kind === 'quiz' ? tx.quizTag : tx.playgroundTag}</span>
-          <span className="topic-game-name">{x.text[lang].name}</span>
-          <span className="topic-game-idea">{x.text[lang].idea}</span>
-          <span className="tl-cta">{tx.play}</span>
-        </Link>
-      ))}
+      {/* The extras, grouped by role: Explore (play), Train your eye (train), Check yourself (quiz) */}
+      {['play', 'train', 'quiz'].map((kind) => {
+        const list = topic.extras?.filter((x) => x.kind === kind) ?? []
+        if (!list.length) return null
+        const tag = { play: tx.playgroundTag, train: tx.trainTag, quiz: tx.quizTag }[kind]
+        return (
+          <section key={kind} className="topic-role-group">
+            <RoleHead role={tx.roles[kind]} />
+            {list.map((x) => (
+              <Link key={x.slug} to={`/topics/${topic.slug}/${x.slug}`} className={`topic-play is-${x.kind}`}>
+                <span className="topic-play-tag">{tag}</span>
+                <span className="topic-game-name">{x.text[lang].name}</span>
+                <span className="topic-game-idea">{x.text[lang].idea}</span>
+                <span className="tl-cta">{tx.play}</span>
+              </Link>
+            ))}
+          </section>
+        )
+      })}
 
       {RECAPS[topic.slug] && (() => {
         const Recap = RECAPS[topic.slug]

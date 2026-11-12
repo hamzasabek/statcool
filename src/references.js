@@ -73,6 +73,41 @@ export const REFS = {
     note: 'Many genes of small effect add up to a normal distribution of a trait such as height. Read and dated 1918 (the year used in the literature and in Fisher’s collected papers); Crossref has the printed issue as 1919 and the title with its section number “XV.—”.',
   },
 
+  // ---------- Learning (the four steps of every topic: Home and About) ----------
+  freeman2014: {
+    type: 'article',
+    authors: [['Freeman', 'S.'], ['Eddy', 'S. L.'], ['McDonough', 'M.'], ['Smith', 'M. K.'], ['Okoroafor', 'N.'], ['Jordt', 'H.'], ['Wenderoth', 'M. P.']],
+    year: 2014,
+    title: 'Active learning increases student performance in science, engineering, and mathematics',
+    journal: 'Proceedings of the National Academy of Sciences',
+    volume: 111,
+    issue: 23,
+    pages: '8410–8415',
+    doi: '10.1073/pnas.1319030111',
+  },
+  roediger2006: {
+    type: 'article',
+    authors: [['Roediger', 'H. L.'], ['Karpicke', 'J. D.']],
+    year: 2006,
+    title: 'Test-enhanced learning: Taking memory tests improves long-term retention',
+    journal: 'Psychological Science',
+    volume: 17,
+    issue: 3,
+    pages: '249–255',
+    doi: '10.1111/j.1467-9280.2006.01693.x',
+  },
+  hattie2007: {
+    type: 'article',
+    authors: [['Hattie', 'J.'], ['Timperley', 'H.']],
+    year: 2007,
+    title: 'The power of feedback',
+    journal: 'Review of Educational Research',
+    volume: 77,
+    issue: 1,
+    pages: '81–112',
+    doi: '10.3102/003465430298487',
+  },
+
   // ---------- Topic 01: Müller-Lyer, digit span, blue-seven ----------
   mullerlyer1889: {
     type: 'article',

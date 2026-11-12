@@ -1965,3 +1965,66 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
 .ref-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
 .ref-list li { padding-left: 2em; text-indent: -2em; line-height: 1.6; max-width: 80ch; overflow-wrap: anywhere; }
 .ref-list li:target { background: var(--accent-soft); border-radius: 8px; }
+
+/* ---------- Topic page: activities grouped by role (Discover / Explore / Train your eye / Check yourself) ---------- */
+.topic-role .topic-games-title { margin-bottom: 2px; }
+.topic-role-extra { font-weight: 500; color: var(--muted); }
+.topic-role-text { margin: 0 0 14px; color: var(--muted); font-size: 0.92rem; }
+.topic-role-group { display: flex; flex-direction: column; gap: 12px; }
+.topic-role-group .topic-role { margin-bottom: -2px; }
+.topic-role-group .topic-play { margin-top: 0; }
+.topic-play.is-train {
+  background: linear-gradient(120deg, color-mix(in srgb, var(--blue) 16%, var(--surface)), var(--surface) 70%);
+  box-shadow: var(--shadow), inset 0 0 0 1.5px color-mix(in srgb, var(--blue) 50%, transparent);
+}
+.topic-play.is-train:hover { box-shadow: var(--shadow-hover), inset 0 0 0 1.5px var(--blue); }
+.topic-play.is-train .topic-play-tag { color: var(--accent); }
+.tl-chip.is-train { background: color-mix(in srgb, var(--blue) 18%, transparent); color: var(--accent); }
+
+/* ---------- Spot the centre (topic 01, Train your eye) ---------- */
+.spot-chart svg.is-asking { cursor: crosshair; touch-action: manipulation; }
+.spot-chart svg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 12px; }
+.spot-guide line { stroke: var(--text); stroke-width: 1.5; stroke-dasharray: 3 4; opacity: 0.7; }
+.spot-guide text { fill: var(--text); font-size: 12.5px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.spot-you { stroke: var(--ck-a-line); stroke-width: 3; }
+.spot-you-dot { fill: var(--added); stroke: var(--dot-stroke); stroke-width: 1.5; }
+.spot-you-label { fill: var(--ck-a-text); }
+.spot-ghost { opacity: 0.45; }
+.spot-sim { font-size: 0.78rem; font-weight: 600; color: var(--muted); font-style: italic; }
+.spot-grade.is-spot, .spot-grade.is-close { color: var(--real); }
+.spot-grade.is-off { color: var(--miss); }
+.spot-warn { color: var(--miss); font-weight: 700; }
+.spot-end { margin: auto; max-width: 620px; display: flex; flex-direction: column; gap: 10px; padding: 8px 4px; }
+.spot-end h2 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; }
+.spot-end p { margin: 0; line-height: 1.6; }
+.spot-end-score { font-size: 1.15rem; font-weight: 700; }
+.spot-dots { justify-content: flex-start; }
+.spot-band { fill: color-mix(in srgb, var(--blue) 14%, transparent); }
+.spot-truth { stroke: var(--real); stroke-width: 2.5; }
+.spot-truth-label { fill: var(--real); }
+.spot-lane { fill: transparent; stroke: transparent; stroke-width: 2; cursor: pointer; transition: fill 0.15s; }
+.spot-lane.is-hover { fill: var(--hover); }
+.spot-lane.is-picked { stroke: var(--ck-a-line); }
+.spot-lane.is-right { fill: color-mix(in srgb, var(--real) 10%, transparent); }
+.spot-lane-name { fill: var(--text); font-family: var(--font-display); font-size: 20px; font-weight: 700; }
+.spot-lane-floor { stroke: var(--grid); }
+.spot-lane-sd { fill: var(--muted); }
+.spot-lane-sd.is-right { fill: var(--real); }
+.rb-curve { fill: none; stroke: var(--brand); stroke-width: 3; }
+.rb-area { fill: color-mix(in srgb, var(--brand) 22%, transparent); }
+
+/* Home: the four steps of every topic (same colours as the topic-page cards) */
+.home-path-lead { margin: -12px 0 26px; }
+.home-path { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 32px; counter-reset: step; }
+.home-path li { counter-increment: step; }
+.home-path li::before {
+  content: counter(step); display: grid; place-items: center; width: 40px; height: 40px; margin-bottom: 14px;
+  border-radius: 50%; font-family: var(--font-display); font-weight: 600; font-size: 1.1rem;
+  background: var(--accent-soft); color: var(--accent);
+}
+.home-path li.is-discover::before, .home-path li.is-explore::before { background: color-mix(in srgb, var(--sun) 30%, transparent); color: var(--ck-a-text); }
+.home-path li.is-check::before { background: color-mix(in srgb, var(--sky) 26%, transparent); color: var(--ck-b-text); }
+.home-path p { margin: 0; color: var(--muted); }
+@media (max-width: 1000px) { .home-path { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .home-path { grid-template-columns: 1fr; gap: 26px; } }
+

@@ -115,6 +115,20 @@ export default function Home() {
         </ol>
       </section>
 
+      {/* The four steps of every topic (the learning path) */}
+      <section className="home-section">
+        <h2>{tx.pathTitle}</h2>
+        <p className="lead home-path-lead">{tx.pathLead}</p>
+        <ol className="home-path">
+          {tx.path.map((s, i) => (
+            <li key={s.title} className={`is-${['discover', 'explore', 'train', 'check'][i]}`}>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       <section className="home-section">
         <h2>{tx.whyTitle}</h2>
         <ul className="home-why">

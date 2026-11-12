@@ -41,6 +41,12 @@ what is left and which files; remove the item once it is committed. (AGENTS.md, 
   (no verified reference). A Zotero / BibTeX export of src/references.js could be generated for the
   owner.
 
+- Train your eye (Step 71): topics 01–03 have one each (components/TrainShell.jsx). Next: topics 04–06
+  (ideas: topic 04 "Order mode, median, mean on a skewed pile", topic 05 "Is it due?" quick bets,
+  topic 06 "Luck or not?" from a count), then a mixed-practice mode across topics (interleaving;
+  would need its own source, e.g. Rohrer & Taylor, 2007). Topic 03 has no quiz yet (no Check
+  yourself section).
+
 ## Known issues
 - docs/CODE_GUIDE.md (private, now gitignored) is still visible in older commits of the public
   repo. Removing it fully needs a history rewrite + force push (owner to decide).

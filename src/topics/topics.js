@@ -38,7 +38,9 @@ export const PARTS = [
 // drawing, TopicGlyph), its title and one sentence per language, and its games. A game: `slug`
 // (its page: /topics/<topic>/<game>, component in games.jsx), `available`, and per language its
 // name, the experiment behind it (`ref`) and the one idea it teaches. Optional `extras` come after
-// the games: free play (`kind: 'play'`) or a quiz (`kind: 'quiz'`), each at /topics/<topic>/<slug>.
+// the games: free play (`kind: 'play'`), quick practice (`kind: 'train'`, "Train your eye") or a quiz
+// (`kind: 'quiz'`), each at /topics/<topic>/<slug>. The topic page groups everything by role:
+// Discover (the games), Explore (play), Train your eye (train), Check yourself (quiz).
 export const topics = [
   {
     slug: 'mean-median',
@@ -90,6 +92,14 @@ export const topics = [
         text: {
           en: { name: 'Live calculation', idea: 'Move the dots and watch the calculation redo itself: the sum and the division for the mean, the sorting for the median, the tally for the mode.' },
           fr: frenchTypo({ name: 'Le calcul en direct', idea: 'Déplacez les points et regardez le calcul se refaire : la somme et la division pour la moyenne, le tri pour la médiane, le décompte pour le mode.' }),
+        },
+      },
+      {
+        slug: 'spot-the-centre',
+        kind: 'train',
+        text: {
+          en: { name: 'Spot the centre', idea: '10 quick rounds: tap where the mean, the median or the mode is. Does your eye put the mean at the peak of skewed data?' },
+          fr: frenchTypo({ name: 'Repérez le centre', idea: '10 manches rapides : touchez l’endroit où se trouve la moyenne, la médiane ou le mode. Votre œil met-il la moyenne au sommet de données asymétriques ?' }),
         },
       },
       {
@@ -154,6 +164,14 @@ export const topics = [
         },
       },
       {
+        slug: 'spot-the-spread',
+        kind: 'train',
+        text: {
+          en: { name: 'Spot the spread', idea: '10 quick rounds: tap where the mean + 1 SD is, or which pile has the bigger SD. Do you read the SD from the outermost dots?' },
+          fr: frenchTypo({ name: 'Repérez la dispersion', idea: '10 manches rapides : touchez la moyenne + 1 écart-type, ou le tas au plus grand écart-type. Lisez-vous l’écart-type sur les points les plus éloignés ?' }),
+        },
+      },
+      {
         slug: 'quiz',
         kind: 'quiz',
         text: {
@@ -212,6 +230,14 @@ export const topics = [
         text: {
           en: { name: 'Live calculation', idea: 'Drag a point along the bell and watch the calculation redo itself: its z-score, the height of the curve, and Φ(z), the area to its left. Then standardise.' },
           fr: frenchTypo({ name: 'Le calcul en direct', idea: 'Faites glisser un point le long de la cloche et regardez le calcul se refaire : son score z, la hauteur de la courbe, et Φ(z), l’aire à sa gauche. Puis standardisez.' }),
+        },
+      },
+      {
+        slug: 'read-the-bell',
+        kind: 'train',
+        text: {
+          en: { name: 'Read the bell', idea: '10 quick rounds on a bell curve: tap the point with 84%, 97.5%… of the area to its left, or one SD from the mean. Where do the tails really start?' },
+          fr: frenchTypo({ name: 'Lisez la cloche', idea: '10 manches rapides sur une cloche : touchez le point qui a 84 %, 97,5 %… de l’aire à sa gauche, ou à un écart-type de la moyenne. Où commencent vraiment les traînes ?' }),
         },
       },
     ],

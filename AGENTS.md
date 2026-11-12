@@ -53,7 +53,10 @@ remembers what the other did: this file and `context/` are the shared memory. Ke
   listed on the About page (`src/pages/text.js`).
 - **Shared pieces to reuse**: `mean-median/PlayChart.jsx` (draggable dot chart, with an `Overlay`
   for another topic's marks), `variance-sd/ErrorChart.jsx` (lanes of stacked dots),
-  `normal-distribution/BellChart.jsx` and `NormalPlot.jsx`, `components/Quiz.jsx`, `components/Tex.jsx`.
+  `normal-distribution/BellChart.jsx` and `NormalPlot.jsx`, `components/Quiz.jsx`, `components/Tex.jsx`,
+  `components/TrainShell.jsx` (every "Train your eye" quick-practice game).
+- **Every topic has four roles** (topic page, Home, About): Discover (experiments), Explore
+  (playground, live calculation), Train your eye (extra kind `train`), Check yourself (quiz).
 - **Citations (APA 7, owner's rule since Step 70)**: every experiment, study, finding or named
   concept shown to students is cited. Never type a citation by hand: add the work once to
   `src/references.js` (authors, year, title, journal, volume, issue, pages, DOI), then cite it in the

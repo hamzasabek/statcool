@@ -59,6 +59,19 @@ export default function About() {
       <h2>{tx.whyTitle}</h2>
       <p>{tx.why}</p>
 
+      <h2>{tx.pathTitle}</h2>
+      <p>{tx.pathIntro}</p>
+      <ul className="about-experiments">
+        {tx.path.map(([step, text]) => (
+          <li key={step}>
+            <strong>{step}</strong>
+            {tx.sep}
+            {text}
+          </li>
+        ))}
+      </ul>
+      <p>{tx.pathOrder}</p>
+
       <h2>{tx.authorTitle}</h2>
       <div className="about-author">
         <img className="about-photo" src={photo} alt={tx.photoAlt} width="112" height="112" />

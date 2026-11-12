@@ -27,6 +27,14 @@ export const HOME = {
         text: 'Your dots draw a bell, a long tail or a binomial shape, and short guided steps explain what it means.',
       },
     ],
+    pathTitle: 'Four steps for every idea',
+    pathLead: 'Each topic follows the same path, and each step has its own job.',
+    path: [
+      { title: 'Discover', text: 'Play a real experiment. Your own data draws the graph, so the idea comes from something you did. In university science and maths courses, students learn more when they do than when they only listen [@freeman2014].' },
+      { title: 'Explore', text: 'Change the data freely, in the playground or the live calculation, and watch the mean, the SD or the area react. You see why the numbers are what they are.' },
+      { title: 'Train your eye', text: 'Quick rounds with the answer at once: where is the mean, how wide is the SD, where does 95% end? Feedback that comes right away and says why is among the strongest helps to learning [@hattie2007].' },
+      { title: 'Check yourself', text: 'A quiz with an explanation for every answer. Recalling an idea makes it last longer than reading it again [@roediger2006].' },
+    ],
     whyTitle: 'What makes it different',
     why: [
       {
@@ -71,6 +79,14 @@ export const HOME = {
         text: 'Vos points dessinent une cloche, une longue traîne ou une forme binomiale, et de courtes étapes guidées expliquent ce que cela veut dire.',
       },
     ],
+    pathTitle: 'Quatre étapes pour chaque idée',
+    pathLead: 'Chaque thème suit le même chemin, et chaque étape a son rôle.',
+    path: [
+      { title: 'Découvrir', text: 'Jouez une vraie expérience. Vos propres données dessinent le graphique : l’idée vient de ce que vous avez fait. Dans les cours universitaires de sciences et de mathématiques, on apprend davantage en agissant qu’en écoutant seulement [@freeman2014].' },
+      { title: 'Explorer', text: 'Changez librement les données, dans le bac à sable ou le calcul en direct, et regardez la moyenne, l’écart-type ou l’aire réagir. Vous voyez pourquoi les nombres sont ce qu’ils sont.' },
+      { title: 'Entraîner votre œil', text: 'Des manches rapides avec la réponse aussitôt : où est la moyenne, quelle est la largeur de l’écart-type, où s’arrêtent 95 % ? Un retour immédiat qui explique pourquoi compte parmi les aides les plus fortes à l’apprentissage [@hattie2007].' },
+      { title: 'Vous tester', text: 'Un quiz avec une explication pour chaque réponse. Se rappeler une idée la fait durer plus longtemps que la relire [@roediger2006].' },
+    ],
     whyTitle: 'Ce qui le rend différent',
     why: [
       {
@@ -100,6 +116,15 @@ export const ABOUT = {
     lead: 'StatsCool is a free, open-source website that teaches statistics to psychologists through short games built on classic psychology experiments.',
     whyTitle: 'Why',
     why: 'Statistics is often taught with formulas and someone else’s data. Here you make the data yourself, and the idea appears on the graph while you play. When the dots are your own, the idea sticks.',
+    pathTitle: 'How each topic is built',
+    pathIntro: 'Every topic follows the same four steps: Discover, Explore, Train your eye, Check yourself. They are not four versions of the same thing: each one does a job the others cannot do.',
+    path: [
+      ['Discover', 'the games are real psychology and neuroscience experiments. You produce the data, and the idea appears in it: a bell, a long tail, a spread that grows. In university science and maths courses, students learn more when they take an active part than when they only listen to a lecture [@freeman2014].'],
+      ['Explore', 'the playground and the live calculation let you change the data and watch every number react, step by step through the formula. This is where you see why a mean moves and a median does not.'],
+      ['Train your eye', 'short rounds of quick judgements, with the answer at once and one line on why. They aim at the classic slips (the mean put at the peak of skewed data, the SD read as the range, tails that end too soon) and build an intuition that understanding alone does not give. Feedback about the task, given right away, is among the strongest influences on learning [@hattie2007].'],
+      ['Check yourself', 'a quiz with an explanation for each answer, drawn from a larger bank so that it changes every time. Recalling an idea from memory makes it last longer than reading it again: the testing effect [@roediger2006].'],
+    ],
+    pathOrder: 'The order matters: first meet the idea in your own data, then play with it, then practise seeing it, then check that it holds. Some topics do not have all four steps yet; the experiments always come first.',
     authorTitle: 'The author',
     photoAlt: 'Hamza Sabek',
     // cite-ok: the year of the PhD, not a citation
@@ -155,6 +180,15 @@ export const ABOUT = {
     lead: 'StatsCool est un site gratuit et open source qui enseigne les statistiques aux psychologues par de petits jeux inspirés d’expériences classiques de psychologie.',
     whyTitle: 'Pourquoi',
     why: 'Les statistiques s’apprennent souvent avec des formules et les données de quelqu’un d’autre. Ici, vous créez vous-même les données, et l’idée apparaît sur le graphique pendant que vous jouez. Quand les points sont les vôtres, l’idée reste.',
+    pathTitle: 'Comment chaque thème est construit',
+    pathIntro: 'Chaque thème suit les mêmes quatre étapes : Découvrir, Explorer, Entraîner votre œil, Vous tester. Ce ne sont pas quatre versions de la même chose : chacune fait un travail que les autres ne peuvent pas faire.',
+    path: [
+      ['Découvrir', 'les jeux sont de vraies expériences de psychologie et de neurosciences. Vous produisez les données, et l’idée y apparaît : une cloche, une longue traîne, une dispersion qui grandit. Dans les cours universitaires de sciences et de mathématiques, on apprend davantage en participant activement qu’en écoutant seulement un cours magistral [@freeman2014].'],
+      ['Explorer', 'le bac à sable et le calcul en direct permettent de changer les données et de voir chaque nombre réagir, étape par étape dans la formule. C’est là qu’on voit pourquoi une moyenne bouge et pas une médiane.'],
+      ['Entraîner votre œil', 'de courtes manches de jugements rapides, avec la réponse aussitôt et une ligne d’explication. Elles visent les erreurs classiques (la moyenne placée au sommet de données asymétriques, l’écart-type lu comme l’étendue, des traînes qui s’arrêtent trop tôt) et construisent une intuition que la seule compréhension ne donne pas. Un retour sur la tâche, donné tout de suite, compte parmi les influences les plus fortes sur l’apprentissage [@hattie2007].'],
+      ['Vous tester', 'un quiz avec une explication pour chaque réponse, tiré d’une banque plus large pour changer à chaque fois. Se rappeler une idée de mémoire la fait durer plus longtemps que la relire : l’effet de test [@roediger2006].'],
+    ],
+    pathOrder: 'L’ordre compte : d’abord rencontrer l’idée dans vos propres données, puis jouer avec, puis s’entraîner à la voir, puis vérifier qu’elle tient. Certains thèmes n’ont pas encore les quatre étapes ; les expériences viennent toujours en premier.',
     authorTitle: 'L’auteur',
     photoAlt: 'Hamza Sabek',
     // cite-ok: the year of the PhD, not a citation
