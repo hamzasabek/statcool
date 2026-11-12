@@ -52,6 +52,7 @@ coverage/
 .eslintcache
 .stylelintcache
 scratch/
+Claude outputs/
 
 # Private notes (kept locally, never pushed)
 docs/CODE_GUIDE.md
