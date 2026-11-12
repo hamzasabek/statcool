@@ -180,6 +180,22 @@ export const topics = [
           fr: frenchTypo({ name: 'Votre horloge interne', ref: 'Estimation du temps, loi de Weber', idea: 'Arrêtez une horloge cachée à 2 s, puis 5 s : vos appuis dessinent une cloche, plus large pour la durée la plus longue.' }),
         },
       },
+      {
+        slug: 'neuron-sum',
+        available: true,
+        text: {
+          en: { name: 'A neuron adds up', ref: 'synaptic integration; the central limit theorem', idea: 'Give a neuron 1, 2, 16 or 64 random inputs: their sum turns into a bell. Why bells are everywhere.' },
+          fr: frenchTypo({ name: 'Un neurone fait la somme', ref: 'intégration synaptique ; théorème central limite', idea: 'Donnez à un neurone 1, 2, 16 ou 64 entrées au hasard : leur somme devient une cloche. Pourquoi les cloches sont partout.' }),
+        },
+      },
+      {
+        slug: 'tap-the-beat',
+        available: true,
+        text: {
+          en: { name: 'Tap with the beat', ref: 'sensorimotor synchronization; Repp, 2005', idea: 'Tap along with a metronome: your timing makes a bell. Mean and SD say it all: 68% within 1 SD, 95% within 2.' },
+          fr: frenchTypo({ name: 'Tapez en rythme', ref: 'synchronisation sensorimotrice ; Repp, 2005', idea: 'Tapez avec un métronome : votre timing dessine une cloche. Moyenne et écart-type disent tout : 68 % à 1 écart-type, 95 % à 2.' }),
+        },
+      },
     ],
   },
   {

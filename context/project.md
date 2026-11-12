@@ -70,13 +70,32 @@ src/
                            topicNumber, findTopic, firstGamePath
     games.jsx              GAMES: "<topic>/<game>" → the game's component; RECAPS: "<topic>" → its
                            recap sheet, shown on the topic page after the games (optional)
-    normal-distribution/   topic 03: the game "Your inner clock" (opens directly)
+    normal-distribution/   topic 03: 3 games: "Your inner clock", "A neuron adds up", "Tap with the beat"
       ClockGame.jsx          stop a hidden clock at 2 s, then 5 s; every press is a dot
                              (2 s game → 5 s game → compare)
       ClockChart.jsx         stacked dots + fitted normal curve + ±1 SD per series
                              (2 s yellow, 5 s sky); "÷ target" view lines the bells up
       clock.js               targets, trial counts, mean/SD, normal pdf
       text.js                CLOCK texts (en + fr)
+      BellChart.jsx          shared by the two newer games: values on fixed columns (domain = column
+                             centres, bin), stacked dots or bars, fitted normal curve (same vertical
+                             scale as the dots), mean + ±1 / ±2 SD bands, a "range" band, small multiples
+      SumNeuron.jsx          "A neuron adds up" (/topics/normal-distribution/neuron-sum), 3 steps:
+                             1 synapse (guess first: two bars / bell / flat; 20 trials) → more synapses
+                             (2 / 4 / 16 / 64, each keeps its dots, fitted curve; 50 trials with 16 or 64
+                             to go on) → why bells? (3,000 simulated trials each, 5 small multiples)
+      NeuronPic.jsx          the neuron: soma with the last sum, k synapses on a ring (+ blue, − red)
+      sum.js                 fire(k) (k pushes of ±1), axis(k) (columns of step 2, ±3.5 SD), allSame
+                             (2^k as BigInt)
+      sumText.js             SUM texts (en + fr)
+      TapBeat.jsx            "Tap with the beat" (/topics/normal-distribution/tap-the-beat), 3 steps:
+                             tap (4 clicks count-in, 40 taps, 25 to unlock; pad or Space) → your bell
+                             (fit, ±1 / ±2 SD bands, counts vs 68 / 95 %, negative mean asynchrony) →
+                             predict (mean ± 2 SD of the first taps; 10 new taps in blue, k inside)
+      beat.js                IOI 600 ms, asynchrony(t, beats), useMetronome: clicks planned on the
+                             performance.now() clock, played via Web Audio ahead of time minus the
+                             output latency; a 25 ms loop also drives the visual pulse
+      beatText.js            BEAT texts (en + fr)
     mean-median/           topic 01 "Mean and median": the Müller-Lyer illusion game
       MeanMedian.jsx         3 steps: Match the lines (15 tries) → Mean & median (numbered
                              dots, middle one ringed, ▲ balance point) → Pull a dot (drag one
@@ -256,7 +275,7 @@ Goal (owner, Step 49): at least 3 games per topic.
   - 02 `variance-sd` "Variance and standard deviation": `memory` (how precise is your memory?),
     `find-the-middle`, `how-many-dots`, + extras `playground`, `calculate`, `quiz`
 - Part 2 · Shapes of data
-  - 03 `normal-distribution` "The normal distribution": `inner-clock`
+  - 03 `normal-distribution` "The normal distribution": `inner-clock`, `neuron-sum`, `tap-the-beat`
   - 04 `right-skewed` "Right-skewed distributions": `reaction-time`
   - 05 `exponential` "The exponential distribution": `neuron`
   - 06 `binomial` "The binomial distribution": `ebbinghaus` (first test)

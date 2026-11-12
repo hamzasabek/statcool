@@ -1829,3 +1829,61 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
 @media (max-width: 700px) {
   .sp-stage .tools { flex-wrap: wrap; justify-content: flex-start; row-gap: 4px; }
 }
+
+/* ---------- Topic 03: shared bell chart ---------- */
+.bell-fit { fill: none; stroke: var(--brand); stroke-width: 2.5; stroke-linejoin: round; }
+.bell-mean { stroke: var(--mean); stroke-width: 2.5; }
+.bell-mean-label { fill: var(--mean); font-size: 11.5px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.bell-bands rect.is-2 { fill: color-mix(in srgb, var(--sky) 10%, transparent); }
+.bell-bands rect.is-1 { fill: color-mix(in srgb, var(--sky) 18%, transparent); }
+.bell-bands text { fill: var(--median); font-size: 11px; font-weight: 700; }
+.bell-range rect { fill: color-mix(in srgb, var(--real) 14%, transparent); stroke: var(--real); stroke-width: 1.2; stroke-dasharray: 4 3; }
+.bell-range text { fill: var(--real); font-size: 11.5px; font-weight: 700; }
+.bell-bar.is-a { fill: color-mix(in srgb, var(--sun) 75%, transparent); }
+.bell-chart.is-small { min-height: 0; }
+.legend-item.bell-key::before { height: 3px; border-radius: 2px; background: var(--brand); }
+.legend-item.tb-key-1::before { width: 12px; height: 12px; border-radius: 3px; background: color-mix(in srgb, var(--sky) 30%, transparent); }
+.legend-item.tb-key-2::before { width: 12px; height: 12px; border-radius: 3px; background: color-mix(in srgb, var(--sky) 14%, transparent); }
+.legend-item.tb-key-range::before { width: 12px; height: 12px; border-radius: 3px; background: color-mix(in srgb, var(--real) 20%, transparent); box-shadow: inset 0 0 0 1px var(--real); }
+
+/* ---------- Topic 03: "A neuron adds up" ---------- */
+.nr-main { grid-template-columns: 240px minmax(0, 1fr); }
+.nr-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 0; }
+.nr-neuron { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.nr-pic { width: 190px; max-width: 100%; aspect-ratio: 1; }
+.nr-dendrite { stroke: var(--axis); stroke-width: 1; }
+.nr-soma { fill: var(--surface); stroke: var(--text); stroke-width: 1.6; }
+.nr-syn { fill: var(--hover); stroke: var(--axis); stroke-width: 0.6; transform-box: fill-box; transform-origin: center; }
+.nr-syn.is-exc { fill: var(--real); stroke: none; animation: nr-flash 0.45s ease-out backwards; }
+.nr-syn.is-inh { fill: var(--danger); stroke: none; animation: nr-flash 0.45s ease-out backwards; }
+@keyframes nr-flash { from { opacity: 0; transform: scale(0.3); } }
+.nr-sign { fill: #fff; font-size: 6.5px; font-weight: 800; pointer-events: none; }
+.nr-sum { fill: var(--text); font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; animation: nr-flash 0.35s ease-out 0.25s backwards; }
+.nr-caption { margin: 0; font-size: 0.86rem; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
+.nr-fire { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.nr-fire > .btn-primary { min-width: 150px; }
+.nr-fire-more { display: flex; gap: 6px; }
+.nr-multiples { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.nr-multiple { margin: 0; min-height: 0; display: flex; flex-direction: column; padding: 8px 6px 4px; border-radius: 16px; background: var(--surface); box-shadow: var(--shadow); }
+.nr-multiple figcaption { text-align: center; font-size: 0.86rem; font-weight: 700; }
+.nr-multiple .chart-fill { flex: 1; min-height: 120px; }
+@media (max-width: 860px) {
+  .nr-multiples { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nr-multiple:first-child { grid-column: 1 / -1; }
+  .stage.nr-stage { height: auto; min-height: calc(100dvh - var(--header-h)); }
+  .nr-multiple .chart-fill { min-height: 130px; }
+}
+@media (max-width: 700px) {
+  .nr-main { grid-template-columns: 1fr; grid-template-rows: auto minmax(220px, 1fr); }
+  .nr-main .nr-panel { flex-direction: row; justify-content: center; order: 0; }
+  .nr-pic { width: 130px; }
+}
+
+/* ---------- Topic 03: "Tap with the beat" ---------- */
+.tb-main.is-single { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.tb-padbox { flex-direction: column; gap: 10px; }
+.tb-pad { overflow: visible; }
+.tb-pulse { position: absolute; inset: -4px; border-radius: 50%; border: 4px solid var(--brand); pointer-events: none; animation: tb-pulse 0.45s ease-out forwards; }
+.tb-pulse.is-count { border-color: var(--muted); }
+@keyframes tb-pulse { from { transform: scale(0.92); opacity: 1; } to { transform: scale(1.18); opacity: 0; } }
+.tb-pad .ck-button-label { font-size: 1.3rem; font-variant-numeric: tabular-nums; }

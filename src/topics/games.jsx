@@ -1,4 +1,6 @@
 import ClockGame from './normal-distribution/ClockGame.jsx'
+import SumNeuron from './normal-distribution/SumNeuron.jsx'
+import TapBeat from './normal-distribution/TapBeat.jsx'
 import MeanMedian from './mean-median/MeanMedian.jsx'
 import DigitSpan from './mean-median/DigitSpan.jsx'
 import BlueSeven from './mean-median/BlueSeven.jsx'
@@ -31,6 +33,8 @@ export const GAMES = {
   'variance-sd/calculate': SdCalc,
   'variance-sd/quiz': SdQuiz,
   'normal-distribution/inner-clock': ClockGame,
+  'normal-distribution/neuron-sum': SumNeuron,
+  'normal-distribution/tap-the-beat': TapBeat,
   'right-skewed/reaction-time': ReactionTime,
   'exponential/neuron': Neuron,
   'binomial/ebbinghaus': Ebbinghaus,

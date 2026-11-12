@@ -1003,3 +1003,30 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   ×2 → ×4, slow trial, calc 36 / 9 / 3 then 10 → 9 gives 26.8 / 6.7 / 2.59), desktop pages one screen
   (the playground's stage now has a fixed height and its side column scrolls inside if needed),
   phones scroll, tools wrap on phones, tours step through, topic page lists 6 cards; no errors.
+
+## 2026-11-12 — Step 64: topic 03 gets two more games: "A neuron adds up" and "Tap with the beat"
+- Owner asked for game ideas for the normal distribution, then for simpler psychology / neuroscience
+  games focused only on the normal distribution, and picked these two.
+- "A neuron adds up" (/topics/normal-distribution/neuron-sum, SumNeuron.jsx): each synapse pushes +1
+  or −1 at random, the neuron adds them up, each trial is a dot. Step 1: one synapse, a guess first
+  (two bars / a bell / flat), then fire (1, ×10, ×100): two bars. Step 2: 2 / 4 / 16 / 64 synapses
+  (triangle → bell), fitted normal curve, why (6 ways to get 0 with 4, 1 way to get +4; all 16 the
+  same way once in 65,536; 2^64 written in full), SD vs √k. Step 3: "Why bells?", 3,000 simulated
+  trials for 1, 2, 4, 16, 64 synapses side by side: the central limit theorem; real neurons
+  (Destexhe, Rudolph & Paré, 2003), height, test scores, measurement error; and when it fails (one
+  big cause, multiplying pushes: reaction times, next topic). A "within 1 SD" share was dropped here:
+  sums move in steps of 2, so the share jumps around 68 % (78 % with 64 synapses).
+- "Tap with the beat" (/topics/normal-distribution/tap-the-beat, TapBeat.jsx): a 600 ms metronome
+  (Web Audio clicks + a visual pulse on the pad; the count-in shows 1 2 3 4), 40 taps; each tap's
+  asynchrony to the nearest click is a dot. Step 2: the fitted bell, ±1 and ±2 SD bands, the counts
+  compared with 68 % and 95 %, the mean (negative mean asynchrony; Repp, 2005, or a device delay when
+  late). Step 3: mean ± 2 SD of the first taps is drawn as "your 95% range"; 10 new taps (blue), how
+  many fall inside. The metronome stops by itself after 24 clicks without a tap.
+- BellChart.jsx shared by both. Topic cards (topics.js), games.jsx, About page entries.
+- Tested in headless Chrome at 1366×768 EN and 390×844 FR (the taps were synthetic, scheduled from
+  the pulse with a Gaussian jitter): neuron SDs match √k (16: 3.8 vs 4; 64: 8.1 vs 8), the tapping steps
+  give 68–75 % within 1 SD and 98 % within 2 SD, the prediction step works (8 or 9 of 10 inside); desktop
+  pages fit one screen, phones scroll; no errors. Fixed after screenshots: band labels moved above the
+  plot (they hid the mean label), symmetric ticks on the small multiples, synapse chips "Synapses: 2 4 16
+  64" (they overflowed on phones); a column with more than 60 dots is drawn as a bar (400 trials in
+  3 columns made the dots unreadable).

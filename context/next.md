@@ -1,6 +1,10 @@
 # Next steps and ideas
 
 ## Open items
+- "Tap with the beat" (Step 64) was only tested with synthetic taps in headless Chrome: check the
+  click sound and tap timing on a real phone and a laptop (audio output latency, touch latency;
+  Bluetooth headphones add ~150 ms and shift the bell). Owner asked for simpler games focused on the
+  normal distribution only (Step 64): "Which line is longer?" and signal detection were set aside.
 - Test on a real phone (GitHub Pages https://hamzasabek.github.io/statscool/, or locally with
   `npm run dev -- --host`). The Müller-Lyer drag, the dot dragging and the reaction-time taps
   were only tested with an emulated mouse in headless Chrome. Check that the yellow appears
@@ -36,7 +40,8 @@
 - Each topic could get a playground like topic 01's (Step 52; topic 02 done in Step 63), e.g.
   topic 03: shape a bell with mean / SD sliders.
 - Goal (owner, Step 49): at least 3 games per topic. Done: topic 01 (Müller-Lyer, digit span,
-  blue-seven), topic 02 (memory, find the middle, how many dots; Step 62). Each other topic needs 2 more games: see the ideas below for each topic.
+  blue-seven), topic 02 (memory, find the middle, how many dots; Step 62), topic 03 (inner clock, a neuron adds
+  up, tap with the beat; Step 64). Each other topic needs 2 more games: see the ideas below for each topic.
 - More binomial games suggested in Step 37: can you be random? (switches in 20 "random" H/T
   vs Binomial(19, ½); people switch too often), Asch conformity (conforming answers out of 12,
   Asch's 37 %), Monty Hall (wins out of 10 staying vs switching), change blindness.
