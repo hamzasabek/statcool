@@ -96,6 +96,21 @@ src/
                              performance.now() clock, played via Web Audio ahead of time minus the
                              output latency; a 25 ms loop also drives the visual pulse
       beatText.js            BEAT texts (en + fr)
+      normal.js              Phi (erf, Abramowitz & Stegun 7.1.26), pdf, area, randn, SCENARIOS (IQ 100/15
+                             with σ step 0.5, inner clock 2 s/0.3, tapping −20/30 ms, memory 0/12°,
+                             standard 0/1; axis μ0 ± 4σ0, sliders μ0 ± 2σ0 and σ0/2…2σ0), fmtV, fmtArea, fmtZ
+      NormalPlot.jsx         a normal curve: shaded area (±∞ allowed), draggable bounds (knobs under the
+                             axis, ← → on a focused knob), a point marker, a density histogram of a
+                             sample, z ticks under the x ticks; curve glides (useTweened)
+      NormalPlay.jsx         the playground (/topics/normal-distribution/playground): μ and σ sliders (fixed
+                             y scale: a wider bell is flatter), area between / below / above, presets
+                             μ ± 1, 2, 3σ, + 10 / + 100 people (histogram; cleared when the bell changes),
+                             6 challenges (IQ above 130, 95 %, peak ×2, half from the left, < 1 %, sample)
+      normalPlayText.js      NPLAY texts (en + fr)
+      NormalCalc.jsx         "Live calculation" (/topics/normal-distribution/calculate): drag x; cards z =
+                             (x − μ)/σ, f(x) = 1/(σ√2π)·e^(−z²/2) (a density), P(X ≤ x) = Φ(z); y scale
+                             follows σ; view "Standardise": the same point on N(0, 1), same area
+      normalCalcText.js      NCALC texts (en + fr)
     mean-median/           topic 01 "Mean and median": the Müller-Lyer illusion game
       MeanMedian.jsx         3 steps: Match the lines (15 tries) → Mean & median (numbered
                              dots, middle one ringed, ▲ balance point) → Pull a dot (drag one
@@ -275,7 +290,7 @@ Goal (owner, Step 49): at least 3 games per topic.
   - 02 `variance-sd` "Variance and standard deviation": `memory` (how precise is your memory?),
     `find-the-middle`, `how-many-dots`, + extras `playground`, `calculate`, `quiz`
 - Part 2 · Shapes of data
-  - 03 `normal-distribution` "The normal distribution": `inner-clock`, `neuron-sum`, `tap-the-beat`
+  - 03 `normal-distribution` "The normal distribution": `inner-clock`, `neuron-sum`, `tap-the-beat`, + extras `playground`, `calculate`
   - 04 `right-skewed` "Right-skewed distributions": `reaction-time`
   - 05 `exponential` "The exponential distribution": `neuron`
   - 06 `binomial` "The binomial distribution": `ebbinghaus` (first test)

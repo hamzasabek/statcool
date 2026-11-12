@@ -1030,3 +1030,27 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   plot (they hid the mean label), symmetric ticks on the small multiples, synapse chips "Synapses: 2 4 16
   64" (they overflowed on phones); a column with more than 60 dots is drawn as a bar (400 trials in
   3 columns made the dots unreadable).
+
+## 2026-11-12 — Step 65: topic 03 gets a playground and a live calculation
+- Owner: add a playground and a live calculation to the normal distribution (no quiz asked).
+- normal.js: Φ from erf (Abramowitz & Stegun 7.1.26, error < 1.5e-7), pdf, areas, Box–Muller draws,
+  5 scenarios from the site's games (IQ, inner clock, tapping, memory errors) + the standard bell.
+  NormalPlot.jsx: the curve, a shaded area, draggable bound knobs under the axis (← → too), a point
+  marker, a sample histogram on the density scale, z ticks under the x ticks.
+- Playground (/topics/normal-distribution/playground, NormalPlay.jsx): μ and σ sliders on a fixed y
+  scale (halving σ doubles the peak; "the total area stays 100 %"), area between / below / above two
+  bounds, presets μ ± 1, 2, 3σ (68.3 / 95.4 / 99.7 %), z of each bound, "+ 10 / + 100 people" drawn
+  from the bell as a histogram with their share in the range next to the curve's (the sample is
+  cleared when the bell changes), 6 challenges: IQ above 130 (2.3 %), a range of 95 %, peak twice as
+  tall (IQ's σ slider steps by 0.5 so 7.5 is reachable), half the area from the left, less than 1 %,
+  100 people compared with the curve (on a range of at least 20 %).
+- Live calculation (/topics/normal-distribution/calculate, NormalCalc.jsx): drag x on the bell (or ←
+  →), change μ and σ; three cards with KaTeX: z = (x − μ)/σ, f(x) = 1/(σ√2π)·e^(−z²/2) with the numbers
+  (a density, not a probability: above 1 when σ is small), P(X ≤ x) = Φ(z) (Φ computed numerically).
+  View "Standardise": the same point on N(0, 1) under the formula z = …, same area to its left.
+  Starting points per scenario (IQ 130 → z 2, f 0.00360, Φ 0.977).
+- Tested in headless Chrome at 1366×768 EN and 390×844 FR: ±1σ 68.3 %, ±2σ 95.4 %, above 130 2.3 %,
+  x = 85 → z −1, 15.9 %; clock 2.5 s → z 1.67, f 0.332, Φ 0.952; four challenges ticked by script;
+  KaTeX fine; desktop one screen, phones scroll; tours step through; no errors. Fixed after
+  screenshots: z and ratios without trailing zeros, the calculation's bell fills its chart, the
+  card formula goes under the title on phones.

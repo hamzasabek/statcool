@@ -197,6 +197,24 @@ export const topics = [
         },
       },
     ],
+    extras: [
+      {
+        slug: 'playground',
+        kind: 'play',
+        text: {
+          en: { name: 'Playground', idea: 'Shape a bell with its mean and SD, shade any range and read its share, draw people at random from it, and try six challenges.' },
+          fr: frenchTypo({ name: 'Bac à sable', idea: 'Façonnez une cloche avec sa moyenne et son écart-type, grisez n’importe quel intervalle et lisez sa part, tirez des gens au hasard, et relevez six défis.' }),
+        },
+      },
+      {
+        slug: 'calculate',
+        kind: 'play',
+        text: {
+          en: { name: 'Live calculation', idea: 'Drag a point along the bell and watch the calculation redo itself: its z-score, the height of the curve, and Φ(z), the area to its left. Then standardise.' },
+          fr: frenchTypo({ name: 'Le calcul en direct', idea: 'Faites glisser un point le long de la cloche et regardez le calcul se refaire : son score z, la hauteur de la courbe, et Φ(z), l’aire à sa gauche. Puis standardisez.' }),
+        },
+      },
+    ],
   },
   {
     slug: 'right-skewed',
