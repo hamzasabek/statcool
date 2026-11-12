@@ -1,4 +1,7 @@
 import { Link, useParams } from 'react-router'
+import cites from 'virtual:cites'
+import { keysIn, plainCites } from '../cite.jsx'
+import RefList from '../components/RefList.jsx'
 import { useLang, useText } from '../i18n.jsx'
 import { COMMON } from '../text.js'
 import { PARTS, findTopic, topics } from '../topics/topics.js'
@@ -39,7 +42,8 @@ export function TopicPage() {
       <h2 className="topic-games-title">{tx.gamesCount(topic.games.length)}</h2>
       <ol className="topic-games">
         {topic.games.map((g, k) => {
-          const { name, ref, idea } = g.text[lang]
+          // The card is a link: its citations are plain text (no button inside a link).
+          const [name, ref, idea] = ['name', 'ref', 'idea'].map((f) => plainCites(g.text[lang][f], lang))
           const inner = (
             <>
               <span className="topic-game-num">{tx.gameN(k + 1)}</span>
@@ -77,6 +81,20 @@ export function TopicPage() {
       {RECAPS[topic.slug] && (() => {
         const Recap = RECAPS[topic.slug]
         return <Recap />
+      })()}
+
+      {/* APA 7 references of everything this topic cites: its games' cards and its folder's texts */}
+      {(() => {
+        const keys = [...(cites.topics[topic.slug] ?? []), ...topic.games.flatMap((g) => keysIn(g.text.en.ref))]
+        if (!keys.length) return null
+        return (
+          <section className="topic-refs" aria-labelledby="topic-refs-title">
+            <h2 id="topic-refs-title" className="topic-games-title">
+              {tx.references}
+            </h2>
+            <RefList keys={keys} />
+          </section>
+        )
       })()}
 
       <nav className="topic-nav" aria-label={tx.topicNav}>

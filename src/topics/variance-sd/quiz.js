@@ -132,7 +132,7 @@ const EN = [
     q: 'In the memory game, errors with 4 lines have a mean near 0, like with 1 line, but a much bigger SD. What changed?',
     options: ['The bias: people turn the line one way', 'The precision: the answers scatter more around the truth', 'Nothing important', 'Only the mean'],
     answer: 1,
-    why: 'Same centre (no bias), wider spread: holding 4 lines in mind makes memory less precise. Researchers measure memory precision with exactly this SD (Wilken & Ma, 2004).',
+    why: 'Same centre (no bias), wider spread: holding 4 lines in mind makes memory less precise. Researchers measure memory precision with exactly this SD [@wilken2004].',
   },
   {
     q: 'In “Find the middle”, someone’s taps have a mean error of −3 % and an SD of 0.5 %. How would you describe them?',
@@ -144,7 +144,7 @@ const EN = [
     q: 'IQ scores are roughly bell-shaped with a mean of 100 and an SD of 15. About what share of people score between 85 and 115?',
     options: ['About 50 %', 'About 68 %', 'About 95 %', '100 %'],
     answer: 1,
-    why: '85 and 115 are 1 SD below and above the mean. For a bell-shaped (normal) distribution, about 68 % of values lie within 1 SD of the mean, and about 95 % within 2 SD.',
+    why: '85 and 115 are 1 SD below and above the mean. For a bell-shaped (normal) distribution, about 68 % of values lie within 1 SD of the mean, and about 95 % within 2 SD [@howell2013].',
   },
   {
     q: 'Same IQ scale (mean 100, SD 15, bell-shaped). About what share scores between 70 and 130?',
@@ -169,7 +169,7 @@ const EN = [
     q: 'Clouds of about 10 dots: guesses have an SD of 1.5 dots. Clouds of about 90: an SD of 13 dots (means 10 and 90). Relative to the mean, which guesses are more precise?',
     options: ['The small clouds (smaller SD)', 'The large clouds', 'About the same: SD ÷ mean ≈ 0.15 for both', 'SDs of different sizes cannot be compared at all'],
     answer: 2,
-    why: '1.5 ÷ 10 = 0.15 and 13 ÷ 90 ≈ 0.14. The coefficient of variation (CV = SD ÷ mean) compares spreads of different sizes. In numerosity estimates it stays about constant (scalar variability).',
+    why: '1.5 ÷ 10 = 0.15 and 13 ÷ 90 ≈ 0.14. The coefficient of variation (CV = SD ÷ mean) compares spreads of different sizes. In numerosity estimates it stays about constant [scalar variability; @izard2008; @whalen1999].',
   },
   {
     q: 'Can you compute a meaningful coefficient of variation (SD ÷ mean) for temperatures in °C?',
@@ -324,7 +324,7 @@ const FR = [
     q: 'Dans le jeu de mémoire, les erreurs avec 4 traits ont une moyenne proche de 0, comme avec 1 trait, mais un écart-type bien plus grand. Qu’est-ce qui a changé ?',
     options: ['Le biais : on tourne le trait d’un côté', 'La précision : les réponses se dispersent plus autour de la vérité', 'Rien d’important', 'Seulement la moyenne'],
     answer: 1,
-    why: 'Même centre (pas de biais), dispersion plus large : retenir 4 traits rend la mémoire moins précise. Les chercheurs mesurent la précision de la mémoire exactement par cet écart-type (Wilken et Ma, 2004).',
+    why: 'Même centre (pas de biais), dispersion plus large : retenir 4 traits rend la mémoire moins précise. Les chercheurs mesurent la précision de la mémoire exactement par cet écart-type [@wilken2004].',
   },
   {
     q: 'Dans « Trouvez le milieu », les touches de quelqu’un ont une erreur moyenne de −3 % et un écart-type de 0,5 %. Comment les décrire ?',
@@ -336,7 +336,7 @@ const FR = [
     q: 'Les scores de QI ont à peu près une forme de cloche, de moyenne 100 et d’écart-type 15. Quelle part des gens a un score entre 85 et 115, environ ?',
     options: ['Environ 50 %', 'Environ 68 %', 'Environ 95 %', '100 %'],
     answer: 1,
-    why: '85 et 115 sont à 1 écart-type sous et au-dessus de la moyenne. Pour une distribution en cloche (normale), environ 68 % des valeurs sont à moins d’un écart-type de la moyenne, et environ 95 % à moins de deux.',
+    why: '85 et 115 sont à 1 écart-type sous et au-dessus de la moyenne. Pour une distribution en cloche (normale), environ 68 % des valeurs sont à moins d’un écart-type de la moyenne, et environ 95 % à moins de deux [@howell2013].',
   },
   {
     q: 'Même échelle de QI (moyenne 100, écart-type 15, en cloche). Quelle part a un score entre 70 et 130, environ ?',
@@ -361,7 +361,7 @@ const FR = [
     q: 'Nuages d’environ 10 points : les estimations ont un écart-type de 1,5 point. Nuages d’environ 90 : un écart-type de 13 points (moyennes 10 et 90). Rapportées à la moyenne, quelles estimations sont les plus précises ?',
     options: ['Les petits nuages (écart-type plus petit)', 'Les grands nuages', 'À peu près pareil : écart-type ÷ moyenne ≈ 0,15 pour les deux', 'On ne peut pas du tout comparer des écarts-types de tailles différentes'],
     answer: 2,
-    why: '1,5 ÷ 10 = 0,15 et 13 ÷ 90 ≈ 0,14. Le coefficient de variation (CV = écart-type ÷ moyenne) compare des dispersions de tailles différentes. Pour l’estimation de quantités, il reste à peu près constant (variabilité scalaire).',
+    why: '1,5 ÷ 10 = 0,15 et 13 ÷ 90 ≈ 0,14. Le coefficient de variation (CV = écart-type ÷ moyenne) compare des dispersions de tailles différentes. Pour l’estimation de quantités, il reste à peu près constant [variabilité scalaire; @izard2008; @whalen1999].',
   },
   {
     q: 'Peut-on calculer un coefficient de variation (écart-type ÷ moyenne) qui ait un sens pour des températures en °C ?',

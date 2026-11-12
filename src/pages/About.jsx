@@ -88,6 +88,9 @@ export default function About() {
           </li>
         ))}
       </ul>
+      <p>
+        <Link to="/references">{tx.allRefs}</Link>
+      </p>
 
       <h2>{tx.inspTitle}</h2>
       <p>

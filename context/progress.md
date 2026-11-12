@@ -1155,3 +1155,47 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   to the CC deed in the page's language) with an example credit line, name / logo / photo reserved.
 - Tested: npm run check about (EN + FR, desktop + phone: no problems); screenshot of the section.
 
+## 2026-11-12 — Step 70: every study and concept cited in APA 7 (Claude)
+- Owner's new rule: every experiment, concept or study used must be cited correctly in APA 7; asked
+  for ways to cite first. Proposed where the references appear (clickable citations / a list per
+  topic / one page / all three), how the bibliography is stored (hand-written / structured file +
+  formatter / BibTeX from Zotero), what to cite for concepts (originals / textbook / both), and a
+  Crossref check. Owner chose: all three, a structured file, originals + one textbook, verify.
+- Before: ~25 works cited in the texts with no reference list; APA errors: first names ("Franz
+  Müller-Lyer, 1889"), 3+ authors written out instead of et al. (Schenkenberg, Whalen, Destexhe),
+  lists not in alphabetical order (Simon; Kubovy & Psotka), missing commas ("Miller 1956" in code),
+  and uncited claims (Weber's law for time, 68–95–99.7 rule, CLT, Poisson neurons, binomial test /
+  p-value, log of RTs, median RTs, gambler's fallacy, memoryless property, height and genes,
+  "the blue-seven effect is weaker elsewhere").
+- src/references.js (34 works), src/cite.jsx (APA 7 formatter EN / FR, tokens, clickable citation
+  with a bubble: full references + DOI links + "All references →", closes on Escape, outside click,
+  scroll), useText converts strings with tokens, components/RefList.jsx, pages/References.jsx
+  (/references), a "References" section at the end of each topic page, About: "All the references
+  used on the site →", citation styles (dotted underline, bubble, hanging indent).
+- Converted every citation to tokens (topic cards, About list, game texts, quizzes, recap) and added
+  sources: Gibbon (1977) + Wearden & Lejeune (2008) for Weber's law in timing; Howell (2013) for the
+  68–95–99.7 rule, CLT, binomial test, p-value, definitions of mean / median / mode, the n − 1 and
+  density notes; Dayan & Abbott (2001) Poisson spikes; Ross (2014) memoryless; Tversky & Kahneman
+  (1974) gambler's fallacy; Ratcliff (1993) + Whelan (2008) median and log of RTs, right skew; Luce
+  (1986); Fisher (1918) height and many genes; Donders (1868/1969) reaction time; Titchener (1901)
+  Ebbinghaus illusion. Wording fixed where the source says something else: "the blue-seven effect is
+  weaker elsewhere" → "later studies disagree on how general the effect is" (Knowles, 1977, says it
+  is not a phenomenon; Trueman, 1979, finds it robust); "Most people think so" (gambler's fallacy) →
+  "Many people"; "reaction times always trail off" → "trail off"; the Ebbinghaus card cites Titchener
+  (1901) (Ebbinghaus's own description is not cited: no verified source).
+- tools/verify-refs.mjs (npm run verify-refs): all 30 DOIs match Crossref. Known Crossref issues kept
+  as `crossrefOk`: Schenkenberg et al. pages (Crossref 509–509), Fisher (1918; printed issue dated
+  1919 by Crossref, with "XV.—" in the title). Wilken & Ma (2004) now "Article 11" (APA 7, as at
+  Crossref). Not verifiable by DOI (checked by hand): Howell 2013, Müller-Lyer 1889, Luce 1986, Ross
+  2014, Dayan & Abbott 2001, Titchener 1901.
+- tools/cite-check.mjs, run first by npm run check: unknown keys, unused references, hand-typed
+  citations. check.mjs also flags raw tokens or "[object Object]" on a page, and crawls /references.
+- AGENTS.md: the citation rule and the commands, so Gemini follows them too.
+- Tested: npm run build; npm run check (all pages incl. /references, 2 sizes, EN + FR: no problems);
+  headless Chrome: About citations in EN / FR (“Kubovy & Psotka, 1976” / “Kubovy et Psotka, 1976”,
+  "Schenkenberg et al., 1980", "Donders, 1868/1969", sorted lists), bubble with two references and DOI
+  links, fits a 390 px phone, Escape closes it; topic page reference list (11 for topic 01, French
+  "Kubovy, M. et Psotka, J."); /references 34 entries, Donders with "(W. G. Koster, Trans.)" /
+  "trad." and "(Original work published 1868)" / "(Œuvre originale publiée en 1868)"; 32 quiz runs
+  (both quizzes, both languages): every explanation with a citation rendered, none raw.
+

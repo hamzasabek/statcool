@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "check": "node tools/check.mjs"
+    "check": "node tools/check.mjs",
+    "verify-refs": "node tools/verify-refs.mjs"
   },
   "dependencies": {
     "d3": "^7.9.2",

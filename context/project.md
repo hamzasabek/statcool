@@ -20,12 +20,12 @@ Node.js 26 LTS is installed at `C:\Program Files\nodejs` (installed with winget)
 
 ## Folder structure
 
-Root: `LICENSE` (MIT: the code), `LICENSE-CONTENT.md` (CC BY 4.0: the teaching content, i.e. texts,
+Root: `vite.config.js` (React plugin + `virtual:cites`), `LICENSE` (MIT: the code), `LICENSE-CONTENT.md` (CC BY 4.0: the teaching content, i.e. texts,
 quiz questions, recap sheets, game designs; the name, logo and author photo are all rights reserved;
 README "Licences" says the same), `CITATION.cff` (GitHub's "Cite this repository"; same reference as
 the About page; licence MIT + CC-BY-4.0), `AGENTS.md` (the shared rules for every AI assistant: session start, end of step, commands,
 conventions), `CLAUDE.md` and `GEMINI.md` (each imports AGENTS.md), `tools/check.mjs` (`npm run
-check`: every page in headless Chrome at desktop and phone size, EN and FR: one screen or how much it
+check`: first tools/cite-check.mjs, then every page in headless Chrome at desktop and phone size, EN and FR: one screen or how much it
 scrolls, wider than the screen, console and KaTeX errors, page not found; `--shots` saves screenshots
 in `scratch/check/`, gitignored).
 
@@ -35,6 +35,15 @@ src/
   i18n.jsx                 language (en / fr): LangProvider, useLang, useText(dict), num() and pct()
                            number formatting (French: 16,9 %), frenchTypo() for no-break spaces
   theme.js                 useTheme(): light / dark on <html data-theme>, saved in localStorage
+  references.js            the bibliography: every cited work once (authors, year, title, journal,
+                           volume, issue, pages / article number, DOI; books: edition, publisher;
+                           translator + original year; crossrefOk = fields where Crossref is wrong)
+  cite.jsx                 APA 7 in EN / FR: parses citation tokens in texts ([@key], [@a; @b],
+                           [prefix @key], [words; @key], @key narrative, [-@key] year only), in-text
+                           labels (& / et, et al. from 3 authors, n/m years for translations, sorted),
+                           reference entries (Reference, refText), the clickable citation + its
+                           bubble, withCites(dict, lang) used by useText, plainCites (text only, for
+                           cards that are links), keysIn
   sound.js                 feedback sounds (Web Audio, no files): sfx.tick / right / wrong / chime,
                            useChime(count, ...thresholds), useSoundOn() + isSoundOn() (the header's
                            switch, saved `statscool-sound`, on by default). Rules under "Sound" below
@@ -44,6 +53,7 @@ src/
   components/
     Header.jsx             logo (links to /) + Topics / About links (NavLink, yellow dot when active;
                            Topics stays active inside a game) + EN | FR switch + sound on/off + light/dark button
+    RefList.jsx            an APA reference list (alphabetical, hanging indent, id ref-<key>)
     TopicGlyph.jsx         small drawing of a distribution (topics timeline + home page strip)
     Tex.jsx                <Tex math block /> renders LaTeX with KaTeX (0.16.11; \htmlClass allowed
                            for styling parts of a formula); texNum() for French decimal commas
@@ -71,6 +81,8 @@ src/
                            data"…), under it a vertical timeline of its topics (numbered nodes,
                            numbers run on across parts; game name, title, one sentence, Play → or
                            Coming soon; drawings hidden on phones). A `soon` part is a dashed box.
+    References.jsx         /references : every cited work in APA 7 (from virtual:cites), anchors
+                           #ref-<key> (the bubbles' "All references" link scrolls there)
     About.jsx              /about : why, the author (round photo assets/author.jpg, third-person bio,
                            ResearchGate / LinkedIn / GitHub links; no phone or personal email), how
                            to cite (APA reference + Copy button; YEAR constant, keep in step with
@@ -349,6 +361,23 @@ changes: `grep -rn "topic 0|thème 0" src`.
   `index.html` sets `data-theme` and `lang` before the first paint (saved `statscool-theme`, else
   the system setting). Until the student picks a theme, the site follows the system setting.
 - Phones (≤ 700 px): the foot hides its "All topics" button (the "← Topics" link does that job).
+
+## Citations (Step 70)
+
+Rule (AGENTS.md): every experiment, study, finding or named concept is cited in APA 7, never typed by
+hand. Texts carry tokens (`[@key]`…, see references.js); `useText()` turns every string with a token
+into text with clickable citations (cite.jsx `withCites`, cached per dictionary and language;
+functions are wrapped). A string with a citation is a React element, so never concatenate it with
+`${…}` or `+`, never use it in an aria-label / title / SVG text (npm run check flags "[object Object]"
+and raw tokens on the page). Topic cards are links: TopicPage shows their citations with
+`plainCites`. Reference lists: the topic page lists every key found in `src/topics/<slug>/` (build
+time, `virtual:cites` from vite.config.js + tools/cites.mjs) plus its cards' refs; /references lists
+all. Checks: tools/cite-check.mjs (in npm run check): unknown keys, unused references, hand-typed
+"(Name, year)" (comments ignored; `// cite-ok` on or above a line that is not a citation).
+tools/verify-refs.mjs (npm run verify-refs): Crossref comparison of every DOI.
+Sources chosen: originals for experiments and named findings; Howell (2013) for statistical
+concepts; Ross (2014) for the exponential's memoryless property (Howell does not cover it); Dayan &
+Abbott (2001) for Poisson neurons.
 
 ## Sound (Step 67)
 

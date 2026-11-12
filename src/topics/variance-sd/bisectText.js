@@ -58,9 +58,9 @@ export const BIS = {
       unclear: 'Your dot is outside the box, but with this many taps that lean could still be chance: play again and see if it stays.',
     },
     mapFact:
-      'The class leans slightly left on average: most studies of young adults find this small bias, called pseudoneglect (Jewell & McCourt, 2000). But people differ a lot, and many lean right. Bias and scatter are unrelated: knowing one tells you nothing about the other, so a report needs both, the mean and the SD.',
+      'The class leans slightly left on average: most studies of young adults find this small bias, called pseudoneglect [@jewell2000]. But people differ a lot, and many lean right. Bias and scatter are unrelated: knowing one tells you nothing about the other, so a report needs both, the mean and the SD.',
     clinicFact:
-      'In clinics this is a real test: after a stroke in the right hemisphere, patients with spatial neglect bisect lines far to the right, because they ignore the left side of space (Schenkenberg, Bradford & Ajax, 1980).',
+      'In clinics this is a real test: after a stroke in the right hemisphere, patients with spatial neglect bisect lines far to the right, because they ignore the left side of space [@schenkenberg1980].',
     simNote: 'The class is simulated, shaped like published results.',
     tourPlay: 'Let’s play!',
     tour: {
@@ -136,9 +136,9 @@ export const BIS = {
       unclear: 'Votre point est hors du cadre, mais avec autant de touches ce penchant peut encore venir du hasard : rejouez pour voir s’il reste.',
     },
     mapFact:
-      'La classe penche un peu à gauche en moyenne : la plupart des études chez les jeunes adultes trouvent ce petit biais, appelé pseudo-négligence (Jewell et McCourt, 2000). Mais les gens diffèrent beaucoup, et beaucoup penchent à droite. Biais et dispersion ne sont pas liés : connaître l’un ne dit rien de l’autre, donc il faut donner les deux, la moyenne et l’écart-type.',
+      'La classe penche un peu à gauche en moyenne : la plupart des études chez les jeunes adultes trouvent ce petit biais, appelé pseudo-négligence [@jewell2000]. Mais les gens diffèrent beaucoup, et beaucoup penchent à droite. Biais et dispersion ne sont pas liés : connaître l’un ne dit rien de l’autre, donc il faut donner les deux, la moyenne et l’écart-type.',
     clinicFact:
-      'En clinique, c’est un vrai test : après un AVC de l’hémisphère droit, les patients atteints de négligence spatiale coupent les traits très à droite, car ils ignorent la moitié gauche de l’espace (Schenkenberg, Bradford et Ajax, 1980).',
+      'En clinique, c’est un vrai test : après un AVC de l’hémisphère droit, les patients atteints de négligence spatiale coupent les traits très à droite, car ils ignorent la moitié gauche de l’espace [@schenkenberg1980].',
     simNote: 'La classe est simulée, à partir de résultats publiés.',
     tourPlay: 'C’est parti !',
     tour: {

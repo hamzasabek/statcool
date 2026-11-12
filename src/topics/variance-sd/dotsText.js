@@ -39,8 +39,8 @@ export const DOTS = {
     grew: (r) => `From the small clouds to the large ones, your SD grew ${r}× (the number of dots grew about 9×).`,
     grewLittle: (r) => `This time your SD grew only ${r}× from the small clouds to the large ones (most people’s grows several times; with 6 guesses per size an SD is still rough).`,
     growFact:
-      'This is called scalar variability: the spread of estimates grows in proportion to the number estimated (Whalen, Gallistel & Gelman, 1999; Izard & Dehaene, 2008). It is Weber’s law again: the bigger the quantity, the bigger a difference must be to be noticed.',
-    under: (p) => `You also underestimated the large clouds (your guesses were ${p} of the truth on average), as most people do (Izard & Dehaene, 2008).`,
+      'This is called scalar variability: the spread of estimates grows in proportion to the number estimated [@whalen1999; @izard2008]. It is Weber’s law again: the bigger the quantity, the bigger a difference must be to be noticed.',
+    under: (p) => `You also underestimated the large clouds (your guesses were ${p} of the truth on average), as most people do [@izard2008].`,
     nextRelative: 'Next: relative spread →',
     // 3. Relative spread
     viewGroup: 'Show the guesses',
@@ -113,8 +113,8 @@ export const DOTS = {
     grew: (r) => `Des petits nuages aux grands, votre écart-type a été multiplié par ${r} (le nombre de points, par environ 9).`,
     grewLittle: (r) => `Cette fois, votre écart-type n’a été multiplié que par ${r} des petits nuages aux grands (chez la plupart des gens, il l’est plusieurs fois ; avec 6 estimations par taille, un écart-type reste approximatif).`,
     growFact:
-      'C’est la variabilité scalaire : la dispersion des estimations grandit en proportion du nombre estimé (Whalen, Gallistel et Gelman, 1999 ; Izard et Dehaene, 2008). C’est encore la loi de Weber : plus la quantité est grande, plus une différence doit être grande pour être remarquée.',
-    under: (p) => `Vous avez aussi sous-estimé les grands nuages (vos estimations valaient ${p} du vrai nombre en moyenne), comme la plupart des gens (Izard et Dehaene, 2008).`,
+      'C’est la variabilité scalaire : la dispersion des estimations grandit en proportion du nombre estimé [@whalen1999; @izard2008]. C’est encore la loi de Weber : plus la quantité est grande, plus une différence doit être grande pour être remarquée.',
+    under: (p) => `Vous avez aussi sous-estimé les grands nuages (vos estimations valaient ${p} du vrai nombre en moyenne), comme la plupart des gens [@izard2008].`,
     nextRelative: 'Suite : dispersion relative →',
     viewGroup: 'Afficher les estimations',
     views: { dots: 'En points', ratio: '÷ vrai nombre' },

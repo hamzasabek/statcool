@@ -44,10 +44,10 @@ export const BEAT = {
     bellStrong: (m, s) => `Your bell: mean ${m}, SD ${s}.`,
     bellSay: 'These two numbers are enough to draw the whole curve.',
     rule: (k1, k2, n, p1, p2) =>
-      `${k1} of your ${n} taps (${p1}) lie within 1 SD of the mean, and ${k2} (${p2}) within 2 SD. A normal distribution puts about 68% and 95% there: the 68–95–99.7 rule.`,
-    early: (m) => `On average you tapped ${m} before the click, like most people: we anticipate the beat rather than react to it (negative mean asynchrony; Repp, 2005).`,
+      `${k1} of your ${n} taps (${p1}) lie within 1 SD of the mean, and ${k2} (${p2}) within 2 SD. A normal distribution puts about 68% and 95% there: the 68–95–99.7 rule [@howell2013].`,
+    early: (m) => `On average you tapped ${m} before the click, like most people: we anticipate the beat rather than react to it [negative mean asynchrony; @repp2005].`,
     late: (m) => `On average you tapped ${m} after the click. Most people tap a little before it; touch screens and some speakers add a delay, which shifts the whole bell to the right without changing its shape.`,
-    onTime: 'On average you tapped right on the click. Most people tap a little before it (negative mean asynchrony; Repp, 2005).',
+    onTime: 'On average you tapped right on the click. Most people tap a little before it [negative mean asynchrony; @repp2005].',
     twoNumbers: 'The mean says where the bell sits, the SD how wide it is. For a normal distribution, nothing else is needed: knowing them, you can say what share of taps falls in any range.',
     nextPredict: 'Next: predict →',
     // 3. Predict
@@ -122,10 +122,10 @@ export const BEAT = {
     bellStrong: (m, s) => `Votre cloche : moyenne ${m}, écart-type ${s}.`,
     bellSay: 'Ces deux nombres suffisent pour tracer toute la courbe.',
     rule: (k1, k2, n, p1, p2) =>
-      `${k1} de vos ${n} frappes (${p1}) sont à moins d’un écart-type de la moyenne, et ${k2} (${p2}) à moins de deux. Une loi normale en met environ 68 % et 95 % : la règle 68–95–99,7.`,
-    early: (m) => `En moyenne, vous avez tapé ${m} avant le clic, comme la plupart des gens : on anticipe le temps au lieu d’y réagir (asynchronie moyenne négative ; Repp, 2005).`,
+      `${k1} de vos ${n} frappes (${p1}) sont à moins d’un écart-type de la moyenne, et ${k2} (${p2}) à moins de deux. Une loi normale en met environ 68 % et 95 % : la règle 68–95–99,7 [@howell2013].`,
+    early: (m) => `En moyenne, vous avez tapé ${m} avant le clic, comme la plupart des gens : on anticipe le temps au lieu d’y réagir [asynchronie moyenne négative; @repp2005].`,
     late: (m) => `En moyenne, vous avez tapé ${m} après le clic. La plupart des gens tapent un peu avant ; les écrans tactiles et certains haut-parleurs ajoutent un délai, qui décale toute la cloche vers la droite sans changer sa forme.`,
-    onTime: 'En moyenne, vous avez tapé pile sur le clic. La plupart des gens tapent un peu avant (asynchronie moyenne négative ; Repp, 2005).',
+    onTime: 'En moyenne, vous avez tapé pile sur le clic. La plupart des gens tapent un peu avant [asynchronie moyenne négative; @repp2005].',
     twoNumbers: 'La moyenne dit où se trouve la cloche, l’écart-type quelle est sa largeur. Pour une loi normale, il ne faut rien d’autre : avec eux, on peut dire quelle part des frappes tombe dans n’importe quel intervalle.',
     nextPredict: 'Suite : prédire →',
     rangeMark: 'votre intervalle à 95 %',

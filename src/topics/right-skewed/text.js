@@ -40,7 +40,7 @@ export const RT = {
     skewedStrong: 'Your taps pile up on the fast side and trail off to the right.',
     skewed: 'That is a right-skewed distribution.',
     notSkewedStrong: 'Your taps are almost a bell this time: very few slow ones.',
-    notSkewed: 'Most people get a longer tail to the right.',
+    notSkewed: 'Most people get a longer tail to the right [@whelan2008].',
     keyMode: 'Peak (mode)',
     keyMedian: 'Median',
     keyMean: 'Mean ▲',
@@ -60,7 +60,7 @@ export const RT = {
       `Every doubling gets the same space: 200 → 400 ms is as wide as 400 → 800 ms. The top of the bell is close to your median, ${md}.`,
     msHint: 'In milliseconds: a peak on the fast side and a long tail to the right.',
     logFact:
-      'Many right-skewed measures (reaction times, incomes, city sizes) are a bell on a log scale. That is why researchers often take the log of reaction times before they analyse them.',
+      'Many right-skewed measures (reaction times, incomes, city sizes) are a bell on a log scale. That is why researchers often take the log of reaction times before they analyse them [@ratcliff1993; @whelan2008].',
     msFact: 'On the log scale each step doubles the time. Try it.',
     // chart
     marks: { mode: 'peak (mode)', median: 'median', mean: 'mean' },
@@ -90,7 +90,7 @@ export const RT = {
       ],
       log: [
         { title: 'Log scale', text: 'Switch to “Log scale”: each step on the axis doubles the time (100, 200, 400, 800 ms).' },
-        { title: 'A bell again', text: 'On the log scale the tail folds in and your dots make a bell again. That is why researchers often analyse the log of reaction times.' },
+        { title: 'A bell again', text: 'On the log scale the tail folds in and your dots make a bell again. That is why researchers often analyse the log of reaction times [@whelan2008].' },
       ],
     },
   },
@@ -129,7 +129,7 @@ export const RT = {
     skewedStrong: 'Vos essais s’entassent du côté rapide et s’étirent vers la droite.',
     skewed: 'C’est une distribution asymétrique à droite.',
     notSkewedStrong: 'Cette fois, vos essais forment presque une cloche : très peu de lents.',
-    notSkewed: 'La plupart des gens ont une traîne plus longue à droite.',
+    notSkewed: 'La plupart des gens ont une traîne plus longue à droite [@whelan2008].',
     keyMode: 'Sommet (mode)',
     keyMedian: 'Médiane',
     keyMean: 'Moyenne ▲',
@@ -179,7 +179,7 @@ export const RT = {
       ],
       log: [
         { title: 'Échelle log', text: 'Passez à « Échelle log » : chaque pas sur l’axe double le temps (100, 200, 400, 800 ms).' },
-        { title: 'De nouveau une cloche', text: 'Sur l’échelle log, la traîne se replie et vos points forment de nouveau une cloche. C’est pourquoi les chercheurs analysent souvent le log des temps de réaction.' },
+        { title: 'De nouveau une cloche', text: 'Sur l’échelle log, la traîne se replie et vos points forment de nouveau une cloche. C’est pourquoi les chercheurs analysent souvent le log des temps de réaction [@whelan2008].' },
       ],
     },
   }),

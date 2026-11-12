@@ -45,11 +45,11 @@ export const SPAN = {
     keyClass: '100 people',
     keyYou: 'Your most common span',
     classStrong: (mo, md, mn) => `100 people: mode ${mo}, median ${md}, mean ${mn}.`,
-    classSay: 'Adults repeat about 6 or 7 digits: Miller’s “magical number seven, plus or minus two”. Today the core capacity is put nearer 4 chunks (Cowan, 2001): grouping digits stretches the span.',
+    classSay: 'Adults repeat about 6 or 7 digits: Miller’s “magical number seven, plus or minus two”. Today the core capacity is put nearer 4 chunks [@cowan2001]: grouping digits stretches the span.',
     classFact: (you) =>
       `Your most common span (${you}) is marked by the yellow dot. With 100 people the three centres land close together; with a handful of runs they can differ more.`,
     twoSpreads: 'Two kinds of spread here. Your few runs vary because one person’s result changes from run to run (within a person: measurement noise). The 100 bars vary because people differ (between people). Topic 02 measures both.',
-    classNote: 'These 100 people are simulated around the adult average of about 6.5 digits (Woods et al., 2011), not real players.',
+    classNote: 'These 100 people are simulated around the adult average of about 6.5 digits [@woods2011], not real players.',
     // chart
     markMode: (v) => `mode ${v}`,
     markMedian: (v) => `median ${v}`,
@@ -117,11 +117,11 @@ export const SPAN = {
     keyClass: '100 personnes',
     keyYou: 'Votre empan le plus fréquent',
     classStrong: (mo, md, mn) => `100 personnes : mode ${mo}, médiane ${md}, moyenne ${mn}.`,
-    classSay: 'Les adultes répètent environ 6 ou 7 chiffres : le « nombre magique sept, plus ou moins deux » de Miller. Aujourd’hui, on situe la capacité de base plutôt vers 4 unités (Cowan, 2001) : regrouper les chiffres allonge l’empan.',
+    classSay: 'Les adultes répètent environ 6 ou 7 chiffres : le « nombre magique sept, plus ou moins deux » de Miller. Aujourd’hui, on situe la capacité de base plutôt vers 4 unités [@cowan2001] : regrouper les chiffres allonge l’empan.',
     classFact: (you) =>
       `Votre empan le plus fréquent (${you}) est marqué par le point jaune. Avec 100 personnes, les trois centres sont proches ; avec quelques séries seulement, ils peuvent s’écarter davantage.`,
     twoSpreads: 'Deux sortes de dispersion ici. Vos quelques séries varient parce que le résultat d’une même personne change d’une série à l’autre (à l’intérieur d’une personne : le bruit de mesure). Les 100 barres varient parce que les gens diffèrent (entre les personnes). Le thème 02 mesure les deux.',
-    classNote: 'Ces 100 personnes sont simulées autour de la moyenne adulte d’environ 6,5 chiffres (Woods et al., 2011), ce ne sont pas de vrais joueurs.',
+    classNote: 'Ces 100 personnes sont simulées autour de la moyenne adulte d’environ 6,5 chiffres [@woods2011], ce ne sont pas de vrais joueurs.',
     markMode: (v) => `mode ${v}`,
     markMedian: (v) => `médiane ${v}`,
     markMean: (v) => `moyenne ${v}`,

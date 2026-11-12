@@ -88,7 +88,7 @@ const MORE_EN = [
     q: 'In a data set, the mean is much bigger than the median. What is the most likely shape?',
     options: ['Symmetric, like a bell', 'A long tail to the right', 'A long tail to the left', 'Two equal peaks'],
     answer: 1,
-    why: 'A tail of large values pulls the mean towards it, not the median: mean > median usually signals a right-skewed distribution (salaries, reaction times). Usually, not always: with whole-number data the rule can fail. Counts of 0, 1, 2, 3 errors in 39, 39, 17 and 5 people trail off to the right, yet the mean (0.88) is below the median (1) (von Hippel, 2005).',
+    why: 'A tail of large values pulls the mean towards it, not the median: mean > median usually signals a right-skewed distribution (salaries, reaction times). Usually, not always: with whole-number data the rule can fail. Counts of 0, 1, 2, 3 errors in 39, 39, 17 and 5 people trail off to the right, yet the mean (0.88) is below the median (1) [@hippel2005].',
   },
   {
     q: 'Most students score between 16 and 19 out of 20; a few score 3. Where is the mean?',
@@ -117,7 +117,7 @@ const MORE_EN = [
     q: 'If 200 people picked a digit from 0 to 9 truly at random, about how many would pick 7?',
     options: ['About 7', 'About 20', 'About 56', 'About 100'],
     answer: 1,
-    why: '200 ÷ 10 = 20 for each digit. Real people pick 7 far more often: 28% of 1,770 people in Kubovy & Psotka (1976), that is about 57 out of 200. That is why the mode stands out.',
+    why: '200 ÷ 10 = 20 for each digit. Real people pick 7 far more often: 28% of 1,770 people in @kubovy1976, that is about 57 out of 200. That is why the mode stands out.',
   },
   {
     q: 'Miller’s “magical number seven, plus or minus two” means that…',
@@ -128,7 +128,7 @@ const MORE_EN = [
       'nobody can remember more than 9 digits',
     ],
     answer: 1,
-    why: 'It gives a typical value and a spread: adult spans cluster around 6 or 7 (about 6.5 on average, Woods et al., 2011), most people between 5 and 9. Today the core capacity is put nearer 4 chunks (Cowan, 2001): grouping digits stretches the span.',
+    why: 'It gives a typical value and a spread: adult spans cluster around 6 or 7 [about 6.5 on average, @woods2011], most people between 5 and 9. Today the core capacity is put nearer 4 chunks [@cowan2001]: grouping digits stretches the span.',
   },
   {
     q: 'There are 8 dots. You move one dot 4 steps to the right. How far does the mean move?',
@@ -229,7 +229,7 @@ const MORE_FR = [
     q: 'Dans des données, la moyenne est bien plus grande que la médiane. Quelle forme est la plus probable ?',
     options: ['Symétrique, comme une cloche', 'Une longue traîne vers la droite', 'Une longue traîne vers la gauche', 'Deux pics égaux'],
     answer: 1,
-    why: 'Une traîne de grandes valeurs tire la moyenne vers elle, pas la médiane : moyenne > médiane signale en général une distribution asymétrique à droite (salaires, temps de réaction). En général, pas toujours : avec des nombres entiers, la règle peut échouer. 0, 1, 2 ou 3 erreurs chez 39, 39, 17 et 5 personnes : une traîne à droite, et pourtant la moyenne (0,88) est sous la médiane (1) (von Hippel, 2005).',
+    why: 'Une traîne de grandes valeurs tire la moyenne vers elle, pas la médiane : moyenne > médiane signale en général une distribution asymétrique à droite (salaires, temps de réaction). En général, pas toujours : avec des nombres entiers, la règle peut échouer. 0, 1, 2 ou 3 erreurs chez 39, 39, 17 et 5 personnes : une traîne à droite, et pourtant la moyenne (0,88) est sous la médiane (1) [@hippel2005].',
   },
   {
     q: 'La plupart des élèves ont entre 16 et 19 sur 20 ; quelques-uns ont 3. Où est la moyenne ?',
@@ -258,7 +258,7 @@ const MORE_FR = [
     q: 'Si 200 personnes choisissaient un chiffre de 0 à 9 vraiment au hasard, environ combien choisiraient 7 ?',
     options: ['Environ 7', 'Environ 20', 'Environ 56', 'Environ 100'],
     answer: 1,
-    why: '200 ÷ 10 = 20 pour chaque chiffre. Les vraies personnes choisissent 7 bien plus souvent : 28 % de 1 770 personnes chez Kubovy et Psotka (1976), soit environ 57 sur 200. C’est pourquoi le mode ressort.',
+    why: '200 ÷ 10 = 20 pour chaque chiffre. Les vraies personnes choisissent 7 bien plus souvent : 28 % de 1 770 personnes chez @kubovy1976, soit environ 57 sur 200. C’est pourquoi le mode ressort.',
   },
   {
     q: 'Le « nombre magique sept, plus ou moins deux » de Miller veut dire que…',
@@ -269,7 +269,7 @@ const MORE_FR = [
       'personne ne peut retenir plus de 9 chiffres',
     ],
     answer: 1,
-    why: 'Il donne une valeur typique et une dispersion : les empans adultes se regroupent autour de 6 ou 7 (environ 6,5 en moyenne, Woods et al., 2011), la plupart des gens entre 5 et 9. Aujourd’hui, on situe la capacité de base plutôt vers 4 unités (Cowan, 2001) : regrouper les chiffres allonge l’empan.',
+    why: 'Il donne une valeur typique et une dispersion : les empans adultes se regroupent autour de 6 ou 7 [environ 6,5 en moyenne, @woods2011], la plupart des gens entre 5 et 9. Aujourd’hui, on situe la capacité de base plutôt vers 4 unités [@cowan2001] : regrouper les chiffres allonge l’empan.',
   },
   {
     q: 'Il y a 8 points. Vous déplacez un point de 4 pas vers la droite. De combien bouge la moyenne ?',
@@ -329,7 +329,7 @@ export const QUIZ = {
       q: 'People name their favourite colour. Which centre can you give?',
       options: ['The mean colour', 'The median colour', 'The mode', 'All three'],
       answer: 2,
-      why: 'Colours are categories: you cannot add them (no mean) or put them in order (no median). The only centre is the most common answer, the mode (blue, for more than two in five students in Simon’s 1971 study).',
+      why: 'Colours are categories: you cannot add them (no mean) or put them in order (no median). The only centre is the most common answer, the mode (blue, for more than two in five students in the study by @simon1971).',
     },
     {
       q: '31 people rate “Pineapple belongs on pizza” from 1 to 7. The mean is 4. What is the best summary?',
@@ -348,7 +348,7 @@ export const QUIZ = {
       figure: REACTION,
       options: ['Left of the median (faster)', 'Exactly on the median', 'Right of the median (slower)', 'On the peak'],
       answer: 2,
-      why: 'The slow trials in the tail pull the mean to the right: peak → median → mean. That is why researchers often report the median reaction time.',
+      why: 'The slow trials in the tail pull the mean to the right: peak → median → mean. That is why researchers often report the median reaction time [@ratcliff1993; @whelan2008].',
     },
     {
       q: 'What is the median of 3, 9, 4, 8?',
@@ -400,7 +400,7 @@ export const QUIZ = {
       q: 'Des gens citent leur couleur préférée. Quel centre pouvez-vous donner ?',
       options: ['La couleur moyenne', 'La couleur médiane', 'Le mode', 'Les trois'],
       answer: 2,
-      why: 'Les couleurs sont des catégories : on ne peut pas les additionner (pas de moyenne) ni les ranger dans l’ordre (pas de médiane). Le seul centre est la réponse la plus fréquente, le mode (le bleu, pour plus de deux étudiants sur cinq dans l’étude de Simon, 1971).',
+      why: 'Les couleurs sont des catégories : on ne peut pas les additionner (pas de moyenne) ni les ranger dans l’ordre (pas de médiane). Le seul centre est la réponse la plus fréquente, le mode (le bleu, pour plus de deux étudiants sur cinq dans l’étude de @simon1971).',
     },
     {
       q: '31 personnes notent « L’ananas a sa place sur une pizza » de 1 à 7. La moyenne vaut 4. Quel est le meilleur résumé ?',

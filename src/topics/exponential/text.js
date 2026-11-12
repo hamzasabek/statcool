@@ -54,12 +54,12 @@ export const EXP = {
     rowAfterQuiet: (t, w) => `After ${t} of quiet: fires within ${w}`,
     quietFor: 'Quiet for',
     answer: {
-      more: 'Most people think so: it feels like the neuron is “due”. That is the gambler’s fallacy. Look at the bars: the chance is the same.',
+      more: 'Many people think so: it feels like the neuron is “due”. That is the gambler’s fallacy [@tversky1974]. Look at the bars: the chance is the same.',
       same: 'Right: the chance is the same. The neuron has no memory of how long it has been quiet.',
       less: 'Not less either: the chance is the same. The neuron has no memory of how long it has been quiet.',
     },
     memoryless: (n) =>
-      `This is the memoryless property, and the exponential is the only continuous distribution that has it. Move the slider: however long the silence, the next half second has the same chance. (Your neuron fired ${n} more times in a simulation to measure this.)`,
+      `This is the memoryless property, and the exponential is the only continuous distribution that has it [@ross2014]. Move the slider: however long the silence, the next half second has the same chance. (Your neuron fired ${n} more times in a simulation to measure this.)`,
     // chart
     marks: { mode: 'peak (mode)', median: 'median', mean: 'mean' },
     empty: 'Each wait between two spikes lands here',
@@ -88,7 +88,7 @@ export const EXP = {
       ],
       answer: [
         { title: 'The answer', text: 'From 100 000 simulated waits of this neuron: the chance of a spike in the next 0.5 s right after a spike, and after a silence. They are the same.' },
-        { title: 'Any silence', text: 'Move the slider: whatever the silence, the chance stays the same. The neuron has no memory: the memoryless property.' },
+        { title: 'Any silence', text: 'Move the slider: whatever the silence, the chance stays the same. The neuron has no memory: the memoryless property [@dayan2001].' },
       ],
     },
   },
@@ -141,12 +141,12 @@ export const EXP = {
     rowAfterQuiet: (t, w) => `Après ${t} de silence : décharge dans les ${w}`,
     quietFor: 'Silence depuis',
     answer: {
-      more: 'C’est ce que pensent la plupart des gens : on a l’impression que c’est « son tour ». C’est l’erreur du joueur. Regardez les barres : la probabilité est la même.',
+      more: 'Beaucoup de gens le pensent : on a l’impression que c’est « son tour ». C’est l’erreur du joueur [@tversky1974]. Regardez les barres : la probabilité est la même.',
       same: 'Exact : la probabilité est la même. Le neurone n’a aucune mémoire du temps passé en silence.',
       less: 'Pas moins non plus : la probabilité est la même. Le neurone n’a aucune mémoire du temps passé en silence.',
     },
     memoryless: (n) =>
-      `C’est la propriété d’absence de mémoire, et la loi exponentielle est la seule loi continue qui l’a. Bougez le curseur : quelle que soit la durée du silence, la demi-seconde suivante a la même probabilité. (Votre neurone a déchargé ${n} fois de plus dans une simulation pour le mesurer.)`,
+      `C’est la propriété d’absence de mémoire, et la loi exponentielle est la seule loi continue qui l’a [@ross2014]. Bougez le curseur : quelle que soit la durée du silence, la demi-seconde suivante a la même probabilité. (Votre neurone a déchargé ${n} fois de plus dans une simulation pour le mesurer.)`,
     marks: { mode: 'sommet (mode)', median: 'médiane', mean: 'moyenne' },
     empty: 'Chaque attente entre deux décharges arrive ici',
     axis: 'Attente entre deux décharges (secondes)',
@@ -174,7 +174,7 @@ export const EXP = {
       ],
       answer: [
         { title: 'La réponse', text: 'D’après 100 000 attentes simulées de ce neurone : la chance d’une décharge dans les 0,5 s qui suivent, juste après une décharge et après un silence. Elles sont égales.' },
-        { title: 'N’importe quel silence', text: 'Bougez le curseur : quel que soit le silence, la chance reste la même. Le neurone n’a pas de mémoire : c’est la propriété « sans mémoire ».' },
+        { title: 'N’importe quel silence', text: 'Bougez le curseur : quel que soit le silence, la chance reste la même. Le neurone n’a pas de mémoire : c’est la propriété « sans mémoire » [@dayan2001].' },
       ],
     },
   }),

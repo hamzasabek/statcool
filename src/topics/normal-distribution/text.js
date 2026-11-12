@@ -19,10 +19,10 @@ export const CLOCK = {
     notWider: (r) => `This time your 5 s spread was only ${r}× the 2 s spread.`,
     fact: (a, b, cvA, cvB, close) =>
       `2 s: mean ${a.mean}, SD ${a.sd} · 5 s: mean ${b.mean}, SD ${b.sd}. Relative to the time, the spread is ${cvA} vs ${cvB}${
-        close ? ': about the same. Timing errors grow in proportion to the time (Weber’s law).' : '.'
+        close ? ': about the same. Timing errors grow in proportion to the time [Weber’s law; @gibbon1977; @wearden2008].' : '.'
       }`,
     within: (a, b) =>
-      `Within 1 SD of the mean: ${a} of your 2 s presses and ${b} of your 5 s presses. A bell puts about 68% there, and 95% within 2 SD.`,
+      `Within 1 SD of the mean: ${a} of your 2 s presses and ${b} of your 5 s presses. A bell puts about 68% there, and 95% within 2 SD [@howell2013].`,
     nextLabel: (isLast, t) => (isLast ? 'Compare →' : `Next: ${t} seconds →`),
     padStart: 'Start',
     padNext: 'Next press',
@@ -128,10 +128,10 @@ export const CLOCK = {
     notWider: (r) => `Cette fois, votre dispersion à 5 s ne fait que ${r}× celle à 2 s.`,
     fact: (a, b, cvA, cvB, close) =>
       `2 s : moyenne ${a.mean}, écart-type ${a.sd} · 5 s : moyenne ${b.mean}, écart-type ${b.sd}. Rapportée à la durée, la dispersion est de ${cvA} contre ${cvB}${
-        close ? ' : à peu près la même. Les erreurs de timing grandissent en proportion de la durée (loi de Weber).' : '.'
+        close ? ' : à peu près la même. Les erreurs de timing grandissent en proportion de la durée [loi de Weber; @gibbon1977; @wearden2008].' : '.'
       }`,
     within: (a, b) =>
-      `À moins d’un écart-type de la moyenne : ${a} de vos appuis à 2 s et ${b} de vos appuis à 5 s. Une cloche en met environ 68 %, et 95 % à moins de deux écarts-types.`,
+      `À moins d’un écart-type de la moyenne : ${a} de vos appuis à 2 s et ${b} de vos appuis à 5 s. Une cloche en met environ 68 %, et 95 % à moins de deux écarts-types [@howell2013].`,
     nextLabel: (isLast, t) => (isLast ? 'Comparer →' : `Suivant : ${t} secondes →`),
     padStart: 'Démarrer',
     padNext: 'Appui suivant',

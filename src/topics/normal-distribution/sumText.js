@@ -50,9 +50,9 @@ export const SUM = {
     whyStrong: 'The more pushes you add, the closer the sum gets to a bell.',
     whySay: (n) => `${n} simulated trials for each number of synapses.`,
     again: 'Simulate again',
-    whyHint: 'Add up many small, independent pushes and you get a normal distribution, whatever each push looks like: this is the central limit theorem.',
+    whyHint: 'Add up many small, independent pushes and you get a normal distribution, whatever each push looks like: this is the central limit theorem [@howell2013].',
     whyFact:
-      'That is why bells are everywhere in psychology and neuroscience: a real neuron receives thousands of inputs, and below its firing threshold its voltage wobbles roughly like a bell (Destexhe, Rudolph & Paré, 2003). Height comes from many genes, a test score from many items, a measurement error from many small slips.',
+      'That is why bells are everywhere in psychology and neuroscience: a real neuron receives thousands of inputs, and below its firing threshold its voltage wobbles roughly like a bell [@destexhe2003]. Height comes from many genes [@fisher1918], a test score from many items, a measurement error from many small slips.',
     whyNot: 'But not everything is a bell: when one big cause dominates, or the pushes multiply instead of adding up (reaction times, next topic), the shape is skewed.',
     tourPlay: 'Let’s fire!',
     tour: {
@@ -121,9 +121,9 @@ export const SUM = {
     whyStrong: 'Plus on additionne de poussées, plus la somme ressemble à une cloche.',
     whySay: (n) => `${n} essais simulés pour chaque nombre de synapses.`,
     again: 'Simuler à nouveau',
-    whyHint: 'Additionnez beaucoup de petites poussées indépendantes et vous obtenez une loi normale, quelle que soit la forme de chaque poussée : c’est le théorème central limite.',
+    whyHint: 'Additionnez beaucoup de petites poussées indépendantes et vous obtenez une loi normale, quelle que soit la forme de chaque poussée : c’est le théorème central limite [@howell2013].',
     whyFact:
-      'C’est pourquoi les cloches sont partout en psychologie et en neurosciences : un vrai neurone reçoit des milliers d’entrées, et sous son seuil de décharge son potentiel fluctue à peu près en cloche (Destexhe, Rudolph et Paré, 2003). La taille vient de nombreux gènes, un score de nombreux items, une erreur de mesure de nombreux petits accrocs.',
+      'C’est pourquoi les cloches sont partout en psychologie et en neurosciences : un vrai neurone reçoit des milliers d’entrées, et sous son seuil de décharge son potentiel fluctue à peu près en cloche [@destexhe2003]. La taille vient de nombreux gènes [@fisher1918], un score de nombreux items, une erreur de mesure de nombreux petits accrocs.',
     whyNot: 'Mais tout n’est pas une cloche : quand une grande cause domine, ou que les poussées se multiplient au lieu de s’additionner (temps de réaction, thème suivant), la forme est asymétrique.',
     tourPlay: 'C’est parti !',
     tour: {

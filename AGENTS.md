@@ -31,7 +31,8 @@ remembers what the other did: this file and `context/` are the shared memory. Ke
    `git log --format='%h %s%n%b'` then shows who did what.
 
 ## 3. Commands
-- `npm run dev` (http://localhost:5173) · `npm run build` (into `dist/`)
+- `npm run dev` (http://localhost:5173) · `npm run build` (into `dist/`) · `npm run verify-refs`
+  (every DOI of src/references.js compared with Crossref; needs the internet)
 - `npm run check` builds, serves and opens **every page** in headless Chrome at 1366×768 and 390×844,
   in English and French, and reports: one screen or how much it scrolls, wider than the screen,
   console errors, KaTeX errors, page not found. Exit code 1 if anything is wrong.
@@ -53,6 +54,16 @@ remembers what the other did: this file and `context/` are the shared memory. Ke
 - **Shared pieces to reuse**: `mean-median/PlayChart.jsx` (draggable dot chart, with an `Overlay`
   for another topic's marks), `variance-sd/ErrorChart.jsx` (lanes of stacked dots),
   `normal-distribution/BellChart.jsx` and `NormalPlot.jsx`, `components/Quiz.jsx`, `components/Tex.jsx`.
+- **Citations (APA 7, owner's rule since Step 70)**: every experiment, study, finding or named
+  concept shown to students is cited. Never type a citation by hand: add the work once to
+  `src/references.js` (authors, year, title, journal, volume, issue, pages, DOI), then cite it in the
+  text with a token: `[@repp2005]` → (Repp, 2005), `[@a; @b]` (sorted for you), `[review: @repp2005]`,
+  `[plain words; @key]`, `@miller1956` → Miller (1956). The site formats APA 7 in English and French,
+  makes each citation clickable (full reference + DOI) and builds the reference lists (topic pages,
+  /references). Experiments and named findings: the original paper (+ a review if useful); purely
+  statistical concepts: Howell (2013), `[@howell2013]`. After adding a reference run
+  `npm run verify-refs` (compares the DOIs with Crossref). `npm run check` fails on an unknown key,
+  an unused reference or a hand-typed "(Name, year)".
 - **Science**: real experiments and real citations only; every number shown to students is checked
   (by script when possible); say "usually" when something is not always true; simulated data is
   labelled as simulated. The owner reviews claims like a strict statistics professor.

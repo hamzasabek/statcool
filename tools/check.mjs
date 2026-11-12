@@ -60,6 +60,15 @@ if (!flag('no-build')) {
   console.log('Building…')
   await build({ logLevel: 'error' })
 }
+// Citations first (fast, no browser): unknown keys, unused references, hand-typed citations.
+{
+  const { spawnSync } = await import('node:child_process')
+  const r = spawnSync(process.execPath, ['tools/cite-check.mjs'], { stdio: 'inherit' })
+  if (r.status) {
+    console.log('Fix the citations above (see src/references.js).')
+    process.exit(1)
+  }
+}
 const server = await preview({ preview: { port: PORT, strictPort: true }, logLevel: 'error' })
 const base = `http://localhost:${PORT}/`
 
@@ -110,7 +119,7 @@ async function open(route, w, h, lang) {
 if (!routes.length) {
   await open('/topics', 1366, 768, 'en')
   const topics = await ev(`[...new Set([...document.querySelectorAll('a[href^="#/topics/"]')].map((a) => a.getAttribute('href').slice(1)))]`)
-  const all = new Set(['/', '/topics', '/about', ...topics])
+  const all = new Set(['/', '/topics', '/about', '/references', ...topics])
   for (const t of topics) {
     await open(t, 1366, 768, 'en')
     const links = await ev(`[...document.querySelectorAll('a[href^="#/topics/"]')].map((a) => a.getAttribute('href').slice(1))`)
@@ -130,10 +139,10 @@ for (const route of routes) {
     for (const lang of langs) {
       problems = []
       await open(route, w, h, lang)
-      const r = await ev(`({ pageH: document.documentElement.scrollHeight, h: innerHeight, wide: document.documentElement.scrollWidth > innerWidth + 1, katex: document.querySelectorAll('.katex-error').length, title: document.querySelector('h1')?.textContent ?? '' })`)
+      const r = await ev(`({ pageH: document.documentElement.scrollHeight, h: innerHeight, wide: document.documentElement.scrollWidth > innerWidth + 1, katex: document.querySelectorAll('.katex-error').length, cite: (document.body.innerText.match(/\\[@|(?<![\\w.@])@[a-z][a-z-]*\\d{4}|\\[object Object\\]/) || [''])[0], title: document.querySelector('h1')?.textContent ?? '' })`)
       const missing = /^(Page not found|Page introuvable)$/.test(r.title)
       const scroll = r.pageH - r.h
-      const fail = missing || r.wide || problems.length || r.katex
+      const fail = missing || r.wide || problems.length || r.katex || r.cite
       if (fail) bad++
       const parts = [
         fail ? '✗' : '✓',
@@ -142,6 +151,7 @@ for (const route of routes) {
         missing ? 'PAGE NOT FOUND' : scroll > 1 ? `scrolls +${scroll}px` : 'one screen',
         r.wide ? '· WIDER THAN THE SCREEN' : '',
         r.katex ? `· ${r.katex} KaTeX error(s)` : '',
+        r.cite ? `· raw citation or [object Object] on the page: “${r.cite}”` : '',
         problems.length ? `· ${problems.length} console error(s): ${problems[0]}` : '',
       ]
       console.log(parts.filter(Boolean).join('  '))

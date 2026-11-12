@@ -53,7 +53,7 @@ export const MM = {
     grab: 'Grab any dot and pull it right (or focus it and use the arrow keys).',
     playAgainAsk: 'Play again: will your mean come out the same?',
     robust:
-      'The median is less sensitive to outliers. One wild try drags the mean away from the top of your bell; the median only cares which dot is in the middle, so it stays there. That’s why researchers often report the median when a few trials go wrong.',
+      'The median is less sensitive to outliers. One wild try drags the mean away from the top of your bell; the median only cares which dot is in the middle, so it stays there. That’s why researchers often report the median [@ratcliff1993] when a few trials go wrong.',
     stays: (m, md) => `Your bell stays where it was, with the mean and the median both at its top (mean ${m}, median ${md}).`,
     points: (v) => `${num(v, 1)} point${num(v, 1) === '1.0' ? '' : 's'}`, // v ≥ 0
     // chart

@@ -5,6 +5,7 @@ import Home from './pages/Home.jsx'
 import Topics from './pages/Topics.jsx'
 import About from './pages/About.jsx'
 import NotFound from './pages/NotFound.jsx'
+import References from './pages/References.jsx'
 import { GamePage, TopicPage } from './pages/TopicPage.jsx'
 
 // Home = the concept of the site, Topics = the course plan, a page per topic (its games), each
@@ -24,6 +25,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/topics" element={<Topics />} />
           <Route path="/about" element={<About />} />
+          <Route path="/references" element={<References />} />
           <Route path="/topics/:slug" element={<TopicPage />} />
           <Route path="/topics/:slug/:game" element={<GamePage />} />
           <Route path="*" element={<NotFound />} />

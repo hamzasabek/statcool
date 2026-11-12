@@ -45,7 +45,7 @@ export const MEM = {
     centres: (a, b) => `Mean error: ${a} with 1 line, ${b} with 4 lines. Both small next to the spread: on average you remember the right tilt.`,
     centresOff: (a, b) => `Mean error: ${a} with 1 line, ${b} with 4 lines. A small lean to one side, but the big change is the spread.`,
     spreadFact:
-      'The mean says where your answers land on average. It says nothing about how far they scatter: for that you need a second number, the spread. Memory researchers measure precision exactly like this: the smaller the SD of the errors, the more precise the memory.',
+      'The mean says where your answers land on average. It says nothing about how far they scatter: for that you need a second number, the spread. Memory researchers measure precision exactly like this [@zhang2008]: the smaller the SD of the errors, the more precise the memory.',
     nextSd: 'Next: the SD →',
     // 4. The SD
     viewGroup: 'Build the SD',
@@ -143,7 +143,7 @@ export const MEM = {
     centres: (a, b) => `Erreur moyenne : ${a} avec 1 trait, ${b} avec 4 traits. Les deux petites à côté de la dispersion : en moyenne, vous retenez la bonne inclinaison.`,
     centresOff: (a, b) => `Erreur moyenne : ${a} avec 1 trait, ${b} avec 4 traits. Un léger penchant d’un côté, mais le grand changement, c’est la dispersion.`,
     spreadFact:
-      'La moyenne dit où tombent vos réponses en moyenne. Elle ne dit rien de leur dispersion : pour cela il faut un second nombre. Les chercheurs en mémoire mesurent la précision exactement ainsi : plus l’écart-type des erreurs est petit, plus la mémoire est précise.',
+      'La moyenne dit où tombent vos réponses en moyenne. Elle ne dit rien de leur dispersion : pour cela il faut un second nombre. Les chercheurs en mémoire mesurent la précision exactement ainsi [@zhang2008] : plus l’écart-type des erreurs est petit, plus la mémoire est précise.',
     nextSd: 'Suivant : l’écart-type →',
     viewGroup: 'Construire l’écart-type',
     views: { dev: '1 · Écarts', sq: '2 · Carrés', sd: '3 · Écart-type' },

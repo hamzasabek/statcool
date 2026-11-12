@@ -53,7 +53,7 @@ export const SDCALC = {
     whyVerdict: (rn, expect, rn1) =>
       `Dividing by n gives on average ${rn} × the true variance (theory: ${expect}); dividing by n − 1 gives ${rn1} ×, about right.`,
     whyText:
-      'Your dots are now a whole population; its true variance σ² is marked by the dashed line. Draw samples: each sample’s deviations are measured from its own mean, which sits closer to its own points than the true mean does, so dividing by n comes out too small on average. Dividing by n − 1 corrects it exactly. The smaller the sample, the bigger the difference.',
+      'Your dots are now a whole population; its true variance σ² is marked by the dashed line. Draw samples: each sample’s deviations are measured from its own mean, which sits closer to its own points than the true mean does, so dividing by n comes out too small on average. Dividing by n − 1 corrects it exactly. The smaller the sample, the bigger the difference [@howell2013].',
     tourDone: 'Let’s calculate!',
     tour: [
       { title: 'Live calculation', text: 'The variance and the standard deviation, calculated in front of you with your own numbers, step by step.' },
@@ -113,7 +113,7 @@ export const SDCALC = {
     whyVerdict: (rn, expect, rn1) =>
       `Diviser par n donne en moyenne ${rn} × la vraie variance (théorie : ${expect}) ; diviser par n − 1 donne ${rn1} ×, à peu près juste.`,
     whyText:
-      'Vos points sont maintenant une population entière ; sa vraie variance σ² est marquée par le trait pointillé. Tirez des échantillons : les écarts de chaque échantillon sont mesurés depuis sa propre moyenne, plus proche de ses propres points que la vraie moyenne, donc diviser par n donne trop peu en moyenne. Diviser par n − 1 corrige exactement. Plus l’échantillon est petit, plus la différence est grande.',
+      'Vos points sont maintenant une population entière ; sa vraie variance σ² est marquée par le trait pointillé. Tirez des échantillons : les écarts de chaque échantillon sont mesurés depuis sa propre moyenne, plus proche de ses propres points que la vraie moyenne, donc diviser par n donne trop peu en moyenne. Diviser par n − 1 corrige exactement. Plus l’échantillon est petit, plus la différence est grande [@howell2013].',
     tourDone: 'Calculons !',
     tour: [
       { title: 'Le calcul en direct', text: 'La variance et l’écart-type, calculés devant vous avec vos propres nombres, étape par étape.' },

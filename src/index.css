@@ -1942,3 +1942,26 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
   .nc-stage .cl-card { grid-template-columns: minmax(0, 1fr); }
   .nc-stage .cl-card > .cl-tex { grid-column: 1 / -1; justify-self: start; }
 }
+
+/* ---------- Citations (cite.jsx): the in-text citation is a button, its references a bubble ---------- */
+.cite {
+  display: inline; padding: 0; margin: 0; border: 0; background: none; font: inherit; color: inherit;
+  cursor: pointer; text-decoration: underline dotted; text-decoration-color: var(--axis);
+  text-underline-offset: 3px; border-radius: 4px;
+}
+.cite:hover, .cite.is-open { color: var(--accent); text-decoration-color: currentColor; }
+.cite:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cite-pop {
+  position: fixed; z-index: 900; display: flex; flex-direction: column; gap: 10px;
+  padding: 14px 16px; border-radius: 14px; background: var(--surface); color: var(--text);
+  box-shadow: var(--shadow-hover), 0 0 0 1px var(--border); font-size: 0.86rem; font-weight: 400;
+  line-height: 1.5; text-align: left; font-style: normal; letter-spacing: 0; text-transform: none;
+}
+.cite-ref { display: block; padding-left: 1.6em; text-indent: -1.6em; overflow-wrap: anywhere; }
+.cite-ref a, .ref-list a { color: var(--accent); }
+.cite-all { align-self: flex-end; font-size: 0.8rem; font-weight: 600; color: var(--accent); }
+
+/* Reference lists (topic pages, /references): APA hanging indent */
+.ref-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.ref-list li { padding-left: 2em; text-indent: -2em; line-height: 1.6; max-width: 80ch; overflow-wrap: anywhere; }
+.ref-list li:target { background: var(--accent-soft); border-radius: 8px; }

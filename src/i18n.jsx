@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
+import { withCites } from './cite.jsx'
 
 // Language (English / French). The choice is saved in localStorage; the first visit follows the
 // browser language. Every text lives in a dictionary { en: {...}, fr: {...} } next to the
@@ -39,7 +40,8 @@ export function LangProvider({ children }) {
 }
 
 export const useLang = () => useContext(LangContext)
-export const useText = (dict) => dict[useContext(LangContext).lang]
+// Strings with a citation token ([@key], see references.js) come back as clickable APA citations.
+export const useText = (dict) => withCites(dict, useContext(LangContext).lang)
 
 // ---------- Numbers ----------
 // French: decimal comma, and a (no-break) space before %.

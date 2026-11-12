@@ -34,6 +34,13 @@ what is left and which files; remove the item once it is committed. (AGENTS.md, 
   About.jsx and CITATION.cff with a new version. Not chosen for now: an "independent project, not an
   official product of Université Paris Nanterre" line, a selected-publications list.
 
+- Citations (Step 70): the owner may want to choose another statistics textbook than Howell (2013)
+  (e.g. Field); change `howell2013` in src/references.js and the keys. A full pass on the quizzes'
+  and the games' remaining sentences for claims without a source is worth doing topic by topic (the
+  named concepts were done in Step 70). Ebbinghaus's own description of the illusion is not cited
+  (no verified reference). A Zotero / BibTeX export of src/references.js could be generated for the
+  owner.
+
 ## Known issues
 - docs/CODE_GUIDE.md (private, now gitignored) is still visible in older commits of the public
   repo. Removing it fully needs a history rewrite + force push (owner to decide).
