@@ -4,6 +4,7 @@ import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import { num, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
+import { sfx, useChime } from '../../sound.js'
 import ErrorChart from './ErrorChart.jsx'
 import MemoryTask from './MemoryTask.jsx'
 import SquaresChart from './SquaresChart.jsx'
@@ -34,6 +35,8 @@ export default function MemoryGame() {
   const [errors, setErrors] = useState(empty) // { one: [degrees], four: [degrees] }
   const [view, setView] = useState('dev')
   const [sdRound, setSdRound] = useState('four')
+  useChime(errors.one.length, MIN_TRIALS, TRIALS)
+  useChime(errors.four.length, MIN_TRIALS, TRIALS)
 
   const tourId = TOUR_IDS[step]
   const guide = useGuide(`mem-${tourId}`, TOUR_TARGETS[tourId], tx.tour[tourId], {
@@ -67,7 +70,10 @@ export default function MemoryGame() {
     const locked = n < MIN_TRIALS
     const four = round === 'four'
 
-    const onAnswer = ({ error }) => setErrors((all) => (all[round].length >= TRIALS ? all : { ...all, [round]: [...all[round], error] }))
+    const onAnswer = ({ error }) => {
+      sfx.tick()
+      setErrors((all) => (all[round].length >= TRIALS ? all : { ...all, [round]: [...all[round], error] }))
+    }
     const undo = () => setErrors((all) => ({ ...all, [round]: all[round].slice(0, -1) }))
 
     let hint = n ? tx.hintLeft(TRIALS - n, MIN_TRIALS - n) : tx.hintStart

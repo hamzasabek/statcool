@@ -4,6 +4,7 @@ import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import { num, pct, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
+import { useChime, useSoundOn } from '../../sound.js'
 import BellChart from './BellChart.jsx'
 import { stats } from './clock.js'
 import { BIN, COUNT_IN, DOMAIN, IDLE_BEATS, MIN_TAPS, PREDICT, TAPS, TICKS, asynchrony, useMetronome } from './beat.js'
@@ -59,6 +60,16 @@ export default function TapBeat() {
   const list = step === 2 ? extra : taps
   const goal = step === 2 ? PREDICT : TAPS
   const done = list.length >= goal
+  // No sound on the taps themselves (hearing your own taps shifts them); one chime once the
+  // metronome has stopped: the round is full.
+  useChime(taps.length, TAPS)
+  useChime(extra.length, PREDICT)
+  const [sound, setSound] = useSoundOn()
+  const soundHint = !sound && (
+    <button type="button" className="btn btn-ghost btn-sm" onClick={() => setSound(true)}>
+      {tx.soundOffOn}
+    </button>
+  )
 
   function start() {
     lastTapBeat.current = 0
@@ -182,6 +193,7 @@ export default function TapBeat() {
             <span className="legend-item ck-key is-a">{tx.count(n, TAPS)}</span>
             {n >= 5 && <span className="legend-item bell-key">{tx.bellKey}</span>}
             {n >= 2 && <span className="ck-stats">{tx.stats(ms(st.mean, true), ms(st.sd))}</span>}
+            {soundHint}
           </div>
         }
         foot={
@@ -281,6 +293,7 @@ export default function TapBeat() {
           <span className="legend-item ck-key is-a">{tx.keyTaps}</span>
           <span className="legend-item ck-key is-b">{tx.keyNew(extra.length, PREDICT)}</span>
           <span className="legend-item tb-key-range">{tx.rangeMark}</span>
+          {soundHint}
         </div>
       }
       foot={

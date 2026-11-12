@@ -4,6 +4,7 @@ import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import { useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
+import { sfx, useChime } from '../../sound.js'
 import BiasMap from './BiasMap.jsx'
 import BisectTask from './BisectTask.jsx'
 import ErrorChart from './ErrorChart.jsx'
@@ -51,6 +52,7 @@ export default function Bisection() {
   const [step, setStep] = useState(0)
   const [errors, setErrors] = useState([])
   const [round, setRound] = useState(0) // remounts the task on "Play again"
+  useChime(errors.length, MIN_TRIALS, TRIALS)
 
   const tourId = TOUR_IDS[step]
   const guide = useGuide(`bis-${tourId}`, TOUR_TARGETS[tourId], tx.tour[tourId], {
@@ -70,7 +72,10 @@ export default function Bisection() {
     const n = errors.length
     const full = n >= TRIALS
     const locked = n < MIN_TRIALS
-    const onAnswer = ({ error }) => setErrors((all) => (all.length >= TRIALS ? all : [...all, error]))
+    const onAnswer = ({ error }) => {
+      sfx.tick()
+      setErrors((all) => (all.length >= TRIALS ? all : [...all, error]))
+    }
     let hint = n ? tx.hintLeft(TRIALS - n, MIN_TRIALS - n) : tx.hintStart
     if (full) hint = tx.hintFull(TRIALS)
     return (

@@ -4,6 +4,7 @@ import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import { num, pct, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
+import { sfx, useChime } from '../../sound.js'
 import DotsTask from './DotsTask.jsx'
 import ErrorChart from './ErrorChart.jsx'
 import { ERR_DOMAIN, MIN_TRIALS, RATIO_DOMAIN, TRIALS, bySize, fmtDots, fmtRatio, fmtSignedDots } from './dots.js'
@@ -48,6 +49,7 @@ export default function Dots() {
   const [answers, setAnswers] = useState([]) // [{ size, truth, guess }]
   const [view, setView] = useState('ratio')
   const [round, setRound] = useState(0)
+  useChime(answers.length, MIN_TRIALS, TRIALS)
 
   const tourId = TOUR_IDS[step]
   const guide = useGuide(`dots-${tourId}`, TOUR_TARGETS[tourId], tx.tour[tourId], {
@@ -70,7 +72,10 @@ export default function Dots() {
     const n = answers.length
     const full = n >= TRIALS
     const locked = n < MIN_TRIALS
-    const onAnswer = (a) => setAnswers((all) => (all.length >= TRIALS ? all : [...all, a]))
+    const onAnswer = (a) => {
+      sfx.tick()
+      setAnswers((all) => (all.length >= TRIALS ? all : [...all, a]))
+    }
     let hint = n ? tx.hintLeft(TRIALS - n, MIN_TRIALS - n) : tx.hintStart
     if (full) hint = tx.hintFull(TRIALS)
     const lastSize = answers.length ? sizes.find((s) => s.id === answers[answers.length - 1].size).key : null

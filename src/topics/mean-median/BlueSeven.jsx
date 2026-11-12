@@ -4,6 +4,7 @@ import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import { num, pct, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
+import { sfx, useChime } from '../../sound.js'
 import CategoryChart from './CategoryChart.jsx'
 import { COLOURS, CROWD_COLOURS, CROWD_NUMBERS, NUMBERS, colourModes, meanColour, numberStats, total, withYou } from './blue.js'
 import { BLUE } from './blueText.js'
@@ -26,6 +27,7 @@ export default function BlueSeven() {
   const [step, setStep] = useState(0)
   const [number, setNumber] = useState(null)
   const [colour, setColour] = useState(null)
+  useChime(Number(number !== null && colour !== null)) // both chosen
 
   const tourId = TOUR_IDS[step]
   const guide = useGuide(`blue-${tourId}`, TOUR_TARGETS[tourId], tx.tour[tourId], {
@@ -73,7 +75,10 @@ export default function BlueSeven() {
             <legend>{tx.qNumber}</legend>
             <div className="bs-numbers">
               {NUMBERS.map((v) => (
-                <button key={v} type="button" className={`bs-num${number === v ? ' is-on' : ''}`} aria-pressed={number === v} onClick={() => setNumber(v)}>
+                <button key={v} type="button" className={`bs-num${number === v ? ' is-on' : ''}`} aria-pressed={number === v} onClick={() => {
+                  setNumber(v)
+                  sfx.tick()
+                }}>
                   {v}
                 </button>
               ))}
@@ -88,7 +93,10 @@ export default function BlueSeven() {
                   type="button"
                   className={`bs-colour${colour === c.key ? ' is-on' : ''}`}
                   aria-pressed={colour === c.key}
-                  onClick={() => setColour(c.key)}
+                  onClick={() => {
+                    setColour(c.key)
+                    sfx.tick()
+                  }}
                 >
                   <span className="bs-swatch" style={{ background: c.hex }} aria-hidden="true" />
                   {tx.colours[c.key]}

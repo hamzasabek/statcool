@@ -5,6 +5,7 @@ import { Stage } from './Stage.jsx'
 import { useGuide } from './Tour.jsx'
 import { num, useLang, useText } from '../i18n.jsx'
 import { QUIZ_UI } from './quizText.js'
+import { sfx, useChime } from '../sound.js'
 
 // A topic's quiz: one question at a time, multiple choice. After an answer the right option turns
 // green (yours red if wrong) and a short explanation appears; the dots at the bottom keep the score.
@@ -58,10 +59,13 @@ export default function Quiz({ questions, title, topic, guideId, count }) {
   const answered = pick !== null
   const score = picks.filter((p, k) => p === qs[k].answer).length
   const last = i === qs.length - 1
+  useChime(Number(done)) // the quiz is over: the score
 
   function choose(k) {
     if (answered || done) return
     setPicks((p) => p.map((x, j) => (j === i ? k : x)))
+    if (k === q.answer) sfx.right()
+    else sfx.wrong()
   }
   function next() {
     if (!answered) return

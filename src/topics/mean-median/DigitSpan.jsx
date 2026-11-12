@@ -4,6 +4,7 @@ import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import { useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
+import { useChime } from '../../sound.js'
 import DigitTask from './DigitTask.jsx'
 import SpanChart from './SpanChart.jsx'
 import { FIRST_LENGTH, MIN_LENGTH, MIN_RUNS, RUNS, fmtSpan, isWhole, mean, median, modes, simulatedClass } from './span.js'
@@ -39,6 +40,7 @@ export default function DigitSpan() {
   })
 
   const n = spans.length
+  useChime(n, MIN_RUNS, RUNS)
   const allTopics = (
     <Link to="/topics" className="btn btn-ghost">
       {tc.allTopics}

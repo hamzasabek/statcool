@@ -4,6 +4,7 @@ import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import { num, pct, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
+import { sfx, useChime } from '../../sound.js'
 import Illusion, { newTrial } from './Illusion.jsx'
 import MMChart from './MMChart.jsx'
 import { MIN_TRIALS, PLAY_DOMAIN, PULL_DOMAIN, TRIALS, fmtPct, mean, median, sd } from './mm.js'
@@ -47,6 +48,7 @@ export default function MeanMedian() {
   const spread = sd(vals)
   // The normal curve with your mean and SD (like topic 03). Step 3 keeps this one, from before the pull.
   const bell = n >= 3 && spread > 0 ? { mean: m, sd: spread, n } : null
+  useChime(n, MIN_TRIALS, TRIALS)
 
   // One tour per step; each opens by itself the first time.
   const tourId = TOUR_IDS[step]
@@ -61,6 +63,7 @@ export default function MeanMedian() {
     setTries((ts) => [...ts, { id: ts.length, v }])
     setFlash({ k: n + 1, v })
     setStim(newTrial())
+    sfx.tick()
   }
 
   // Enter = "Looks equal" (unless a button or link has the focus: Enter clicks that instead).

@@ -3,6 +3,7 @@ import logoDark from '../assets/logo-dark.png'
 import logoLight from '../assets/logo-light.png'
 import { LANGS, useLang, useText } from '../i18n.jsx'
 import { COMMON } from '../text.js'
+import { useSoundOn } from '../sound.js'
 import { useTheme } from '../theme.js'
 
 // The StatsCool logo, one version per theme (transparent PNGs made from design/logo/; CSS shows
@@ -29,11 +30,19 @@ const Sun = () => (
   </svg>
 )
 
+const Speaker = ({ on }) => (
+  <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" />
+    {on ? <path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" /> : <path d="M16 9.5l5 5M21 9.5l-5 5" />}
+  </svg>
+)
+
 export default function Header() {
   const { lang, setLang } = useLang()
   const tx = useText(COMMON)
   const [theme, toggleTheme] = useTheme()
   const dark = theme === 'dark'
+  const [sound, setSound] = useSoundOn()
   return (
     <header className="header">
       <div className="header-inner">
@@ -60,6 +69,16 @@ export default function Header() {
               </button>
             ))}
           </div>
+          <button
+            type="button"
+            className="btn btn-ghost theme-toggle sound-toggle"
+            aria-pressed={sound}
+            aria-label={sound ? tx.soundOff : tx.soundOn}
+            title={sound ? tx.soundOff : tx.soundOn}
+            onClick={() => setSound(!sound)}
+          >
+            <Speaker on={sound} />
+          </button>
           <button
             type="button"
             className="btn btn-ghost theme-toggle"

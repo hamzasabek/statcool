@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useText } from '../../i18n.jsx'
+import { sfx } from '../../sound.js'
 import { MAX_LENGTH, MIN_LENGTH, TIMES, randomList } from './span.js'
 import { SPAN } from './spanText.js'
 
@@ -64,6 +65,8 @@ export default function DigitTask({ start, run, done, onRunEnd }) {
     const ok = typed.every((d, i) => d === list[i])
     setResult({ ok })
     setPhase('feedback')
+    if (ok) sfx.right()
+    else sfx.wrong()
     const L = list.length
     after(TIMES.feedback, () => {
       if (!ok) endRun(Math.max(MIN_LENGTH - 1, L - 1))

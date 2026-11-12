@@ -4,6 +4,7 @@ import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import { num, useLang, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
+import { sfx, useChime } from '../../sound.js'
 import BellChart from './BellChart.jsx'
 import NeuronPic from './NeuronPic.jsx'
 import { stats } from './clock.js'
@@ -53,6 +54,8 @@ export default function SumNeuron() {
   const values = results[kNow]
   const n = values.length
   const full = n >= MAX_TRIALS
+  useChime(results[1].length, MIN_FIRST)
+  useChime(Math.max(results[16].length, results[64].length), MIN_BELL)
 
   function fireN(times, kk = kNow) {
     let lastTrial = null
@@ -63,6 +66,7 @@ export default function SumNeuron() {
     }
     setResults((rs) => ({ ...rs, [kk]: [...rs[kk], ...sums].slice(0, MAX_TRIALS) }))
     setLast({ ...lastTrial, id: Date.now() + Math.random() })
+    sfx.tick() // one sound for a batch (×10, ×100)
   }
 
   // Step 3: thousands of simulated trials per number of synapses (new ones with "Simulate again").
@@ -125,7 +129,10 @@ export default function SumNeuron() {
             <div className="pg-scenarios" role="group" aria-label={tx.guessLabel} data-tour="guess">
               <span className="pg-scenarios-label">{tx.guessLabel}</span>
               {GUESSES.map((g) => (
-                <button key={g} type="button" className={`pg-chip${guess === g ? ' is-on' : ''}`} aria-pressed={guess === g} disabled={n > 0} onClick={() => setGuess(g)}>
+                <button key={g} type="button" className={`pg-chip${guess === g ? ' is-on' : ''}`} aria-pressed={guess === g} disabled={n > 0} onClick={() => {
+                    setGuess(g)
+                    sfx.tick()
+                  }}>
                   {tx.guesses[g]}
                 </button>
               ))}

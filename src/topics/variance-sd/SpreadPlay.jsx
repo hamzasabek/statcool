@@ -4,6 +4,7 @@ import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import { num, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
+import { useChime } from '../../sound.js'
 import PlayChart from '../mean-median/PlayChart.jsx'
 import SpreadMarks from './SpreadMarks.jsx'
 import { CHALLENGES, SCENARIOS, shifted, snap, spread, stretched } from './spreadPlay.js'
@@ -33,6 +34,7 @@ export default function SpreadPlay() {
   const [history, setHistory] = useState([])
   const [event, setEvent] = useState({ type: 'load' })
   const [done, setDone] = useState([])
+  useChime(done.length) // a challenge is done
   const [flash, setFlash] = useState(null)
   const [showDev, setShowDev] = useState(false)
   const [lastId, setLastId] = useState(null)

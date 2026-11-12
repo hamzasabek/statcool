@@ -4,6 +4,7 @@
 // before the click on average ("negative mean asynchrony", often a few tens of ms).
 
 import { useEffect, useRef } from 'react'
+import { isSoundOn } from '../../sound.js'
 
 export const IOI = 600 // ms between two clicks (100 beats per minute)
 export const COUNT_IN = 4 // clicks to listen to before tapping counts
@@ -41,7 +42,7 @@ export function useMetronome(onBeat) {
 
   function click(when, high) {
     const ac = ctx.current
-    if (!ac) return
+    if (!ac || !isSoundOn()) return // the site's sound switch (the pad still pulses)
     const osc = ac.createOscillator()
     const gain = ac.createGain()
     osc.frequency.value = high ? 1320 : 880

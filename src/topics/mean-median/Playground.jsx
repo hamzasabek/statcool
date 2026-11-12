@@ -4,6 +4,7 @@ import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import { num, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
+import { useChime } from '../../sound.js'
 import PlayChart from './PlayChart.jsx'
 import { CHALLENGES, SCENARIOS, TRIM, listOf, snap, stats, trimmed } from './play.js'
 import { PLAY } from './playText.js'
@@ -33,6 +34,7 @@ export default function Playground() {
   const [history, setHistory] = useState([])
   const [event, setEvent] = useState({ type: 'load' }) // what the last change was, for the feedback
   const [done, setDone] = useState([]) // keys of the challenges done
+  useChime(done.length) // a challenge is done
   const [flash, setFlash] = useState(null) // key of the challenge just done
   const dragBefore = useRef(null) // the dots when a drag started
   const [showTrim, setShowTrim] = useState(false) // the 20 % trimmed mean, on demand

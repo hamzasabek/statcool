@@ -4,6 +4,7 @@ import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import { useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
+import { sfx, useChime } from '../../sound.js'
 import BinomChart from './BinomChart.jsx'
 import {
   CLASS,
@@ -76,6 +77,7 @@ export default function Ebbinghaus() {
   const samples = useRef({}) // simulated people for each p of the slider
 
   const k = picks.filter(Boolean).length
+  useChime(picks.length, N) // all 20 answered (no right / wrong: no feedback on purpose)
   useEffect(() => () => clearTimeout(timer.current), [])
 
   // ---------- 1. Which is bigger? ----------
@@ -84,6 +86,7 @@ export default function Ebbinghaus() {
     const small = (side === 0) === trial.smallLeft
     const next = [...picks, small]
     setPicks(next)
+    sfx.tick()
     if (next.length >= N) {
       setPhase('over')
       return

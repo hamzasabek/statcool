@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { num, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
+import { sfx, useChime } from '../../sound.js'
 import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import ClockChart from './ClockChart.jsx'
@@ -49,6 +50,8 @@ export default function ClockGame() {
   const full = n >= TRIALS
   const canPress = phase === 'play' && !full && !demo
   const isLast = exp === TARGETS.length - 1
+  useChime(results[0].length, MIN_TRIALS, TRIALS)
+  useChime(results[1].length, MIN_TRIALS, TRIALS)
 
   // One tour per screen (2 s game, 5 s game, compare); each opens by itself the first time.
   const tourId = phase === 'compare' ? 'compare' : exp === 0 ? 'first' : 'second'
@@ -80,9 +83,11 @@ export default function ClockGame() {
     coolRef.current = t + COOLDOWN
     if (v < TOO_FAST) {
       setFlash({ text: tx.tooFast, warn: true })
+      sfx.wrong() // a double tap: not kept
       return
     }
     setResults((rs) => rs.map((r, i) => (i === exp ? [...r, v] : r)))
+    sfx.tick()
     const diff = v - target
     const off = Math.abs(diff) < 0.005 ? tx.spotOn : tx.off(fmtS(Math.abs(diff)), diff < 0)
     setFlash({ text: `${fmtS(v)} · ${off}`, warn: false })

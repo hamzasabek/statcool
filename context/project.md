@@ -32,12 +32,15 @@ src/
   i18n.jsx                 language (en / fr): LangProvider, useLang, useText(dict), num() and pct()
                            number formatting (French: 16,9 %), frenchTypo() for no-break spaces
   theme.js                 useTheme(): light / dark on <html data-theme>, saved in localStorage
+  sound.js                 feedback sounds (Web Audio, no files): sfx.tick / right / wrong / chime,
+                           useChime(count, ...thresholds), useSoundOn() + isSoundOn() (the header's
+                           switch, saved `statscool-sound`, on by default). Rules under "Sound" below
   text.js                  COMMON texts (header + nav, topics page, Stage, tour buttons, All topics / Play again)
   App.jsx                  header + routes; scrolls to the top when the page changes
   index.css                all styles; color tokens on :root (light + dark mode)
   components/
     Header.jsx             logo (links to /) + Topics / About links (NavLink, yellow dot when active;
-                           Topics stays active inside a game) + EN | FR switch + light/dark button
+                           Topics stays active inside a game) + EN | FR switch + sound on/off + light/dark button
     TopicGlyph.jsx         small drawing of a distribution (topics timeline + home page strip)
     Tex.jsx                <Tex math block /> renders LaTeX with KaTeX (0.16.11; \htmlClass allowed
                            for styling parts of a formula); texNum() for French decimal commas
@@ -338,6 +341,29 @@ changes: `grep -rn "topic 0|thème 0" src`.
   `index.html` sets `data-theme` and `lang` before the first paint (saved `statscool-theme`, else
   the system setting). Until the student picks a theme, the site follows the system setting.
 - Phones (≤ 700 px): the foot hides its "All topics" button (the "← Topics" link does that job).
+
+## Sound (Step 67)
+
+One switch in the header (on by default) turns every sound of the site on or off, including the
+experiment sounds (the neuron's spikes, the metronome: they check `isSoundOn()`). Three kinds of
+feedback, used the same way everywhere (`src/sound.js`):
+- `sfx.tick()`: an answer was recorded (it became a dot). Neutral: says nothing about right or wrong.
+  Every game trial (Müller-Lyer, Blue seven choices, memory, find the middle, how many dots, inner
+  clock, neuron-sum guess and fire buttons, reaction time, Ebbinghaus).
+- `sfx.right()` / `sfx.wrong()`: only where a right answer exists and is already shown on screen:
+  quiz answers, digit-span lists, the neuron's "Is it due?" bet; `wrong` also marks a trial that is
+  thrown away by the student's own action (reaction time too early or a guess under 100 ms, inner
+  clock double tap).
+- `useChime(count, MIN, MAX)`: a chime when the count goes up past a milestone (next step unlocks,
+  round full), `useChime(done.length)` for a playground challenge, `useChime(Number(done))` at the
+  end of a quiz. Never rings when going back (undo, reset, another step).
+Rules: no sound between a stimulus and the response in timed tasks; no right / wrong in games that
+give no feedback on purpose (Ebbinghaus, find the middle: tick only); no sound on sliders, drags,
+hover; one sound for a batch (×10, ×100). Continuous runs (reaction time, the neuron, tapping) chime
+only once they are over, not at the unlock. Tap with the beat: no tick on taps (hearing your own taps
+shifts them), and a "Sound is off: turn it on" button while the switch is off. Live calculation
+pages have no sounds (no answers, no challenges).
+A new game: tick when a trial becomes a dot, `useChime(n, MIN_TRIALS, TRIALS)` at the top level.
 
 ## Conventions
 

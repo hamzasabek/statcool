@@ -25,6 +25,10 @@ what is left and which files; remove the item once it is committed. (AGENTS.md, 
   plan: a `progress.js` module saving locally first, then an optional account that syncs it. Open
   questions for the owner: cross-device? teachers / classes? users under 15 (consent in France)?
 
+- Sound (Step 67): listen once on real speakers and a phone (volume, timbre; iOS silent switch mutes
+  Web Audio). Ideas not done: D sonification (each dot plays a pitch for its value; a "Listen to your
+  data" button: hear spread and skew), E read the Stage sentence aloud (speechSynthesis, en / fr).
+
 ## Known issues
 - docs/CODE_GUIDE.md (private, now gitignored) is still visible in older commits of the public
   repo. Removing it fully needs a history rewrite + force push (owner to decide).

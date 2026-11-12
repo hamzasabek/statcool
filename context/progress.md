@@ -1096,3 +1096,27 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   checked by eye. NOT run: `npm run check` / a look at the real header in a browser (no Chrome in that
   environment): run `npm run check -- --shots` once and look at scratch/check/ for the header.
 - Committed only the logo files and these notes; the uncommitted work of the other tool was left as it was.
+
+## 2026-11-12 — Step 67: feedback sounds on the whole site (Claude)
+- Owner asked for audio feedback on all content, only where needed but systematic, and to see the
+  options first. Proposed: A "recorded" tick, B right / wrong, C milestone chime, D sonification, E read
+  aloud. Owner picked the recommendation (A + B + C), sound on by default. D and E not done (next.md).
+- src/sound.js (new): Web Audio synthesised notes (no files): tick (880 → 520 Hz pop), right (E5 → B5),
+  wrong (soft low 247 → 196 Hz), chime (C E G). Shared AudioContext created / resumed on the first
+  pointer or key press; nothing plays in a hidden tab; per-kind throttle (a batch plays once).
+  `sfx` object (a local `const right` in Quiz.jsx hid the bare name), `useChime(count, ...thresholds)`
+  (rings when the count rises past a threshold, never when going back), `useSoundOn` / `isSoundOn`.
+- Header: speaker button (aria-pressed, "Turn sound off / on", "Couper le son / Activer le son"),
+  saved in localStorage `statscool-sound`.
+- Wired: every game (see project.md "Sound" for the list and rules), the quiz (right / wrong + end
+  chime), the three playgrounds (chime per challenge). The neuron game's Sound button now drives the
+  site switch; the metronome of Tap with the beat follows it too (the pad still pulses) and shows a
+  "Sound is off: turn it on" button. No tick on taps there, no chime during continuous runs, no right /
+  wrong in Ebbinghaus or Find the middle.
+- Tested: npm run build; npm run check (all pages, 2 sizes, EN + FR: no problems; header fits on
+  390 px). Scratch script in headless Chrome counting Web Audio notes: Müller-Lyer 15 tries = 15 ticks +
+  2 chimes (10, 15); Ebbinghaus 20 picks = 20 ticks + 1 chime; quiz 9 answers = 9 right / wrong + 1
+  chime; reaction time tap during the wait = 1 wrong; neuron-sum guess + ×100 = 2 ticks + 1 chime (20
+  reached); switch off = no sound, saved "off"; the neuron's button follows the header. Not heard by a
+  person yet: volume and timbre to be checked on real speakers / phones.
+

@@ -5,6 +5,7 @@ import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import { useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
+import { sfx, useChime } from '../../sound.js'
 import RTChart from './RTChart.jsx'
 import { CEIL, FLOOR, MAX_MISSES, MIN_TRIALS, TRIALS, fmtMs, logFit, mean, median, randomWait, skewness } from './rt.js'
 import { RT } from './text.js'
@@ -50,6 +51,8 @@ export default function ReactionTime() {
   const full = n >= TRIALS
   const vals = taps.map((t) => t.v)
   const fit = logFit(vals)
+  // One chime when the run is over (none at MIN_TRIALS: the run is still going then).
+  useChime(n, TRIALS)
 
   useEffect(() => () => clearTimeout(timer.current), [])
 
@@ -106,6 +109,7 @@ export default function ReactionTime() {
       if (ts - missedAt.current < LATE_GRACE) return // a late reaction to the trial that just timed out
       countError('tooSoon')
       setMsg({ k: 'tooSoon' })
+      sfx.wrong()
       nextTrial() // the wait starts again
       return
     }
@@ -117,11 +121,13 @@ export default function ReactionTime() {
       if (rt < FLOOR) {
         countError('guess')
         setMsg({ k: 'guess', ms: rt })
+        sfx.wrong()
         nextTrial()
         return
       }
       setTaps((ts0) => [...ts0, { id: nextId.current++, v: rt }])
       setMsg(null)
+      sfx.tick() // after the response: it never overlaps a yellow circle
       if (n + 1 >= TRIALS) {
         setPhase('done')
         return

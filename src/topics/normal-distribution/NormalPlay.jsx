@@ -4,6 +4,7 @@ import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import { useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
+import { useChime } from '../../sound.js'
 import NormalPlot from './NormalPlot.jsx'
 import { SCENARIOS, area, clamp, domainOf, fmtArea, fmtV, fmtZ, pdf, randn, snapTo } from './normal.js'
 import { NPLAY } from './normalPlayText.js'
@@ -44,6 +45,7 @@ export default function NormalPlay() {
   const [sample, setSample] = useState([])
   const [event, setEvent] = useState({ type: 'load' })
   const [done, setDone] = useState([])
+  useChime(done.length) // a challenge is done
   const [flash, setFlash] = useState(null)
   const guide = useGuide('pg-normal', TOUR_TARGETS, tx.tour, { place: TOUR_PLACE, doneLabel: tx.tourDone })
 

@@ -4,6 +4,7 @@ import { Stage } from '../../components/Stage.jsx'
 import { useGuide } from '../../components/Tour.jsx'
 import { num, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
+import { sfx, useChime, useSoundOn } from '../../sound.js'
 import ExpChart from './ExpChart.jsx'
 import {
   BET_QUIET,
@@ -71,7 +72,7 @@ export default function Neuron() {
   const [spike, setSpike] = useState(0) // spike counter (also the key of the flash)
   const [caught, setCaught] = useState(0)
   const [falseAlarms, setFalseAlarms] = useState(0)
-  const [sound, setSound] = useState(true)
+  const [sound, setSound] = useSoundOn() // the site's sound switch (also in the header)
   const [bet, setBet] = useState(null) // 'more' | 'same' | 'less'
   const [quiet, setQuiet] = useState(BET_QUIET)
 
@@ -89,6 +90,9 @@ export default function Neuron() {
   const n = gaps.length
   const vals = gaps.map((g) => g.v)
   const fit = expFit(vals)
+  // One chime when the run is over (none during it: it would mix with the spikes). No sound on the
+  // catching taps either, for the same reason.
+  useChime(n, GAPS)
 
   useEffect(
     () => () => {
@@ -293,7 +297,7 @@ export default function Neuron() {
                 type="button"
                 className="btn btn-ghost btn-sm"
                 aria-pressed={sound}
-                onClick={() => setSound((s) => !s)}
+                onClick={() => setSound(!sound)}
               >
                 {sound ? tx.soundOn : tx.soundOff}
               </button>
@@ -460,6 +464,8 @@ export default function Neuron() {
               className={`btn nr-choice${bet === k ? ' is-picked' : ''}${bet && k === 'same' ? ' is-right' : ''}`}
               aria-pressed={bet === k}
               onClick={() => {
+                if (!bet) (k === 'same' ? sfx.right : sfx.wrong)()
+                else if (k !== bet) sfx.tick()
                 setBet(k)
                 setQuiet(BET_QUIET)
               }}
