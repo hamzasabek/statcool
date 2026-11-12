@@ -68,7 +68,8 @@ src/
                            and topics (in order: slug, part, shape, title + summary per language,
                            games: [{ slug, available, name / ref (experiment) / idea per language }]);
                            topicNumber, findTopic, firstGamePath
-    games.jsx              GAMES: "<topic>/<game>" → the game's component
+    games.jsx              GAMES: "<topic>/<game>" → the game's component; RECAPS: "<topic>" → its
+                           recap sheet, shown on the topic page after the games (optional)
     normal-distribution/   topic 03: the game "Your inner clock" (opens directly)
       ClockGame.jsx          stop a hidden clock at 2 s, then 5 s; every press is a dot
                              (2 s game → 5 s game → compare)
@@ -112,7 +113,9 @@ src/
                              dot = remove; keyboard: Tab to a dot, ← → move, Delete removes
       play.js                SCENARIOS (reaction times = exact ms with `groups` 10/25/50/100: the mode is
                              found on the groups, mean and median on the exact values), snap, mean /
-                             median / modes, stats(values, sc), listOf, CHALLENGES (checks)
+                             median / modes, trimmed (20 % trimmed mean, TRIM), stats(values, sc), listOf,
+                             CHALLENGES (checks). The stats card has a "20% trimmed mean" toggle: a dotted
+                             line on the chart, its value in the button, a sentence in the foot
       playText.js            PLAY texts (en + fr)
       CalcLab.jsx            "Live calculation" (/topics/mean-median/calculate), one screen: PlayChart
                              dots (0–10, max 12), 3 cards, each: title + the real formula (KaTeX) on
@@ -121,8 +124,15 @@ src/
                              sorted chips with ranks (k), middle ringed → x₍ₖ₎ or (x₍ₖ₎+x₍ₖ₊₁₎)/2;
                              mode Mo = the x with the largest f(x) → columns x / f(x). Explanation of
                              the last change in the foot. Narrow screens: one card at a time (tabs).
+                             A "Calculate / Why these centres?" switch shows WhyCentres instead.
+      WhyCentres.jsx         Σ|xᵢ − c| and Σ(xᵢ − c)² drawn as curves over c (slider, or drag a curve):
+                             smallest at the median (flat between the middle two if n is even) and at
+                             the mean. Narrow screens: one curve at a time
       calcText.js            CALC texts (en + fr)
       MeanQuiz.jsx           the topic's quiz (/topics/mean-median/quiz) = components/Quiz.jsx, count 9
+      MeanRecap.jsx          the recap sheet on the topic page: 3 definitions with formulas, Stevens's
+                             levels of measurement table, which one to report, pitfalls, APA reporting
+      recapText.js           RECAP texts (en + fr)
       quiz.js                a bank of 30 questions (en + fr, same order and answers): question,
                              optional dot figure, options, answer, why. Quiz.jsx draws 9 at random per
                              attempt (kept in bank order) and shuffles each question's options
@@ -223,6 +233,8 @@ changes: `grep -rn "topic 0|thème 0" src`.
    ("Free play" / "Test yourself"), the timeline a chip. For a quiz, write its questions like
    `topics/mean-median/quiz.js`, and register `"<topic>/quiz"` as a small component that renders
    `<Quiz questions count title topic guideId />` (count = how many to draw from the bank) (components/Quiz.jsx; texts in components/quizText.js).
+5. A recap sheet (optional): a component like `topics/mean-median/MeanRecap.jsx`, registered in
+   `RECAPS` in games.jsx under the topic's slug.
 
 ## Language and theme
 

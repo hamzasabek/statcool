@@ -927,3 +927,23 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   Q18 (it repeated Q4's idea) replaced by "+8 % then +11 %: why?" (each round is a sample).
 - Tested in headless Chrome: two Müller-Lyer rounds (−1.3 % then +11.4 %) show the comparison and
   the question; quiz bank 30/30, EN = FR; no errors.
+
+## 2026-11-12 — Step 61: professor's review, step 3: trimmed mean, why these centres, recap sheet
+- Playground: a "20% trimmed mean" toggle in the stats card (Wilcox & Keselman, 2003): drops
+  k = ⌊0.2 n⌋ values at each end (play.js `trimmed`), draws a dotted "trimmed" line on the chart,
+  shows its value inside the button, and the foot says what was dropped. It says "here it sits
+  between the mean and the median" only when it does (it is not always the case: 0, 5, 5, 6, 6, 6,
+  100 gives 5.6, median 6, mean 18.3); "the lowest and the highest" when k = 1. Reaction times:
+  331.5 ms between 365.5 and 327.
+- Live calculation: a "Calculate / Why these centres?" switch. WhyCentres.jsx draws the total
+  distance Σ|xᵢ − c| and the total squared distance Σ(xᵢ − c)² as curves over c (slider, or drag a
+  curve): the first is smallest at the median (flat band between the two middle dots when n is
+  even), the second at the mean; squaring is why a far dot drags the mean. A new tour step.
+- Topic page: a recap sheet after the games (RECAPS in games.jsx, MeanRecap.jsx, recapText.js):
+  the three definitions with formulas, x̄ vs μ, Stevens (1946) levels of measurement and which
+  centres each allows (mode for whole numbers or grouped measurements), which centre to report,
+  pitfalls (von Hippel 2005, mean = median ≠ one peak), APA style (M, Mdn, n).
+- Tested in headless Chrome at 1366×768 EN and 390×844 FR: recap (KaTeX fine, no horizontal
+  scroll), trim values 7.8 / 331.5, why-view totals checked by hand ([2, 4, 4, 5, 9]: Σ|x − 4| = 8,
+  Σ(x − 4.8)² = 26.8, at c = 4: 30), switching back restores the cards, one screen kept; no errors.
+  Playground heights equal the previous build's (the trim sentence was shortened so it adds no line).

@@ -9,6 +9,7 @@ import { COMMON } from '../../text.js'
 import PlayChart from './PlayChart.jsx'
 import { snap, stats } from './play.js'
 import { CALC } from './calcText.js'
+import WhyCentres from './WhyCentres.jsx'
 
 // Topic 01's "Live calculation", on one screen: the playground's dots (they fall and drag like the
 // clock game's), the explanation of the last change, and three cards. Each card shows the real
@@ -22,7 +23,7 @@ import { CALC } from './calcText.js'
 const SC = { key: 'calc', domain: [0, 10], step: 1, unit: '' }
 const START = [2, 4, 4, 5, 9]
 const MAX = 12 // more dots would make the formulas too long
-const TOUR_TARGETS = [null, 'chart', 'mean', 'median', 'mode', 'feedback']
+const TOUR_TARGETS = [null, 'chart', 'mean', 'median', 'mode', 'feedback', 'views']
 const SLIDE = { type: 'spring', stiffness: 380, damping: 30 }
 
 // A number as written in a formula: whole, one decimal, or ≈ two decimals.
@@ -48,6 +49,7 @@ export default function CalcLab() {
   const [hover, setHover] = useState(null)
   const [event, setEvent] = useState({ type: 'start' })
   const [tab, setTab] = useState('mean') // the card shown on narrow screens
+  const [view, setView] = useState('calc') // 'calc': the three calculations; 'why': why these centres
   const dragBefore = useRef(null)
   const guide = useGuide('calc-mean-median', TOUR_TARGETS, tx.tour, { doneLabel: tx.tourDone })
 
@@ -181,8 +183,15 @@ export default function CalcLab() {
       }
       bar={
         <>
+          <div className="segmented cl-views" role="group" aria-label={tx.viewsLabel} data-tour="views">
+            {['calc', 'why'].map((k) => (
+              <button key={k} type="button" className={view === k ? 'is-active' : ''} aria-pressed={view === k} onClick={() => setView(k)}>
+                {tx.views[k]}
+              </button>
+            ))}
+          </div>
           <span className="cl-count">{tx.count(n, MAX)}</span>
-          <div className="segmented cl-tabs" role="tablist" aria-label={tx.tabsLabel}>
+          <div className={`segmented cl-tabs${view === 'calc' ? '' : ' is-hidden'}`} role="tablist" aria-label={tx.tabsLabel}>
             {['mean', 'median', 'mode'].map((k) => (
               <button key={k} type="button" role="tab" aria-selected={tab === k} className={tab === k ? 'is-active' : ''} onClick={() => setTab(k)}>
                 {tx[k]}
@@ -217,7 +226,7 @@ export default function CalcLab() {
       foot={
         <>
           <div className="nd-feedback cl-what" data-tour="feedback" aria-live="polite">
-            <p className="nd-hint">{what}</p>
+            <p className="nd-hint">{view === 'why' ? tx.whyText : what}</p>
           </div>
           <div className="actions">
             <Link to="/topics/mean-median" className="btn btn-ghost">
@@ -228,13 +237,15 @@ export default function CalcLab() {
       }
     >
       {guide.view}
-      <div className="cl-main">
+      <div className={`cl-main${view === 'why' ? ' is-why' : ''}`}>
         <div className="cl-chart">
           <PlayChart dots={dots} sc={SC} fmt={(v) => f(v)} lastId={hover ?? lastId} onAdd={add} onMove={move} onRemove={remove} />
         </div>
 
+        {view === 'why' && <WhyCentres values={values} />}
+
         <LayoutGroup>
-          <div className="cl-cards">
+          <div className={`cl-cards${view === 'calc' ? '' : ' is-hidden'}`}>
             {/* Mean: x̄ = (1/n) Σ xᵢ, then the student's numbers as a fraction */}
             <section className={`cl-card is-mean${tab === 'mean' ? ' is-tab' : ''}`} data-tour="mean">
               <h2>{tx.mean}</h2>

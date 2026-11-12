@@ -5,7 +5,7 @@ import { useGuide } from '../../components/Tour.jsx'
 import { num, useText } from '../../i18n.jsx'
 import { COMMON } from '../../text.js'
 import PlayChart from './PlayChart.jsx'
-import { CHALLENGES, SCENARIOS, listOf, snap, stats } from './play.js'
+import { CHALLENGES, SCENARIOS, TRIM, listOf, snap, stats, trimmed } from './play.js'
 import { PLAY } from './playText.js'
 
 // Topic 01's playground: free play with mean, median and mode.
@@ -35,6 +35,7 @@ export default function Playground() {
   const [done, setDone] = useState([]) // keys of the challenges done
   const [flash, setFlash] = useState(null) // key of the challenge just done
   const dragBefore = useRef(null) // the dots when a drag started
+  const [showTrim, setShowTrim] = useState(false) // the 20 % trimmed mean, on demand
   const [lastId, setLastId] = useState(null) // the newest or last moved dot, ringed like the last press in the clock game
 
   const guide = useGuide('pg-mean-median', TOUR_TARGETS, tx.tour, { place: TOUR_PLACE, doneLabel: tx.tourDone })
@@ -126,7 +127,10 @@ export default function Playground() {
   let what = null
   if (event.type === 'load') what = tx.loaded(tx.intro[scKey])
   else if (event.type === 'clear') what = tx.cleared
-  else if (event.type === 'group')
+  else if (event.type === 'trim') {
+    const t = trimmed(values)
+    what = !showTrim ? tx.trimOff : t.k ? tx.trimText(t.k, st.n, fmt(t.value), fmt(st.mean), fmt(st.median), t.value >= Math.min(st.mean, st.median) - 1e-9 && t.value <= Math.max(st.mean, st.median) + 1e-9) : tx.trimNone(Math.round(1 / TRIM))
+  } else if (event.type === 'group')
     what = tx.regrouped(fmt(sc.step), st.modes.length ? listOf(st.modes, fmt, tx.and) : tx.none, fmt(st.mean), fmt(st.median), st.modes.length)
   else if (event.type !== 'undo') {
     const label =
@@ -238,6 +242,7 @@ export default function Playground() {
           dots={sc.groups ? dots.map((d) => ({ ...d, v: snap(d.v, sc) })) : dots}
           sc={sc}
           centres={sc.groups ? st : undefined}
+          trim={showTrim && st.n ? trimmed(values).value : undefined}
           fmt={fmt}
           lastId={lastId}
           onAdd={add}
@@ -261,7 +266,22 @@ export default function Playground() {
                 <dd>{st.n ? fmt(st.mean) : '–'}</dd>
               </div>
             </dl>
-            <p className="pg-n">{tx.nDots(st.n)}</p>
+            <p className="pg-n">
+              {tx.nDots(st.n)}
+              <button
+                type="button"
+                className={`btn btn-ghost btn-sm pg-trim-btn${showTrim ? ' is-on' : ''}`}
+                aria-pressed={showTrim}
+                onClick={() => {
+                  setShowTrim((s) => !s)
+                  setEvent({ type: 'trim' })
+                  setFlash(null)
+                }}
+              >
+                {tx.trimButton}
+                {showTrim && <strong>{st.n ? fmt(trimmed(values).value) : '–'}</strong>}
+              </button>
+            </p>
           </section>
           <section className="pg-card" data-tour="challenges">
             <h2>

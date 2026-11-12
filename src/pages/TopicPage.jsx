@@ -2,12 +2,12 @@ import { Link, useParams } from 'react-router'
 import { useLang, useText } from '../i18n.jsx'
 import { COMMON } from '../text.js'
 import { PARTS, findTopic, topics } from '../topics/topics.js'
-import { GAMES } from '../topics/games.jsx'
+import { GAMES, RECAPS } from '../topics/games.jsx'
 import TopicGlyph from '../components/TopicGlyph.jsx'
 import NotFound from './NotFound.jsx'
 
 // A topic's page (/topics/<slug>): its title and idea, then one card per game (the experiment
-// behind it and the one idea it teaches), its extras (free play, quiz), and links to the previous
+// behind it and the one idea it teaches), its extras (free play, quiz), its recap sheet, and links to the previous
 // and next topics.
 export function TopicPage() {
   const { slug } = useParams()
@@ -73,6 +73,11 @@ export function TopicPage() {
           <span className="tl-cta">{tx.play}</span>
         </Link>
       ))}
+
+      {RECAPS[topic.slug] && (() => {
+        const Recap = RECAPS[topic.slug]
+        return <Recap />
+      })()}
 
       <nav className="topic-nav" aria-label={tx.topicNav}>
         {prev ? (

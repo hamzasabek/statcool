@@ -21,13 +21,17 @@
   repo. Removing it fully needs a history rewrite + force push (owner to decide).
 - The browser-tab icon (favicon) is missing (index.html has none): could use the "cool" tiles of the logo.
 - French texts were written by Claude: have a French speaker read them once (tone: "vous").
+- Playground (topic 01): the reaction-times scenario already scrolls ~34 px at 1366×768 (long intro
+  sentence in the foot), and "free" ~35 px at 1280×720. Not new in Step 61; shorten the texts or the
+  stats/challenges column.
 - Mean & median: on very small phones (360×640) the page scrolls ~60 px. That is allowed for
   phones, but the illusion figure could shrink further.
 - The Step 15–16 issues of the dot-drawing chart (tall stacks overflow, click above a stack,
   thresholds tuned for old column counts) now only concern archived code (`archive/`).
 
 ## Topic ideas
-- Each topic could get a quiz like topic 01's (Step 55): components/Quiz.jsx is generic.
+- Each topic could get a quiz like topic 01's (Step 55): components/Quiz.jsx is generic, and a
+  recap sheet like topic 01's (Step 61, RECAPS in games.jsx).
 - Each topic could get a playground like topic 01's (Step 52), e.g. topic 02: drag dots and watch
   the squares and the SD; topic 03: shape a bell with mean / SD sliders.
 - Goal (owner, Step 49): at least 3 games per topic. Done: topic 01 (Müller-Lyer, digit span,

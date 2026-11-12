@@ -55,6 +55,15 @@ export function modes(v) {
   if (top < 2) return []
   return [...c.keys()].filter((k) => c.get(k) === top).sort((a, b) => a - b)
 }
+// The 20 % trimmed mean (Wilcox & Keselman, 2003): drop the lowest and the highest 20 % (k = ⌊0.2 n⌋ values at each
+// end) and average the rest. A robust compromise between the mean and the median.
+export const TRIM = 0.2
+export function trimmed(values, p = TRIM) {
+  const k = Math.floor(p * values.length)
+  const s = [...values].sort((a, b) => a - b).slice(k, values.length - k)
+  return { k, value: mean(s) }
+}
+
 // The three centres. With a grouped scenario (sc.groups), the mode is found on the groups.
 export function stats(values, sc) {
   const forMode = sc?.groups ? values.map((v) => snap(v, sc)) : values

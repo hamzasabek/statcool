@@ -5,6 +5,7 @@ import BlueSeven from './mean-median/BlueSeven.jsx'
 import Playground from './mean-median/Playground.jsx'
 import MeanQuiz from './mean-median/MeanQuiz.jsx'
 import CalcLab from './mean-median/CalcLab.jsx'
+import MeanRecap from './mean-median/MeanRecap.jsx'
 import ReactionTime from './right-skewed/ReactionTime.jsx'
 import Neuron from './exponential/Neuron.jsx'
 import Ebbinghaus from './binomial/Ebbinghaus.jsx'
@@ -23,4 +24,9 @@ export const GAMES = {
   'right-skewed/reaction-time': ReactionTime,
   'exponential/neuron': Neuron,
   'binomial/ebbinghaus': Ebbinghaus,
+}
+
+// A recap sheet per topic, shown on the topic page after the games (optional).
+export const RECAPS = {
+  'mean-median': MeanRecap,
 }

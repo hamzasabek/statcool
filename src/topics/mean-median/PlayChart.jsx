@@ -17,6 +17,7 @@ import { PLAY } from './playText.js'
 // Values snap to the scenario's step, so equal values stack in a column. Keyboard: ← → move (the dot
 // falls into its new column too), Delete removes.
 //   dots: [{ id, v }]   sc: the scenario   lastId: the dot to ring   onAdd(v)   onMove(id, v, done)
+//   trim   : a 20 % trimmed mean to draw as a dotted line (or undefined)
 //   centres: { mean, median, modes } when they come from other values than the dots drawn (grouped
 //            measurements: the dots show the groups, the centres use the exact values)
 //   onRemove(id)
@@ -26,7 +27,7 @@ const ROW = 15
 const DROP = { type: 'spring', stiffness: 420, damping: 24, mass: 0.9 } // the inner-clock game's drop
 const POP = { duration: 0.18, ease: 'easeIn' }
 
-export default function PlayChart({ dots, sc, fmt, lastId, centres, onAdd, onMove, onRemove }) {
+export default function PlayChart({ dots, sc, fmt, lastId, centres, trim, onAdd, onMove, onRemove }) {
   const tx = useText(PLAY)
   const wrapRef = useRef(null)
   const svgRef = useRef(null)
@@ -182,6 +183,14 @@ export default function PlayChart({ dots, sc, fmt, lastId, centres, onAdd, onMov
               <line className="ds-mark-line is-median" x1={xOf(md)} x2={xOf(md)} y1={top - 2} y2={base} />
               <line className="ds-mark-line is-mean" x1={xOf(m)} x2={xOf(m)} y1={top - 2} y2={base} />
               <path className="ds-fulcrum" d={`M${xOf(m)},${base + 1}l-7,10h14z`} />
+              {Number.isFinite(trim) && (
+                <>
+                  <line className="ds-mark-line is-trim" x1={xOf(trim)} x2={xOf(trim)} y1={top + 14} y2={base} />
+                  <text className="pg-trim-label" x={xOf(trim) + 5} y={top + 12}>
+                    {tx.trimMark}
+                  </text>
+                </>
+              )}
               <text className="ds-mark-label is-mode" x={labelX(mo.length ? xOf((mo[0] + mo[mo.length - 1]) / 2) : xOf(md))} y={M.top + 11} textAnchor="middle">
                 {mo.length ? tx.markMode(listOf(mo, fmt, tx.and)) : tx.noModeMark}
               </text>

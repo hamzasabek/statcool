@@ -1620,3 +1620,77 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
 .cl-tex.is-block { justify-self: stretch; }
 .pg-groups { display: inline-flex; align-items: center; }
 .pg-groups-label { padding: 0 8px 0 6px; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+
+/* ---------- A topic's recap sheet (topic page) ---------- */
+.rc { margin-top: 36px; padding: 22px 24px 18px; border-radius: 24px; background: var(--surface); box-shadow: var(--shadow); }
+.page .rc-title { margin: 0 0 16px; font-size: 1.35rem; }
+.rc-title small { display: block; margin-top: 2px; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; color: var(--muted); }
+.rc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.rc-card { padding: 12px 14px; border-radius: 16px; background: var(--hover); border-top: 4px solid var(--border); }
+.rc-card.is-mean { border-top-color: var(--mean); }
+.rc-card.is-median { border-top-color: var(--median-line); }
+.rc-card.is-mode { border-top-color: var(--ck-a-line); }
+.page .rc-card h3 { margin: 0 0 6px; font-size: 1rem; }
+.rc-card p { margin: 6px 0 0; font-size: 0.88rem; line-height: 1.5; }
+.rc-card .tex.is-block { display: block; overflow-x: auto; overflow-y: hidden; }
+.rc-card .katex-display { margin: 4px 0; }
+.page .rc-sub { margin: 22px 0 10px; font-size: 1.02rem; }
+.rc-table-wrap { overflow-x: auto; }
+.rc-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.rc-table th, .rc-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.rc-table thead th { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+.rc-table tbody th { font-weight: 700; white-space: nowrap; }
+.rc-table tbody th small { display: block; font-weight: 500; color: var(--muted); white-space: normal; }
+.rc-note { margin: 8px 0 0; font-size: 0.85rem; color: var(--muted); }
+.rc-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+.rc-list { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 0.9rem; line-height: 1.5; }
+.rc-list.is-warn li::marker { color: var(--danger); }
+.rc-report { margin: 0; }
+.rc-report span { display: inline-block; padding: 8px 12px; border-radius: 10px; background: var(--accent-soft); font-family: Georgia, 'Times New Roman', serif; font-size: 1rem; }
+@media (max-width: 760px) {
+  .rc { padding: 16px; }
+  .rc-grid, .rc-cols { grid-template-columns: 1fr; }
+}
+/* Live calculation: the views and "why these centres?" */
+.cl-views { flex: none; }
+.cl-cards.is-hidden, .cl-tabs.is-hidden { display: none !important; }
+.why { flex: none; display: flex; flex-direction: column; gap: 10px; }
+.why-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.why-card { display: flex; flex-direction: column; gap: 6px; }
+.why-curve { width: 100%; }
+.why-svg { cursor: ew-resize; touch-action: none; }
+.why-path { fill: none; stroke-width: 2.5; }
+.why-svg.is-abs .why-path { stroke: var(--median-line); }
+.why-svg.is-sq .why-path { stroke: var(--mean); }
+.why-best-line { stroke: var(--muted); stroke-dasharray: 4 4; }
+.why-flat { fill: var(--accent-soft); }
+.why-c { stroke: var(--text); stroke-width: 1.5; }
+.why-c-dot { fill: var(--sun); stroke: var(--text); stroke-width: 1.5; }
+.why-best { font-size: 0.85rem; color: var(--muted); }
+.why-slider { display: flex; align-items: center; gap: 12px; padding: 8px 14px; border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); }
+.why-slider > span { flex: none; min-width: 74px; }
+.why-slider input { flex: 1; }
+@media (max-width: 760px) {
+  .why-charts { grid-template-columns: 1fr; }
+}
+/* Playground: the 20 % trimmed mean */
+.ds-mark-line.is-trim { stroke: var(--brand); stroke-width: 3; stroke-dasharray: 1 6; stroke-linecap: round; }
+.pg-trim-label { fill: var(--brand); font-size: 11px; font-weight: 700; }
+.pg-n { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.pg-trim-btn { height: 20px; padding: 0 8px; gap: 6px; font-size: 0.78rem; }
+.pg-trim-btn strong { font-variant-numeric: tabular-nums; }
+.pg-trim-btn.is-on { color: var(--brand); box-shadow: inset 0 0 0 1.5px var(--brand); }
+.rc-card .katex { font-size: 0.86em; }
+.rc-card .tex.is-block { scrollbar-width: none; }
+/* the one-card-at-a-time rule of narrow screens is for the calculation cards, not these curves */
+.cl-main .why .why-card { display: flex; }
+.why-tabs { display: none; align-self: flex-start; }
+@media (max-width: 980px) {
+  .why-tabs { display: inline-flex; }
+  .cl-main .why .why-card:not(.is-tab) { display: none; }
+}
+@media (max-width: 600px) {
+  /* in the "why" view the dots matter less than the curves: a shorter strip keeps one screen */
+  .cl-main.is-why .cl-chart { min-height: 96px; }
+  .cl-main.is-why ~ * .nd-hint, .cl-stage .cl-what .nd-hint { font-size: 0.8rem; }
+}
