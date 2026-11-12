@@ -10,12 +10,24 @@ import { MEM } from './text.js'
 //   series    : [{ key: 'a' | 'b', label, values, faint }]
 //   showStats : each lane's mean (a line) and a ±1 SD bracket under its dots
 //   lastKey   : ring the newest dot of that series
+//   scale     : optional, for other games: { domain, bin, ticks, tick(t), val(v), signed(v), zero }
+//               (the axis, the width of a column, tick labels, how the SD and the mean are written,
+//               and where the "exactly right" line is: 0 by default)
+//   labels    : optional { aria, empty, zero } (zero: a label for the 0 line)
 
 const M = { top: 8, right: 18, bottom: 30, left: 18 }
 const BIN = 5 // degrees per column
+const DEG = {
+  domain: DOMAIN,
+  bin: BIN,
+  ticks: [-90, -60, -30, 0, 30, 60, 90],
+  tick: (t) => (t === 0 ? '0°' : `${fmtSigned(t)}°`),
+  val: (v) => fmtDeg(v),
+  signed: (v) => fmtSignedDeg(v),
+}
 const DROP = { type: 'spring', stiffness: 420, damping: 26, mass: 0.9 }
 
-export default function ErrorChart({ series, showStats = false, lastKey }) {
+export default function ErrorChart({ series, showStats = false, lastKey, scale = DEG, labels }) {
   const tx = useText(MEM)
   const wrapRef = useRef(null)
   const [{ width, height }, setSize] = useState({ width: 520, height: 300 })
@@ -28,22 +40,22 @@ export default function ErrorChart({ series, showStats = false, lastKey }) {
     return () => ro.disconnect()
   }, [])
 
-  const [lo, hi] = DOMAIN
+  const { domain, bin: BW, ticks, zero = 0 } = scale
+  const [lo, hi] = domain
   const plotL = M.left
   const plotR = Math.max(plotL + 160, width - M.right)
-  const x = d3.scaleLinear().domain(DOMAIN).range([plotL, plotR])
-  const bins = (hi - lo) / BIN
+  const x = d3.scaleLinear().domain(domain).range([plotL, plotR]).clamp(true)
+  const bins = Math.round((hi - lo) / BW)
   const colPx = (plotR - plotL) / bins
   const H = Math.max(180, height)
   const axisY = H - M.bottom
   const laneH = (axisY - M.top) / series.length
   const statsH = showStats ? 26 : 0 // room under each lane for the SD bracket
-  const ticks = [-90, -60, -30, 0, 30, 60, 90]
 
   const lanes = series.map((s, li) => {
     const counts = new Array(bins).fill(0)
     const dots = s.values.map((v, i) => {
-      const col = Math.min(bins - 1, Math.max(0, Math.floor((v - lo) / BIN)))
+      const col = Math.min(bins - 1, Math.max(0, Math.floor((v - lo) / BW + 1e-9)))
       return { v, i, col, level: counts[col]++ }
     })
     const top = M.top + li * laneH + 16 // 16 px for the lane label
@@ -58,9 +70,14 @@ export default function ErrorChart({ series, showStats = false, lastKey }) {
   return (
     <div ref={wrapRef} className="chart-fill" data-tour="chart">
       <MotionConfig reducedMotion="user">
-        <svg className="chart mem-chart" width={width} height={H} role="img" aria-label={tx.chartAria}>
+        <svg className="chart mem-chart" width={width} height={H} role="img" aria-label={labels?.aria ?? tx.chartAria}>
           {/* 0 = exactly right */}
-          <line className="mem-zero" x1={x(0)} x2={x(0)} y1={M.top} y2={axisY} />
+          <line className="mem-zero" x1={x(zero)} x2={x(zero)} y1={M.top} y2={axisY} />
+          {labels?.zero && (
+            <text className="mem-zero-label" x={x(zero)} y={axisY - 4} textAnchor="middle">
+              {labels.zero}
+            </text>
+          )}
 
           {lanes.map((l, li) => (
             <g key={l.key} className={l.faint ? 'is-faint' : ''}>
@@ -87,10 +104,10 @@ export default function ErrorChart({ series, showStats = false, lastKey }) {
                     d={`M${x(Math.max(lo, l.m - l.s))},${l.base + 8}v8M${x(Math.max(lo, l.m - l.s))},${l.base + 12}H${x(Math.min(hi, l.m + l.s))}M${x(Math.min(hi, l.m + l.s))},${l.base + 8}v8`}
                   />
                   <text className="mem-sd-label" x={x(Math.min(hi, l.m + l.s)) + 6} y={l.base + 16}>
-                    {tx.sdLabel(fmtDeg(l.s))}
+                    {tx.sdLabel(scale.val(l.s))}
                   </text>
                   <text className="mem-mean-label" x={x(l.m) + 5} y={l.top + 10}>
-                    {tx.meanLabel(fmtSignedDeg(l.m))}
+                    {tx.meanLabel(scale.signed(l.m))}
                   </text>
                 </g>
               )}
@@ -99,7 +116,7 @@ export default function ErrorChart({ series, showStats = false, lastKey }) {
 
           {empty && (
             <text className="ck-empty" x={(plotL + plotR) / 2} y={(M.top + axisY) / 2} textAnchor="middle">
-              {tx.chartEmpty}
+              {labels?.empty ?? tx.chartEmpty}
             </text>
           )}
 
@@ -108,7 +125,7 @@ export default function ErrorChart({ series, showStats = false, lastKey }) {
             <g key={t}>
               <line className="axis-line" x1={x(t)} x2={x(t)} y1={axisY} y2={axisY + 5} />
               <text className="tick-label" x={x(t)} y={axisY + 18} textAnchor="middle">
-                {t === 0 ? '0°' : `${fmtSigned(t)}°`}
+                {scale.tick(t)}
               </text>
             </g>
           ))}

@@ -119,6 +119,22 @@ export const topics = [
           fr: frenchTypo({ name: 'Votre mémoire est-elle précise ?', ref: 'Wilken et Ma, 2004 ; Zhang et Luck, 2008', idea: 'Retenez 1 trait, puis 4 : même centre, dispersion plus large. L’écart-type la mesure.' }),
         },
       },
+      {
+        slug: 'find-the-middle',
+        available: true,
+        text: {
+          en: { name: 'Find the middle', ref: 'line bisection; Jewell & McCourt, 2000', idea: 'Tap the middle of lines: the mean error is your bias, the SD your precision. Two different things.' },
+          fr: frenchTypo({ name: 'Trouvez le milieu', ref: 'bissection de lignes ; Jewell et McCourt, 2000', idea: 'Touchez le milieu de traits : l’erreur moyenne est votre biais, l’écart-type votre précision. Deux choses différentes.' }),
+        },
+      },
+      {
+        slug: 'how-many-dots',
+        available: true,
+        text: {
+          en: { name: 'How many dots?', ref: 'Whalen, Gallistel & Gelman, 1999; Izard & Dehaene, 2008', idea: 'Guess clouds of 10, 30 and 90 dots: the SD grows with the number, SD ÷ mean (the CV) does not.' },
+          fr: frenchTypo({ name: 'Combien de points ?', ref: 'Whalen, Gallistel et Gelman, 1999 ; Izard et Dehaene, 2008', idea: 'Estimez des nuages de 10, 30 et 90 points : l’écart-type grandit avec le nombre, écart-type ÷ moyenne (le CV) non.' }),
+        },
+      },
     ],
   },
   {

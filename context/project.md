@@ -136,19 +136,42 @@ src/
       quiz.js                a bank of 30 questions (en + fr, same order and answers): question,
                              optional dot figure, options, answer, why. Quiz.jsx draws 9 at random per
                              attempt (kept in bank order) and shuffles each question's options
-    variance-sd/           topic 02 "Variance and standard deviation": "How precise is your memory?"
+    variance-sd/           topic 02 "Variance and standard deviation": 3 games: "How precise is your
+                           memory?", "Find the middle", "How many dots?"
       MemoryGame.jsx         4 steps: 1 line (12 trials) → 4 lines (12 trials) → Spread (one row
                              of errors per round, mean line + ±1 SD bracket) → The SD (views
                              1 Deviations / 2 Squares / 3 SD, rounds 1 line / 4 lines)
       MemoryTask.jsx         one trial: cross 0.6 s → 1 or 4 tilted lines 1 s → blank 1 s → one
                              circle comes back, turn its line (drag around it or ← →, Shift =
                              10°) and Confirm (or Enter) → real tilt shown dashed 1.3 s → next
-      ErrorChart.jsx         errors (−90°…+90°) as stacked dots, one lane per round
+      ErrorChart.jsx         errors as stacked dots, one lane per round (lane colours a / b / c);
+                             degrees by default, other games pass `scale` { domain, bin, ticks, tick,
+                             val, signed, zero } and `labels` { aria, empty, zero }
       SquaresChart.jsx       deviations (one row per answer) → squares on the axis from the mean
                              → average square (side = SD) and ±1 SD band; one scale for both rounds
       sd.js                  constants (12 trials, 8 to unlock, timings, min 20° between lines),
                              mean, variance / SD (n − 1), tiltError (folded to ±90°), randomTilts
       text.js                MEM texts (en + fr)
+      Bisection.jsx          "Find the middle" (line bisection), 3 steps: Tap (16 lines, 10 to unlock,
+                             no feedback) → Your aim (errors in % of the line, mean = bias, ±1 SD =
+                             scatter; the lean counts only beyond 2 × SD ÷ √n) → Bias vs precision
+                             (BiasMap: you among 39 simulated classmates, bias × SD)
+      BisectTask.jsx         one line per trial (random length 35–80 % of the width, left end and
+                             height); press, slide, release = answer; keyboard ← → then Enter
+      BiasMap.jsx            scatter: x = bias (−6…+6 %), y = SD (0…8 %), "on target and precise"
+                             box (|bias| < 1 %, SD < 2.5 %), class mean line
+      bisect.js              constants, randomLine, bisectError (% of the length, − = left),
+                             CLASS (seeded, illustrative: mean bias −0.7 %, SD of biases 1.7 %),
+                             fmtPct / fmtSignedPct
+      bisectText.js          BIS texts (en + fr)
+      Dots.jsx               "How many dots?" (numerosity), 3 steps: Guess (18 clouds, 6 per size,
+                             12 to unlock) → Spread grows (errors in dots, one lane per size, mean
+                             and ±1 SD) → Relative spread (guess ÷ true; CV = SD ÷ mean per size;
+                             view switch "In dots / ÷ true number")
+      DotsTask.jsx           cross 0.5 s → cloud 0.7 s → type a number (box stays, read-only while
+                             dots show, so phones keep the keyboard) → true number 1.3 s → next
+      dots.js                SIZES (9–12, 27–34, 80–100), trialOrder (blocks of 3), cloud, bySize
+      dotsText.js            DOTS texts (en + fr)
     right-skewed/          topic 04 "Right-skewed distributions": reaction-time game
       ReactionTime.jsx       3 steps: Tap (one tap starts a continuous run: wait 0.8–2 s →
                              yellow → tap → next wait…, 25 good reactions; removed automatically:
@@ -210,7 +233,8 @@ Course plan (order of `topics.js`; URLs use names, not numbers, so reordering br
 Goal (owner, Step 49): at least 3 games per topic.
 - Part 1 · Describe your data
   - 01 `mean-median` "Mean, median and mode": `muller-lyer`, `digit-span`, `blue-seven`, + extras `playground`, `calculate`, `quiz`
-  - 02 `variance-sd` "Variance and standard deviation": `memory` (how precise is your memory?)
+  - 02 `variance-sd` "Variance and standard deviation": `memory` (how precise is your memory?),
+    `find-the-middle`, `how-many-dots`
 - Part 2 · Shapes of data
   - 03 `normal-distribution` "The normal distribution": `inner-clock`
   - 04 `right-skewed` "Right-skewed distributions": `reaction-time`

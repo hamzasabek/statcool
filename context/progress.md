@@ -947,3 +947,29 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   scroll), trim values 7.8 / 331.5, why-view totals checked by hand ([2, 4, 4, 5, 9]: Σ|x − 4| = 8,
   Σ(x − 4.8)² = 26.8, at c = 4: 30), switching back restores the cards, one screen kept; no errors.
   Playground heights equal the previous build's (the trim sentence was shortened so it adds no line).
+
+## 2026-11-12 — Step 62: topic 02 gets two more games: "Find the middle" and "How many dots?"
+- Owner asked for game ideas for topic 02, then to build the two recommended ones (goal: 3 per topic).
+- "Find the middle" (/topics/variance-sd/find-the-middle; line bisection: Schenkenberg, Bradford &
+  Ajax 1980; Bowers & Heilman 1980; Jewell & McCourt 2000). 16 lines of random length, left end and
+  height; press on the line, slide, release = answer; no feedback until the end. Errors in % of the
+  line's length (− = left). Step 2: dots + mean (= bias, constant error) + ±1 SD (= scatter, variable
+  error); the lean is called real only beyond 2 × SD ÷ √n (said in plain words, "the standard error,
+  a later topic"). Step 3: a bias × SD map with 39 simulated classmates (seeded; illustrative, shaped
+  like the literature: small average left lean, big differences between people, bias and SD
+  unrelated), an "on target and precise" box, the class mean line, a verdict per corner (+ "outside
+  the box but could be chance"), and the clinical use (right-hemisphere neglect bisects far right).
+- "How many dots?" (/topics/variance-sd/how-many-dots; Whalen, Gallistel & Gelman 1999; Izard &
+  Dehaene 2008). 18 clouds (9–12, 27–34, 80–100 dots; blocks of 3 so 12 trials = 4 per size), shown
+  0.7 s, typed guess, true number shown. Step 2: errors in dots, one lane per size: the SD grows with
+  the number (scalar variability, Weber's law); underestimation of large clouds noted when < 90 %.
+  Step 3: guess ÷ true number, CV = SD ÷ mean per size (about the same), "In dots / ÷ true number"
+  switch, when to use a CV (comparing spreads across scales) and when not (no true zero).
+- ErrorChart.jsx made generic (scale + labels props, zero line anywhere, float-safe binning); a third
+  lane colour (c = blue). Topic cards (topics.js) and About page entries for both games.
+- Tested in headless Chrome, played through by script at 1366×768 EN and 390×844 FR: the computed bias
+  matches the simulated taps (−1.24 → −1.2 %), SDs and CVs sensible, every desktop step fits one
+  screen, phones scroll like the memory game; tours open and step through; topic page lists the 3
+  games; no errors. Fixed after screenshots: bisection bins 1 % → 0.5 % (dots were huge), the map's
+  axis titles on two rows on phones, the class-mean label kept off the y ticks, French CV list with
+  semicolons (decimal commas).

@@ -35,7 +35,7 @@
 - Each topic could get a playground like topic 01's (Step 52), e.g. topic 02: drag dots and watch
   the squares and the SD; topic 03: shape a bell with mean / SD sliders.
 - Goal (owner, Step 49): at least 3 games per topic. Done: topic 01 (Müller-Lyer, digit span,
-  blue-seven). Each other topic needs 2 more games: see the ideas below for each topic.
+  blue-seven), topic 02 (memory, find the middle, how many dots; Step 62). Each other topic needs 2 more games: see the ideas below for each topic.
 - More binomial games suggested in Step 37: can you be random? (switches in 20 "random" H/T
   vs Binomial(19, ½); people switch too often), Asch conformity (conforming answers out of 12,
   Asch's 37 %), Monty Hall (wins out of 10 staying vs switching), change blindness.
@@ -50,7 +50,10 @@
   "how many dots?" (the median beats the mean), memory span (the mean can be an impossible
   score), rate the face 1–7 (median for ratings), and seesaw / fair share / find-the-middle
   warm-ups.
-- Variance / SD: topic 02 is "How precise is your memory?" (Step 48). "Aim and tap" (Step 47)
+- Variance / SD: topic 02 has 3 games since Step 62 (memory, find the middle, how many dots).
+  Possible 4th: rod and frame (within- vs between-person spread), match the grey (SD = threshold).
+  To check on a real phone: tapping lines (finger width adds scatter) and typing guesses (keyboard
+  covering the chart). "How precise is your memory?" was Step 48. "Aim and tap" (Step 47)
   was replaced: the owner found it hard to understand (code in git history, commit 0094480).
   Other ideas from Steps 46 and 48: rod and frame (Witkin 1948), line bisection / pseudoneglect
   (Bowers & Heilman 1980), Stroop (more variable when incongruent; better for a later topic).
