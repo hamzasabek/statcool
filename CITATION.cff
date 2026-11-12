@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use StatsCool in a course or a paper, please cite it as below."
+type: software
+title: "StatsCool: Statistics for psychologists through games"
+abstract: "A free, open-source website that teaches statistics to psychologists through short games built on classic psychology and neuroscience experiments."
+authors:
+  - family-names: Sabek
+    given-names: Hamza
+    affiliation: "LICAE (Interactions Cognition, Action, Émotion), Université Paris Nanterre"
+url: "https://hamzasabek.github.io/statscool/"
+repository-code: "https://github.com/hamzasabek/statscool"
+license: MIT
+date-released: 2026-11-12
+keywords:
+  - statistics education
+  - psychology
+  - interactive visualisation

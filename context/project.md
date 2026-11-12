@@ -20,7 +20,7 @@ Node.js 26 LTS is installed at `C:\Program Files\nodejs` (installed with winget)
 
 ## Folder structure
 
-Root: `AGENTS.md` (the shared rules for every AI assistant: session start, end of step, commands,
+Root: `CITATION.cff` (GitHub's "Cite this repository"; same reference as the About page), `AGENTS.md` (the shared rules for every AI assistant: session start, end of step, commands,
 conventions), `CLAUDE.md` and `GEMINI.md` (each imports AGENTS.md), `tools/check.mjs` (`npm run
 check`: every page in headless Chrome at desktop and phone size, EN and FR: one screen or how much it
 scrolls, wider than the screen, console and KaTeX errors, page not found; `--shots` saves screenshots
@@ -47,6 +47,7 @@ src/
     Tour.jsx               guided tour: useGuide / useTour(id) (auto-opens once, replayable) + <Tour>: one
                            bubble per thing, pointing at [data-tour="…"], the rest blurred and grey
   assets/
+    author.jpg             the owner's photo for the About page: 320×320 crop of his CV photo, EXIF removed
     logo-light.png, logo-dark.png  the StatsCool logo, transparent, 382×248 (shown 62 px high,
                            50 px on phones; header 76 px / 64 px = `--header-h`);
                            CSS shows the one for the current theme
@@ -67,9 +68,12 @@ src/
                            data"…), under it a vertical timeline of its topics (numbered nodes,
                            numbers run on across parts; game name, title, one sentence, Play → or
                            Coming soon; drawings hidden on phones). A `soon` part is a dashed box.
-    About.jsx              /about : why, the experiments behind the games, inspiration
-                           (rpsychologist), privacy, open source (GitHub link),
-                           built with, contact (GitHub issues)
+    About.jsx              /about : why, the author (round photo assets/author.jpg, third-person bio,
+                           ResearchGate / LinkedIn / GitHub links; no phone or personal email), how
+                           to cite (APA reference + Copy button; YEAR constant, keep in step with
+                           CITATION.cff), the experiments behind the games, inspiration
+                           (rpsychologist), privacy, open source (GitHub link), built with (+ AI
+                           disclosure: Claude and Gemini), contact (GitHub issues)
     text.js                HOME and ABOUT texts (en + fr)
     NotFound.jsx
   topics/

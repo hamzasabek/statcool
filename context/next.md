@@ -29,6 +29,11 @@ what is left and which files; remove the item once it is committed. (AGENTS.md, 
   Web Audio). Ideas not done: D sonification (each dot plays a pitch for its value; a "Listen to your
   data" button: hear spread and skew), E read the Stage sentence aloud (speechSynthesis, en / fr).
 
+- About / author (Step 68): add an ORCID iD when the owner has one (bio links + CITATION.cff
+  `orcid:`); a Zenodo DOI for the citation (GitHub release + Zenodo integration); bump YEAR in
+  About.jsx and CITATION.cff with a new version. Not chosen for now: an "independent project, not an
+  official product of Université Paris Nanterre" line, a selected-publications list.
+
 ## Known issues
 - docs/CODE_GUIDE.md (private, now gitignored) is still visible in older commits of the public
   repo. Removing it fully needs a history rewrite + force push (owner to decide).

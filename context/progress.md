@@ -1120,3 +1120,24 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   reached); switch off = no sound, saved "off"; the neuron's button follows the header. Not heard by a
   person yet: volume and timbre to be checked on real speakers / phones.
 
+## 2026-11-12 — Step 68: the author on the About page, how to cite, AI disclosure (Claude)
+- Owner gave his CVs (EN + FR, LaTeX, outside the repo) and asked for a short presentation of himself
+  on the site, after suggestions on how to do it correctly in academia. Suggested: third-person bio,
+  honest affiliation (no university logo), expertise linked to the site, public profiles instead of
+  phone / personal email, no impact factors (DORA), a "How to cite" + CITATION.cff, an AI disclosure,
+  an independence note, selected publications. Owner chose: a section on the About page, round photo,
+  How to cite, AI disclosure (no publications list, no independence note). Associate researcher since
+  2026 (the EN CV says 2025; owner confirmed 2026), so no start year is shown.
+- About page: "The author" after "Why": photo (src/assets/author.jpg, 320×320 crop, EXIF / location
+  removed, yellow ring), 4-sentence bio (PhD Human Movement Science, Paris Nanterre 2025; associate
+  researcher at LICAE; psychomotor therapist first; body representation in action with reaction-time
+  experiments; taught psychology to sport-science undergraduates for three years, 2020–2023), links
+  ResearchGate / LinkedIn / GitHub. "How to cite": Sabek, H. (2026). *StatsCool: Statistics for
+  psychologists through games* [Web application / Application web]. URL, with a Copy button. "Built
+  with" gains the AI disclosure (Claude, Gemini; the author designed the games, chose the experiments
+  and is responsible for the scientific content). Privacy now mentions the saved sound setting; "Made
+  by Hamza Sabek" removed from the open-source line (the author section says it).
+- CITATION.cff (new, root): type software, title, author + affiliation, URL, repo, MIT, 2026-11-12.
+- Tested: npm run check about (EN + FR, 1366 and 390: no problems); screenshots of the section in light
+  and dark, desktop and phone (photo above the text on phones).
+
