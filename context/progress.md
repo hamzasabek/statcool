@@ -1236,3 +1236,20 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   → tails "too close to the centre" (end 2.23 SD). Fixed after testing: the clusters trap (drawn
   until the other pile's range is clearly wider), "−0°", French "1 manche". No console errors.
 
+## 2026-11-13 — Step 72: topic 03 gets its quiz (Claude)
+- Owner: add a quiz to topic 03 (it was the only one of topics 01–03 without "Check yourself").
+- src/topics/normal-distribution/quiz.js: a bank of 30 questions (en + fr, same order and answers),
+  from basics to harder ideas: μ and σ, mean = median = mode, the 68–95–99.7 rule (IQ 70–130, above
+  115), z-scores (IQ 130, comparing two classes), areas as probabilities, total area 1, halving σ
+  doubles the peak, density above 1 (σ = 0.3 s: 1.33), P(exact value) = 0, 2.5 % beyond 1.96 SD,
+  0.27 % beyond ±3 SD, a sample of 40 taps at 75 % within 1 SD (27.3 expected, SD 2.9), why bells
+  (CLT; Fisher), the neuron sums (√k), what is not normal (reaction times), when the CLT fails,
+  Weber's law in timing, negative mean asynchrony, standardising, Φ(1) and Φ(−1), 97.5 % of N(50, 10),
+  inflection points at μ ± σ, two curves with SD 5 and 10, a "normal-looking" skewed sample. Every
+  number recomputed by script; sources by token (Howell, Fisher, Whelan, Repp, Gibbon, Wearden &
+  Lejeune). NormalQuiz.jsx (9 drawn), topics.js extra, games.jsx.
+- "Read the bell" now ends with "Take the quiz →" (like the two other Train-your-eye games).
+- Tested: npm run check on the topic page, the quiz and the game (EN + FR, 2 sizes: no problems);
+  24 quiz runs in headless Chrome (EN + FR): every explanation rendered, citations clickable, none raw,
+  no console errors.
+

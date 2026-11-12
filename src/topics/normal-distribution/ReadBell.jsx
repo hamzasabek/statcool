@@ -23,7 +23,7 @@ export default function ReadBell() {
       makeGame={newGame}
       simulated={false}
       level={(r, a) => grade(r, a).level}
-      endLink={{ to: '/topics/normal-distribution/playground', label: tx.toPlay }}
+      endLink={{ to: '/topics/normal-distribution/quiz', label: tx.toQuiz }}
       say={(r) => (
         <p data-tour="question">
           <strong>{question(r)}</strong> {tx.data[r.bell].say}

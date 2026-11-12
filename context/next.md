@@ -44,8 +44,7 @@ what is left and which files; remove the item once it is committed. (AGENTS.md, 
 - Train your eye (Step 71): topics 01–03 have one each (components/TrainShell.jsx). Next: topics 04–06
   (ideas: topic 04 "Order mode, median, mean on a skewed pile", topic 05 "Is it due?" quick bets,
   topic 06 "Luck or not?" from a count), then a mixed-practice mode across topics (interleaving;
-  would need its own source, e.g. Rohrer & Taylor, 2007). Topic 03 has no quiz yet (no Check
-  yourself section).
+  would need its own source, e.g. Rohrer & Taylor, 2007).
 
 ## Known issues
 - docs/CODE_GUIDE.md (private, now gitignored) is still visible in older commits of the public
@@ -64,7 +63,7 @@ what is left and which files; remove the item once it is committed. (AGENTS.md, 
 - Each topic could get a quiz like topic 01's (Step 55): components/Quiz.jsx is generic, and a
   recap sheet like topic 01's (Step 61, RECAPS in games.jsx). Topic 02 has its playground, live
   calculation and quiz (Step 63) but no recap sheet yet. Topic 03 has its playground and live
-  calculation (Step 65) but no quiz or recap sheet yet.
+  calculation (Step 65) and a quiz (Step 72) but no recap sheet yet.
 - Each topic could get a playground like topic 01's (Step 52; topic 02 done in Step 63), e.g.
   topic 03: shape a bell with mean / SD sliders.
 - Goal (owner, Step 49): at least 3 games per topic. Done: topic 01 (Müller-Lyer, digit span,

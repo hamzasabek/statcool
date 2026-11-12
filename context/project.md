@@ -154,6 +154,8 @@ src/
                              the point with 50 / 84.1 / 15.9 / 97.5 / 2.5 / 99.9 % to its left, or μ ± 1 SD,
                              μ + 2 SD (the bend of the curve); error in SDs (spot ≤ 0.12, close ≤ 0.3); the
                              area is shaded; end: tail points too central / too far
+      NormalQuiz.jsx, quiz.js the quiz (/topics/normal-distribution/quiz): bank of 30 (en + fr), 9 drawn;
+                             numbers recomputed by script (Φ values, 68.3 / 95.4 / 99.7 %, 1.33 peak…)
       ReadBellChart.jsx      its chart;  readBell.js  bells (IQ, clock, tapping, memory from normal.js), plan,
                              grade, summary;  readBellText.js  RBELL texts (en + fr)
     mean-median/           topic 01 "Mean and median": the Müller-Lyer illusion game
@@ -356,11 +358,11 @@ docs/CODE_GUIDE.md         private, gitignored (local only): beginner-friendly e
 Course plan (order of `topics.js`; URLs use names, not numbers, so reordering breaks no link).
 Goal (owner, Step 49): at least 3 games per topic.
 - Part 1 · Describe your data
-  - 01 `mean-median` "Mean, median and mode": `muller-lyer`, `digit-span`, `blue-seven`, + extras `playground`, `calculate`, `quiz`
+  - 01 `mean-median` "Mean, median and mode": `muller-lyer`, `digit-span`, `blue-seven`, + extras `playground`, `calculate`, `spot-the-centre`, `quiz`
   - 02 `variance-sd` "Variance and standard deviation": `memory` (how precise is your memory?),
-    `find-the-middle`, `how-many-dots`, + extras `playground`, `calculate`, `quiz`
+    `find-the-middle`, `how-many-dots`, + extras `playground`, `calculate`, `spot-the-spread`, `quiz`
 - Part 2 · Shapes of data
-  - 03 `normal-distribution` "The normal distribution": `inner-clock`, `neuron-sum`, `tap-the-beat`, + extras `playground`, `calculate`
+  - 03 `normal-distribution` "The normal distribution": `inner-clock`, `neuron-sum`, `tap-the-beat`, + extras `playground`, `calculate`, `read-the-bell`, `quiz`
   - 04 `right-skewed` "Right-skewed distributions": `reaction-time`
   - 05 `exponential` "The exponential distribution": `neuron`
   - 06 `binomial` "The binomial distribution": `ebbinghaus` (first test)

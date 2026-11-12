@@ -240,6 +240,14 @@ export const topics = [
           fr: frenchTypo({ name: 'Lisez la cloche', idea: '10 manches rapides sur une cloche : touchez le point qui a 84 %, 97,5 %… de l’aire à sa gauche, ou à un écart-type de la moyenne. Où commencent vraiment les traînes ?' }),
         },
       },
+      {
+        slug: 'quiz',
+        kind: 'quiz',
+        text: {
+          en: { name: 'Quiz', idea: '9 questions drawn from a bank of 30, each with its explanation: the 68–95–99.7 rule, z-scores, areas, why bells appear. A new set every time, no timer.' },
+          fr: frenchTypo({ name: 'Quiz', idea: '9 questions tirées d’une banque de 30, chacune avec son explication : la règle 68–95–99,7, les scores z, les aires, pourquoi les cloches apparaissent. Une nouvelle série à chaque fois, sans chrono.' }),
+        },
+      },
     ],
   },
   {

@@ -22,6 +22,7 @@ import SdCalc from './variance-sd/SdCalc.jsx'
 import SdQuiz from './variance-sd/SdQuiz.jsx'
 import SpotSpread from './variance-sd/SpotSpread.jsx'
 import ReadBell from './normal-distribution/ReadBell.jsx'
+import NormalQuiz from './normal-distribution/NormalQuiz.jsx'
 
 // The component of each game, by "<topic slug>/<game slug>" (the texts are in topics.js).
 export const GAMES = {
@@ -44,6 +45,7 @@ export const GAMES = {
   'normal-distribution/tap-the-beat': TapBeat,
   'normal-distribution/playground': NormalPlay,
   'normal-distribution/read-the-bell': ReadBell,
+  'normal-distribution/quiz': NormalQuiz,
   'normal-distribution/calculate': NormalCalc,
   'right-skewed/reaction-time': ReactionTime,
   'exponential/neuron': Neuron,

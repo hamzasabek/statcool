@@ -37,7 +37,7 @@ export const RBELL = {
       `Your tail points sat too close to the centre (by ${e} SD on average). The tails of a bell reach further than they look: 2.5% of the area lies beyond 1.96 SD [@howell2013].`,
     endFar: (e) => `Your tail points sat too far out (by ${e} SD on average): about 95% of the area lies within 2 SD of the mean [@howell2013].`,
     endGood: 'Your tail points were well placed: you know where 95% of a bell lies.',
-    toPlay: 'Shape a bell in the playground →',
+    toQuiz: 'Take the quiz →',
     tour: [
       { title: 'Read the bell', text: '10 quick rounds on a bell curve. Each asks for one point: the one with a given share of the area to its left, or one or two SDs from the mean. Tap it; the area appears at once.' },
       { title: 'The question', text: 'Read the share or the number of SDs asked. The axis does not show the mean or the SD: find them on the curve.' },
@@ -77,7 +77,7 @@ export const RBELL = {
       `Vos points dans les traînes étaient trop près du centre (de ${e} écart-type en moyenne). Les traînes d’une cloche vont plus loin qu’il n’y paraît : 2,5 % de l’aire est au-delà de 1,96 écart-type [@howell2013].`,
     endFar: (e) => `Vos points dans les traînes étaient trop loin (de ${e} écart-type en moyenne) : environ 95 % de l’aire est à moins de 2 écarts-types de la moyenne [@howell2013].`,
     endGood: 'Vos points dans les traînes étaient bien placés : vous savez où se trouvent 95 % d’une cloche.',
-    toPlay: 'Façonner une cloche dans le bac à sable →',
+    toQuiz: 'Faire le quiz →',
     tour: [
       { title: 'Lisez la cloche', text: '10 manches rapides sur une courbe en cloche. Chacune demande un point : celui qui a une part donnée de l’aire à sa gauche, ou à un ou deux écarts-types de la moyenne. Touchez-le ; l’aire s’affiche aussitôt.' },
       { title: 'La question', text: 'Lisez la part ou le nombre d’écarts-types demandé. L’axe ne montre ni la moyenne ni l’écart-type : trouvez-les sur la courbe.' },
