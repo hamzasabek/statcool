@@ -31,9 +31,10 @@
 
 ## Topic ideas
 - Each topic could get a quiz like topic 01's (Step 55): components/Quiz.jsx is generic, and a
-  recap sheet like topic 01's (Step 61, RECAPS in games.jsx).
-- Each topic could get a playground like topic 01's (Step 52), e.g. topic 02: drag dots and watch
-  the squares and the SD; topic 03: shape a bell with mean / SD sliders.
+  recap sheet like topic 01's (Step 61, RECAPS in games.jsx). Topic 02 has its playground, live
+  calculation and quiz (Step 63) but no recap sheet yet.
+- Each topic could get a playground like topic 01's (Step 52; topic 02 done in Step 63), e.g.
+  topic 03: shape a bell with mean / SD sliders.
 - Goal (owner, Step 49): at least 3 games per topic. Done: topic 01 (Müller-Lyer, digit span,
   blue-seven), topic 02 (memory, find the middle, how many dots; Step 62). Each other topic needs 2 more games: see the ideas below for each topic.
 - More binomial games suggested in Step 37: can you be random? (switches in 20 "random" H/T

@@ -110,7 +110,9 @@ src/
                              when the student's own change makes it true), feedback: what the last
                              change did to the mean and the median + what the data looks like
       PlayChart.jsx          dots snapped to the scenario's step: tap empty = add, drag = move, tap a
-                             dot = remove; keyboard: Tab to a dot, ← → move, Delete removes
+                             dot = remove; keyboard: Tab to a dot, ← → move, Delete removes. Shared
+                             with topic 02: `Overlay` (+ `overlayProps`) replaces the three centres
+                             with another topic's marks (topic 02: SpreadMarks)
       play.js                SCENARIOS (reaction times = exact ms with `groups` 10/25/50/100: the mode is
                              found on the groups, mean and median on the exact values), snap, mean /
                              median / modes, trimmed (20 % trimmed mean, TRIM), stats(values, sc), listOf,
@@ -172,6 +174,24 @@ src/
                              dots show, so phones keep the keyboard) → true number 1.3 s → next
       dots.js                SIZES (9–12, 27–34, 80–100), trialOrder (blocks of 3), cloud, bySize
       dotsText.js            DOTS texts (en + fr)
+      SpreadPlay.jsx         the topic's playground (/topics/variance-sd/playground): PlayChart +
+                             SpreadMarks; scenarios (free, IQ SD≈15, reaction times + one slow trial,
+                             polarised 1–7, memory errors); "Show deviations"; all dots ← → ×2 ÷2;
+                             stats mean / SD / variance (units²) / range; 6 challenges; one screen on
+                             desktop (side column scrolls inside if the feedback is long)
+      spreadPlay.js          SCENARIOS, spread() (SS, variance n − 1, SD, range, within 1 SD),
+                             shifted / stretched, CHALLENGES
+      SpreadMarks.jsx        PlayChart overlay: ±1 SD band, mean line + ▲, deviation sticks (one row
+                             each, sorted by value, above the stacks)
+      spreadText.js          SPLAY texts (en + fr)
+      SdCalc.jsx             "Live calculation" (/topics/variance-sd/calculate): dots 0–10 (max 10,
+                             start 2 4 4 5 10 → x̄ 5, SS 36, s² 9, s 3), 3 cards: deviations table (xᵢ,
+                             xᵢ − x̄, squares, Σ) / variance s² = SS ÷ (n − 1) (+ σ² ÷ N faded) / SD √s²
+                             and x̄ ± s; feedback follows the calculation; view "Why n − 1?" (WhyN1)
+      WhyN1.jsx              the dots become a population (σ² = SS ÷ N); draw samples of n = 2 / 3 / 5
+                             with replacement; average variance ÷ n vs ÷ (n − 1) as bars next to σ²
+      sdCalcText.js          SDCALC texts (en + fr)
+      SdQuiz.jsx, quiz.js    the quiz (/topics/variance-sd/quiz): bank of 30 (en + fr), 9 drawn
     right-skewed/          topic 04 "Right-skewed distributions": reaction-time game
       ReactionTime.jsx       3 steps: Tap (one tap starts a continuous run: wait 0.8–2 s →
                              yellow → tap → next wait…, 25 good reactions; removed automatically:
@@ -234,7 +254,7 @@ Goal (owner, Step 49): at least 3 games per topic.
 - Part 1 · Describe your data
   - 01 `mean-median` "Mean, median and mode": `muller-lyer`, `digit-span`, `blue-seven`, + extras `playground`, `calculate`, `quiz`
   - 02 `variance-sd` "Variance and standard deviation": `memory` (how precise is your memory?),
-    `find-the-middle`, `how-many-dots`
+    `find-the-middle`, `how-many-dots`, + extras `playground`, `calculate`, `quiz`
 - Part 2 · Shapes of data
   - 03 `normal-distribution` "The normal distribution": `inner-clock`
   - 04 `right-skewed` "Right-skewed distributions": `reaction-time`

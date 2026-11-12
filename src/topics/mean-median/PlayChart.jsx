@@ -21,13 +21,16 @@ import { PLAY } from './playText.js'
 //   centres: { mean, median, modes } when they come from other values than the dots drawn (grouped
 //            measurements: the dots show the groups, the centres use the exact values)
 //   onRemove(id)
+//   Overlay: optional component drawn instead of the three centres (another topic's marks, e.g. the
+//            mean ± SD of topic 02). It gets { xOf, top, base, plotL, plotR, size, r, placed, cy,
+//            values, dragging, ROW, M } and `overlayProps`; it is drawn under the dots.
 
 const M = { top: 10, right: 16, bottom: 44, left: 16 }
 const ROW = 15
 const DROP = { type: 'spring', stiffness: 420, damping: 24, mass: 0.9 } // the inner-clock game's drop
 const POP = { duration: 0.18, ease: 'easeIn' }
 
-export default function PlayChart({ dots, sc, fmt, lastId, centres, trim, onAdd, onMove, onRemove }) {
+export default function PlayChart({ dots, sc, fmt, lastId, centres, trim, onAdd, onMove, onRemove, Overlay, overlayProps }) {
   const tx = useText(PLAY)
   const wrapRef = useRef(null)
   const svgRef = useRef(null)
@@ -159,9 +162,14 @@ export default function PlayChart({ dots, sc, fmt, lastId, centres, trim, onAdd,
         >
           <rect className="pg-hit" x={M.left} y={top - 6} width={plotW} height={base - top + 36} rx="10" />
 
+          {Overlay && (
+            <Overlay {...overlayProps} xOf={xOf} top={top} base={base} plotL={M.left} plotR={M.left + plotW} size={size} r={r} placed={placed} cy={cy} values={values} dragging={dragging} ROW={ROW} M={M} />
+          )}
+
           {/* Mode: its column(s) fade in and out */}
           <AnimatePresence>
-            {mo.map((v) => (
+            {!Overlay &&
+              mo.map((v) => (
               <motion.rect
                 key={`mode-${v}`}
                 className="ds-mode-col"
@@ -178,7 +186,7 @@ export default function PlayChart({ dots, sc, fmt, lastId, centres, trim, onAdd,
             ))}
           </AnimatePresence>
 
-          {n > 0 && (
+          {n > 0 && !Overlay && (
             <g pointerEvents="none">
               <line className="ds-mark-line is-median" x1={xOf(md)} x2={xOf(md)} y1={top - 2} y2={base} />
               <line className="ds-mark-line is-mean" x1={xOf(m)} x2={xOf(m)} y1={top - 2} y2={base} />

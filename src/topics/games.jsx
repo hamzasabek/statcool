@@ -12,6 +12,9 @@ import Ebbinghaus from './binomial/Ebbinghaus.jsx'
 import MemoryGame from './variance-sd/MemoryGame.jsx'
 import Bisection from './variance-sd/Bisection.jsx'
 import Dots from './variance-sd/Dots.jsx'
+import SpreadPlay from './variance-sd/SpreadPlay.jsx'
+import SdCalc from './variance-sd/SdCalc.jsx'
+import SdQuiz from './variance-sd/SdQuiz.jsx'
 
 // The component of each game, by "<topic slug>/<game slug>" (the texts are in topics.js).
 export const GAMES = {
@@ -24,6 +27,9 @@ export const GAMES = {
   'variance-sd/memory': MemoryGame,
   'variance-sd/find-the-middle': Bisection,
   'variance-sd/how-many-dots': Dots,
+  'variance-sd/playground': SpreadPlay,
+  'variance-sd/calculate': SdCalc,
+  'variance-sd/quiz': SdQuiz,
   'normal-distribution/inner-clock': ClockGame,
   'right-skewed/reaction-time': ReactionTime,
   'exponential/neuron': Neuron,

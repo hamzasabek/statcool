@@ -136,6 +136,32 @@ export const topics = [
         },
       },
     ],
+    extras: [
+      {
+        slug: 'playground',
+        kind: 'play',
+        text: {
+          en: { name: 'Playground', idea: 'Add, drag and remove dots, shift or stretch them all, try real-life examples and six challenges: watch the SD band, the variance and the range react.' },
+          fr: frenchTypo({ name: 'Bac à sable', idea: 'Ajoutez, déplacez et retirez des points, décalez-les ou étirez-les tous, essayez des exemples réels et six défis : regardez la bande de l’écart-type, la variance et l’étendue réagir.' }),
+        },
+      },
+      {
+        slug: 'calculate',
+        kind: 'play',
+        text: {
+          en: { name: 'Live calculation', idea: 'Move the dots and watch the calculation redo itself: the deviations, their squares, the variance (÷ n − 1) and its square root, the SD. And why n − 1?' },
+          fr: frenchTypo({ name: 'Le calcul en direct', idea: 'Déplacez les points et regardez le calcul se refaire : les écarts, leurs carrés, la variance (÷ n − 1) et sa racine carrée, l’écart-type. Et pourquoi n − 1 ?' }),
+        },
+      },
+      {
+        slug: 'quiz',
+        kind: 'quiz',
+        text: {
+          en: { name: 'Quiz', idea: '9 questions drawn from a bank of 30, each with its explanation. A new set every time, no timer.' },
+          fr: frenchTypo({ name: 'Quiz', idea: '9 questions tirées d’une banque de 30, chacune avec son explication. Une nouvelle série à chaque fois, sans chrono.' }),
+        },
+      },
+    ],
   },
   {
     slug: 'normal-distribution',

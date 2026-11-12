@@ -973,3 +973,33 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   games; no errors. Fixed after screenshots: bisection bins 1 % → 0.5 % (dots were huge), the map's
   axis titles on two rows on phones, the class-mean label kept off the y ticks, French CV list with
   semicolons (decimal commas).
+
+## 2026-11-12 — Step 63: topic 02 gets a playground, a live calculation and a quiz (like topic 01)
+- Owner: like topic 01, two playgrounds (free play; calculation with formulas) and a quiz.
+- PlayChart (topic 01) shared: new `Overlay` + `overlayProps` props draw another topic's marks
+  instead of the three centres. Topic 01 re-tested unchanged.
+- Playground (/topics/variance-sd/playground, SpreadPlay.jsx): the ±1 SD band and the mean on the
+  dots (SpreadMarks.jsx), "Show deviations" (one stick per dot on its own row, sorted by value),
+  scenarios (free; IQ built with SD ≈ 15.5; reaction times + "one slow trial" 750 ms: SD 39.5 →
+  136.9 ms; a polarised 1–7 item; the memory game's errors), all dots ← → (SD unchanged) and ×2 ÷2
+  around the mean (SD ×2, variance ×4, snapped to the grid), stats mean / SD / variance (units²) /
+  range, "k of n within 1 SD", 6 challenges (SD 0; move the mean keep the SD; one dot that doubles
+  the SD; every dot inside the band = two clusters, "68 %" is for bells; the biggest SD = half at each
+  end; double the SD in one move). Feedback per change, with event-specific reasons (adding a dot
+  widens the spread only if it is more than about 1 SD from the mean).
+- Live calculation (/topics/variance-sd/calculate, SdCalc.jsx): x̄ = Σxᵢ/n, a table xᵢ / xᵢ − x̄ /
+  (xᵢ − x̄)² with Σ (0 and SS), s² = SS ÷ (n − 1) (σ² = ÷ N faded), s = √s² and x̄ ± s; start 2 4 4
+  5 10 → 5, 36, 9, 3. View "Why n − 1?" (WhyN1.jsx): the dots become a population, samples of 2 / 3 / 5
+  drawn with replacement, average variance ÷ n vs ÷ (n − 1) against σ² (2,000 samples of 3: 0.68 ×
+  vs 1.02 ×; theory 0.67).
+- Quiz (/topics/variance-sd/quiz, SdQuiz.jsx + quiz.js): 30 questions EN = FR (checked by script:
+  same answers and figures), 9 drawn per attempt: SD meaning, same mean / different SD, deviations
+  sum to 0, variance of 1 3 5, √variance and units, shift / scale rules, s → ms, n − 1, range, an
+  outlier (40 → 137 ms), adding the mean value shrinks the SD, units², memory game, bisection bias vs
+  precision, 68 / 95 % for bells (IQ), two clusters 100 % within 1 SD, max SD on 1–7, CV (dots) and
+  its limits (°C), SD settles with n while the range grows, σ vs s, APA M / SD, SD ×2 → variance ×4.
+- Topic card extras (topics.js) and games.jsx registrations.
+- Tested in headless Chrome at 1366×768 EN, 1280×720 FR and 390×844 FR: every number checked (shift,
+  ×2 → ×4, slow trial, calc 36 / 9 / 3 then 10 → 9 gives 26.8 / 6.7 / 2.59), desktop pages one screen
+  (the playground's stage now has a fixed height and its side column scrolls inside if needed),
+  phones scroll, tools wrap on phones, tours step through, topic page lists 6 cards; no errors.
