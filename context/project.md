@@ -20,7 +20,10 @@ Node.js 26 LTS is installed at `C:\Program Files\nodejs` (installed with winget)
 
 ## Folder structure
 
-Root: `CITATION.cff` (GitHub's "Cite this repository"; same reference as the About page), `AGENTS.md` (the shared rules for every AI assistant: session start, end of step, commands,
+Root: `LICENSE` (MIT: the code), `LICENSE-CONTENT.md` (CC BY 4.0: the teaching content, i.e. texts,
+quiz questions, recap sheets, game designs; the name, logo and author photo are all rights reserved;
+README "Licences" says the same), `CITATION.cff` (GitHub's "Cite this repository"; same reference as
+the About page; licence MIT + CC-BY-4.0), `AGENTS.md` (the shared rules for every AI assistant: session start, end of step, commands,
 conventions), `CLAUDE.md` and `GEMINI.md` (each imports AGENTS.md), `tools/check.mjs` (`npm run
 check`: every page in headless Chrome at desktop and phone size, EN and FR: one screen or how much it
 scrolls, wider than the screen, console and KaTeX errors, page not found; `--shots` saves screenshots
@@ -72,7 +75,8 @@ src/
                            ResearchGate / LinkedIn / GitHub links; no phone or personal email), how
                            to cite (APA reference + Copy button; YEAR constant, keep in step with
                            CITATION.cff), the experiments behind the games, inspiration
-                           (rpsychologist), privacy, open source (GitHub link), built with (+ AI
+                           (rpsychologist), privacy, open source and licences (code MIT, content
+                           CC BY 4.0 with a credit line, name / logo / photo reserved), built with (+ AI
                            disclosure: Claude and Gemini), contact (GitHub issues)
     text.js                HOME and ABOUT texts (en + fr)
     NotFound.jsx

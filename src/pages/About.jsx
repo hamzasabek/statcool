@@ -5,7 +5,8 @@ import { useText } from '../i18n.jsx'
 import { ABOUT } from './text.js'
 
 // About page (/about): why StatsCool exists, the author, how to cite it, the experiments behind the
-// games, inspiration, privacy, open source, how it is built (with the AI disclosure), and feedback.
+// games, inspiration, privacy, open source and licences (code MIT, content CC BY 4.0, logo / name /
+// photo reserved), how it is built (with the AI disclosure), and feedback.
 
 const REPO = 'https://github.com/hamzasabek/statscool'
 const SITE = 'https://hamzasabek.github.io/statscool/'
@@ -104,6 +105,12 @@ export default function About() {
         <Out href={REPO}>{tx.github}</Out>
         {tx.openAfter}
       </p>
+      <p>
+        {tx.ccBefore}
+        <Out href={tx.ccUrl}>{tx.cc}</Out>
+        {tx.ccAfter}
+      </p>
+      <p>{tx.reserved}</p>
 
       <h2>{tx.builtTitle}</h2>
       <p>{tx.built}</p>

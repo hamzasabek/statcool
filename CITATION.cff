@@ -9,7 +9,9 @@ authors:
     affiliation: "LICAE (Interactions Cognition, Action, Émotion), Université Paris Nanterre"
 url: "https://hamzasabek.github.io/statscool/"
 repository-code: "https://github.com/hamzasabek/statscool"
-license: MIT
+license:
+  - MIT
+  - CC-BY-4.0
 date-released: 2026-11-12
 keywords:
   - statistics education

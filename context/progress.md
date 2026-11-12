@@ -1141,3 +1141,17 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Tested: npm run check about (EN + FR, 1366 and 390: no problems); screenshots of the section in light
   and dark, desktop and phone (photo above the text on phones).
 
+## 2026-11-12 — Step 69: a licence for the content: CC BY 4.0 (code stays MIT) (Claude)
+- Owner asked for licence options for the website's content. Proposed: code MIT + content CC BY 4.0
+  (recommended), CC BY-SA, CC BY-NC, CC BY-NC-SA, BY-ND / all rights reserved, CC0; name, logo and
+  photo outside the licence; noted that versions already published stay MIT. Owner chose CC BY 4.0.
+- LICENSE-CONTENT.md (new): CC BY 4.0, what it covers (texts, quiz, recap sheets, tour texts, EN / FR
+  wording, game designs; mostly the text / quiz files under src/), code stays MIT, not covered (name,
+  logo files, author photo), how to give credit, versions before 12 November 2026 were MIT only.
+  LICENSE (MIT) unchanged so GitHub still detects it.
+- README: "Licences" section (code, content, reserved, third-party: React / Vite / D3 / Motion / KaTeX
+  MIT, Fraunces / Inter OFL). CITATION.cff: license MIT + CC-BY-4.0.
+- About page: "Open source and licences" / "Open source et licences": code MIT, content CC BY 4.0 (link
+  to the CC deed in the page's language) with an example credit line, name / logo / photo reserved.
+- Tested: npm run check about (EN + FR, desktop + phone: no problems); screenshot of the section.
+
