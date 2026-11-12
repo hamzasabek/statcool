@@ -1,19 +1,12 @@
-# StatsCool: statistics for psychologists
+# StatsCool: instructions for Claude Code
 
-Interactive statistics learning website (React + Vite + D3 + KaTeX, plain JavaScript).
+The shared rules for every AI assistant working on this repo (Claude and Gemini take turns) are in
+AGENTS.md, imported here:
 
-**Start every session by reading the `context/` folder:**
-- `context/project.md` — stack, folder structure, conventions, how to add a topic
-- `context/progress.md` — log of every step done so far (where we are)
-- `context/next.md` — open items and ideas
+@AGENTS.md
 
-## Workflow rules (from the project owner)
-- After every step: add an entry to `context/progress.md` (and update `project.md` / `next.md`
-  if the structure or plans changed).
-- Then commit and push to `main` (`git push origin main`).
-
-## Commands
-- `npm run dev` — dev server at http://localhost:5173
-- `npm run build` — production build into `dist/`
-- Node is in `C:\Program Files\nodejs`; if `npm` is not found in a shell, reload PATH:
-  `$env:Path = [Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [Environment]::GetEnvironmentVariable("Path","User")`
+Claude-specific notes:
+- Name yourself in each progress entry title `(Claude)`; commit messages end with the
+  `Co-Authored-By: Claude …` trailer given by the harness.
+- Gemini's work shows up as commits newer than the last logged step, or as uncommitted changes:
+  build on it, don't revert it (see AGENTS.md, section 1).

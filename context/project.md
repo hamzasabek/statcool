@@ -20,6 +20,12 @@ Node.js 26 LTS is installed at `C:\Program Files\nodejs` (installed with winget)
 
 ## Folder structure
 
+Root: `AGENTS.md` (the shared rules for every AI assistant: session start, end of step, commands,
+conventions), `CLAUDE.md` and `GEMINI.md` (each imports AGENTS.md), `tools/check.mjs` (`npm run
+check`: every page in headless Chrome at desktop and phone size, EN and FR: one screen or how much it
+scrolls, wider than the screen, console and KaTeX errors, page not found; `--shots` saves screenshots
+in `scratch/check/`, gitignored).
+
 ```
 src/
   main.jsx                 entry: LangProvider + HashRouter + App

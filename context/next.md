@@ -1,5 +1,10 @@
 # Next steps and ideas
 
+## In progress
+Work started but not finished, for whichever AI tool (Claude or Gemini) comes next. Say what is done,
+what is left and which files; remove the item once it is committed. (AGENTS.md, section 2.)
+- Nothing in progress.
+
 ## Open items
 - "Tap with the beat" (Step 64) was only tested with synthetic taps in headless Chrome: check the
   click sound and tap timing on a real phone and a laptop (audio output latency, touch latency;

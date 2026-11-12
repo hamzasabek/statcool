@@ -1054,3 +1054,24 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   KaTeX fine; desktop one screen, phones scroll; tours step through; no errors. Fixed after
   screenshots: z and ratios without trailing zeros, the calculation's bell fills its chart, the
   card formula goes under the title on phones.
+
+## 2026-11-12 — Step 66: shared memory for Claude and Gemini (Claude)
+- Owner also works with Gemini and asked for a way that it knows what was done and works efficiently
+  with Claude.
+- AGENTS.md (new): one rulebook for every AI tool. Start of a session: read context/, compare git log
+  and git status with the last progress step (newer commits or uncommitted changes = the other
+  tool's work: build on it, never silently revert). End of a step: build, `npm run check`, a progress
+  entry titled "(Claude)" or "(Gemini)", update project.md / next.md, commit with a Co-Authored-By
+  trailer naming the tool (both commit as the same git user), push. Commands, the conventions that
+  matter (texts in en/fr dictionaries, one screen on desktop, tours, registering games, shared charts,
+  scientific accuracy, the owner's taste), what not to do.
+- GEMINI.md (new; Gemini CLI loads it automatically) and CLAUDE.md both import AGENTS.md (`@AGENTS.md`),
+  so the rules live in one place.
+- context/next.md: a new "In progress" section at the top, for work left unfinished.
+- tools/check.mjs + `npm run check`: builds, serves (Vite preview API), opens every page (crawled from
+  /topics) or the routes given, at 1366×768 and 390×844, EN and FR, in headless Chrome (CDP over
+  Node's WebSocket), with guided tours skipped; reports one screen / scrolls +N px, wider than the
+  screen, console errors, KaTeX errors, page not found; `--shots` screenshots to scratch/check/.
+  Accepts routes as "topics/x", "/topics/x" or "#/topics/x" (undoes Git Bash's path rewriting).
+- First full run: 27 pages × 2 sizes × 2 languages, no errors, nothing too wide, no KaTeX errors; the
+  only game page that scrolls on desktop is topic 01's playground (+26 px, already in next.md).
