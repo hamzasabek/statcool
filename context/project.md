@@ -44,7 +44,7 @@ src/
     Tour.jsx               guided tour: useGuide / useTour(id) (auto-opens once, replayable) + <Tour>: one
                            bubble per thing, pointing at [data-tour="…"], the rest blurred and grey
   assets/
-    logo-light.png, logo-dark.png  the StatsCool logo, transparent, 313×176 (shown 62 px high,
+    logo-light.png, logo-dark.png  the StatsCool logo, transparent, 382×248 (shown 62 px high,
                            50 px on phones; header 76 px / 64 px = `--header-h`);
                            CSS shows the one for the current theme
     Stage.jsx              full-viewport learning layout (head, say, bar, main, foot) + Steps;
@@ -278,6 +278,9 @@ archive/                   code removed from the site in Step 24 (Home, About, d
 design/logo/               the owner's original logos (1280×720, white / black background).
                            The web versions were made from them: background made transparent
                            (edges un-mixed from white / black so no halo), cropped, resized.
+                           Since Step 67 the PNGs in src/assets/ are the owner's second logo ("Stats" in
+                           Outfit Bold, "cool" on neon highlighter stripes); its vector sources are
+                           design/logo/statscool_logo_v2_light.svg / _dark.svg (text converted to paths).
 context/                   this folder — project memory, updated every step
 docs/CODE_GUIDE.md         private, gitignored (local only): beginner-friendly explanation of the code
 ```

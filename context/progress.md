@@ -1075,3 +1075,24 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   Accepts routes as "topics/x", "/topics/x" or "#/topics/x" (undoes Git Bash's path rewriting).
 - First full run: 27 pages × 2 sizes × 2 languages, no errors, nothing too wide, no KaTeX errors; the
   only game page that scrolls on desktop is topic 01's playground (+26 px, already in next.md).
+
+## 2026-11-12 — Step 67: new logo, same file names (Claude)
+- Owner asked for a very simple logo: "Stats" in a good typeface, "cool" below it with every letter
+  highlighted in a neon colour; then asked to replace the current logos keeping the same file names so
+  that no code changes.
+- Drawn as SVG with the text converted to paths (fontTools, Outfit Bold, SIL OFL, so no font is needed
+  to display it): "Stats" dark (light theme) or off-white (dark theme); "cool" in dark type on four
+  slightly tilted stripes: pink #FF2D95, lime #B6FF1A, cyan #12E6FF, yellow #FFF000 (the "l" stripe is
+  taller, like a fourth bar). Dark type on neon in both themes, so the letters pass contrast.
+- Replaced src/assets/logo-light.png and logo-dark.png (same names, same imports in Header.jsx):
+  transparent, trimmed, 382×248 (was 313×176), so at the CSS height (62 / 50 / 40 px) the logo is about
+  95 / 77 / 62 px wide (it was 110 / 89 / 71). `.brand-logo` has `width: auto`, so nothing else moves.
+  Header.jsx still says width="110" height="62" on the <img>: only a size hint before loading, left
+  alone on purpose (Header.jsx has another tool's uncommitted changes).
+- Added the vector sources design/logo/statscool_logo_v2_light.svg and _dark.svg. The owner's first
+  logos (design/logo/statscool_logo_*.png) are untouched, and the old web PNGs are in git history.
+- Tested: `npm run build` passes in a clean Linux copy of the working tree (npm ci, then build; the repo's
+  node_modules are Windows-only); header-size mock-ups at 62 px and 40 px on light and dark backgrounds
+  checked by eye. NOT run: `npm run check` / a look at the real header in a browser (no Chrome in that
+  environment): run `npm run check -- --shots` once and look at scratch/check/ for the header.
+- Committed only the logo files and these notes; the uncommitted work of the other tool was left as it was.
