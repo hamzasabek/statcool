@@ -1272,3 +1272,24 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   pages were never checked). It now reloads after storing the language.
 - Tested: npm run build; npm run check on / and /about (EN + FR, 2 sizes, no problems; screenshots
   read in both languages); then the full npm run check with the fixed tool (34 pages, 2 sizes, EN + FR: no problems).
+
+## 2026-11-13 — Step 74: an interactive hero on Home (Claude)
+- Owner: the Home animation (dots dropping into a bell, once) was no longer right; wanted something
+  interactive but not a real game. Chose among 4 ideas: "Tap to drop dots".
+- New src/pages/HeroDots.jsx (the old drawing removed from Home.jsx): tries at stopping a clock at
+  2 s on an axis from 1 to 3 s (17 columns of 0.125 s). 22 simulated tries (normal, mean 2 s,
+  SD 0.3 s, fixed seed; the caption says they are simulated) drop in first. Each click or tap drops
+  a dot at that time; the mean line and the shaded ±1 SD band (SD with n − 1) slide to follow;
+  readout "n · mean · SD" (aria-live) and a Clear button; a dashed ghost dot shows where the next one
+  lands (mouse and keyboard); hint "Click or tap the chart to drop a dot" until the first dot.
+  Keyboard: the chart is focusable, arrows choose a time, Enter / Space drop a dot (a click or tap
+  does not focus it, so no focus ring then). Tall columns squeeze; up to 300 dots.
+- Texts in HOME (text.js): heroCaption, heroAria, heroHint, heroMean, heroSd, heroStats, heroClear
+  (en + fr); the old "target" text removed. CSS: hero-* rules in index.css (mean in --mean, band in
+  --accent-soft, ghost in --ck-a-line so it shows in both themes); reduced motion stops the drop,
+  the hint pulse and the slides.
+- Tested: npm run build; npm run check (all pages, 2 sizes, EN + FR: no problems); headless Chrome
+  script (scratch/herotest.mjs): 6 clicks at 2.6 s → n 28, mean 2.09 s (by hand (22 × 1.95 +
+  6 × 2.6) / 28 = 2.09), keyboard drop, Clear → "No dots yet", 1 dot (no SD), 41 dots in one column
+  (stays inside the chart), 4 touch taps on a 390 px phone in French; screenshots dark and light,
+  desktop and phone. No console errors. Not yet tried on a real phone.

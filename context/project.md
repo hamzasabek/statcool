@@ -74,12 +74,16 @@ src/
   hooks/
     useTweened.js          smooth animation of numbers / number arrays
   pages/
-    Home.jsx               / : the concept. Hero (dots dropping into a bell, curve drawn at the end;
-                           seeded order, CSS animation, off with reduced motion) + How it works (3) +
+    Home.jsx               / : the concept. Hero (HeroDots.jsx) + How it works (3) +
                            Four steps for every idea (Discover, Explore, Train your eye, Check yourself,
                            with sources) +
                            What makes it different (3) + the topics as small cards (unavailable ones dashed,
                            "Coming soon") + last button to the first topic
+    HeroDots.jsx           Home hero, interactive: 22 simulated tries at stopping a clock at 2 s (seeded,
+                           drop in one by one); each click / tap drops a dot at that time (1–3 s, columns
+                           of 0.125 s), the mean line and the ±1 SD band (n − 1) slide to follow, a
+                           dashed ghost dot shows where the next one lands; arrows + Enter for the
+                           keyboard; Clear; tall columns squeeze (dots overlap, r ≥ 4.5).
     TopicPage.jsx          /topics/<slug> : a topic's page (Part · Topic number, title, summary),
                            activities grouped by role, each with a heading and one line: Discover (the
                            games: name, experiment, idea, Play → or Coming soon), Explore (extras of

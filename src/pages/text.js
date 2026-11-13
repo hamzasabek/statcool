@@ -9,9 +9,14 @@ export const HOME = {
     lead: 'StatsCool is a set of short games based on classic psychology and neuroscience experiments. You play, every action becomes a dot, and the dots grow into the graph that explains the idea.',
     start: 'Start playing →',
     about: 'About StatsCool',
-    heroCaption: 'Every dot is one try at stopping a clock at 2 seconds. Together, they draw a bell.',
-    heroAria: 'Dots drop one by one and pile up into a bell-shaped curve.',
-    target: '2 s',
+    heroCaption: 'Each dot is one try at stopping a clock at 2 seconds (the first ones are simulated). Add your own: the mean and the spread follow.',
+    heroAria: 'Chart of tries at stopping a clock at 2 seconds. Click or tap to drop a dot at that time. With the keyboard, the left and right arrows choose a time and Enter drops a dot.',
+    heroHint: 'Click or tap the chart to drop a dot',
+    heroMean: (m) => `mean ${m} s`,
+    heroSd: 'band: ±1 SD',
+    heroStats: (n, m, sd) =>
+      n === 0 ? ['No dots yet: tap the chart.'] : [`n = ${n}`, `mean ${m} s`, ...(sd === null ? [] : [`SD ${sd} s`])],
+    heroClear: 'Clear',
     howTitle: 'How it works',
     how: [
       {
@@ -61,9 +66,14 @@ export const HOME = {
     lead: 'StatsCool est un ensemble de petits jeux inspirés d’expériences classiques de psychologie et de neurosciences. Vous jouez, chaque action devient un point, et les points forment le graphique qui explique l’idée.',
     start: 'Commencer à jouer →',
     about: 'À propos de StatsCool',
-    heroCaption: 'Chaque point est un essai pour arrêter une horloge à 2 secondes. Ensemble, ils dessinent une cloche.',
-    heroAria: 'Des points tombent un à un et s’empilent en une courbe en cloche.',
-    target: '2 s',
+    heroCaption: 'Chaque point est un essai pour arrêter une horloge à 2 secondes (les premiers sont simulés). Ajoutez les vôtres : la moyenne et la dispersion suivent.',
+    heroAria: 'Graphique d’essais pour arrêter une horloge à 2 secondes. Cliquez ou touchez pour déposer un point à ce temps. Au clavier, les flèches gauche et droite choisissent un temps et Entrée dépose un point.',
+    heroHint: 'Cliquez ou touchez le graphique pour déposer un point',
+    heroMean: (m) => `moyenne ${m} s`,
+    heroSd: 'bande : ±1 écart-type',
+    heroStats: (n, m, sd) =>
+      n === 0 ? ['Aucun point : touchez le graphique.'] : [`n = ${n}`, `moyenne ${m} s`, ...(sd === null ? [] : [`écart-type ${sd} s`])],
+    heroClear: 'Effacer',
     howTitle: 'Comment ça marche',
     how: [
       {
