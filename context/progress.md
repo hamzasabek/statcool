@@ -1417,3 +1417,15 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Tested: npm run build; full npm run check (no problems); headless Chrome with motion allowed:
   54 dots and 55 running animations, dots dropping at 1.3 s, bell and curve complete at 5.3 s, two
   header logo images (light / dark); desktop dark EN and phone light FR. No console errors.
+
+## 2026-11-13 — Step 83: the hero bell bends near the cursor (Claude)
+- Owner: make the bell and the dots deformable when the cursor comes near.
+- Home.jsx (useSoftSheet): every dot centre and every point of the curve is pushed away from the
+  pointer by 24 × exp(−l² / 2·40²) viewBox units (l = distance to the pointer), each moving 18 % of
+  the way to its target per frame, so the shape bends like a soft sheet and springs back when the
+  pointer leaves. Works over the drop animation (cx / cy change, the drop uses transform). Touch:
+  a tap or a drag bends it, release lets it go. The loop runs only while something moves.
+- Tested: npm run build; npm run check on / (EN + FR, 2 sizes: no problems); headless Chrome with
+  motion allowed: pointer in the bell moves 45 of 54 dots (max 23.8 units), the curve bends over its
+  flank, back to rest within 0.05 units 1.5 s after leaving, also when hovered during the drop.
+  No console errors.

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router'
 import { useLang, useText } from '../i18n.jsx'
 import { COMMON } from '../text.js'
@@ -6,7 +7,7 @@ import { firstGamePath, topics } from '../topics/topics.js'
 import { HOME } from './text.js'
 
 // Home page (/): what StatsCool is. A hero with a drawing of dots dropping into a bell (the idea of
-// every game), how it works in three steps, what makes it different, the topics, and a last call
+// every game; near the pointer the dots and the curve bend away, like a soft sheet), how it works in three steps, what makes it different, the topics, and a last call
 // to play.
 
 // ---------- Hero drawing ----------
@@ -40,16 +41,98 @@ ORDER.forEach((di, step) => {
   dropAt[j] = step
 })
 const DROP_MS = 55
-const CURVE = Array.from({ length: 121 }, (_, i) => {
+const CURVE_PTS = Array.from({ length: 121 }, (_, i) => {
   const c = -0.5 + (i / 120) * COLS
-  return `${i ? 'L' : 'M'}${(X0 + (c + 0.5) * SIZE).toFixed(1)},${(BASE - height(c) * SIZE).toFixed(1)}`
-}).join('')
+  return [X0 + (c + 0.5) * SIZE, BASE - height(c) * SIZE]
+})
+const pathOf = (pts) => pts.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)},${y.toFixed(1)}`).join('')
+const CURVE = pathOf(CURVE_PTS)
+const cxOf = (c) => X0 + (c + 0.5) * SIZE
+const DOT_PTS = DOTS.map((d) => [cxOf(d.c), BASE - (d.level + 0.5) * SIZE])
+
+// The soft sheet: a point at distance l from the pointer moves away from it by
+// PUSH × exp(−l² / 2·REACH²) (a Gaussian bump), and springs back when the pointer leaves.
+const PUSH = 24
+const REACH = 40
+const SPRING = 0.18 // share of the way to the target covered each frame
+
+function useSoftSheet(svgRef) {
+  useEffect(() => {
+    const svg = svgRef.current
+    const circles = [...svg.querySelectorAll('.hero-dot')]
+    const curve = svg.querySelector('.hero-curve')
+    const pts = [...DOT_PTS, ...CURVE_PTS]
+    const off = pts.map(() => [0, 0]) // current displacement of each point
+    let pointer = null
+    let raf = 0
+
+    const frame = () => {
+      let moving = false
+      pts.forEach(([x, y], i) => {
+        let tx = 0
+        let ty = 0
+        if (pointer) {
+          const dx = x - pointer.x
+          const dy = y - pointer.y
+          const l = Math.hypot(dx, dy) || 1
+          const k = PUSH * Math.exp(-(l * l) / (2 * REACH * REACH))
+          tx = (dx / l) * k
+          ty = (dy / l) * k
+        }
+        const o = off[i]
+        o[0] += (tx - o[0]) * SPRING
+        o[1] += (ty - o[1]) * SPRING
+        if (Math.abs(tx - o[0]) > 0.05 || Math.abs(ty - o[1]) > 0.05) moving = true
+      })
+      circles.forEach((c, i) => {
+        c.setAttribute('cx', (pts[i][0] + off[i][0]).toFixed(2))
+        c.setAttribute('cy', (pts[i][1] + off[i][1]).toFixed(2))
+      })
+      const n = circles.length
+      curve.setAttribute('d', pathOf(CURVE_PTS.map(([x, y], j) => [x + off[n + j][0], y + off[n + j][1]])))
+      raf = moving || pointer ? requestAnimationFrame(frame) : 0
+    }
+    const wake = () => {
+      if (!raf) raf = requestAnimationFrame(frame)
+    }
+    const toView = (e) => {
+      const p = svg.createSVGPoint()
+      p.x = e.clientX
+      p.y = e.clientY
+      return p.matrixTransform(svg.getScreenCTM().inverse())
+    }
+    const onMove = (e) => {
+      pointer = toView(e)
+      wake()
+    }
+    const onLeave = (e) => {
+      if (e.type === 'pointerup' && e.pointerType === 'mouse') return
+      pointer = null
+      wake()
+    }
+    svg.addEventListener('pointermove', onMove)
+    svg.addEventListener('pointerdown', onMove)
+    svg.addEventListener('pointerleave', onLeave)
+    svg.addEventListener('pointerup', onLeave)
+    svg.addEventListener('pointercancel', onLeave)
+    return () => {
+      cancelAnimationFrame(raf)
+      svg.removeEventListener('pointermove', onMove)
+      svg.removeEventListener('pointerdown', onMove)
+      svg.removeEventListener('pointerleave', onLeave)
+      svg.removeEventListener('pointerup', onLeave)
+      svg.removeEventListener('pointercancel', onLeave)
+    }
+  }, [svgRef])
+}
 
 function HeroDots({ caption, aria, target }) {
-  const cx = (c) => X0 + (c + 0.5) * SIZE
+  const cx = cxOf
+  const svgRef = useRef(null)
+  useSoftSheet(svgRef)
   return (
     <figure className="hero-figure">
-      <svg className="hero-dots" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={aria}>
+      <svg ref={svgRef} className="hero-dots" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={aria}>
         <line className="hero-target" x1={cx(MID)} x2={cx(MID)} y1={18} y2={BASE} />
         {DOTS.map((d, i) => (
           <circle

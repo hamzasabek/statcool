@@ -76,7 +76,9 @@ src/
   pages/
     Home.jsx               / : the concept. Hero (dots dropping into a bell, curve drawn at the end;
                            seeded order, CSS animation, off with reduced motion; owner's choice after
-                           trying other heroes in Steps 74–81) + How it works (3) +
+                           trying other heroes in Steps 74–81; near the pointer the dots and the curve
+                           bend away like a soft sheet: Gaussian push 24 units, reach 40, spring back,
+                           requestAnimationFrame only while something moves) + How it works (3) +
                            Four steps for every idea (Discover, Explore, Train your eye, Check yourself,
                            with sources) +
                            What makes it different (3) + the topics as small cards (unavailable ones dashed,
