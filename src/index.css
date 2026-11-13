@@ -1184,40 +1184,12 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
 .page .home-hero h1 { font-size: clamp(2.2rem, 1.5rem + 2.8vw, 3.5rem); max-width: 15ch; margin-bottom: 18px; }
 .home-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
 .hero-figure { width: 100%; max-width: 430px; margin: 0; justify-self: center; }
-.hero-dots { display: block; width: 100%; height: auto; overflow: visible; }
 .hero-figure figcaption { margin-top: 10px; color: var(--muted); font-size: 0.88rem; text-align: center; }
-/* The splash: each dot bursts out from the centre (--dx, --dy set inline) with an overshoot. */
-.hero-dot {
-  fill: var(--added);
-  stroke: var(--dot-stroke);
-  stroke-width: 1;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: hero-splash 0.9s cubic-bezier(0.25, 1.6, 0.5, 1) both; /* delay = distance from the centre */
-}
-@keyframes hero-splash { from { transform: translate(var(--dx), var(--dy)) scale(0.3); opacity: 0; } 35% { opacity: 1; } }
-/* The bold dashed circle (as in the Ebbinghaus reveal): pops in, then turns very slowly. */
-.hero-circle {
-  fill: none;
-  stroke: var(--ck-a-line);
-  stroke-width: 4;
-  stroke-dasharray: 10 7;
-  stroke-linecap: round;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: hero-pop 0.7s cubic-bezier(0.3, 1.5, 0.5, 1) both, hero-spin 60s linear infinite;
-}
-@keyframes hero-pop { from { scale: 1.35; opacity: 0; } } /* scale and rotate are separate properties, so the two animations add up */
-@keyframes hero-spin { to { rotate: 360deg; } }
-/* The Ebbinghaus ring: fades in, then its circles go small → big → small (inline --small / --big). */
-.hero-ring { animation: hero-fade 1s ease-out both; }
-.hero-ring circle { fill: var(--axis); opacity: 0.4; animation: hero-morph 9s ease-in-out infinite; }
-@keyframes hero-fade { from { opacity: 0; } }
-@keyframes hero-morph {
-  0%, 30% { transform: var(--small); }
-  50%, 80% { transform: var(--big); }
-  100% { transform: var(--small); }
-}
+/* The splash (HeroSplash.jsx): positions and sizes are set by script each frame. */
+.hero-splash { display: block; width: 100%; height: auto; overflow: visible; user-select: none; -webkit-user-select: none; }
+.hero-splash.is-dragging, .hero-splash.is-dragging .hero-hit { cursor: grabbing; }
+.hero-hit { fill: transparent; cursor: grab; }
+.hero-dot { fill: var(--added); stroke: var(--dot-stroke); stroke-width: 1; pointer-events: none; }
 
 .home-section { margin-top: 76px; }
 .page .home h2 {
@@ -1397,7 +1369,7 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
   .nd-glow, .ck-button.is-next, .rt-pad.is-next { animation: none; }
   .tl-link, .tl-node, .tl-cta, .btn { transition: none; }
   .tl-item { animation: none; }
-  .hero-dot, .hero-circle, .hero-ring, .hero-ring circle, .home-topic { animation: none; transition: none; }
+  .home-topic { animation: none; transition: none; }
   .tour-shade, .tour-ring { transition: none; }
   .tour-bubble { animation: none; }
 }

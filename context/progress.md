@@ -1343,3 +1343,21 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Tested: npm run build; npm run check on / and /about (EN + FR, 2 sizes: no problems); screenshots
   at 0.7 s (splash bursting), 4 s (small ring), 10.5 s (big ring) in dark EN, light FR, phone FR;
   document.getAnimations(): 109 running, no console errors.
+
+## 2026-11-13 — Step 79: a simple living splash of yellow dots (Claude)
+- Owner: make it very simple and elegant: a splash full of yellow dots; under the cursor the dots
+  grow, more the closer they are; any dot can be dragged to another place to change the shape; the
+  splash always changes shape slowly, cursor or not.
+- New src/pages/HeroSplash.jsx (replaces the Ebbinghaus hero of Step 78, its CSS and texts): 120
+  dots (--added, outline --dot-stroke, r 6.5) on a sunflower spiral inside an outline made of three
+  slow sine waves (periods about 30–50 s) plus a small wobble per dot; they burst out from the centre
+  at load. Lens: radius × (1 + 1.4 × Gaussian of the distance, SD 48 units), eased. Drag with mouse
+  or touch; the dropped dot keeps its place relative to the moving outline. requestAnimationFrame
+  writes the SVG attributes directly (no React render per frame) and stops when the hero is off
+  screen. Phones: touchstart on a dot is prevented so the drag does not scroll the page (touch-action
+  does not apply to SVG shapes); a touch elsewhere still scrolls. Reduced motion: no drift, the lens
+  and dragging still work. Caption and aria (en + fr) rewritten, no citation needed now.
+- Tested: npm run build; npm run check on / and /about (EN + FR, 2 sizes: no problems); headless
+  Chrome (motion allowed): lens r 15.6 under the cursor vs 6.6 far away; mouse drag of a dot to
+  (420, 70) stays there 3 s later; an inner dot drifts 6.7 units in 10 s; touch drag on a 390 px
+  phone carries a dot to (59, 434) (pointer events: down, move, up, no cancel). No console errors.

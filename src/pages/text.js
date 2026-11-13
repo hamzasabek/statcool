@@ -9,8 +9,8 @@ export const HOME = {
     lead: 'StatsCool is a set of short games based on classic psychology and neuroscience experiments. You play, every action becomes a dot, and the dots grow into the graph that explains the idea.',
     start: 'Start playing →',
     about: 'About StatsCool',
-    heroCaption: 'The yellow splash never changes size. The grey circles around it make it look bigger, then smaller: the Ebbinghaus illusion [@titchener1901].',
-    heroAria: 'A splash of yellow dots inside a dashed circle, ringed by grey circles that slowly switch between small and big.',
+    heroCaption: 'Every dot is a piece of data. Move over the splash, or drag a dot to change its shape.',
+    heroAria: 'A splash of yellow dots that slowly changes shape. The dots grow under the pointer and can be dragged.',
     howTitle: 'How it works',
     how: [
       {
@@ -60,8 +60,8 @@ export const HOME = {
     lead: 'StatsCool est un ensemble de petits jeux inspirés d’expériences classiques de psychologie et de neurosciences. Vous jouez, chaque action devient un point, et les points forment le graphique qui explique l’idée.',
     start: 'Commencer à jouer →',
     about: 'À propos de StatsCool',
-    heroCaption: 'La tache de points jaunes ne change jamais de taille. Les cercles gris autour la font paraître plus grande, puis plus petite : l’illusion d’Ebbinghaus [@titchener1901].',
-    heroAria: 'Une tache de points jaunes dans un cercle en pointillés, entourée de cercles gris qui passent lentement de petits à grands.',
+    heroCaption: 'Chaque point est une donnée. Survolez la tache, ou déplacez un point pour changer sa forme.',
+    heroAria: 'Une tache de points jaunes qui change lentement de forme. Les points grossissent sous le pointeur et peuvent être déplacés.',
     howTitle: 'Comment ça marche',
     how: [
       {

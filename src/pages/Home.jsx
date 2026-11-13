@@ -4,72 +4,11 @@ import { COMMON } from '../text.js'
 import TopicGlyph from '../components/TopicGlyph.jsx'
 import { firstGamePath, topics } from '../topics/topics.js'
 import { HOME } from './text.js'
+import HeroSplash from './HeroSplash.jsx'
 
-// Home page (/): what StatsCool is. A hero with a splash of yellow dots inside a bold dashed circle,
-// ringed by grey circles that slowly switch between small and big (the Ebbinghaus illusion, the
-// game of topic 06), how it works in three steps, what makes it different, the topics, and a last
-// call to play.
-
-// ---------- Hero drawing ----------
-const VIEW = 480
-const C = VIEW / 2 // centre of the figure
-const RC = 64 // the bold circle around the splash
-const DOT_R = 4.3
-const N_DOTS = 100
-// The splash: dots packed on a sunflower spiral (even spacing, no seed needed), inside the circle.
-const GOLDEN = Math.PI * (3 - Math.sqrt(5))
-const SPLASH = Array.from({ length: N_DOTS }, (_, i) => {
-  const d = (RC - 9) * Math.sqrt((i + 0.5) / N_DOTS)
-  const a = i * GOLDEN
-  return { x: C + d * Math.cos(a), y: C + d * Math.sin(a), d }
-})
-// The ring around it (as in the Ebbinghaus game, but 6 circles in both states so they can morph):
-// small = radius 0.42 × RC, close in; big = 1.15 × RC, further out. The splash never changes.
-const RING = 6
-const SMALL = { r: RC * 0.42, dist: RC + RC * 0.42 + 9 }
-const BIG = { r: RC * 1.15, dist: RC + RC * 1.15 + 10 }
-const ringPose = (i, { r, dist }) => `translate(${C}px, ${C}px) rotate(${(i * 360) / RING - 90}deg) translateX(${dist}px) scale(${r})`
-const SPLASH_MS = 1500 // last dot lands
-const RING_DELAY = 2300
-
-function HeroDots({ caption, aria }) {
-  return (
-    <figure className="hero-figure">
-      <svg className="hero-dots" viewBox={`0 0 ${VIEW} ${VIEW}`} role="img" aria-label={aria}>
-        <g className="hero-ring" style={{ animationDelay: `${RING_DELAY}ms` }}>
-          {Array.from({ length: RING }, (_, i) => (
-            <circle
-              key={i}
-              r={1}
-              style={{
-                transform: ringPose(i, SMALL),
-                '--small': ringPose(i, SMALL),
-                '--big': ringPose(i, BIG),
-                animationDelay: `${RING_DELAY + 2600}ms`,
-              }}
-            />
-          ))}
-        </g>
-        {SPLASH.map((p, i) => (
-          <circle
-            key={i}
-            className="hero-dot"
-            cx={p.x}
-            cy={p.y}
-            r={DOT_R}
-            style={{
-              '--dx': `${C - p.x}px`,
-              '--dy': `${C - p.y}px`,
-              animationDelay: `${150 + (p.d / RC) * 700 + (i % 5) * 40}ms`,
-            }}
-          />
-        ))}
-        <circle className="hero-circle" cx={C} cy={C} r={RC} style={{ animationDelay: `${SPLASH_MS}ms` }} />
-      </svg>
-      <figcaption>{caption}</figcaption>
-    </figure>
-  )
-}
+// Home page (/): what StatsCool is. A hero with a living splash of yellow dots (HeroSplash.jsx:
+// they grow under the cursor and can be dragged), how it works in three steps, what makes it
+// different, the topics, and a last call to play.
 
 export default function Home() {
   const { lang } = useLang()
@@ -91,7 +30,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <HeroDots caption={tx.heroCaption} aria={tx.heroAria} />
+        <HeroSplash caption={tx.heroCaption} aria={tx.heroAria} />
       </section>
 
       <section className="home-section">

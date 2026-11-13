@@ -74,15 +74,17 @@ src/
   hooks/
     useTweened.js          smooth animation of numbers / number arrays
   pages/
-    Home.jsx               / : the concept. Hero (a splash of 100 yellow dots bursting out from the centre,
-                           a bold dashed dark-yellow circle that pops in and turns slowly, then a grey
-                           Ebbinghaus ring whose 6 circles go small → big → small every 9 s; the splash
-                           never changes size; caption cites Titchener 1901; CSS animations, all off with
-                           reduced motion) + How it works (3) +
+    Home.jsx               / : the concept. Hero (HeroSplash.jsx) + How it works (3) +
                            Four steps for every idea (Discover, Explore, Train your eye, Check yourself,
                            with sources) +
                            What makes it different (3) + the topics as small cards (unavailable ones dashed,
                            "Coming soon") + last button to the first topic
+    HeroSplash.jsx         Home hero: a splash of 120 yellow dots (sunflower spiral inside an outline made
+                           of 3 slow sine waves, so it always changes shape slowly); dots grow under the
+                           cursor (Gaussian lens, SD 48 units, up to 2.4 ×); any dot can be dragged and
+                           stays where dropped (stored as angle + share of the edge). requestAnimationFrame
+                           loop writes the SVG directly, paused off screen; phones: a touch on a dot drags
+                           it (touchstart prevented), elsewhere scrolls; reduced motion: outline still.
     TopicPage.jsx          /topics/<slug> : a topic's page (Part · Topic number, title, summary),
                            activities grouped by role, each with a heading and one line: Discover (the
                            games: name, experiment, idea, Play → or Coming soon), Explore (extras of
