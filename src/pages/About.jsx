@@ -4,9 +4,9 @@ import photo from '../assets/author.jpg'
 import { useText } from '../i18n.jsx'
 import { ABOUT } from './text.js'
 
-// About page (/about): why StatsCool exists, the author, how to cite it, the experiments behind the
+// About page (/about): why StatsCool exists, how each topic is built, how to cite it, the experiments behind the
 // games, inspiration, privacy, open source and licences (code MIT, content CC BY 4.0, logo / name /
-// photo reserved), how it is built (with the AI disclosure), and feedback.
+// photo reserved), how it is built (with the AI disclosure), the author (small photo, near the end), and feedback.
 
 const REPO = 'https://github.com/hamzasabek/statscool'
 const SITE = 'https://hamzasabek.github.io/statscool/'
@@ -72,21 +72,6 @@ export default function About() {
       </ul>
       <p>{tx.pathOrder}</p>
 
-      <h2>{tx.authorTitle}</h2>
-      <div className="about-author">
-        <img className="about-photo" src={photo} alt={tx.photoAlt} width="112" height="112" />
-        <div>
-          <p>{tx.author}</p>
-          <p className="about-links">
-            {PROFILES.map(([name, href]) => (
-              <Out key={name} href={href}>
-                {name}
-              </Out>
-            ))}
-          </p>
-        </div>
-      </div>
-
       <h2>{tx.citeTitle}</h2>
       <p>{tx.citeIntro}</p>
       <Citation tx={tx} />
@@ -131,6 +116,21 @@ export default function About() {
       <h2>{tx.builtTitle}</h2>
       <p>{tx.built}</p>
       <p>{tx.ai}</p>
+
+      <h2>{tx.authorTitle}</h2>
+      <div className="about-author">
+        <img className="about-photo" src={photo} alt={tx.photoAlt} width="64" height="64" />
+        <div>
+          <p>{tx.author}</p>
+          <p className="about-links">
+            {PROFILES.map(([name, href]) => (
+              <Out key={name} href={href}>
+                {name}
+              </Out>
+            ))}
+          </p>
+        </div>
+      </div>
 
       <h2>{tx.contactTitle}</h2>
       <p>

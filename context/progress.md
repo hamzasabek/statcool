@@ -1293,3 +1293,14 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   6 × 2.6) / 28 = 2.09), keyboard drop, Clear → "No dots yet", 1 dot (no SD), 41 dots in one column
   (stays inside the chart), 4 touch taps on a 390 px phone in French; screenshots dark and light,
   desktop and phone. No console errors. Not yet tried on a real phone.
+
+## 2026-11-13 — Step 75: back to the bell hero; the author moves down the About page (Claude)
+- Owner did not like the interactive hero of Step 74: "return to the last one", to be made a little
+  more creative with the logo colours (ideas proposed to the owner first, not built yet).
+  src/pages/HeroDots.jsx removed; Home.jsx, the hero CSS and the hero texts restored as they were
+  in 184c85c (dots dropping into a bell, curve drawn at the end).
+- About page: "The author" moved from after "How each topic is built" to just before "Contact"
+  (after "How it is built"). The photo is more discreet: 64 px (52 px on phones) instead of 112 px,
+  no yellow ring or shadow, a thin border, floated left so the bio wraps under it.
+- Tested: npm run build; npm run check on / and /about (EN + FR, 2 sizes: no problems); screenshots
+  of the author section on desktop (EN) and phone (FR).
