@@ -149,14 +149,17 @@ code {
   text-decoration: none;
 }
 /* Logo: the version for the current theme */
-.brand-logo { display: block; height: 62px; width: auto; }
+.brand-logo { display: block; height: 62px; aspect-ratio: 562.3 / 363.2; }
+.brand-logo.is-placeholder { visibility: hidden; }
+.brand-logo.is-hero { width: 100%; height: auto; position: relative; z-index: 11; } /* above the header while it flies */
+.logo-img { display: block; width: 100%; height: 100%; }
 @media (max-width: 700px) {
   :root { --header-h: 64px; }
-  .brand-logo { height: 50px; }
+  .brand-logo:not(.is-hero) { height: 50px; }
 }
-.brand-logo.is-dark,
-:root[data-theme='dark'] .brand-logo.is-light { display: none; }
-:root[data-theme='dark'] .brand-logo.is-dark { display: block; }
+.logo-img.is-dark,
+:root[data-theme='dark'] .logo-img.is-light { display: none; }
+:root[data-theme='dark'] .logo-img.is-dark { display: block; }
 .brand:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 8px; }
 
 /* Header switches: language (EN | FR) and light / dark */
@@ -195,7 +198,7 @@ code {
 /* Narrow phones: smaller logo and links so everything fits on one row */
 @media (max-width: 480px) {
   .header-inner { padding: 0 12px; gap: 8px; }
-  .brand-logo { height: 40px; }
+  .brand-logo:not(.is-hero) { height: 40px; }
   .main-nav { margin-right: 2px; gap: 0; }
   .main-nav a { padding: 6px 7px; font-size: 0.82rem; }
   .lang-switch button { padding: 0 7px; }
@@ -1183,14 +1186,8 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
 }
 .page .home-hero h1 { font-size: clamp(2.2rem, 1.5rem + 2.8vw, 3.5rem); max-width: 15ch; margin-bottom: 18px; }
 .home-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
-.hero-figure { width: 100%; max-width: 430px; margin: 0; justify-self: center; }
-.hero-figure figcaption { margin-top: 10px; color: var(--muted); font-size: 0.88rem; text-align: center; }
-/* The crowd of dots (HeroField.jsx): a canvas behind the whole hero; the text stays in front and
-   clicks go through. The empty square slot is where the crowd gathers. */
-.home-hero { position: relative; }
-.home-hero-text, .hero-slot { position: relative; z-index: 1; }
-.hero-field { position: absolute; top: -40px; left: 0; width: 100%; height: calc(100% + 80px); z-index: 0; pointer-events: none; }
-.hero-slot-box { width: 100%; aspect-ratio: 1; }
+/* The big logo (BrandLogo.jsx): the slot keeps its size when the logo flies to the header. */
+.hero-logo-slot { width: 100%; max-width: 440px; aspect-ratio: 562.3 / 363.2; justify-self: center; }
 
 .home-section { margin-top: 76px; }
 .page .home h2 {
@@ -1269,6 +1266,7 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
 .page .home-end h2 { margin: 0; }
 @media (max-width: 800px) {
   .home-hero { grid-template-columns: 1fr; }
+  .hero-logo-slot { order: -1; max-width: 300px; justify-self: start; } /* one column: the logo opens the page */
   .home-steps,
   .home-why { grid-template-columns: 1fr; gap: 26px; }
   .home-section { margin-top: 56px; }

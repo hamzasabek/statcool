@@ -1382,3 +1382,23 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   Chrome with motion allowed: 60 fps, the pointer opens a hole that closes again, a point over the
   title still hits the title, no horizontal overflow on a 390 px phone; screenshots dark EN, light
   FR, phone FR. No console errors.
+
+## 2026-11-13 — Step 81: no animation; the big logo in the hero flies back to the header (Claude)
+- Owner: remove the animation; show the logo in big where the animation was, and when the page
+  scrolls or another page opens, the logo goes back to the header.
+- New src/components/BrandLogo.jsx: the logo as SVG (light / dark versions, CSS picks one) in a
+  motion.div with layoutId "brand-logo". useLogoInHero() = on "/" and scrolled ≤ 60 px (one shared
+  scroll store, useSyncExternalStore). Home shows the logo big in the hero slot (max 440 px wide;
+  on phones first, above the title, max 300 px); the header then keeps an invisible placeholder of
+  the same size (no jump in the nav). When the condition changes (scroll down / up, a link to
+  another page, the logo link back home) Motion flies the logo between the two places (spring
+  220 / 28); reduced motion: it just swaps (MotionConfig reducedMotion "user").
+- src/assets/logo-light.svg, logo-dark.svg: copies of design/logo/statscool_logo_v2_*.svg with the
+  viewBox cropped to the drawing (168.5 42.5 562.3 363.2; bounds measured in Chrome) so it is sharp
+  in big; the header uses them too (the PNGs are no longer imported). HeroField.jsx, its CSS and the
+  hero caption texts removed. LICENSE-CONTENT.md lists the SVG logo files as reserved too.
+- Tested: npm run build; full npm run check (34 pages, 2 sizes, EN + FR: no problems); headless
+  Chrome: top of Home = logo in hero + header placeholder; scrolled 300 px = logo in header (photo
+  mid-flight); back to top = hero; About link = header; logo link = hero again; phone top / scrolled;
+  reduced motion swaps at once; dark and light. No console errors. Stopped an orphaned check run
+  (port 4179) left by a cancelled background command.

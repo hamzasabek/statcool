@@ -4,16 +4,17 @@ import { COMMON } from '../text.js'
 import TopicGlyph from '../components/TopicGlyph.jsx'
 import { firstGamePath, topics } from '../topics/topics.js'
 import { HOME } from './text.js'
-import HeroField from './HeroField.jsx'
+import BrandLogo, { useLogoInHero } from '../components/BrandLogo.jsx'
 
-// Home page (/): what StatsCool is. A hero over a crowd of yellow dots that the pointer pushes
-// through (HeroField.jsx), how it works in three steps, what makes it
+// Home page (/): what StatsCool is. A hero with the logo in big (it flies back to the header when
+// the page scrolls or another page opens: BrandLogo.jsx), how it works in three steps, what makes it
 // different, the topics, and a last call to play.
 
 export default function Home() {
   const { lang } = useLang()
   const tx = useText(HOME)
   const tc = useText(COMMON)
+  const logoInHero = useLogoInHero()
   return (
     <div className="home">
       <section className="home-hero">
@@ -30,7 +31,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <HeroField caption={tx.heroCaption} aria={tx.heroAria} />
+        <div className="hero-logo-slot">{logoInHero && <BrandLogo big />}</div>
       </section>
 
       <section className="home-section">

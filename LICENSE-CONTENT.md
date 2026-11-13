@@ -20,8 +20,8 @@ is CC BY 4.0.
 
 ## Not covered (all rights reserved)
 
-- The StatsCool name and logo (`src/assets/logo-light.png`, `src/assets/logo-dark.png`,
-  `design/logo/`). An adapted version must not use them or present itself as the official StatsCool.
+- The StatsCool name and logo (`src/assets/logo-light.svg`, `src/assets/logo-dark.svg`,
+  `src/assets/logo-light.png`, `src/assets/logo-dark.png`, `design/logo/`). An adapted version must not use them or present itself as the official StatsCool.
 - The author's photo (`src/assets/author.jpg`).
 
 Third-party software and fonts keep their own licences.

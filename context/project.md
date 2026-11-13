@@ -66,26 +66,25 @@ src/
                            bubble per thing, pointing at [data-tour="…"], the rest blurred and grey
   assets/
     author.jpg             the owner's photo for the About page: 320×320 crop of his CV photo, EXIF removed
-    logo-light.png, logo-dark.png  the StatsCool logo, transparent, 382×248 (shown 62 px high,
-                           50 px on phones; header 76 px / 64 px = `--header-h`);
-                           CSS shows the one for the current theme
+    logo-light.svg, logo-dark.svg  the StatsCool logo (design/logo/ v2 SVGs, paths only, viewBox
+                           cropped to the drawing: 168.5 42.5 562.3 363.2), used by BrandLogo.jsx;
+                           CSS shows the one for the current theme. logo-*.png (382×248) are the
+                           old raster versions, no longer imported.
+    BrandLogo.jsx          the logo (SVG, light / dark) with Motion layoutId "brand-logo": big in the Home
+                           hero while Home is scrolled less than 60 px, otherwise in the header (the header
+                           keeps an invisible placeholder); it flies between the two places on scroll and on
+                           page change; useLogoInHero() = pathname "/" and not scrolled (one shared scroll
+                           store). Phones: the hero logo comes first, above the title. Reduced motion: swap.
     Stage.jsx              full-viewport learning layout (head, say, bar, main, foot) + Steps;
                            optional `className` (e.g. `ck-stage` lets the game grow on phones)
   hooks/
     useTweened.js          smooth animation of numbers / number arrays
   pages/
-    Home.jsx               / : the concept. Hero (HeroField.jsx) + How it works (3) +
+    Home.jsx               / : the concept. Hero (title, text, buttons + the big logo, BrandLogo.jsx) + How it works (3) +
                            Four steps for every idea (Discover, Explore, Train your eye, Check yourself,
                            with sources) +
                            What makes it different (3) + the topics as small cards (unavailable ones dashed,
                            "Coming soon") + last button to the first topic
-    HeroField.jsx          Home hero background, inspired by the Seeing Theory home page (our own code):
-                           a canvas behind the whole hero with ~280 yellow dots of random sizes (2.5–12 px)
-                           pulled gently towards an empty square slot (right column; below the buttons on
-                           phones), never overlapping (Verlet steps + collisions on a grid); the pointer or
-                           a finger pushes a hole through them (reach 70 px). Clicks pass through to the
-                           text; paused off screen; colours follow the theme; reduced motion: one settled
-                           still picture.
     TopicPage.jsx          /topics/<slug> : a topic's page (Part · Topic number, title, summary),
                            activities grouped by role, each with a heading and one line: Discover (the
                            games: name, experiment, idea, Play → or Coming soon), Explore (extras of
