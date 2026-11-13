@@ -40,11 +40,6 @@
   --ck-b-line: #1597cc;           /* 5 s game curve: sky, 3:1 on white */
   --ck-b-text: #086d96;
   --ck-b-stroke: #1597cc;
-  --logo-pink: #ff2d95;            /* the four colours of the "cool" logo (Home hero bell) */
-  --logo-cyan: #12e6ff;
-  --logo-lime: #b6ff1a;
-  --logo-yellow: #fff000;
-  --hero-stroke: rgb(20 22 31 / 0.3); /* neon dots need an outline on white */
 
   --shadow: 0 1px 2px rgb(20 22 31 / 0.04), 0 8px 28px rgb(17 31 162 / 0.07);
   --shadow-hover: 0 2px 4px rgb(20 22 31 / 0.05), 0 16px 40px rgb(17 31 162 / 0.13);
@@ -93,7 +88,6 @@
   --handle: #a9baff;
   --ck-a-line: var(--sun);
   --ck-a-text: var(--sun);
-  --hero-stroke: var(--bg);
   --ck-b-line: var(--sky);
   --ck-b-text: var(--sky);
   --ck-b-stroke: #0b0b0d;
@@ -1189,39 +1183,41 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
 }
 .page .home-hero h1 { font-size: clamp(2.2rem, 1.5rem + 2.8vw, 3.5rem); max-width: 15ch; margin-bottom: 18px; }
 .home-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
-.hero-figure { width: 100%; max-width: 480px; margin: 0; justify-self: center; }
+.hero-figure { width: 100%; max-width: 430px; margin: 0; justify-self: center; }
 .hero-dots { display: block; width: 100%; height: auto; overflow: visible; }
 .hero-figure figcaption { margin-top: 10px; color: var(--muted); font-size: 0.88rem; text-align: center; }
+/* The splash: each dot bursts out from the centre (--dx, --dy set inline) with an overshoot. */
 .hero-dot {
-  fill: var(--logo-yellow);
-  stroke: var(--hero-stroke);
-  stroke-width: 1.2;
-  animation: hero-drop 0.6s cubic-bezier(0.3, 1.45, 0.55, 1) both; /* delay = its turn, set inline */
+  fill: var(--added);
+  stroke: var(--dot-stroke);
+  stroke-width: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hero-splash 0.9s cubic-bezier(0.25, 1.6, 0.5, 1) both; /* delay = distance from the centre */
 }
-/* Colour = distance from the mean: within 1 SD, 1 to 2 SD, beyond 2 SD */
-.hero-dot.is-z2 { fill: var(--logo-lime); }
-.hero-dot.is-z3 { fill: var(--logo-cyan); }
-@keyframes hero-drop { from { transform: translateY(-260px); opacity: 0; } 30% { opacity: 1; } }
-.hero-curve {
+@keyframes hero-splash { from { transform: translate(var(--dx), var(--dy)) scale(0.3); opacity: 0; } 35% { opacity: 1; } }
+/* The bold dashed circle (as in the Ebbinghaus reveal): pops in, then turns very slowly. */
+.hero-circle {
   fill: none;
-  stroke: var(--logo-pink);
-  stroke-width: 3;
+  stroke: var(--ck-a-line);
+  stroke-width: 4;
+  stroke-dasharray: 10 7;
   stroke-linecap: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: hero-draw 1.2s ease-out forwards; /* after the last dot */
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hero-pop 0.7s cubic-bezier(0.3, 1.5, 0.5, 1) both, hero-spin 60s linear infinite;
 }
-@keyframes hero-draw { to { stroke-dashoffset: 0; } }
-.hero-axis { stroke: var(--axis); }
-.hero-target { stroke: var(--axis); stroke-dasharray: 3 4; }
-.hero-target-label { fill: var(--muted); font-size: 13px; }
-.hero-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; margin: 10px 0 0; padding: 0; list-style: none; font-size: 0.82rem; color: var(--muted); animation: hero-fade 0.8s ease-out both; }
-.hero-legend li { display: flex; align-items: center; gap: 6px; }
-.hero-legend li::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--logo-yellow); box-shadow: inset 0 0 0 1px var(--hero-stroke); }
-.hero-legend li.is-z2::before { background: var(--logo-lime); }
-.hero-legend li.is-z3::before { background: var(--logo-cyan); }
-.hero-legend li.is-curve::before { width: 16px; height: 3px; border-radius: 2px; background: var(--logo-pink); box-shadow: none; }
-@keyframes hero-fade { from { opacity: 0; transform: translateY(4px); } }
+@keyframes hero-pop { from { scale: 1.35; opacity: 0; } } /* scale and rotate are separate properties, so the two animations add up */
+@keyframes hero-spin { to { rotate: 360deg; } }
+/* The Ebbinghaus ring: fades in, then its circles go small → big → small (inline --small / --big). */
+.hero-ring { animation: hero-fade 1s ease-out both; }
+.hero-ring circle { fill: var(--axis); opacity: 0.4; animation: hero-morph 9s ease-in-out infinite; }
+@keyframes hero-fade { from { opacity: 0; } }
+@keyframes hero-morph {
+  0%, 30% { transform: var(--small); }
+  50%, 80% { transform: var(--big); }
+  100% { transform: var(--small); }
+}
 
 .home-section { margin-top: 76px; }
 .page .home h2 {
@@ -1401,8 +1397,7 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
   .nd-glow, .ck-button.is-next, .rt-pad.is-next { animation: none; }
   .tl-link, .tl-node, .tl-cta, .btn { transition: none; }
   .tl-item { animation: none; }
-  .hero-dot, .hero-curve, .hero-legend, .home-topic { animation: none; transition: none; }
-  .hero-curve { stroke-dashoffset: 0; }
+  .hero-dot, .hero-circle, .hero-ring, .hero-ring circle, .home-topic { animation: none; transition: none; }
   .tour-shade, .tour-ring { transition: none; }
   .tour-bubble { animation: none; }
 }

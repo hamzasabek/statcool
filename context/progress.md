@@ -1324,3 +1324,22 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   the bio (120 px, centred above it, on phones), a thin border, no yellow ring; the author section
   stays near the end, before Contact.
 - Tested: npm run build; screenshots of the author section (desktop EN, phone FR), no console errors.
+
+## 2026-11-13 — Step 78: the Home hero becomes a splash with a live Ebbinghaus illusion (Claude)
+- Owner did not like the coloured bell of Step 76: wanted "a splash full of yellow dots, encircled
+  with a bold line", inspired by the Ebbinghaus game, more creative, only in the old colours (yellow
+  dots, dark-yellow line, grey). Chose among 3 readings "splash + live illusion".
+- Home.jsx: 100 yellow dots (--added, outline --dot-stroke) on a sunflower spiral inside a circle of
+  radius 64 (viewBox 480); each bursts out from the centre with an overshoot, inner dots first. A bold
+  dashed circle in --ck-a-line (as in the Ebbinghaus reveal) pops in, then turns very slowly (60 s).
+  Then a grey ring of 6 circles fades in and morphs forever: small (r = 0.42 × 64) → big (1.15 × 64)
+  → small, every 9 s, while the splash never changes. Caption (en + fr) explains the illusion and
+  cites [@titchener1901]; heroAria rewritten; old texts target and heroLegend removed.
+- index.css: hero-splash, hero-pop (scale) + hero-spin (rotate) as separate properties so they add
+  up, hero-fade, hero-morph (inline --small / --big transforms); the logo-colour tokens of Step 76
+  removed; reduced motion shows the final picture with the small ring, no movement.
+- Found while testing: this PC (Windows) reports prefers-reduced-motion: reduce, so headless Chrome
+  showed every animation frozen; the test scripts now emulate "no-preference".
+- Tested: npm run build; npm run check on / and /about (EN + FR, 2 sizes: no problems); screenshots
+  at 0.7 s (splash bursting), 4 s (small ring), 10.5 s (big ring) in dark EN, light FR, phone FR;
+  document.getAnimations(): 109 running, no console errors.

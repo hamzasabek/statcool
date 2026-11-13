@@ -74,10 +74,11 @@ src/
   hooks/
     useTweened.js          smooth animation of numbers / number arrays
   pages/
-    Home.jsx               / : the concept. Hero (dots dropping into a bell, coloured by distance from the mean in the
-                           logo colours: yellow within 1 SD, lime 1–2 SD, cyan beyond, pink curve drawn at the end,
-                           legend fades in;
-                           seeded order, CSS animation, off with reduced motion) + How it works (3) +
+    Home.jsx               / : the concept. Hero (a splash of 100 yellow dots bursting out from the centre,
+                           a bold dashed dark-yellow circle that pops in and turns slowly, then a grey
+                           Ebbinghaus ring whose 6 circles go small → big → small every 9 s; the splash
+                           never changes size; caption cites Titchener 1901; CSS animations, all off with
+                           reduced motion) + How it works (3) +
                            Four steps for every idea (Discover, Explore, Train your eye, Check yourself,
                            with sources) +
                            What makes it different (3) + the topics as small cards (unavailable ones dashed,

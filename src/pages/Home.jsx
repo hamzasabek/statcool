@@ -5,86 +5,68 @@ import TopicGlyph from '../components/TopicGlyph.jsx'
 import { firstGamePath, topics } from '../topics/topics.js'
 import { HOME } from './text.js'
 
-// Home page (/): what StatsCool is. A hero with a drawing of dots dropping into a bell, coloured by
-// their distance from the mean in the logo colours (the idea of
-// every game), how it works in three steps, what makes it different, the topics, and a last call
-// to play.
+// Home page (/): what StatsCool is. A hero with a splash of yellow dots inside a bold dashed circle,
+// ringed by grey circles that slowly switch between small and big (the Ebbinghaus illusion, the
+// game of topic 06), how it works in three steps, what makes it different, the topics, and a last
+// call to play.
 
 // ---------- Hero drawing ----------
-const COLS = 17
-const MID = (COLS - 1) / 2
-const SIZE = 22 // one dot + gap, in viewBox units
-const W = COLS * SIZE + 44
-const BASE = 200
-const H = BASE + 34
-const X0 = 22
-const SD = 2.9 // the bell's SD, in columns
-const height = (c) => 7.6 * Math.exp(-0.5 * ((c - MID) / SD) ** 2) // the bell, in dots per column
-// Colour zone of a column (logo colours): 1 = within 1 SD of the mean, 2 = 1 to 2 SD, 3 = beyond.
-// The 54 dots: 34 within 1 SD (63 %), 52 within 2 SD (96 %), 2 beyond; the pink curve is the bell.
-const zone = (c) => (Math.abs(c - MID) <= SD ? 1 : Math.abs(c - MID) <= 2 * SD ? 2 : 3)
-
-// Dots per column = the rounded bell (0 0 1 2 3 4 6 7 8 7 6 4 3 2 1 0 0), so the dots fit the curve.
-const DOTS = []
-for (let c = 0; c < COLS; c++) {
-  for (let level = 0; level < Math.round(height(c)); level++) DOTS.push({ c, level })
-}
-// Drop order: shuffled with a fixed seed (the same every visit), like presses coming in at random.
-let seed = 7
-const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647)
-const ORDER = DOTS.map((d, i) => ({ i, k: rand() }))
-  .sort((a, b) => a.k - b.k)
-  .map((o) => o.i)
-// A dot can only land on the dots under it: re-number so each column fills from the bottom up.
-const dropAt = new Array(DOTS.length)
-const nextLevel = new Array(COLS).fill(0)
-ORDER.forEach((di, step) => {
-  const { c } = DOTS[di]
-  const j = DOTS.findIndex((d) => d.c === c && d.level === nextLevel[c])
-  nextLevel[c] += 1
-  dropAt[j] = step
+const VIEW = 480
+const C = VIEW / 2 // centre of the figure
+const RC = 64 // the bold circle around the splash
+const DOT_R = 4.3
+const N_DOTS = 100
+// The splash: dots packed on a sunflower spiral (even spacing, no seed needed), inside the circle.
+const GOLDEN = Math.PI * (3 - Math.sqrt(5))
+const SPLASH = Array.from({ length: N_DOTS }, (_, i) => {
+  const d = (RC - 9) * Math.sqrt((i + 0.5) / N_DOTS)
+  const a = i * GOLDEN
+  return { x: C + d * Math.cos(a), y: C + d * Math.sin(a), d }
 })
-const DROP_MS = 55
-const CURVE = Array.from({ length: 121 }, (_, i) => {
-  const c = -0.5 + (i / 120) * COLS
-  return `${i ? 'L' : 'M'}${(X0 + (c + 0.5) * SIZE).toFixed(1)},${(BASE - height(c) * SIZE).toFixed(1)}`
-}).join('')
+// The ring around it (as in the Ebbinghaus game, but 6 circles in both states so they can morph):
+// small = radius 0.42 × RC, close in; big = 1.15 × RC, further out. The splash never changes.
+const RING = 6
+const SMALL = { r: RC * 0.42, dist: RC + RC * 0.42 + 9 }
+const BIG = { r: RC * 1.15, dist: RC + RC * 1.15 + 10 }
+const ringPose = (i, { r, dist }) => `translate(${C}px, ${C}px) rotate(${(i * 360) / RING - 90}deg) translateX(${dist}px) scale(${r})`
+const SPLASH_MS = 1500 // last dot lands
+const RING_DELAY = 2300
 
-function HeroDots({ caption, aria, target, legend }) {
-  const cx = (c) => X0 + (c + 0.5) * SIZE
+function HeroDots({ caption, aria }) {
   return (
     <figure className="hero-figure">
-      <svg className="hero-dots" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={aria}>
-        <line className="hero-target" x1={cx(MID)} x2={cx(MID)} y1={18} y2={BASE} />
-        {DOTS.map((d, i) => (
+      <svg className="hero-dots" viewBox={`0 0 ${VIEW} ${VIEW}`} role="img" aria-label={aria}>
+        <g className="hero-ring" style={{ animationDelay: `${RING_DELAY}ms` }}>
+          {Array.from({ length: RING }, (_, i) => (
+            <circle
+              key={i}
+              r={1}
+              style={{
+                transform: ringPose(i, SMALL),
+                '--small': ringPose(i, SMALL),
+                '--big': ringPose(i, BIG),
+                animationDelay: `${RING_DELAY + 2600}ms`,
+              }}
+            />
+          ))}
+        </g>
+        {SPLASH.map((p, i) => (
           <circle
             key={i}
-            className={`hero-dot is-z${zone(d.c)}`}
-            cx={cx(d.c)}
-            cy={BASE - (d.level + 0.5) * SIZE}
-            r={SIZE / 2 - 1.5}
-            style={{ animationDelay: `${dropAt[i] * DROP_MS}ms` }}
+            className="hero-dot"
+            cx={p.x}
+            cy={p.y}
+            r={DOT_R}
+            style={{
+              '--dx': `${C - p.x}px`,
+              '--dy': `${C - p.y}px`,
+              animationDelay: `${150 + (p.d / RC) * 700 + (i % 5) * 40}ms`,
+            }}
           />
         ))}
-        <path
-          className="hero-curve"
-          d={CURVE}
-          pathLength="1"
-          style={{ animationDelay: `${DOTS.length * DROP_MS + 250}ms` }}
-        />
-        <line className="hero-axis" x1={X0 - 6} x2={X0 + COLS * SIZE + 6} y1={BASE + 0.5} y2={BASE + 0.5} />
-        <text className="hero-target-label" x={cx(MID)} y={BASE + 22} textAnchor="middle">
-          {target}
-        </text>
+        <circle className="hero-circle" cx={C} cy={C} r={RC} style={{ animationDelay: `${SPLASH_MS}ms` }} />
       </svg>
       <figcaption>{caption}</figcaption>
-      <ul className="hero-legend" style={{ animationDelay: `${DOTS.length * DROP_MS + 900}ms` }}>
-        {legend.map((l, i) => (
-          <li key={l} className={['is-z1', 'is-z2', 'is-z3', 'is-curve'][i]}>
-            {l}
-          </li>
-        ))}
-      </ul>
     </figure>
   )
 }
@@ -109,7 +91,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <HeroDots caption={tx.heroCaption} aria={tx.heroAria} target={tx.target} legend={tx.heroLegend} />
+        <HeroDots caption={tx.heroCaption} aria={tx.heroAria} />
       </section>
 
       <section className="home-section">

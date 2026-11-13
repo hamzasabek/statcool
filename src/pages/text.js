@@ -9,10 +9,8 @@ export const HOME = {
     lead: 'StatsCool is a set of short games based on classic psychology and neuroscience experiments. You play, every action becomes a dot, and the dots grow into the graph that explains the idea.',
     start: 'Start playing →',
     about: 'About StatsCool',
-    heroCaption: 'Every dot is one try at stopping a clock at 2 seconds. Together, they draw a bell.',
-    heroAria: 'Dots drop one by one and pile up into a bell-shaped curve, coloured by their distance from the mean.',
-    target: '2 s',
-    heroLegend: ['within 1 SD of the mean', '1 to 2 SD', 'beyond 2 SD', 'the bell curve'],
+    heroCaption: 'The yellow splash never changes size. The grey circles around it make it look bigger, then smaller: the Ebbinghaus illusion [@titchener1901].',
+    heroAria: 'A splash of yellow dots inside a dashed circle, ringed by grey circles that slowly switch between small and big.',
     howTitle: 'How it works',
     how: [
       {
@@ -62,10 +60,8 @@ export const HOME = {
     lead: 'StatsCool est un ensemble de petits jeux inspirés d’expériences classiques de psychologie et de neurosciences. Vous jouez, chaque action devient un point, et les points forment le graphique qui explique l’idée.',
     start: 'Commencer à jouer →',
     about: 'À propos de StatsCool',
-    heroCaption: 'Chaque point est un essai pour arrêter une horloge à 2 secondes. Ensemble, ils dessinent une cloche.',
-    heroAria: 'Des points tombent un à un et s’empilent en une courbe en cloche, colorés selon leur distance à la moyenne.',
-    target: '2 s',
-    heroLegend: ['à moins de 1 écart-type de la moyenne', 'de 1 à 2 écarts-types', 'au-delà de 2 écarts-types', 'la courbe en cloche'],
+    heroCaption: 'La tache de points jaunes ne change jamais de taille. Les cercles gris autour la font paraître plus grande, puis plus petite : l’illusion d’Ebbinghaus [@titchener1901].',
+    heroAria: 'Une tache de points jaunes dans un cercle en pointillés, entourée de cercles gris qui passent lentement de petits à grands.',
     howTitle: 'Comment ça marche',
     how: [
       {
