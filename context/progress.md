@@ -1402,3 +1402,18 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   mid-flight); back to top = hero; About link = header; logo link = hero again; phone top / scrolled;
   reduced motion swaps at once; dark and light. No console errors. Stopped an orphaned check run
   (port 4179) left by a cancelled background command.
+
+## 2026-11-13 — Step 82: back to the original bell hero and the logo in the header (Claude)
+- Owner asked whether a smaller big logo on the left (text on the right, centred on phones) was a
+  good idea, or whether to go back to the original animation with the logo in its place. Claude's
+  advice: go back. The bell animation shows the site's idea (every action becomes a dot, the dots
+  grow into the graph) and matches the lead sentence; a big logo only repeats the name already in
+  the header. Also: this PC reports reduced motion, so the owner may only have seen the bell already
+  formed (Windows Settings → Accessibility → Visual effects → Animation effects). Owner: restore.
+- Home.jsx, Header.jsx, the hero texts, LICENSE-CONTENT.md and the hero / brand CSS restored as they
+  were in c2410f4 (the original yellow bell, curve in dark yellow, PNG logo in the header).
+  BrandLogo.jsx and the SVG logo copies removed. Kept: the bigger author photo of Step 77 (only that
+  CSS re-applied), the reliable check tool of Step 80.
+- Tested: npm run build; full npm run check (no problems); headless Chrome with motion allowed:
+  54 dots and 55 running animations, dots dropping at 1.3 s, bell and curve complete at 5.3 s, two
+  header logo images (light / dark); desktop dark EN and phone light FR. No console errors.

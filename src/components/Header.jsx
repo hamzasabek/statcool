@@ -1,9 +1,21 @@
 import { Link, NavLink } from 'react-router'
+import logoDark from '../assets/logo-dark.png'
+import logoLight from '../assets/logo-light.png'
 import { LANGS, useLang, useText } from '../i18n.jsx'
 import { COMMON } from '../text.js'
 import { useSoundOn } from '../sound.js'
 import { useTheme } from '../theme.js'
-import BrandLogo, { useLogoInHero } from './BrandLogo.jsx'
+
+// The StatsCool logo, one version per theme (transparent PNGs made from design/logo/; CSS shows
+// the one that matches <html data-theme>).
+function Logo() {
+  return (
+    <>
+      <img className="brand-logo is-light" src={logoLight} alt="StatsCool" width="110" height="62" />
+      <img className="brand-logo is-dark" src={logoDark} alt="StatsCool" width="110" height="62" />
+    </>
+  )
+}
 
 const Moon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
@@ -31,12 +43,11 @@ export default function Header() {
   const [theme, toggleTheme] = useTheme()
   const dark = theme === 'dark'
   const [sound, setSound] = useSoundOn()
-  const logoInHero = useLogoInHero() // on Home at the top, the logo is big in the hero instead
   return (
     <header className="header">
       <div className="header-inner">
-        <Link to="/" className="brand" aria-label="StatsCool">
-          {logoInHero ? <span className="brand-logo is-placeholder" aria-hidden="true" /> : <BrandLogo />}
+        <Link to="/" className="brand">
+          <Logo />
         </Link>
         <div className="header-tools">
           {/* "Topics" stays active inside a game too (/topics/…) */}

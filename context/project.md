@@ -66,21 +66,17 @@ src/
                            bubble per thing, pointing at [data-tour="…"], the rest blurred and grey
   assets/
     author.jpg             the owner's photo for the About page: 320×320 crop of his CV photo, EXIF removed
-    logo-light.svg, logo-dark.svg  the StatsCool logo (design/logo/ v2 SVGs, paths only, viewBox
-                           cropped to the drawing: 168.5 42.5 562.3 363.2), used by BrandLogo.jsx;
-                           CSS shows the one for the current theme. logo-*.png (382×248) are the
-                           old raster versions, no longer imported.
-    BrandLogo.jsx          the logo (SVG, light / dark) with Motion layoutId "brand-logo": big in the Home
-                           hero while Home is scrolled less than 60 px, otherwise in the header (the header
-                           keeps an invisible placeholder); it flies between the two places on scroll and on
-                           page change; useLogoInHero() = pathname "/" and not scrolled (one shared scroll
-                           store). Phones: the hero logo comes first, above the title. Reduced motion: swap.
+    logo-light.png, logo-dark.png  the StatsCool logo, transparent, 382×248 (shown 62 px high,
+                           50 px on phones; header 76 px / 64 px = `--header-h`);
+                           CSS shows the one for the current theme
     Stage.jsx              full-viewport learning layout (head, say, bar, main, foot) + Steps;
                            optional `className` (e.g. `ck-stage` lets the game grow on phones)
   hooks/
     useTweened.js          smooth animation of numbers / number arrays
   pages/
-    Home.jsx               / : the concept. Hero (title, text, buttons + the big logo, BrandLogo.jsx) + How it works (3) +
+    Home.jsx               / : the concept. Hero (dots dropping into a bell, curve drawn at the end;
+                           seeded order, CSS animation, off with reduced motion; owner's choice after
+                           trying other heroes in Steps 74–81) + How it works (3) +
                            Four steps for every idea (Discover, Explore, Train your eye, Check yourself,
                            with sources) +
                            What makes it different (3) + the topics as small cards (unavailable ones dashed,

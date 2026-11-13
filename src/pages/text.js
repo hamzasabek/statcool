@@ -9,6 +9,9 @@ export const HOME = {
     lead: 'StatsCool is a set of short games based on classic psychology and neuroscience experiments. You play, every action becomes a dot, and the dots grow into the graph that explains the idea.',
     start: 'Start playing →',
     about: 'About StatsCool',
+    heroCaption: 'Every dot is one try at stopping a clock at 2 seconds. Together, they draw a bell.',
+    heroAria: 'Dots drop one by one and pile up into a bell-shaped curve.',
+    target: '2 s',
     howTitle: 'How it works',
     how: [
       {
@@ -58,6 +61,9 @@ export const HOME = {
     lead: 'StatsCool est un ensemble de petits jeux inspirés d’expériences classiques de psychologie et de neurosciences. Vous jouez, chaque action devient un point, et les points forment le graphique qui explique l’idée.',
     start: 'Commencer à jouer →',
     about: 'À propos de StatsCool',
+    heroCaption: 'Chaque point est un essai pour arrêter une horloge à 2 secondes. Ensemble, ils dessinent une cloche.',
+    heroAria: 'Des points tombent un à un et s’empilent en une courbe en cloche.',
+    target: '2 s',
     howTitle: 'Comment ça marche',
     how: [
       {
