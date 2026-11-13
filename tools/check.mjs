@@ -112,6 +112,9 @@ async function open(route, w, h, lang) {
   await sleep(300)
   await ev(`localStorage.setItem('statscool-lang', '${lang}')`)
   await send('Page.navigate', { url: `${base}#${route}` })
+  // A hash-only change does not reload the page, so the app would keep the language it read at
+  // load time (the previous run's): reload so it reads the one just stored.
+  await send('Page.reload', {})
   await sleep(1400)
 }
 

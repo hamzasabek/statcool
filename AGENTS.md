@@ -1,6 +1,6 @@
 # StatsCool: rules for every AI assistant (Claude, Gemini, …)
 
-StatsCool teaches statistics to psychologists through short games built on real psychology and
+StatsCool teaches statistics to psychology, neuroscience and cognitive-science students and researchers through short games built on real psychology and
 neuroscience experiments: every action becomes a dot, and the dots grow into the graph that explains
 the idea. React 19 + Vite 7 + D3 (maths only) + Motion + KaTeX, plain JavaScript, English and French.
 Live site: https://hamzasabek.github.io/statscool/ (GitHub Pages, deployed on every push to `main`).

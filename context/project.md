@@ -1,6 +1,6 @@
-# StatsCool (statistics for psychologists): project overview
+# StatsCool (statistics for psychology and neuroscience): project overview
 
-An interactive website where psychologists (students and researchers) learn statistics intuitively by playing with
+An interactive website where students and researchers in psychology, neuroscience and cognitive science learn statistics intuitively by playing with
 live graphs. Inspiration and reference: https://rpsychologist.com/correlation
 
 ## Tech stack

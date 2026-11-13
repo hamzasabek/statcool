@@ -1253,3 +1253,22 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   24 quiz runs in headless Chrome (EN + FR): every explanation rendered, citations clickable, none raw,
   no console errors.
 
+
+## 2026-11-13 — Step 73: the site speaks to psychology, neuroscience and cognitive science (Claude)
+- Owner: "Les statistiques pour les psychologues" should also include neuroscientists and cognitive
+  scientists. Chose the wording "Les statistiques pour la psychologie et les neurosciences" /
+  "Statistics for psychology and neuroscience" (names the fields, not the people), with the three
+  fields named in full in the About lead.
+- src/pages/text.js: Home eyebrow (en + fr); Home lead and "How it works" item 1 now say
+  "psychology and neuroscience experiments" / "a classic study from psychology or neuroscience";
+  About lead "teaches statistics to students and researchers in psychology, neuroscience and
+  cognitive science through short games built on classic experiments" (fr: "aux étudiants et aux
+  chercheurs en psychologie, en neurosciences et en sciences cognitives"); cite title
+  "StatsCool: Statistics for psychology and neuroscience through games" (en + fr).
+- Same wording in CITATION.cff (title, abstract), index.html (<title>, meta description), README.md,
+  context/project.md, AGENTS.md.
+- tools/check.mjs fix: the second navigation in open() was a hash-only change, so the page did not
+  reload and kept the previous run's language (French screenshots showed English, and some French
+  pages were never checked). It now reloads after storing the language.
+- Tested: npm run build; npm run check on / and /about (EN + FR, 2 sizes, no problems; screenshots
+  read in both languages); then the full npm run check with the fixed tool (34 pages, 2 sizes, EN + FR: no problems).

@@ -4,9 +4,9 @@ import { frenchTypo } from '../i18n.jsx'
 
 export const HOME = {
   en: {
-    eyebrow: 'Statistics for psychologists',
+    eyebrow: 'Statistics for psychology and neuroscience',
     title: 'Learn statistics with data you make yourself',
-    lead: 'StatsCool is a set of short games based on classic psychology experiments. You play, every action becomes a dot, and the dots grow into the graph that explains the idea.',
+    lead: 'StatsCool is a set of short games based on classic psychology and neuroscience experiments. You play, every action becomes a dot, and the dots grow into the graph that explains the idea.',
     start: 'Start playing →',
     about: 'About StatsCool',
     heroCaption: 'Every dot is one try at stopping a clock at 2 seconds. Together, they draw a bell.',
@@ -39,7 +39,7 @@ export const HOME = {
     why: [
       {
         title: 'Real experiments',
-        text: 'Each game recreates a classic study from psychology: time estimation, visual illusions, reaction times, neurons.',
+        text: 'Each game recreates a classic study from psychology or neuroscience: time estimation, visual illusions, reaction times, neurons.',
       },
       {
         title: 'One idea at a time',
@@ -56,9 +56,9 @@ export const HOME = {
     endButton: 'Start with “The Müller-Lyer illusion” →',
   },
   fr: frenchTypo({
-    eyebrow: 'Les statistiques pour les psychologues',
+    eyebrow: 'Les statistiques pour la psychologie et les neurosciences',
     title: 'Apprenez les statistiques avec vos propres données',
-    lead: 'StatsCool est un ensemble de petits jeux inspirés d’expériences classiques de psychologie. Vous jouez, chaque action devient un point, et les points forment le graphique qui explique l’idée.',
+    lead: 'StatsCool est un ensemble de petits jeux inspirés d’expériences classiques de psychologie et de neurosciences. Vous jouez, chaque action devient un point, et les points forment le graphique qui explique l’idée.',
     start: 'Commencer à jouer →',
     about: 'À propos de StatsCool',
     heroCaption: 'Chaque point est un essai pour arrêter une horloge à 2 secondes. Ensemble, ils dessinent une cloche.',
@@ -91,7 +91,7 @@ export const HOME = {
     why: [
       {
         title: 'De vraies expériences',
-        text: 'Chaque jeu reprend une étude classique de psychologie : estimation du temps, illusions visuelles, temps de réaction, neurones.',
+        text: 'Chaque jeu reprend une étude classique de psychologie ou de neurosciences : estimation du temps, illusions visuelles, temps de réaction, neurones.',
       },
       {
         title: 'Une idée à la fois',
@@ -113,7 +113,7 @@ export const HOME = {
 export const ABOUT = {
   en: {
     title: 'About StatsCool',
-    lead: 'StatsCool is a free, open-source website that teaches statistics to psychologists through short games built on classic psychology experiments.',
+    lead: 'StatsCool is a free, open-source website that teaches statistics to students and researchers in psychology, neuroscience and cognitive science through short games built on classic experiments.',
     whyTitle: 'Why',
     why: 'Statistics is often taught with formulas and someone else’s data. Here you make the data yourself, and the idea appears on the graph while you play. When the dots are your own, the idea sticks.',
     pathTitle: 'How each topic is built',
@@ -132,7 +132,7 @@ export const ABOUT = {
     citeTitle: 'How to cite',
     citeIntro: 'If you use StatsCool in a course or a paper, please cite it:',
     citeKind: 'Web application',
-    citeWork: 'StatsCool: Statistics for psychologists through games',
+    citeWork: 'StatsCool: Statistics for psychology and neuroscience through games',
     copy: 'Copy',
     copied: 'Copied',
     expTitle: 'The experiments behind the games',
@@ -177,7 +177,7 @@ export const ABOUT = {
   },
   fr: frenchTypo({
     title: 'À propos de StatsCool',
-    lead: 'StatsCool est un site gratuit et open source qui enseigne les statistiques aux psychologues par de petits jeux inspirés d’expériences classiques de psychologie.',
+    lead: 'StatsCool est un site gratuit et open source qui enseigne les statistiques aux étudiants et aux chercheurs en psychologie, en neurosciences et en sciences cognitives, par de petits jeux inspirés d’expériences classiques.',
     whyTitle: 'Pourquoi',
     why: 'Les statistiques s’apprennent souvent avec des formules et les données de quelqu’un d’autre. Ici, vous créez vous-même les données, et l’idée apparaît sur le graphique pendant que vous jouez. Quand les points sont les vôtres, l’idée reste.',
     pathTitle: 'Comment chaque thème est construit',
@@ -196,7 +196,7 @@ export const ABOUT = {
     citeTitle: 'Comment citer',
     citeIntro: 'Si vous utilisez StatsCool dans un cours ou un article, merci de le citer :',
     citeKind: 'Application web',
-    citeWork: 'StatsCool: Statistics for psychologists through games',
+    citeWork: 'StatsCool: Statistics for psychology and neuroscience through games',
     copy: 'Copier',
     copied: 'Copié',
     expTitle: 'Les expériences derrière les jeux',

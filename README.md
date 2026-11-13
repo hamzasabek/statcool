@@ -1,6 +1,6 @@
-# StatsCool: statistics for psychologists
+# StatsCool: statistics for psychology and neuroscience
 
-An interactive website for psychologists (students and researchers) to learn statistics by playing with live graphs built on classic psychology experiments.
+An interactive website for students and researchers in psychology, neuroscience and cognitive science to learn statistics by playing with live graphs built on classic psychology and neuroscience experiments.
 
 Live site: https://hamzasabek.github.io/statscool/
 
