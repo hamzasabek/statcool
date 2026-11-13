@@ -6,7 +6,7 @@ import { ABOUT } from './text.js'
 
 // About page (/about): why StatsCool exists, how each topic is built, how to cite it, the experiments behind the
 // games, inspiration, privacy, open source and licences (code MIT, content CC BY 4.0, logo / name /
-// photo reserved), how it is built (with the AI disclosure), the author (small photo, near the end), and feedback.
+// photo reserved), how it is built (with the AI disclosure), the author (near the end), and feedback.
 
 const REPO = 'https://github.com/hamzasabek/statscool'
 const SITE = 'https://hamzasabek.github.io/statscool/'
@@ -119,7 +119,7 @@ export default function About() {
 
       <h2>{tx.authorTitle}</h2>
       <div className="about-author">
-        <img className="about-photo" src={photo} alt={tx.photoAlt} width="64" height="64" />
+        <img className="about-photo" src={photo} alt={tx.photoAlt} width="136" height="136" />
         <div>
           <p>{tx.author}</p>
           <p className="about-links">

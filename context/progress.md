@@ -1318,3 +1318,9 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   the background colour in dark mode); reduced motion also stops the legend fade.
 - Tested: npm run build; npm run check on / (EN + FR, 2 sizes: no problems); screenshots after the
   animation ends: desktop dark EN, desktop light FR, phone dark FR. No console errors.
+
+## 2026-11-13 — Step 77: a bigger author photo (Claude)
+- Owner did not like the small photo of Step 75: make it bigger. About: the photo is 136 px beside
+  the bio (120 px, centred above it, on phones), a thin border, no yellow ring; the author section
+  stays near the end, before Contact.
+- Tested: npm run build; screenshots of the author section (desktop EN, phone FR), no console errors.

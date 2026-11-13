@@ -99,9 +99,8 @@ src/
                            CITATION.cff), the experiments behind the games, inspiration
                            (rpsychologist), privacy, open source and licences (code MIT, content
                            CC BY 4.0 with a credit line, name / logo / photo reserved), built with (+ AI
-                           disclosure: Claude and Gemini), the author (near the end, owner's wish: small
-                           discreet round photo assets/author.jpg 64 px / 52 px on phones, floated so
-                           the bio wraps under it; third-person bio, ResearchGate / LinkedIn / GitHub
+                           disclosure: Claude and Gemini), the author (near the end, owner's wish: round photo
+                           assets/author.jpg 136 px beside the bio (120 px above it on phones), thin border; third-person bio, ResearchGate / LinkedIn / GitHub
                            links; no phone or personal email), contact (GitHub issues)
     text.js                HOME and ABOUT texts (en + fr)
     NotFound.jsx
