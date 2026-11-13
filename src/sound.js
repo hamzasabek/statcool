@@ -1,4 +1,5 @@
 import { useEffect, useRef, useSyncExternalStore } from 'react'
+import { celebrate } from './celebrate.js'
 
 // Feedback sounds for the whole site, synthesised with Web Audio (no audio files).
 // One switch in the header turns every sound of the site on or off (saved in localStorage,
@@ -152,5 +153,8 @@ export function useChime(count, ...thresholds) {
     prev.current = count
     if (!(count > before)) return
     if (!thresholds.length || thresholds.some((t) => before < t && t <= count)) chime()
+    // The last threshold is the end of the game (or of one of its blocks): a burst of logo colours.
+    const end = Math.max(...thresholds)
+    if (thresholds.length && before < end && end <= count) celebrate()
   }, [count, key])
 }

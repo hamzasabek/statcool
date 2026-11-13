@@ -472,3 +472,15 @@ A new game: tick when a trial becomes a dot, `useChime(n, MIN_TRIALS, TRIALS)` a
   texts in the same order in `text.js` → `tour`, call `useGuide(id, targets, texts, …)` before any early
   return, render `{guide.view}` and pass `onGuide={guide.start}` to `Stage`.
 - Every step: update `context/progress.md` (and `next.md` if plans change), then commit and push to `main`.
+
+## Logo colours (Step 84)
+The four colours of the "cool" logo (tokens --logo-pink #ff2d95, --logo-lime #b6ff1a, --logo-cyan
+#12e6ff, --logo-yellow #fff000) are used only for small accents, never in charts (there colour = data)
+and never as small text on white (--pink-text, --lime-text, --cyan-text, --yellow-text are darkened to
+≥ 4.5:1 in light mode; the neon originals in dark mode). One colour per learning step, everywhere
+(.is-discover / .is-play / .is-train / .is-quiz set --step and --step-text): Discover pink, Explore lime,
+Train your eye cyan, Check yourself yellow (Home steps, About list, topic-page role dots and cards,
+topic-list chips). Small touches: text selection pink, link underline pink on hover, citation underline
+cyan on hover, nav dot pink (Topics) / cyan (About), focus ring --focus (pink). celebrate.js: a burst of
+36 dots in the four colours when a game's last useChime threshold is crossed and on a perfect quiz;
+nothing with reduced motion.

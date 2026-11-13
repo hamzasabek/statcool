@@ -62,8 +62,8 @@ export default function About() {
       <h2>{tx.pathTitle}</h2>
       <p>{tx.pathIntro}</p>
       <ul className="about-experiments">
-        {tx.path.map(([step, text]) => (
-          <li key={step}>
+        {tx.path.map(([step, text], k) => (
+          <li key={step} className={`about-step is-${['discover', 'play', 'train', 'quiz'][k]}`}>
             <strong>{step}</strong>
             {tx.sep}
             {text}

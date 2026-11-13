@@ -13,9 +13,9 @@ import NotFound from './NotFound.jsx'
 // behind it and the one idea it teaches), its extras (free play, quiz), its recap sheet, and links to the previous
 // and next topics.
 // The heading of a group of activities: its role and one line on what it is for.
-function RoleHead({ role, extra }) {
+function RoleHead({ role, extra, kind }) {
   return (
-    <div className="topic-role">
+    <div className={`topic-role is-${kind}`}>
       <h2 className="topic-games-title">
         {role.title}
         {extra && <span className="topic-role-extra"> · {extra}</span>}
@@ -52,7 +52,7 @@ export function TopicPage() {
         <TopicGlyph shape={topic.shape} />
       </header>
 
-      <RoleHead role={tx.roles.discover} extra={tx.gamesCount(topic.games.length)} />
+      <RoleHead role={tx.roles.discover} extra={tx.gamesCount(topic.games.length)} kind="discover" />
       <ol className="topic-games">
         {topic.games.map((g, k) => {
           // The card is a link: its citations are plain text (no button inside a link).
@@ -89,7 +89,7 @@ export function TopicPage() {
         const tag = { play: tx.playgroundTag, train: tx.trainTag, quiz: tx.quizTag }[kind]
         return (
           <section key={kind} className="topic-role-group">
-            <RoleHead role={tx.roles[kind]} />
+            <RoleHead role={tx.roles[kind]} kind={kind} />
             {list.map((x) => (
               <Link key={x.slug} to={`/topics/${topic.slug}/${x.slug}`} className={`topic-play is-${x.kind}`}>
                 <span className="topic-play-tag">{tag}</span>

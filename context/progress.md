@@ -1429,3 +1429,22 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   motion allowed: pointer in the bell moves 45 of 54 dots (max 23.8 units), the curve bends over its
   flank, back to rest within 0.05 units 1.5 s after leaving, also when hovered during the drop.
   No console errors.
+
+## 2026-11-13 — Step 84: the logo colours in small accents (Claude)
+- Owner: the logo colours should also appear in some very secondary texts and animations. Claude
+  proposed options; owner chose: small touches, one colour per learning step, a celebration burst.
+- index.css: tokens --logo-pink / -lime / -cyan / -yellow, text versions darkened for light mode
+  (#c2005f 6.1:1, #4a7500 5.5:1, #00788a 5.2:1, #8a6a00 5.1:1 on white; the neon colours in dark
+  mode, ≥ 5.3:1 on the dark surfaces), --focus. Steps: .is-discover pink, .is-play / .is-explore
+  lime, .is-train cyan, .is-quiz / .is-check yellow (--step, --step-text) on the Home step numbers,
+  the About step names (About.jsx: class per item), the topic-page role headings (a coloured dot,
+  TopicPage.jsx RoleHead kind) and cards (game numbers and hover ring pink; Explore / Train / Check
+  cards tinted with their colour), the topic-list chips. Small touches: ::selection pink, link
+  underline pink on hover, citation underline cyan on hover, nav dot pink (Topics) / cyan (About),
+  every focus ring --focus (pink). Charts untouched.
+- New src/celebrate.js: 36 dots in the four colours burst from the middle of the screen (Web
+  Animations, removes itself, nothing with reduced motion). sound.js useChime calls it when the
+  last threshold of a game is crossed; Quiz.jsx calls it on a perfect score.
+- Tested: npm run build; full npm run check (no problems); screenshots: Home steps dark EN and light
+  FR, topic page light EN, topic list dark EN, About dark FR; finishing the Ebbinghaus game (20
+  picks) shows the burst, removed 2.5 s later. No console errors.
