@@ -1361,3 +1361,24 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   Chrome (motion allowed): lens r 15.6 under the cursor vs 6.6 far away; mouse drag of a dot to
   (420, 70) stays there 3 s later; an inner dot drifts 6.7 units in 10 s; touch drag on a 390 px
   phone carries a dot to (59, 434) (pointer events: down, move, up, no cancel). No console errors.
+
+## 2026-11-13 — Step 80: a crowd of dots behind the hero, like Seeing Theory (Claude)
+- Owner: wanted something like the home page animation of Seeing Theory
+  (https://seeing-theory.brown.edu/). Its home.js (adapted from a D3 block by Mike Bostock): ~300
+  semi-transparent circles of random sizes behind the title, packed without overlap, pulled gently
+  to the centre, and the cursor is an invisible repelling body that pushes a hole through them.
+- New src/pages/HeroField.jsx (our own code, not theirs; replaces HeroSplash.jsx of Step 79): a
+  canvas behind the whole hero, yellow dots (--added; outline --dot-stroke in light mode) of random
+  sizes, as many as fill a disc of 0.47 × the slot width (about 280 on desktop, cap 340). They start
+  scattered and gather into the empty square slot where the figure was (right column on desktop,
+  below the buttons on phones). Verlet steps, pull 0.0011, damping 0.86, collisions on a grid (gap
+  3.5 px), pointer reach 70 px. The canvas ignores clicks (the text and buttons stay usable); pointer
+  events are read on the hero; paused off screen; theme read every 30 frames and on change; reduced
+  motion: 600 steps computed at once, one still picture. Captions and aria rewritten (en + fr).
+- tools/check.mjs: the Step 73 fix (reload after the hash change) could race and measure the
+  previous page (About showed Home's height). open() now goes through about:blank, then loads the
+  route fresh: two runs give identical numbers.
+- Tested: npm run build; full npm run check (all pages, 2 sizes, EN + FR: no problems); headless
+  Chrome with motion allowed: 60 fps, the pointer opens a hole that closes again, a point over the
+  title still hits the title, no horizontal overflow on a 390 px phone; screenshots dark EN, light
+  FR, phone FR. No console errors.

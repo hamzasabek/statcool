@@ -74,17 +74,18 @@ src/
   hooks/
     useTweened.js          smooth animation of numbers / number arrays
   pages/
-    Home.jsx               / : the concept. Hero (HeroSplash.jsx) + How it works (3) +
+    Home.jsx               / : the concept. Hero (HeroField.jsx) + How it works (3) +
                            Four steps for every idea (Discover, Explore, Train your eye, Check yourself,
                            with sources) +
                            What makes it different (3) + the topics as small cards (unavailable ones dashed,
                            "Coming soon") + last button to the first topic
-    HeroSplash.jsx         Home hero: a splash of 120 yellow dots (sunflower spiral inside an outline made
-                           of 3 slow sine waves, so it always changes shape slowly); dots grow under the
-                           cursor (Gaussian lens, SD 48 units, up to 2.4 ×); any dot can be dragged and
-                           stays where dropped (stored as angle + share of the edge). requestAnimationFrame
-                           loop writes the SVG directly, paused off screen; phones: a touch on a dot drags
-                           it (touchstart prevented), elsewhere scrolls; reduced motion: outline still.
+    HeroField.jsx          Home hero background, inspired by the Seeing Theory home page (our own code):
+                           a canvas behind the whole hero with ~280 yellow dots of random sizes (2.5–12 px)
+                           pulled gently towards an empty square slot (right column; below the buttons on
+                           phones), never overlapping (Verlet steps + collisions on a grid); the pointer or
+                           a finger pushes a hole through them (reach 70 px). Clicks pass through to the
+                           text; paused off screen; colours follow the theme; reduced motion: one settled
+                           still picture.
     TopicPage.jsx          /topics/<slug> : a topic's page (Part · Topic number, title, summary),
                            activities grouped by role, each with a heading and one line: Discover (the
                            games: name, experiment, idea, Play → or Coming soon), Explore (extras of

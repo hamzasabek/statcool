@@ -4,10 +4,10 @@ import { COMMON } from '../text.js'
 import TopicGlyph from '../components/TopicGlyph.jsx'
 import { firstGamePath, topics } from '../topics/topics.js'
 import { HOME } from './text.js'
-import HeroSplash from './HeroSplash.jsx'
+import HeroField from './HeroField.jsx'
 
-// Home page (/): what StatsCool is. A hero with a living splash of yellow dots (HeroSplash.jsx:
-// they grow under the cursor and can be dragged), how it works in three steps, what makes it
+// Home page (/): what StatsCool is. A hero over a crowd of yellow dots that the pointer pushes
+// through (HeroField.jsx), how it works in three steps, what makes it
 // different, the topics, and a last call to play.
 
 export default function Home() {
@@ -30,7 +30,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <HeroSplash caption={tx.heroCaption} aria={tx.heroAria} />
+        <HeroField caption={tx.heroCaption} aria={tx.heroAria} />
       </section>
 
       <section className="home-section">

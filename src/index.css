@@ -1185,11 +1185,12 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
 .home-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
 .hero-figure { width: 100%; max-width: 430px; margin: 0; justify-self: center; }
 .hero-figure figcaption { margin-top: 10px; color: var(--muted); font-size: 0.88rem; text-align: center; }
-/* The splash (HeroSplash.jsx): positions and sizes are set by script each frame. */
-.hero-splash { display: block; width: 100%; height: auto; overflow: visible; user-select: none; -webkit-user-select: none; }
-.hero-splash.is-dragging, .hero-splash.is-dragging .hero-hit { cursor: grabbing; }
-.hero-hit { fill: transparent; cursor: grab; }
-.hero-dot { fill: var(--added); stroke: var(--dot-stroke); stroke-width: 1; pointer-events: none; }
+/* The crowd of dots (HeroField.jsx): a canvas behind the whole hero; the text stays in front and
+   clicks go through. The empty square slot is where the crowd gathers. */
+.home-hero { position: relative; }
+.home-hero-text, .hero-slot { position: relative; z-index: 1; }
+.hero-field { position: absolute; top: -40px; left: 0; width: 100%; height: calc(100% + 80px); z-index: 0; pointer-events: none; }
+.hero-slot-box { width: 100%; aspect-ratio: 1; }
 
 .home-section { margin-top: 76px; }
 .page .home h2 {
