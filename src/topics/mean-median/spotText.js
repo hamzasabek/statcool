@@ -39,7 +39,7 @@ export const SPOT = {
     biasNone: 'In skewed data your means were well placed: you already see that the tail pulls the mean.',
     toQuiz: 'Take the quiz →',
     tour: [
-      { title: 'Spot the centre', text: '10 quick rounds. Each one shows a pile of dots: tap where you think the mean, the median or the mode is. The answer appears at once.' },
+      { title: 'Spot the centre', text: 'Quick rounds. Each one shows a pile of dots: tap where you think the mean, the median or the mode is. The answer appears at once.' },
       { title: 'The question', text: 'Each round asks for one centre. Read which one before you tap.' },
       { title: 'Tap the axis', text: 'Move over the dots: a line shows where you would answer. Tap or click to answer. With the keyboard: ← → then Enter.' },
       { title: 'The answer', text: 'Your mark, the true centre, and one line on why it sits there. The other centre is shown faded, to compare.' },
@@ -82,7 +82,7 @@ export const SPOT = {
     biasNone: 'Dans les données asymétriques, vos moyennes étaient bien placées : vous voyez déjà que la traîne tire la moyenne.',
     toQuiz: 'Faire le quiz →',
     tour: [
-      { title: 'Repérez le centre', text: '10 manches rapides. Chacune montre un tas de points : touchez l’endroit où vous pensez trouver la moyenne, la médiane ou le mode. La réponse s’affiche aussitôt.' },
+      { title: 'Repérez le centre', text: 'Des manches rapides. Chacune montre un tas de points : touchez l’endroit où vous pensez trouver la moyenne, la médiane ou le mode. La réponse s’affiche aussitôt.' },
       { title: 'La question', text: 'Chaque manche demande un centre. Lisez lequel avant de toucher.' },
       { title: 'Touchez l’axe', text: 'Survolez les points : un trait montre où vous répondriez. Touchez ou cliquez pour répondre. Au clavier : ← → puis Entrée.' },
       { title: 'La réponse', text: 'Votre repère, le vrai centre, et une ligne sur sa position. L’autre centre est affiché en pâle, pour comparer.' },

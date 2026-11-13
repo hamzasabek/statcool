@@ -132,6 +132,19 @@ function newRound(scenario, stat) {
   return { scenario, stat, values, truth, mean: mean(values), median: median(values) }
 }
 
+// The kind of question, for the mastery count of TrainShell: the mean of skewed data (the slip),
+// the median, and the rest (the mean of a symmetric pile, the mode).
+export const kindOf = (r) => (r.stat === 'median' ? 'median' : r.stat === 'mean' && SCENARIOS[r.scenario].shape !== 'sym' ? 'mean-skewed' : 'plain')
+
+// One more round of a kind: the same data set and question as the missed round `from`, new data;
+// otherwise any plan entry of that kind.
+export function makeRound(kind, from) {
+  if (from) return newRound(from.scenario, from.stat)
+  const options = PLAN.filter(([scenario, stat]) => kindOf({ scenario, stat }) === kind)
+  const [scenario, stat] = options[Math.floor(Math.random() * options.length)]
+  return newRound(scenario, stat)
+}
+
 // A new game: the plan shuffled so that the same data set never comes twice in a row.
 export function newGame() {
   let order

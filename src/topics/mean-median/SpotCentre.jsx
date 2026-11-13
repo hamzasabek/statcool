@@ -1,11 +1,11 @@
 import TrainShell from '../../components/TrainShell.jsx'
 import { num, useText } from '../../i18n.jsx'
 import SpotChart from './SpotChart.jsx'
-import { CLOSE, SCENARIOS, fmtValue, grade, newGame, summary } from './spot.js'
+import { CLOSE, SCENARIOS, fmtValue, grade, kindOf, makeRound, newGame, summary } from './spot.js'
 import { SPOT } from './spotText.js'
 
 // Topic 01, Train your eye: "Spot the centre" (/topics/mean-median/spot-the-centre).
-// 10 rounds: a pile of dots and one question (mean, median or mode); one tap answers, the answer
+// 10 rounds to start (more until each kind of question is mastered, TrainShell): a pile of dots and one question (mean, median or mode); one tap answers, the answer
 // shows at once with why; at the end, how close the student was and whether their means sat too
 // close to the peak of skewed data (the classic slip). Simulated data (spot.js). The rounds, the
 // sounds and the end screen come from components/TrainShell.jsx.
@@ -18,6 +18,8 @@ export default function SpotCentre() {
       guideId="spot-centre"
       tour={tx.tour}
       makeGame={newGame}
+      kindOf={kindOf}
+      makeRound={makeRound}
       level={(r, a) => grade(r, a).level}
       endLink={{ to: '/topics/mean-median/quiz', label: tx.toQuiz }}
       say={(r) => (

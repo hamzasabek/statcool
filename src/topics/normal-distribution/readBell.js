@@ -33,8 +33,30 @@ const PLAN = [
   { kind: 'sd', z: 2 },
 ]
 
-export function newGame() {
+const bellRound = (q, bell) => {
+  const b = BELLS[bell]
+  return { ...q, bell, mu: b.mu0, sigma: b.sigma0, truth: b.mu0 + q.z * b.sigma0, share: Phi(q.z) }
+}
+const otherBell = (last) => {
   const keys = Object.keys(BELLS)
+  let bell
+  do bell = keys[Math.floor(Math.random() * keys.length)]
+  while (bell === last)
+  return bell
+}
+
+// Kinds for TrainShell's mastery count: points by area to the left in the middle of the bell
+// (50 %, 84 %, 16 %), in the tails (97.5 %, 2.5 %, 99.9 %), and 1 or 2 SDs from the mean.
+export const kindOf = (r) => (r.kind === 'sd' ? 'sd' : Math.abs(r.z) >= 1.96 ? 'tail' : 'middle')
+
+// One more round of a kind: the missed question `from` on another bell, or any question of the kind.
+export function makeRound(kind, from) {
+  if (from) return bellRound({ kind: from.kind, z: from.z }, otherBell(from.bell))
+  const options = PLAN.filter((q) => kindOf(q) === kind)
+  return bellRound(options[Math.floor(Math.random() * options.length)], otherBell(null))
+}
+
+export function newGame() {
   let order
   for (let k = 0; k < 100; k++) {
     order = shuffle(PLAN)
@@ -42,12 +64,8 @@ export function newGame() {
   }
   let last = null
   return order.map((q) => {
-    let bell
-    do bell = keys[Math.floor(Math.random() * keys.length)]
-    while (bell === last)
-    last = bell
-    const b = BELLS[bell]
-    return { ...q, bell, mu: b.mu0, sigma: b.sigma0, truth: b.mu0 + q.z * b.sigma0, share: Phi(q.z) }
+    last = otherBell(last)
+    return bellRound(q, last)
   })
 }
 

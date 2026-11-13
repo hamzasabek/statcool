@@ -1448,3 +1448,28 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Tested: npm run build; full npm run check (no problems); screenshots: Home steps dark EN and light
   FR, topic page light EN, topic list dark EN, About dark FR; finishing the Ebbinghaus game (20
   picks) shows the burst, removed 2.5 s later. No console errors.
+
+## 2026-11-14 — Step 85: mastery criteria and adaptive spacing in "Train your eye" (Claude)
+- Owner: add Kellman's two criteria to the Train your eye games (from the report "StatsCool what
+  learning science says, and how to improve it", Claude outputs/): a set ends when the student is fast
+  and accurate on each kind of question, and missed items come back sooner (Mettler et al., 2016).
+- New components/trainPlan.js (pure): `isMastered` (last 2 answers of a kind both right = spot on or
+  close, and given within `fastSec`, default 12 s) and `afterAnswer` (a new round of the kind is
+  inserted after 2 other rounds on a miss, 3 on a right but slow answer, 5 on a right and fast answer
+  when no round of that kind is waiting; none once mastered; cap 2 × the first list = 20 rounds).
+- TrainShell.jsx: new props `kindOf(round)` and `makeRound(kind, from)`; times each round; the bar
+  shows "Round k" + "m of t kinds mastered" (the rule in its tooltip); the end screen says how many
+  kinds were mastered, with the rule cited; the end chime / burst now ring when the set is over.
+  trainText.js: new texts (EN + FR), citing [@kellman2010] and [@mettler2016].
+- Kinds: Spot the centre = mean of skewed data / median / the rest (symmetric mean, mode); Spot the
+  spread = "mean + 1 SD" / "which is bigger"; Read the bell = middle points (50, 84, 16 %) / tail points
+  (97.5, 2.5, 99.9 %) / 1–2 SD. Each game has `kindOf` and `makeRound` (a missed round comes back as
+  the same item with new data; spot.js, spotSpread.js, readBell.js). Texts no longer promise
+  "10 rounds" (topics.js cards, the three tours): the first list is still 10 rounds.
+- references.js: kellman2010 and mettler2016 added (verify-refs: 33 DOIs, 0 differences).
+- Behaviour check: a perfect student still plays exactly 10 rounds; mean over simulated students
+  (scratch/plantest.mjs, 2000 runs, 3 kinds): 90 % right → 12.4 rounds, 70 % → 15.7, 50 % → 18.8, never more
+  than 20. The thresholds are starting values, not tested with real students (see next.md).
+- Tested: npm run build; npm run check on the three pages (EN + FR, 2 sizes: no problems, one screen);
+  headless Chrome, always answering far from the truth: 20 rounds, "0 of 3 kinds mastered", end screen
+  in EN and FR with the cited rule. Small fix found: French plural "1 type sur 2 maîtrisé".

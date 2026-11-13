@@ -1,7 +1,7 @@
 import TrainShell from '../../components/TrainShell.jsx'
 import { num, useText } from '../../i18n.jsx'
 import ReadBellChart from './ReadBellChart.jsx'
-import { BELLS, CLOSE, fmtSd, grade, newGame, summary } from './readBell.js'
+import { BELLS, CLOSE, fmtSd, grade, kindOf, makeRound, newGame, summary } from './readBell.js'
 import { fmtArea, fmtV } from './normal.js'
 import { RBELL } from './readBellText.js'
 
@@ -21,6 +21,8 @@ export default function ReadBell() {
       guideId="read-bell"
       tour={tx.tour}
       makeGame={newGame}
+      kindOf={kindOf}
+      makeRound={makeRound}
       simulated={false}
       level={(r, a) => grade(r, a).level}
       endLink={{ to: '/topics/normal-distribution/quiz', label: tx.toQuiz }}

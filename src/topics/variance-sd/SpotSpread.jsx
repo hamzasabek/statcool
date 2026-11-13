@@ -1,7 +1,7 @@
 import TrainShell from '../../components/TrainShell.jsx'
 import { num, useText } from '../../i18n.jsx'
 import SpreadSpotChart from './SpreadSpotChart.jsx'
-import { CLOSE, PILES, axisOf, fmtShare, fmtValue, grade, newGame, summary } from './spotSpread.js'
+import { CLOSE, PILES, axisOf, fmtShare, fmtValue, grade, kindOf, makeRound, newGame, summary } from './spotSpread.js'
 import { SSPREAD } from './spotSpreadText.js'
 
 // Topic 02, Train your eye: "Spot the spread" (/topics/variance-sd/spot-the-spread).
@@ -20,6 +20,8 @@ export default function SpotSpread() {
       guideId="spot-spread"
       tour={tx.tour}
       makeGame={newGame}
+      kindOf={kindOf}
+      makeRound={makeRound}
       level={(r, a) => grade(r, a).level}
       endLink={{ to: '/topics/variance-sd/quiz', label: tx.toQuiz }}
       say={(r) => (

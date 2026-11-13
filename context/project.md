@@ -55,9 +55,16 @@ src/
                            Topics stays active inside a game) + EN | FR switch + sound on/off + light/dark button
     TrainShell.jsx         the shell of every "Train your eye" game: rounds, one gesture answers, grade
                            (spot / close / off) + why, Enter or the button goes on, right / wrong sounds
-                           and an end chime, end screen (score, dots per round, the game's own
-                           paragraphs, a link); props: title, guideId, tour, makeGame, level, say,
-                           chart, feedback, end, endLink, simulated. Texts: components/trainText.js
+                           and an end chime, end screen (score, mastery, dots per round, the game's own
+                           paragraphs, a link); props: title, guideId, tour, makeGame, kindOf, makeRound,
+                           level, say, chart, feedback, end, endLink, simulated, fastSec. Texts:
+                           components/trainText.js. Practice plan (Step 85, Kellman et al. 2010; Mettler
+                           et al. 2016): a "kind" of question is mastered after 2 answers in a row that
+                           are spot on / close AND within fastSec (12 s); a missed kind comes back after
+                           2 rounds, a right but slow one after 3, a right and fast one (not yet mastered)
+                           after 5; mastered kinds stop; the set ends when all kinds are mastered or at
+                           2 × the first list (20 rounds). Pure logic in components/trainPlan.js
+                           (isMastered, afterAnswer: tested with scratch/plantest.mjs, simulated students)
     RefList.jsx            an APA reference list (alphabetical, hanging indent, id ref-<key>)
     TopicGlyph.jsx         small drawing of a distribution (topics timeline + home page strip)
     Tex.jsx                <Tex math block /> renders LaTeX with KaTeX (0.16.11; \htmlClass allowed

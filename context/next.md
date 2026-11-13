@@ -45,6 +45,11 @@ what is left and which files; remove the item once it is committed. (AGENTS.md, 
   (ideas: topic 04 "Order mode, median, mean on a skewed pile", topic 05 "Is it due?" quick bets,
   topic 06 "Luck or not?" from a count), then a mixed-practice mode across topics (interleaving;
   would need its own source, e.g. Rohrer & Taylor, 2007).
+  Step 85 added mastery criteria + adaptive spacing to the three Train games (TrainShell). The values
+  (2 in a row, 12 s, gaps 2 / 3 / 5, cap 2 × 10 rounds) are starting values, not tested with real
+  students: watch whether sessions feel too long, and whether 12 s suits "mean + 1 SD" and "Read the
+  bell" (`fastSec` prop per game). Not done: remembering mastery between visits (needs progress.js),
+  "Play again" starting with the kinds missed last time.
 
 ## Known issues
 - docs/CODE_GUIDE.md (private, now gitignored) is still visible in older commits of the public

@@ -39,7 +39,7 @@ export const RBELL = {
     endGood: 'Your tail points were well placed: you know where 95% of a bell lies.',
     toQuiz: 'Take the quiz →',
     tour: [
-      { title: 'Read the bell', text: '10 quick rounds on a bell curve. Each asks for one point: the one with a given share of the area to its left, or one or two SDs from the mean. Tap it; the area appears at once.' },
+      { title: 'Read the bell', text: 'Quick rounds on a bell curve. Each asks for one point: the one with a given share of the area to its left, or one or two SDs from the mean. Tap it; the area appears at once.' },
       { title: 'The question', text: 'Read the share or the number of SDs asked. The axis does not show the mean or the SD: find them on the curve.' },
       { title: 'Tap the axis', text: 'A line follows the mouse. Tip: one SD from the mean is where the curve bends from steep to flat. Keyboard: ← → then Enter.' },
       { title: 'The answer', text: 'The area is shaded, with the true point and its share, and your point with its own share.' },
@@ -79,7 +79,7 @@ export const RBELL = {
     endGood: 'Vos points dans les traînes étaient bien placés : vous savez où se trouvent 95 % d’une cloche.',
     toQuiz: 'Faire le quiz →',
     tour: [
-      { title: 'Lisez la cloche', text: '10 manches rapides sur une courbe en cloche. Chacune demande un point : celui qui a une part donnée de l’aire à sa gauche, ou à un ou deux écarts-types de la moyenne. Touchez-le ; l’aire s’affiche aussitôt.' },
+      { title: 'Lisez la cloche', text: 'Des manches rapides sur une courbe en cloche. Chacune demande un point : celui qui a une part donnée de l’aire à sa gauche, ou à un ou deux écarts-types de la moyenne. Touchez-le ; l’aire s’affiche aussitôt.' },
       { title: 'La question', text: 'Lisez la part ou le nombre d’écarts-types demandé. L’axe ne montre ni la moyenne ni l’écart-type : trouvez-les sur la courbe.' },
       { title: 'Touchez l’axe', text: 'Un trait suit la souris. Astuce : à un écart-type de la moyenne, la courbe passe de raide à plate. Au clavier : ← → puis Entrée.' },
       { title: 'La réponse', text: 'L’aire est grisée, avec le bon point et sa part, et votre point avec la sienne.' },

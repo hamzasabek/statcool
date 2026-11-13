@@ -98,8 +98,8 @@ export const topics = [
         slug: 'spot-the-centre',
         kind: 'train',
         text: {
-          en: { name: 'Spot the centre', idea: '10 quick rounds: tap where the mean, the median or the mode is. Does your eye put the mean at the peak of skewed data?' },
-          fr: frenchTypo({ name: 'Repérez le centre', idea: '10 manches rapides : touchez l’endroit où se trouve la moyenne, la médiane ou le mode. Votre œil met-il la moyenne au sommet de données asymétriques ?' }),
+          en: { name: 'Spot the centre', idea: 'Quick rounds: tap where the mean, the median or the mode is. Does your eye put the mean at the peak of skewed data?' },
+          fr: frenchTypo({ name: 'Repérez le centre', idea: 'Des manches rapides : touchez l’endroit où se trouve la moyenne, la médiane ou le mode. Votre œil met-il la moyenne au sommet de données asymétriques ?' }),
         },
       },
       {
@@ -167,8 +167,8 @@ export const topics = [
         slug: 'spot-the-spread',
         kind: 'train',
         text: {
-          en: { name: 'Spot the spread', idea: '10 quick rounds: tap where the mean + 1 SD is, or which pile has the bigger SD. Do you read the SD from the outermost dots?' },
-          fr: frenchTypo({ name: 'Repérez la dispersion', idea: '10 manches rapides : touchez la moyenne + 1 écart-type, ou le tas au plus grand écart-type. Lisez-vous l’écart-type sur les points les plus éloignés ?' }),
+          en: { name: 'Spot the spread', idea: 'Quick rounds: tap where the mean + 1 SD is, or which pile has the bigger SD. Do you read the SD from the outermost dots?' },
+          fr: frenchTypo({ name: 'Repérez la dispersion', idea: 'Des manches rapides : touchez la moyenne + 1 écart-type, ou le tas au plus grand écart-type. Lisez-vous l’écart-type sur les points les plus éloignés ?' }),
         },
       },
       {
@@ -236,8 +236,8 @@ export const topics = [
         slug: 'read-the-bell',
         kind: 'train',
         text: {
-          en: { name: 'Read the bell', idea: '10 quick rounds on a bell curve: tap the point with 84%, 97.5%… of the area to its left, or one SD from the mean. Where do the tails really start?' },
-          fr: frenchTypo({ name: 'Lisez la cloche', idea: '10 manches rapides sur une cloche : touchez le point qui a 84 %, 97,5 %… de l’aire à sa gauche, ou à un écart-type de la moyenne. Où commencent vraiment les traînes ?' }),
+          en: { name: 'Read the bell', idea: 'Quick rounds on a bell curve: tap the point with 84%, 97.5%… of the area to its left, or one SD from the mean. Where do the tails really start?' },
+          fr: frenchTypo({ name: 'Lisez la cloche', idea: 'Des manches rapides sur une cloche : touchez le point qui a 84 %, 97,5 %… de l’aire à sa gauche, ou à un écart-type de la moyenne. Où commencent vraiment les traînes ?' }),
         },
       },
       {

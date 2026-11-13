@@ -35,7 +35,7 @@ export const SSPREAD = {
     endGood: 'Your SDs were well judged: you read the spread as a typical distance to the mean, not as the range.',
     toQuiz: 'Take the quiz →',
     tour: [
-      { title: 'Spot the spread', text: '10 quick rounds. Some show one pile: tap where the mean + 1 SD is. Others show two piles: tap the one with the bigger SD. The answer appears at once.' },
+      { title: 'Spot the spread', text: 'Quick rounds. Some show one pile: tap where the mean + 1 SD is. Others show two piles: tap the one with the bigger SD. The answer appears at once.' },
       { title: 'The question', text: 'Each round asks one of the two questions. Read which one before you tap.' },
       { title: 'Tap the chart', text: 'One pile: tap the axis (a line follows the mouse). Two piles: tap a pile. Keyboard: ← → then Enter, or A and B.' },
       { title: 'The answer', text: 'The ±1 SD band, the true answer and yours, and one line on why.' },
@@ -73,7 +73,7 @@ export const SSPREAD = {
     endGood: 'Vos écarts-types étaient bien estimés : vous lisez la dispersion comme une distance typique à la moyenne, pas comme l’étendue.',
     toQuiz: 'Faire le quiz →',
     tour: [
-      { title: 'Repérez la dispersion', text: '10 manches rapides. Certaines montrent un tas : touchez l’endroit où se trouve la moyenne + 1 écart-type. D’autres montrent deux tas : touchez celui qui a le plus grand écart-type. La réponse s’affiche aussitôt.' },
+      { title: 'Repérez la dispersion', text: 'Des manches rapides. Certaines montrent un tas : touchez l’endroit où se trouve la moyenne + 1 écart-type. D’autres montrent deux tas : touchez celui qui a le plus grand écart-type. La réponse s’affiche aussitôt.' },
       { title: 'La question', text: 'Chaque manche pose l’une des deux questions. Lisez laquelle avant de toucher.' },
       { title: 'Touchez le graphique', text: 'Un tas : touchez l’axe (un trait suit la souris). Deux tas : touchez un tas. Au clavier : ← → puis Entrée, ou A et B.' },
       { title: 'La réponse', text: 'La bande ±1 écart-type, la bonne réponse et la vôtre, et une ligne d’explication.' },

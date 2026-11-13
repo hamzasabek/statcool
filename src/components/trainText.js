@@ -3,7 +3,9 @@ import { frenchTypo } from '../i18n.jsx'
 // Texts shared by the "Train your eye" games (TrainShell.jsx).
 export const TRAIN = {
   en: {
-    count: (k, n) => `Round ${k} of ${n}`,
+    count: (k) => `Round ${k}`,
+    mastered: (m, t) => `${m} of ${t} kinds mastered`,
+    masteryRule: (s) => `A kind is mastered after two answers in a row that are spot on or close and given within ${s} s. A kind you miss comes back sooner; a mastered one stops coming back.`,
     score: (g) => `${g} spot on or close`,
     simulated: 'Simulated data',
     hint: 'Tap your answer on the chart.',
@@ -14,11 +16,14 @@ export const TRAIN = {
     endSay: (n) => `How close you were over the ${n} rounds.`,
     endTitle: 'How sharp is your eye?',
     endScore: (g, n) => `${g} of ${n} rounds spot on or close.`,
+    endMastery: (m, t, s) => (m === t ? `You mastered all ${t} kinds of question: two answers in a row, spot on or close, within ${s} s [@kellman2010]. Kinds you missed came back sooner [@mettler2016].` : `You mastered ${m} of ${t} kinds of question before the set stopped. To master a kind: two answers in a row, spot on or close, within ${s} s [@kellman2010]. Play again to try for the rest.`),
     again: 'Play again',
     tourPlay: 'Let’s play!',
   },
   fr: frenchTypo({
-    count: (k, n) => `Manche ${k} sur ${n}`,
+    count: (k) => `Manche ${k}`,
+    mastered: (m, t) => `${m} type${m > 1 ? 's' : ''} sur ${t} maîtrisé${m > 1 ? 's' : ''}`,
+    masteryRule: (s) => `Un type est maîtrisé après deux réponses de suite en plein ou presque, données en moins de ${s} s. Un type raté revient plus tôt ; un type maîtrisé ne revient plus.`,
     score: (g) => `${g} en plein ou presque`,
     simulated: 'Données simulées',
     hint: 'Touchez votre réponse sur le graphique.',
@@ -29,6 +34,7 @@ export const TRAIN = {
     endSay: (n) => `Votre précision sur les ${n} manches.`,
     endTitle: 'Votre œil est-il juste ?',
     endScore: (g, n) => `${g} manche${g > 1 ? 's' : ''} sur ${n} en plein ou presque.`,
+    endMastery: (m, t, s) => (m === t ? `Vous avez maîtrisé les ${t} types de question : deux réponses de suite, en plein ou presque, en moins de ${s} s [@kellman2010]. Les types ratés sont revenus plus tôt [@mettler2016].` : `Vous avez maîtrisé ${m} type${m > 1 ? 's' : ''} de question sur ${t} avant la fin de la série. Pour maîtriser un type : deux réponses de suite, en plein ou presque, en moins de ${s} s [@kellman2010]. Rejouez pour viser les autres.`),
     again: 'Rejouer',
     tourPlay: 'C’est parti !',
   }),

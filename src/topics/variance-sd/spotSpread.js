@@ -76,6 +76,14 @@ function compareRound(trap) {
   return { kind: 'compare', trap, a, b, sdA: sd(a), sdB: sd(b), meanA: mean(a), meanB: mean(b), truth: bigIsA ? 'A' : 'B' }
 }
 
+// Kinds for TrainShell's mastery count: 'sd' (mean + 1 SD of a pile) and 'compare' (which has the
+// bigger SD). A missed round comes back with the same data set / trap and new data.
+export const kindOf = (r) => r.kind
+export function makeRound(kind, from) {
+  if (kind === 'sd') return sdRound(from ? from.pile : PLAN.filter((p) => p[0] === 'sd')[Math.floor(Math.random() * 6)][1])
+  return compareRound(from ? from.trap : ['easy', 'range', 'clusters', 'count'][Math.floor(Math.random() * 4)])
+}
+
 export function newGame() {
   let order
   for (let k = 0; k < 100; k++) {
