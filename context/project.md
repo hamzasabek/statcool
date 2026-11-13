@@ -74,7 +74,9 @@ src/
   hooks/
     useTweened.js          smooth animation of numbers / number arrays
   pages/
-    Home.jsx               / : the concept. Hero (dots dropping into a bell, curve drawn at the end;
+    Home.jsx               / : the concept. Hero (dots dropping into a bell, coloured by distance from the mean in the
+                           logo colours: yellow within 1 SD, lime 1–2 SD, cyan beyond, pink curve drawn at the end,
+                           legend fades in;
                            seeded order, CSS animation, off with reduced motion) + How it works (3) +
                            Four steps for every idea (Discover, Explore, Train your eye, Check yourself,
                            with sources) +

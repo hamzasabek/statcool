@@ -1304,3 +1304,17 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   no yellow ring or shadow, a thin border, floated left so the bio wraps under it.
 - Tested: npm run build; npm run check on / and /about (EN + FR, 2 sizes: no problems); screenshots
   of the author section on desktop (EN) and phone (FR).
+
+## 2026-11-13 — Step 76: the bell hero in the logo colours (Claude)
+- Owner: keep the bell animation but make it more creative with the logo colours; chose among 4
+  ideas "colour by SD zone", and the animation stays still once the bell has formed.
+- Home.jsx: each dot is coloured by its column's distance from the mean (the bell's SD = 2.9
+  columns): yellow within 1 SD, lime 1 to 2 SD, cyan beyond 2 SD; the curve is pink. Checked by
+  script: the 54 dots are 34 within 1 SD (63 %), 52 within 2 SD (96 %), 2 beyond, so the legend
+  names the zones without percentages. A legend (4 items, en + fr: HOME.heroLegend) fades in after
+  the curve; heroAria mentions the colours.
+- index.css: tokens --logo-pink #ff2d95, --logo-cyan #12e6ff, --logo-lime #b6ff1a, --logo-yellow
+  #fff000 (from design/logo/statscool_logo_v2_dark.svg), --hero-stroke (a thin dark outline on white,
+  the background colour in dark mode); reduced motion also stops the legend fade.
+- Tested: npm run build; npm run check on / (EN + FR, 2 sizes: no problems); screenshots after the
+  animation ends: desktop dark EN, desktop light FR, phone dark FR. No console errors.

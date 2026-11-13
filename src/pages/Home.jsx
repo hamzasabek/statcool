@@ -5,7 +5,8 @@ import TopicGlyph from '../components/TopicGlyph.jsx'
 import { firstGamePath, topics } from '../topics/topics.js'
 import { HOME } from './text.js'
 
-// Home page (/): what StatsCool is. A hero with a drawing of dots dropping into a bell (the idea of
+// Home page (/): what StatsCool is. A hero with a drawing of dots dropping into a bell, coloured by
+// their distance from the mean in the logo colours (the idea of
 // every game), how it works in three steps, what makes it different, the topics, and a last call
 // to play.
 
@@ -17,7 +18,11 @@ const W = COLS * SIZE + 44
 const BASE = 200
 const H = BASE + 34
 const X0 = 22
-const height = (c) => 7.6 * Math.exp(-0.5 * ((c - MID) / 2.9) ** 2) // the bell, in dots per column
+const SD = 2.9 // the bell's SD, in columns
+const height = (c) => 7.6 * Math.exp(-0.5 * ((c - MID) / SD) ** 2) // the bell, in dots per column
+// Colour zone of a column (logo colours): 1 = within 1 SD of the mean, 2 = 1 to 2 SD, 3 = beyond.
+// The 54 dots: 34 within 1 SD (63 %), 52 within 2 SD (96 %), 2 beyond; the pink curve is the bell.
+const zone = (c) => (Math.abs(c - MID) <= SD ? 1 : Math.abs(c - MID) <= 2 * SD ? 2 : 3)
 
 // Dots per column = the rounded bell (0 0 1 2 3 4 6 7 8 7 6 4 3 2 1 0 0), so the dots fit the curve.
 const DOTS = []
@@ -45,7 +50,7 @@ const CURVE = Array.from({ length: 121 }, (_, i) => {
   return `${i ? 'L' : 'M'}${(X0 + (c + 0.5) * SIZE).toFixed(1)},${(BASE - height(c) * SIZE).toFixed(1)}`
 }).join('')
 
-function HeroDots({ caption, aria, target }) {
+function HeroDots({ caption, aria, target, legend }) {
   const cx = (c) => X0 + (c + 0.5) * SIZE
   return (
     <figure className="hero-figure">
@@ -54,7 +59,7 @@ function HeroDots({ caption, aria, target }) {
         {DOTS.map((d, i) => (
           <circle
             key={i}
-            className="hero-dot"
+            className={`hero-dot is-z${zone(d.c)}`}
             cx={cx(d.c)}
             cy={BASE - (d.level + 0.5) * SIZE}
             r={SIZE / 2 - 1.5}
@@ -73,6 +78,13 @@ function HeroDots({ caption, aria, target }) {
         </text>
       </svg>
       <figcaption>{caption}</figcaption>
+      <ul className="hero-legend" style={{ animationDelay: `${DOTS.length * DROP_MS + 900}ms` }}>
+        {legend.map((l, i) => (
+          <li key={l} className={['is-z1', 'is-z2', 'is-z3', 'is-curve'][i]}>
+            {l}
+          </li>
+        ))}
+      </ul>
     </figure>
   )
 }
@@ -97,7 +109,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <HeroDots caption={tx.heroCaption} aria={tx.heroAria} target={tx.target} />
+        <HeroDots caption={tx.heroCaption} aria={tx.heroAria} target={tx.target} legend={tx.heroLegend} />
       </section>
 
       <section className="home-section">

@@ -10,8 +10,9 @@ export const HOME = {
     start: 'Start playing →',
     about: 'About StatsCool',
     heroCaption: 'Every dot is one try at stopping a clock at 2 seconds. Together, they draw a bell.',
-    heroAria: 'Dots drop one by one and pile up into a bell-shaped curve.',
+    heroAria: 'Dots drop one by one and pile up into a bell-shaped curve, coloured by their distance from the mean.',
     target: '2 s',
+    heroLegend: ['within 1 SD of the mean', '1 to 2 SD', 'beyond 2 SD', 'the bell curve'],
     howTitle: 'How it works',
     how: [
       {
@@ -62,8 +63,9 @@ export const HOME = {
     start: 'Commencer à jouer →',
     about: 'À propos de StatsCool',
     heroCaption: 'Chaque point est un essai pour arrêter une horloge à 2 secondes. Ensemble, ils dessinent une cloche.',
-    heroAria: 'Des points tombent un à un et s’empilent en une courbe en cloche.',
+    heroAria: 'Des points tombent un à un et s’empilent en une courbe en cloche, colorés selon leur distance à la moyenne.',
     target: '2 s',
+    heroLegend: ['à moins de 1 écart-type de la moyenne', 'de 1 à 2 écarts-types', 'au-delà de 2 écarts-types', 'la courbe en cloche'],
     howTitle: 'Comment ça marche',
     how: [
       {
