@@ -102,14 +102,15 @@ src/
                            Coming soon; drawings hidden on phones). A `soon` part is a dashed box.
     References.jsx         /references : every cited work in APA 7 (from virtual:cites), anchors
                            #ref-<key> (the bubbles' "All references" link scrolls there)
-    About.jsx              /about : why, how each topic is built (the four steps and why, cited), how
-                           to cite (APA reference + Copy button; YEAR constant, keep in step with
-                           CITATION.cff), the experiments behind the games, inspiration
-                           (rpsychologist), privacy, open source and licences (code MIT, content
-                           CC BY 4.0 with a credit line, name / logo / photo reserved), built with (+ AI
-                           disclosure: Claude and Gemini), the author (near the end, owner's wish: round photo
-                           assets/author.jpg 136 px beside the bio (120 px above it on phones), thin border; third-person bio, ResearchGate / LinkedIn / GitHub
-                           links; no phone or personal email), contact (GitHub issues)
+    About.jsx              /about, five tabs (Step 86; the tab is in the address: /about?tab=teaching, arrow keys move
+                           between tabs): The idea (why + the four steps as cards) · How it teaches (each step with
+                           its research behind a "The research" toggle, three principles, "What we do not claim", link
+                           to docs/learning-science-review.md; only what context/rationale.md marks Built) · Experiments
+                           (one small expandable card per game, cited) · Use and cite (APA reference + Copy button; YEAR
+                           constant, keep in step with CITATION.cff; open source and licences: code MIT, content CC BY 4.0,
+                           name / logo / photo reserved; privacy; built with + AI disclosure: Claude and Gemini) · Author
+                           (round photo assets/author.jpg 136 px beside the third-person bio, ResearchGate / LinkedIn /
+                           GitHub links, no phone or personal email; inspiration: rpsychologist; contact: GitHub issues)
     text.js                HOME and ABOUT texts (en + fr)
     NotFound.jsx
   topics/
@@ -356,6 +357,9 @@ design/logo/               the owner's original logos (1280×720, white / black 
                            Outfit Bold, "cool" on neon highlighter stripes); its vector sources are
                            design/logo/statscool_logo_v2_light.svg / _dark.svg (text converted to paths).
 context/                   this folder — project memory, updated every step
+                           (rationale.md = the learning-science reasoning and what is built, planned or set aside)
+docs/learning-science-review.md  the literature review behind the site (Step 86): every reference checked
+                           against Crossref, every effect size against its abstract, 7 corrections logged at the top
 docs/CODE_GUIDE.md         private, gitignored (local only): beginner-friendly explanation of the code
 ```
 

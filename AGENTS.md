@@ -11,6 +11,8 @@ remembers what the other did: this file and `context/` are the shared memory. Ke
 ## 1. Start of every session
 1. Read `context/project.md` (stack, folder map, conventions), `context/next.md` (open items, and
    **"In progress"**: work left unfinished), and the last 3–4 entries of `context/progress.md`.
+   When you change how a step teaches (games, Train, quiz, feedback, order of steps), also read
+   `context/rationale.md`: the learning-science reasoning behind the site, with what is built and what is not.
 2. Run `git status` and `git log --oneline -15`. Compare with the last step in `progress.md`:
    - commits newer than the last logged step = work by the other tool (or the owner);
    - uncommitted changes = an unfinished step by the other tool, unless `next.md` says otherwise.
@@ -24,6 +26,8 @@ remembers what the other did: this file and `context/` are the shared memory. Ke
    `## YYYY-MM-DD — Step N: <title> (<tool>)` where `<tool>` is `Claude` or `Gemini`, N = last step + 1.
    Say what the owner asked, what changed (files, behaviour, numbers), and how it was tested.
 3. Update `context/project.md` if files or structure changed, `context/next.md` if plans changed.
+   Update `context/rationale.md` if a learning mechanism was added, changed or dropped (status, where it lives,
+   evidence key). The About page's "How it teaches" tab must only state what that file marks **Built**.
    If you stop before a step is finished, write it under **"In progress"** at the top of
    `next.md` (what is done, what is left, which files) so the other tool can pick it up.
 4. Commit and push to `main`. Both tools commit as the same git user, so end the commit message
@@ -67,6 +71,9 @@ remembers what the other did: this file and `context/` are the shared memory. Ke
   statistical concepts: Howell (2013), `[@howell2013]`. After adding a reference run
   `npm run verify-refs` (compares the DOIs with Crossref). `npm run check` fails on an unknown key,
   an unused reference or a hand-typed "(Name, year)".
+- **Learning science**: claims about why the site teaches as it does need a source in `src/references.js` and a row in
+  `context/rationale.md`; the checked literature review is `docs/learning-science-review.md`. Effect sizes come from other
+  settings: never present them as results of StatsCool.
 - **Science**: real experiments and real citations only; every number shown to students is checked
   (by script when possible); say "usually" when something is not always true; simulated data is
   labelled as simulated. The owner reviews claims like a strict statistics professor.

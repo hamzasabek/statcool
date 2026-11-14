@@ -1473,3 +1473,29 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
 - Tested: npm run build; npm run check on the three pages (EN + FR, 2 sizes: no problems, one screen);
   headless Chrome, always answering far from the truth: 20 rounds, "0 of 3 kinds mastered", end screen
   in EN and FR with the cited rule. Small fix found: French plural "1 type sur 2 maîtrisé".
+
+## 2026-11-14 — Step 86: the learning-science review checked and filed, a rationale tracker, About page in tabs (Claude)
+- Owner: file the report from `Claude outputs/`, verify all its citations and references, keep a file that tracks the
+  theoretical rationale of the site, bring the About page in line with the concepts the site already uses, and redesign
+  the About page (too much text, too much scrolling).
+- Verification: every reference compared with Crossref (title, authors, year, volume, pages, DOI) and every effect size
+  with the abstract of its source (OpenAlex, Springer, PubMed, Semantic Scholar; Crouch et al. from Table I of the paper).
+  Seven errors found and fixed: Neumann (2010 JSE does not exist; it is Neumann, Hood & Neumann 2013, SERJ), Crouch (70 vs 61 % is
+  significant for outcomes, not for explanations: 24 vs 22 %), Sinha & Kapur (raw g = 0.36, 0.87 after bias correction), Bisra
+  ("about 6,000 learners" not in the source), the "80 %" statistics-anxiety figure (not verifiable), Tintle ("four months" not in the
+  abstract), Latimier (volume and pages). Scripts in scratch/lit/ (gitignored).
+- New `docs/learning-science-review.md` (the corrected report, with the verification table at the top);
+  `context/rationale.md` (living tracker: step by step and principle by principle: mechanism, evidence key, where it lives,
+  status Built / Partly / Planned / Idea; what is not claimed; how to test). AGENTS.md now points to it (session start, end of
+  step, conventions). The original in `Claude outputs/` is untouched (that folder is gitignored).
+- references.js: 12 works added (alfieri2011, bertsch2007, delmas1999, delmas2005, kluger1996, nesbit2018, paas1992,
+  schwartz2004, sundararajan2020, wisniewski2020, wouters2013, yang2021) and hattie2007 removed (feedback is now cited with
+  Wisniewski et al. 2020, d = 0.48, on the About and Home pages). verify-refs: 45 DOIs, 0 differences (delMas 1999 pages: Crossref
+  error, flagged crossrefOk).
+- About page (About.jsx, text.js, index.css), five tabs, deep-linkable with ?tab=: The idea · How it teaches · Experiments · Use and
+  cite · Author. "How it teaches" gives each step its mechanism and sources (collapsed behind "The research"), three principles
+  (no decoration in charts, a game is not the active ingredient, low stakes) and "What we do not claim" (nothing tested on
+  learners; own data not claimed to cause learning; the Train mastery rule is our own starting point). Only Built mechanisms are
+  there: the predict / spaced / interleaved / refutation ideas are left out on purpose. Texts in English and French.
+- Tested: npm run build; verify-refs; full npm run check; screenshots of the five tabs, EN and FR, desktop and phone.
+

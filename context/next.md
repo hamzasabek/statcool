@@ -51,6 +51,11 @@ what is left and which files; remove the item once it is committed. (AGENTS.md, 
   bell" (`fastSec` prop per game). Not done: remembering mastery between visits (needs progress.js),
   "Play again" starting with the kinds missed last time.
 
+- Learning science (Step 86): the evidence-based changes not built yet are listed with their status in
+  `context/rationale.md` ("Not built yet"): predict-before-reveal (`Bet.jsx`), spaced review (needs `progress.js`), mixed Train,
+  refutation-style "why" lines, a confidence tap in the quiz. The owner chose to do the Train mastery rule first (Step 85).
+  The About "How it teaches" tab lists only what is built: add a row there when one of these ships.
+
 ## Known issues
 - docs/CODE_GUIDE.md (private, now gitignored) is still visible in older commits of the public
   repo. Removing it fully needs a history rewrite + force push (owner to decide).

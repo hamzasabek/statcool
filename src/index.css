@@ -1309,14 +1309,80 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
 }
 
 /* ---------- About ---------- */
-.about { max-width: 720px; }
-.page .about h2 { margin: 36px 0 8px; font-family: var(--font-display); font-weight: 600; font-size: 1.35rem; }
+/* Five tabs (idea, teaching, experiments, use, author) so the page never needs a long scroll. */
+.about { max-width: 980px; }
+.page .about h2 { margin: 24px 0 8px; font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; }
+.page .about h3 { margin: 0 0 6px; font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; }
 .about p,
-.about li { line-height: 1.65; }
-.about-experiments { padding-left: 1.2em; }
-.about-experiments li { max-width: 68ch; margin: 6px 0; }
-.about-play { margin-top: 40px; }
-.about-author { display: flex; gap: 24px; align-items: flex-start; }
+.about li { line-height: 1.6; }
+.about-intro { color: var(--muted); max-width: 70ch; margin-top: 0; }
+.about-tabs { display: flex; gap: 2px; margin: 18px 0 10px; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--border); }
+.about-tabs::-webkit-scrollbar { display: none; }
+.about-tabs button {
+  flex: none; margin-bottom: -1px; padding: 10px 16px; border: 0; border-bottom: 3px solid transparent; border-radius: 10px 10px 0 0;
+  background: none; color: var(--muted); font: inherit; font-weight: 600; cursor: pointer;
+}
+.about-tabs button:hover { color: var(--text); background: var(--hover); }
+.about-tabs button[aria-selected='true'] { color: var(--text); border-bottom-color: var(--logo-pink); }
+.about-tabs button:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.about-panel { animation: about-in 0.25s ease; }
+@keyframes about-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .about-panel { animation: none; } }
+
+/* the idea: four step cards, one logo colour each */
+.about-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin: 12px 0 0; padding: 0; list-style: none; counter-reset: aboutstep; }
+.about-step-card {
+  counter-increment: aboutstep; display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; border-radius: 18px;
+  background: var(--surface); box-shadow: var(--shadow), inset 0 3px 0 var(--step);
+}
+.about-step-card::before {
+  content: counter(aboutstep); display: grid; place-items: center; width: 30px; height: 30px; margin-bottom: 4px; border-radius: 50%;
+  font-family: var(--font-display); font-weight: 600; background: color-mix(in srgb, var(--step) 28%, transparent); color: var(--step-text);
+}
+@media (max-width: 560px) { .about-steps { grid-template-columns: 1fr 1fr; gap: 10px; } .about-step-card { padding: 12px 14px; } }
+.about-step-card strong { color: var(--step-text); font-size: 1.05rem; }
+.about-step-card span { color: var(--muted); line-height: 1.5; }
+.about-why { max-width: 70ch; }
+.about-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 28px; margin-top: 18px; }
+.about-order { flex: 1 1 360px; max-width: 62ch; margin: 0; color: var(--muted); }
+.about-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; }
+
+/* teaching: one row per step (what you do | why it works), then three principles, then what is not claimed */
+.about-teach { display: grid; gap: 14px; margin-top: 12px; }
+.about-teach-row { border-radius: 18px; background: var(--surface); box-shadow: var(--shadow), inset 4px 0 0 var(--step); }
+.about-teach-row summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 20px; cursor: pointer; list-style: none; }
+.about-teach-row summary::-webkit-details-marker { display: none; }
+.about-teach-row summary:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; border-radius: 18px; }
+.about-teach-what { display: grid; grid-template-columns: minmax(150px, 0.45fr) 2fr; gap: 2px 24px; align-items: baseline; flex: 1; }
+.about-teach-name { color: var(--step-text); font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; }
+.about-teach-what > span { color: var(--muted); font-size: 0.95rem; line-height: 1.5; }
+.about-more { flex: none; display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+.about-more::after { content: '+'; font-size: 1.2rem; line-height: 1; }
+.about-teach-row[open] .about-more::after { content: '−'; }
+.about-teach-row:hover .about-more { color: var(--text); }
+.about-teach-why { margin: 0; padding: 0 20px 16px; font-size: 0.95rem; max-width: 86ch; }
+@media (max-width: 760px) { .about-teach-what { grid-template-columns: 1fr; } .about-more { align-self: flex-start; margin-top: 4px; } .about-teach-row summary { align-items: flex-start; } }
+.about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 12px; }
+.about-grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.about-card { padding: 16px 20px; border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); }
+.about-card p { margin: 0 0 8px; font-size: 0.95rem; }
+.about-card p:last-child { margin-bottom: 0; }
+.about-claim { margin-top: 26px; padding: 16px 20px; border-radius: 18px; background: var(--hover); }
+.about-claim p { margin: 0 0 6px; font-size: 0.95rem; max-width: 80ch; }
+.about-claim p:last-child { margin: 0; font-weight: 600; }
+
+/* experiments: small cards that open to the finding */
+.about-exps { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px 14px; align-items: start; margin: 14px 0 18px; }
+.about-exp { padding: 0 18px; border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); }
+.about-exp summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; font-weight: 600; cursor: pointer; list-style: none; }
+.about-exp summary::-webkit-details-marker { display: none; }
+.about-exp summary::after { content: '+'; flex: none; color: var(--muted); font-size: 1.2rem; line-height: 1; }
+.about-exp[open] summary::after { content: '−'; }
+.about-exp summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 8px; }
+.about-exp p { margin: 0 0 14px; font-size: 0.95rem; }
+
+/* author */
+.about-author { display: flex; gap: 24px; align-items: flex-start; max-width: 80ch; }
 .about-author p { margin-top: 0; }
 .about-photo { flex: none; width: 136px; height: 136px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); margin-top: 4px; }
 @media (max-width: 560px) {
@@ -2049,7 +2115,6 @@ a.topic-game:hover .tl-cta { transform: translateX(4px); }
 .is-train { --step: var(--logo-cyan); --step-text: var(--cyan-text); }
 .is-check, .is-quiz { --step: var(--logo-yellow); --step-text: var(--yellow-text); }
 .home-path li::before { background: color-mix(in srgb, var(--step) 28%, transparent); color: var(--step-text); }
-.about-step strong { color: var(--step-text); }
 .topic-role[class*='is-'] .topic-games-title::before {
   content: ''; display: inline-block; width: 0.55em; height: 0.55em; margin-right: 0.45em; vertical-align: 0.1em;
   border-radius: 50%; background: var(--step);
