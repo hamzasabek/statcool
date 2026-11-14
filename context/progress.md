@@ -1499,3 +1499,11 @@ Newest entries at the bottom. Each step = one commit pushed to `main`.
   there: the predict / spaced / interleaved / refutation ideas are left out on purpose. Texts in English and French.
 - Tested: npm run build; verify-refs; full npm run check; screenshots of the five tabs, EN and FR, desktop and phone.
 
+## 2026-11-14 — Step 87: Remove "What we do not claim" from About page (Gemini)
+- Owner: remove the "Ce que nous n’affirmons pas" ("What we do not claim") block and link from the About page.
+- Removed `<aside className="about-claim">` in `src/pages/About.jsx`.
+- Removed `claimTitle`, `claim`, and `claimLink` from `ABOUT.en` and `ABOUT.fr` in `src/pages/text.js`.
+- Removed `.about-claim` styles from `src/index.css`.
+- Tested: `npm run build` passed; `node tools/cite-check.mjs` passed (50 references checked, 0 errors); `npm run check -- about --no-build` passed in English and French at 1366×768 and 390×844 with no problems.
+
+

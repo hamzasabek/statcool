@@ -113,13 +113,6 @@ function Teaching({ tx }) {
           </section>
         ))}
       </div>
-      <aside className="about-claim">
-        <h3>{tx.claimTitle}</h3>
-        <p>{tx.claim}</p>
-        <p>
-          <Out href={`${REPO}/blob/main/docs/learning-science-review.md`}>{tx.claimLink}</Out>
-        </p>
-      </aside>
     </>
   )
 }
